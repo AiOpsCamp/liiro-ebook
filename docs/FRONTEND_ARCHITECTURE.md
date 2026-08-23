@@ -72,6 +72,9 @@ flowchart TD
   * Connected voice selector and player controls to auto-resolve 2-hour pre-signed DRM stream tokens (`resolveDrmStreamUrl`) before starting playback.
 - [x] **Task 5: Enable Background Audio Playback**:
   * Configured `shouldPlayInBackground: true` and `playsInSilentMode: true` in `AudioManager.ts` for native iOS & Android lockscreen background playback.
+- [x] **Task 6: Connect Reader UI to Whispersync Engine**:
+  * Built `WhispersyncPromptModal` (`WhispersyncPromptModal.tsx`) glassmorphism modal auto-prompting users to resume reading/listening from cross-device positions (e.g. CarPlay, Web).
+  * Connected 10-second periodic background position sync (`syncWhispersyncPosition`) in `EbookReadContent.tsx`.
 - [ ] **Task 6: Modularize Monolithic Components**:
   * Decompose `EbookReadContent.tsx` (3,900 lines) and `EbookDashboardContent.tsx` (2,000 lines) into clean, reusable modular components.
 - [ ] **Task 7: Offline Chapter & Audio Downloader**:

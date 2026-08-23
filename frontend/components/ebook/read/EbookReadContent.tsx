@@ -31,6 +31,11 @@ import * as Haptics from "expo-haptics";
 import Markdown from "react-native-markdown-display";
 import { getLocalizedText } from "@/utils/getLocalizedText";
 import { AudioManager } from "@/lib/utils/audioManager";
+import { WhispersyncPromptModal } from "../WhispersyncPromptModal";
+import {
+  useSyncWhispersyncPositionMutation,
+  useGetWhispersyncPositionQuery,
+} from "@/api/storiesQuery";
 import {
   Bookmark,
   Search,
@@ -498,6 +503,42 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
 
   const [desktopWidth, setDesktopWidth] = useState<number>(680);
   const maxW = desktopWidth >= 1400 ? "96%" : Math.min(width, desktopWidth);
+
+  // Whispersync Hooks & Prompt Modal State
+  const [showWhispersyncModal, setShowWhispersyncModal] = useState<boolean>(false);
+  const [hasPromptedWhispersync, setHasPromptedWhispersync] = useState<boolean>(false);
+
+  const [syncWhispersync] = useSyncWhispersyncPositionMutation();
+  const { data: whispersyncRes } = useGetWhispersyncPositionQuery(story?.slug || "", { skip: !story?.slug });
+
+  // Auto-prompt Whispersync Modal when a remote synced position exists
+  useEffect(() => {
+    if (!hasPromptedWhispersync && whispersyncRes?.hasSyncedPosition && whispersyncRes?.whispersync) {
+      const currentDev = Platform.OS === "web" ? "web-desktop" : Platform.OS;
+      if (whispersyncRes.whispersync.deviceType !== currentDev) {
+        setShowWhispersyncModal(true);
+        setHasPromptedWhispersync(true);
+      }
+    }
+  }, [whispersyncRes, hasPromptedWhispersync]);
+
+  // Periodic Whispersync Background Auto-Sync (Every 10 seconds)
+  useEffect(() => {
+    if (!story?.slug) return;
+    const deviceType = Platform.OS === "web" ? "web-desktop" : Platform.OS === "ios" ? "ios-mobile" : "android-mobile";
+
+    const interval = setInterval(() => {
+      syncWhispersync({
+        storySlug: story.slug,
+        chapterIndex: currentChapterIdx + 1,
+        audioTimestampSec: audioCurrentTime,
+        syncMode: isPlaying ? "listening" : "reading",
+        deviceType,
+      });
+    }, 10000);
+
+    return () => clearInterval(interval);
+  }, [story?.slug, currentChapterIdx, audioCurrentTime, isPlaying, syncWhispersync]);
 
   // Mutations
   const [syncProgress] = useSyncStoryProgressMutation();
@@ -3872,6 +3913,22 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
           </View>
         </View>
       </Modal>
+      {/* Whispersync Auto-Resume Modal */}
+      <WhispersyncPromptModal
+        visible={showWhispersyncModal}
+        onClose={() => setShowWhispersyncModal(false)}
+        whispersyncData={whispersyncRes?.whispersync}
+        storyTitle={story.title}
+        onConfirmResume={(targetPara, targetSec, chapterIdx) => {
+          setShowWhispersyncModal(false);
+          if (chapterIdx > 0 && chapterIdx <= story.chapters.length) {
+            setCurrentChapterIdx(chapterIdx - 1);
+          }
+          if (targetSec > 0) {
+            seekAudio(targetSec);
+          }
+        }}
+      />
     </View>
   );
 };
