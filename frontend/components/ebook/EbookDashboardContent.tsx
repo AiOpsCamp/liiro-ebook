@@ -480,8 +480,8 @@ const EbookDashboardContent: React.FC<Props> = ({
             justifyContent: "space-between",
             paddingHorizontal: 20,
             marginBottom: 20,
-            flexWrap: "wrap",
-            gap: 12,
+            gap: 16,
+            width: "100%",
           }}
         >
           {/* ── Liiro Branding Logo ────────────────────────── */}
@@ -491,6 +491,7 @@ const EbookDashboardContent: React.FC<Props> = ({
               flexDirection: "row",
               alignItems: "center",
               gap: 10,
+              flexShrink: 0,
               opacity: pressed ? 0.8 : 1,
             })}
             accessibilityLabel="Liiro Ebook Home"
@@ -531,11 +532,15 @@ const EbookDashboardContent: React.FC<Props> = ({
             </View>
           </Pressable>
 
-          {/* Navigation Tabs */}
-          <View
-            style={{
+          {/* Navigation Tabs (Single Row) */}
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={{ flex: 1 }}
+            contentContainerStyle={{
               flexDirection: "row",
               alignItems: "center",
+              justifyContent: "flex-end",
               padding: 4,
               borderRadius: 100,
               backgroundColor: isDark ? "rgba(255,255,255,0.06)" : "rgba(15,23,42,0.05)",
@@ -674,7 +679,7 @@ const EbookDashboardContent: React.FC<Props> = ({
 
             {/* Profile Avatar Menu */}
             <ProfileNavbarMenu />
-          </View>
+          </ScrollView>
         </Animated.View>
 
         {activeNavTab === "authors" ? (
