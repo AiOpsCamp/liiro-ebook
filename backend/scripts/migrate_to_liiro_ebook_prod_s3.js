@@ -132,53 +132,27 @@ async function updateMongoDbUrls() {
   let updatedStories = 0;
   let updatedChapters = 0;
 
-  // Update stories audioUrl & coverImageUrl
-  const stories = await storiesCol.find({}).toArray();
-  for (const story of stories) {
-    let changed = false;
-    let newAudioUrl = story.audioUrl;
-    let newCoverUrl = story.coverImageUrl;
+  console.log("Updating stories with legacy audioUrl / coverImageUrl patterns...");
+  const sRes1 = await storiesCol.updateMany(
+    { audioUrl: { $regex: /LangoReads-Prod\/ebooks/ } },
+    [{ $set: { audioUrl: { $replaceOne: { input: "$audioUrl", find: "LangoReads-Prod/ebooks/", replacement: "Liiro-Ebook-Prod/audio/" } } } }]
+  );
+  const sRes2 = await storiesCol.updateMany(
+    { audioUrl: { $regex: /ebooks\/audio/ } },
+    [{ $set: { audioUrl: { $replaceOne: { input: "$audioUrl", find: "ebooks/audio/", replacement: "Liiro-Ebook-Prod/audio/" } } } }]
+  );
 
-    if (typeof story.audioUrl === "string" && (story.audioUrl.includes("LangoReads-Prod") || story.audioUrl.includes("ebooks/audio"))) {
-      newAudioUrl = story.audioUrl
-        .replace(/LangoReads-Prod\/ebooks\/([^\/]+)\/voice_([^_]+)_chapter_(\d+)\.(mp3|wav)/, "Liiro-Ebook-Prod/audio/$1/voices/$2/chapter_$3.$4")
-        .replace(/ebooks\/audio\/([^\/]+)\/voice_([^_]+)_chapter_(\d+)\.(mp3|wav)/, "Liiro-Ebook-Prod/audio/$1/voices/$2/chapter_$3.$4")
-        .replace(/LangoReads-Prod\/ebooks\/([^\/]+)\/([a-z]{2})\/chapter_(\d+)\.(mp3|wav)/, "Liiro-Ebook-Prod/audio/$1/$2/chapter_$3.$4");
-      changed = true;
-    }
+  console.log("Updating storychapters with legacy audioUrl patterns...");
+  const cRes1 = await chaptersCol.updateMany(
+    { audioUrl: { $regex: /LangoReads-Prod\/ebooks/ } },
+    [{ $set: { audioUrl: { $replaceOne: { input: "$audioUrl", find: "LangoReads-Prod/ebooks/", replacement: "Liiro-Ebook-Prod/audio/" } } } }]
+  );
+  const cRes2 = await chaptersCol.updateMany(
+    { audioUrl: { $regex: /ebooks\/audio/ } },
+    [{ $set: { audioUrl: { $replaceOne: { input: "$audioUrl", find: "ebooks/audio/", replacement: "Liiro-Ebook-Prod/audio/" } } } }]
+  );
 
-    if (typeof story.coverImageUrl === "string" && story.coverImageUrl.includes("LangoReads-Prod")) {
-      newCoverUrl = story.coverImageUrl.replace(/LangoReads-Prod\/ebooks\//, "Liiro-Ebook-Prod/covers/");
-      changed = true;
-    }
-
-    if (changed) {
-      await storiesCol.updateOne({ _id: story._id }, { $set: { audioUrl: newAudioUrl, coverImageUrl: newCoverUrl } });
-      updatedStories++;
-    }
-  }
-
-  // Update chapters audioUrl
-  const chapters = await chaptersCol.find({}).toArray();
-  for (const ch of chapters) {
-    let changed = false;
-    let newAudioUrl = ch.audioUrl;
-
-    if (typeof ch.audioUrl === "string" && (ch.audioUrl.includes("LangoReads-Prod") || ch.audioUrl.includes("ebooks/audio"))) {
-      newAudioUrl = ch.audioUrl
-        .replace(/LangoReads-Prod\/ebooks\/([^\/]+)\/voice_([^_]+)_chapter_(\d+)\.(mp3|wav)/, "Liiro-Ebook-Prod/audio/$1/voices/$2/chapter_$3.$4")
-        .replace(/ebooks\/audio\/([^\/]+)\/voice_([^_]+)_chapter_(\d+)\.(mp3|wav)/, "Liiro-Ebook-Prod/audio/$1/voices/$2/chapter_$3.$4")
-        .replace(/LangoReads-Prod\/ebooks\/([^\/]+)\/([a-z]{2})\/chapter_(\d+)\.(mp3|wav)/, "Liiro-Ebook-Prod/audio/$1/$2/chapter_$3.$4");
-      changed = true;
-    }
-
-    if (changed) {
-      await chaptersCol.updateOne({ _id: ch._id }, { $set: { audioUrl: newAudioUrl } });
-      updatedChapters++;
-    }
-  }
-
-  console.log(`✅ MongoDB Update Complete: ${updatedStories} stories updated, ${updatedChapters} chapters updated.`);
+  console.log(`✅ MongoDB Update Complete! Stories updated: ${sRes1.modifiedCount + sRes2.modifiedCount}, Chapters updated: ${cRes1.modifiedCount + cRes2.modifiedCount}.`);
   await mongoose.disconnect();
 }
 
