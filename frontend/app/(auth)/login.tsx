@@ -29,6 +29,7 @@ import {
   AlertCircle,
   XCircle,
   HelpCircle,
+  BookOpen,
   X,
 } from "lucide-react-native";
 import { GoogleAuthProvider, OAuthProvider, signInWithCredential } from "firebase/auth";
@@ -115,21 +116,53 @@ const AppleIcon = memo(function AppleIcon() {
    UI Components
    ────────────────────────────────────────────────────────────── */
 const Wordmark = memo(function Wordmark() {
-  const branding = getBranding();
+  const router = useRouter();
   return (
-    <View style={{ alignItems: "flex-start" }}>
-      <Text weight="Bold" style={{ fontSize: 28, color: V.textPrimary, letterSpacing: -0.6 }}>
-        {branding.appName === "IeltsCamp" ? (
-          <>Ielts<Text weight="Bold" style={{ color: V.accent }}>Camp</Text></>
-        ) : branding.appName === "LangoWords" ? (
-          <>Lango<Text weight="Bold" style={{ color: V.accent }}>Words</Text></>
-        ) : branding.appName === "LangoRead" || branding.appName === "LangoReads" ? (
-          <>Lango<Text weight="Bold" style={{ color: V.accent }}>Read</Text></>
-        ) : (
-          <>Lango<Text weight="Bold" style={{ color: V.accent }}>Prep</Text></>
-        )}
-      </Text>
-    </View>
+    <Pressable
+      onPress={() => router.push("/")}
+      style={({ pressed }) => ({
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 10,
+        opacity: pressed ? 0.8 : 1,
+      })}
+      accessibilityLabel="Liiro Ebook Home"
+    >
+      <LinearGradient
+        colors={["#0EA5E9", "#6366F1"]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={{
+          width: 40,
+          height: 40,
+          borderRadius: 12,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <BookOpen size={22} color="#FFFFFF" strokeWidth={2.5} />
+      </LinearGradient>
+
+      <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
+        <Text weight="Bold" style={{ fontSize: 26, color: V.textPrimary, letterSpacing: -0.6 }}>
+          Liiro
+        </Text>
+        <View
+          style={{
+            paddingHorizontal: 7,
+            paddingVertical: 2,
+            borderRadius: 6,
+            backgroundColor: "rgba(14, 165, 233, 0.15)",
+            borderWidth: 1,
+            borderColor: "rgba(14, 165, 233, 0.3)",
+          }}
+        >
+          <Text weight="Bold" style={{ fontSize: 10, color: "#0EA5E9", letterSpacing: 0.5 }}>
+            EBOOK
+          </Text>
+        </View>
+      </View>
+    </Pressable>
   );
 });
 
@@ -573,7 +606,7 @@ export default function LoginScreen() {
         Welcome back.
       </Text>
       <Text weight="Regular" style={{ fontSize: 15.5, color: V.textSecondary, marginTop: 6, lineHeight: 24 }}>
-        Sign in to access your saved vocabulary, courses, and daily dialogues.
+        Sign in to explore 864+ classic audiobooks, multi-language alignment, and sync your reading progress.
       </Text>
     </View>
   );

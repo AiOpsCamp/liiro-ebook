@@ -32,12 +32,13 @@ const API_ENDPOINTS = apiEndpoints as unknown as Record<Environment, ApiEndpoint
 export function getCurrentEnvironment(): Environment {
   if (typeof window !== 'undefined' && window.location) {
     const hostname = window.location.hostname;
+    if (hostname.includes('liiro.io')) return 'liiro';
     if (hostname.includes('langoread.io')) return 'langoreads';
     if (hostname.includes('langoprep.io')) return 'langoprep';
     if (hostname.includes('langowords.io')) return 'langowords';
     if (hostname.includes('ieltscamp.io')) return 'ieltscamp';
   }
-  const env = process.env.EXPO_PUBLIC_APP_ENV || process.env.EXPO_PUBLIC_PROJECT_NAME || 'langowords';
+  const env = process.env.EXPO_PUBLIC_APP_ENV || process.env.EXPO_PUBLIC_PROJECT_NAME || 'liiro';
   return env as Environment;
 }
 
