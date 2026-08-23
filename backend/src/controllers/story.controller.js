@@ -894,3 +894,109 @@ exports.batchSyncProgress = async (req, res) => {
     res.status(500).json({ success: false, message: "Server Error" });
   }
 };
+
+const { createStreamToken, verifyStreamToken, getS3AudioStream } = require("../services/s3Signer.service");
+
+exports.getStreamToken = async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const { chapterNumber = 1, chapterId, voice = "adam", lang = "en" } = { ...req.query, ...req.body };
+
+    const story = await Story.findOne({ slug, isPublished: true }).select("_id slug title").lean();
+    if (!story) {
+      return res.status(404).json({ success: false, message: "Story not found" });
+    }
+
+    let chapter = null;
+    if (chapterId && mongoose.Types.ObjectId.isValid(chapterId)) {
+      chapter = await StoryChapter.findById(chapterId).lean();
+    } else {
+      chapter = await StoryChapter.findOne({ storyId: story._id, chapterNumber: parseInt(chapterNumber) || 1 }).lean();
+    }
+
+    if (!chapter) {
+      return res.status(404).json({ success: false, message: "Chapter audio not found" });
+    }
+
+    const chNum = chapter.chapterNumber || 1;
+    const { token, expiresAtMs } = createStreamToken(slug, chNum, voice, 7200);
+
+    const protocol = req.protocol || "http";
+    const host = req.get("host") || "localhost:5012";
+    const signedStreamUrl = `${protocol}://${host}/api/v1/stories/slug/${slug}/stream?chapterNumber=${chNum}&voice=${voice}&token=${token}&expires=${expiresAtMs}`;
+
+    res.status(200).json({
+      success: true,
+      storySlug: story.slug,
+      storyTitle: typeof story.title === "object" ? story.title.en : story.title,
+      chapterNumber: chNum,
+      voice,
+      expiresInSeconds: 7200,
+      expiresAt: new Date(expiresAtMs).toISOString(),
+      signedStreamUrl,
+    });
+  } catch (error) {
+    console.error("Error generating stream token:", error);
+    res.status(500).json({ success: false, message: "Failed to generate signed stream URL", error: error.message });
+  }
+};
+
+exports.streamAudio = async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const { chapterNumber = 1, voice = "adam", token, expires, lang = "en" } = req.query;
+
+    if (!token || !expires) {
+      return res.status(401).json({ success: false, message: "Missing DRM stream token or expiration parameter" });
+    }
+
+    const chNum = parseInt(chapterNumber) || 1;
+    const isValid = verifyStreamToken(slug, chNum, voice, token, expires);
+
+    if (!isValid) {
+      return res.status(403).json({ success: false, message: "Invalid or expired DRM stream token" });
+    }
+
+    const story = await Story.findOne({ slug, isPublished: true }).select("_id slug").lean();
+    if (!story) {
+      return res.status(404).json({ success: false, message: "Story not found" });
+    }
+
+    const chapter = await StoryChapter.findOne({ storyId: story._id, chapterNumber: chNum }).lean();
+    if (!chapter) {
+      return res.status(404).json({ success: false, message: "Chapter audio not found" });
+    }
+
+    // Determine target S3 object key
+    let rawAudioUrl = "";
+    if (chapter.audioVoices && chapter.audioVoices[voice]) {
+      rawAudioUrl = chapter.audioVoices[voice];
+    } else if (typeof chapter.audioUrl === "object" && chapter.audioUrl[lang]) {
+      rawAudioUrl = chapter.audioUrl[lang];
+    } else if (typeof chapter.audioUrl === "string" && chapter.audioUrl) {
+      rawAudioUrl = chapter.audioUrl;
+    } else {
+      rawAudioUrl = `Liiro-Ebook-Prod/audio/${slug}/voices/${voice}/chapter_${chNum}.mp3`;
+    }
+
+    const rangeHeader = req.headers.range || null;
+    const s3Res = await getS3AudioStream(rawAudioUrl, rangeHeader);
+
+    // Forward S3 streaming headers
+    if (s3Res.ContentLength) res.setHeader("Content-Length", s3Res.ContentLength);
+    if (s3Res.ContentType) res.setHeader("Content-Type", s3Res.ContentType);
+    if (s3Res.ContentRange) res.setHeader("Content-Range", s3Res.ContentRange);
+    res.setHeader("Accept-Ranges", s3Res.AcceptRanges || "bytes");
+    res.setHeader("Cache-Control", "private, no-transform, max-age=7200");
+
+    const statusCode = s3Res.$metadata?.httpStatusCode || (rangeHeader ? 206 : 200);
+    res.status(statusCode);
+
+    s3Res.Body.pipe(res);
+  } catch (error) {
+    console.error("Error in streamAudio:", error);
+    if (!res.headersSent) {
+      res.status(500).json({ success: false, message: "Audio streaming error", error: error.message });
+    }
+  }
+};

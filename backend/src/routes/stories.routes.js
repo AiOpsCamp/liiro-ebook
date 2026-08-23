@@ -28,6 +28,11 @@ router.get("/user/bookmarks", authMiddleware, storyController.getUserBookmarks);
 router.get("/user/highlights", authMiddleware, storyController.getUserHighlights);
 router.post("/progress/batch", authMiddleware, storyController.batchSyncProgress);
 
+// 2-Hour DRM HMAC Pre-Signed Hetzner S3 Stream Token & Proxy Endpoints
+router.get("/slug/:slug/stream-token", authMiddleware.optionalAuth, storyController.getStreamToken);
+router.post("/slug/:slug/stream-token", authMiddleware.optionalAuth, storyController.getStreamToken);
+router.get("/slug/:slug/stream", storyController.streamAudio);
+
 // Core Story Routes (Optional Auth so verified JWT user state is attached if token is present)
 router.get("/dashboard", authMiddleware.optionalAuth, storyController.getStoriesDashboard);
 router.get("/", authMiddleware.optionalAuth, storyController.getStories);
