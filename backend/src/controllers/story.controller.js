@@ -1263,3 +1263,52 @@ exports.transcodeStoryToHLS = async (req, res) => {
     res.status(500).json({ success: false, message: "HLS Story Transcoding Error", error: error.message });
   }
 };
+
+// ── AI Vector Search & Recommendation Engine Controllers ─────────────
+
+const VectorSearchService = require("../services/vectorSearch.service");
+
+exports.getStoryRecommendations = async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const { limit = "10" } = req.query;
+    const limitNum = Math.min(50, Math.max(1, parseInt(limit)));
+
+    const result = await VectorSearchService.getRecommendationsForStory(slug, limitNum);
+    if (!result) {
+      return res.status(404).json({ success: false, message: "Story not found for recommendations" });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: result,
+    });
+  } catch (error) {
+    console.error("Error in getStoryRecommendations:", error);
+    res.status(500).json({ success: false, message: "Server error calculating recommendations", error: error.message });
+  }
+};
+
+exports.getPersonalizedRecommendations = async (req, res) => {
+  try {
+    const userId = getEffectiveUserId(req);
+    const { limit = "10" } = req.query;
+    const limitNum = Math.min(50, Math.max(1, parseInt(limit)));
+
+    const userProgress = await UserStoryProgress.find({ userId })
+      .populate("storyId")
+      .sort({ lastVisitedAt: -1, updatedAt: -1 })
+      .lean();
+
+    const recommendations = await VectorSearchService.getPersonalizedRecommendationsForUser(userProgress, limitNum);
+
+    res.status(200).json({
+      success: true,
+      count: recommendations.length,
+      data: recommendations,
+    });
+  } catch (error) {
+    console.error("Error in getPersonalizedRecommendations:", error);
+    res.status(500).json({ success: false, message: "Server error generating personalized recommendations", error: error.message });
+  }
+};

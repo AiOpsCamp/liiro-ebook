@@ -41,6 +41,10 @@ router.get("/slug/:slug/hls/:chapterNumber/playlist.m3u8", storyController.getHL
 router.get("/slug/:slug/hls/:chapterNumber/:segmentFile", storyController.getHLSSegment);
 router.post("/slug/:slug/hls/transcode", authMiddleware, storyController.transcodeStoryToHLS);
 
+// AI Vector Search & Semantic Recommendation Engine Endpoints
+router.get("/recommendations/personalized", authMiddleware.optionalAuth, storyController.getPersonalizedRecommendations);
+router.get("/slug/:slug/recommendations", storyController.getStoryRecommendations);
+
 // Core Story Routes (Optional Auth so verified JWT user state is attached if token is present)
 router.get("/dashboard", authMiddleware.optionalAuth, storyController.getStoriesDashboard);
 router.get("/", authMiddleware.optionalAuth, storyController.getStories);
