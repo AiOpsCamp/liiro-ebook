@@ -33,15 +33,16 @@ export default function ProfileNavbarMenu() {
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
-  // User details fallback
+  // Check if user is genuinely logged in
+  const isLoggedIn = Boolean(user && (user.data || user.email || user.username || user._id || user.id));
   const userData = user?.data || user || {};
-  const name = userData?.name || userData?.username || userData?.first_name || "Liiro Reader";
-  const email = userData?.email || "reader@liiro.io";
-  const avatarUrl = userData?.picture || userData?.avatarUrl || null;
-  const initial = (name || "L").charAt(0).toUpperCase();
+  const name = isLoggedIn ? (userData?.name || userData?.username || userData?.first_name || "Liiro Reader") : "Guest Reader";
+  const email = isLoggedIn ? (userData?.email || "reader@liiro.io") : "Browse freely without account";
+  const avatarUrl = isLoggedIn ? (userData?.picture || userData?.avatarUrl || null) : null;
+  const initial = isLoggedIn ? (name || "L").charAt(0).toUpperCase() : "G";
 
-  const xpScore = userData?.xp_score || 1250;
-  const currentStreak = userData?.streak?.current || 7;
+  const xpScore = userData?.xp_score || 0;
+  const currentStreak = userData?.streak?.current || 0;
 
   const surfaceColor = isDark ? "#111827" : "#FFFFFF";
   const cardColor = isDark ? "#1E293B" : "#F8FAFC";
@@ -68,6 +69,66 @@ export default function ProfileNavbarMenu() {
       setIsOpen(false);
     }
   }, [signOut]);
+
+  // If Guest, show compact Sign In + Avatar Trigger
+  if (!isLoggedIn) {
+    return (
+      <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+        <Pressable
+          onPress={() => router.push("/login")}
+          style={({ pressed }) => ({
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 6,
+            paddingHorizontal: 14,
+            paddingVertical: 7,
+            borderRadius: 100,
+            backgroundColor: isDark ? "rgba(255,255,255,0.07)" : "rgba(15,23,42,0.06)",
+            borderWidth: 1,
+            borderColor: isDark ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.08)",
+            opacity: pressed ? 0.75 : 1,
+          })}
+        >
+          <User size={13} color={textColor} />
+          <Text style={{ color: textColor, fontWeight: "600", fontSize: 12.5 }}>Sign In</Text>
+        </Pressable>
+
+        <Pressable
+          onPress={() => router.push("/register")}
+          style={({ pressed }) => ({
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 6,
+            paddingHorizontal: 14,
+            paddingVertical: 7,
+            borderRadius: 100,
+            backgroundColor: accentColor,
+            opacity: pressed ? 0.85 : 1,
+          })}
+        >
+          <Sparkles size={13} color="#FFFFFF" />
+          <Text style={{ color: "#FFFFFF", fontWeight: "700", fontSize: 12.5 }}>Get Started</Text>
+        </Pressable>
+
+        {/* Theme mode toggle button for guest */}
+        <Pressable
+          onPress={handleToggleTheme}
+          style={({ pressed }) => ({
+            width: 32,
+            height: 32,
+            borderRadius: 16,
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: isDark ? "rgba(255,255,255,0.07)" : "rgba(15,23,42,0.06)",
+            opacity: pressed ? 0.75 : 1,
+          })}
+          accessibilityLabel="Toggle dark/light mode"
+        >
+          {isDark ? <Sun size={15} color="#F59E0B" /> : <Moon size={15} color={accentColor} />}
+        </Pressable>
+      </View>
+    );
+  }
 
   return (
     <>
