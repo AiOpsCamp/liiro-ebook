@@ -14,7 +14,7 @@ const s3Client = new S3Client({
   },
 });
 
-const MONGO_URI = process.env.MONGO_URI || process.env.MONGO_URL;
+const MONGO_URI = process.env.MONGO_URI || process.env.MONGO_URL || "mongodb://admin:PROD_PASSWORD_2026@mongodb-svc.multicamp.svc.cluster.local:27017/liiro_prod?authSource=admin";
 
 // Helper to determine destination key in Liiro-Ebook-Prod/
 function mapToLiiroEbookProdKey(sourceKey) {
