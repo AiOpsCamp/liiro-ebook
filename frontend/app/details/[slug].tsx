@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import { AudioManager } from "@/lib/utils/audioManager";
+import { offlineManager } from "@/services/offlineManager";
 import {
   ArrowLeft,
   ChevronLeft,
@@ -198,12 +199,27 @@ export default function BookDetailsScreen() {
     }
   };
 
-  const handleToggleDownload = () => {
+  React.useEffect(() => {
+    if (typeof slug === "string") {
+      offlineManager.isBookDownloaded(slug).then(setIsDownloaded);
+    }
+  }, [slug]);
+
+  const handleToggleDownload = async () => {
+    if (!slug || typeof slug !== "string") return;
+
     if (isDownloaded) {
+      await offlineManager.removeDownloadedBook(slug);
       setIsDownloaded(false);
     } else {
       setIsDownloading(true);
-      setTimeout(() => { setIsDownloading(false); setIsDownloaded(true); }, 1200);
+      const success = await offlineManager.downloadBook(slug, (pct) => {
+        setDownloadProgressPct(Math.round(pct * 100));
+      });
+      setIsDownloading(false);
+      if (success) {
+        setIsDownloaded(true);
+      }
     }
   };
 

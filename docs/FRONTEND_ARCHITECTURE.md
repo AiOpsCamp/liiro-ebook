@@ -75,7 +75,7 @@ flowchart TD
 - [x] **Task 6: Connect Reader UI to Whispersync Engine**:
   * Built `WhispersyncPromptModal` (`WhispersyncPromptModal.tsx`) glassmorphism modal auto-prompting users to resume reading/listening from cross-device positions (e.g. CarPlay, Web).
   * Connected 10-second periodic background position sync (`syncWhispersyncPosition`) in `EbookReadContent.tsx`.
-- [ ] **Task 6: Modularize Monolithic Components**:
+- [x] **Task 7: Offline Chapter & Audio Downloader**:
+  * Built `OfflineManager` (`offlineManager.ts`) using `expo-file-system` to download and store story text payloads and chapter audio files locally for offline reading/listening.
+- [ ] **Task 8: Modularize Monolithic Components**:
   * Decompose `EbookReadContent.tsx` (3,900 lines) and `EbookDashboardContent.tsx` (2,000 lines) into clean, reusable modular components.
-- [ ] **Task 7: Offline Chapter & Audio Downloader**:
-  * Build an offline storage manager using `expo-file-system` to download and store story text and audio files locally for offline reading.
