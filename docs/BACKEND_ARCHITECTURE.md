@@ -67,7 +67,17 @@
 
 ---
 
-### ⚡ 1.6 Database Optimization & Caching Layer
+### 📖 1.6 OPDS 2.0 Open Publication Catalog Feed Engine
+- **Service** ([`src/services/opds.service.js`](file:///Users/humayunrashid/multicamp/liiro-ebook/backend/src/services/opds.service.js)):
+  - Generates OPDS 2.0 JSON and legacy Atom XML feeds (`application/atom+xml;profile=opds-catalog`) for external e-reader compatibility (PocketBook, Kobo, Apple Books, Readium).
+- **Endpoints**:
+  - `GET /opds/v2/catalog` & `GET /opds/v2/catalog.xml`
+  - `GET /opds/v2/publications`
+  - `GET /opds/v2/search?q=query`
+
+---
+
+### ⚡ 1.7 Database Optimization & Caching Layer
 - **Field Projections & Indexes** ([`src/models/Story.model.js`](file:///Users/humayunrashid/multicamp/liiro-ebook/backend/src/models/Story.model.js)):
   - Refactored `getStoriesDashboard` with `.select(...)` to eliminate massive memory overhead.
   - Added compound indexes: `{ isPublished: 1, createdAt: -1 }`, `{ isPublished: 1, isFeatured: 1, featuredRank: 1 }`, `{ userId: 1, lastVisitedAt: -1 }`.

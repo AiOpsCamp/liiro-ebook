@@ -55,10 +55,14 @@ app.get("/health", async (req, res) => {
   }
 });
 
+const opdsRoutes = require("./src/routes/opds.routes");
+
 // API Routes
 app.use("/api/v1/stories", storiesRoutes);
 app.use("/api/v1/metadata", ebookMetadataRoutes);
 app.use("/api/v1/auth", authRoutes);
+app.use("/opds", opdsRoutes);
+app.use("/api/v1/opds", opdsRoutes);
 
 // Global 404 Handler
 app.use((req, res) => {
