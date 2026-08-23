@@ -26,7 +26,10 @@ router.get("/search", storyController.searchStories);
 router.get("/user/library", authMiddleware, storyController.getUserLibrary);
 router.get("/user/bookmarks", authMiddleware, storyController.getUserBookmarks);
 router.get("/user/highlights", authMiddleware, storyController.getUserHighlights);
-router.post("/progress/batch", authMiddleware, storyController.batchSyncProgress);
+// Dedicated Whispersync Bi-Directional Position Sync Engine
+router.post("/whispersync", authMiddleware.optionalAuth, storyController.syncWhispersyncPosition);
+router.get("/whispersync", authMiddleware.optionalAuth, storyController.getWhispersyncPosition);
+router.get("/slug/:slug/whispersync", authMiddleware.optionalAuth, storyController.getWhispersyncPosition);
 
 // 2-Hour DRM HMAC Pre-Signed Hetzner S3 Stream Token & Proxy Endpoints
 router.get("/slug/:slug/stream-token", authMiddleware.optionalAuth, storyController.getStreamToken);

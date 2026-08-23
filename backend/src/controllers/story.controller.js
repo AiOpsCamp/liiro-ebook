@@ -1000,3 +1000,151 @@ exports.streamAudio = async (req, res) => {
     }
   }
 };
+
+// ── Whispersync Position Engine Controllers ───────────────────────────
+
+const WhispersyncService = require("../services/whispersync.service");
+
+exports.syncWhispersyncPosition = async (req, res) => {
+  try {
+    const userId = getEffectiveUserId(req);
+    const {
+      storySlug,
+      storyId: bodyStoryId,
+      chapterIndex = 1,
+      paragraphIndex = 0,
+      audioTimestampSec = 0,
+      syncMode = "reading",
+      deviceType = "web-desktop",
+    } = req.body;
+
+    let story = null;
+    if (bodyStoryId && mongoose.Types.ObjectId.isValid(bodyStoryId)) {
+      story = await Story.findById(bodyStoryId).select("_id slug title").lean();
+    } else if (storySlug) {
+      story = await Story.findOne({ slug: storySlug, isPublished: true }).select("_id slug title").lean();
+    }
+
+    if (!story) {
+      return res.status(404).json({ success: false, message: "Story not found" });
+    }
+
+    const chNum = parseInt(chapterIndex) || 1;
+    const chapter = await StoryChapter.findOne({ storyId: story._id, chapterNumber: chNum }).lean();
+
+    let mappedAudioTime = parseFloat(audioTimestampSec) || 0;
+    let mappedParagraph = parseInt(paragraphIndex) || 0;
+
+    if (syncMode === "reading" || mappedAudioTime === 0) {
+      mappedAudioTime = WhispersyncService.calculateAudioTimeFromParagraph(chapter, mappedParagraph);
+    }
+
+    if (syncMode === "listening" || mappedParagraph === 0) {
+      mappedParagraph = WhispersyncService.calculateParagraphFromAudioTime(chapter, mappedAudioTime);
+    }
+
+    const whispersyncData = {
+      lastSyncAt: new Date(),
+      deviceType: String(deviceType || "web-desktop"),
+      chapterIndex: chNum,
+      paragraphIndex: parseInt(paragraphIndex) || 0,
+      audioTimestampSec: parseFloat(audioTimestampSec) || 0,
+      mappedParagraphIndex: mappedParagraph,
+      mappedAudioTimestampSec: mappedAudioTime,
+      syncMode,
+    };
+
+    const updateData = {
+      lastChapterIndex: chNum,
+      lastParagraphIndex: mappedParagraph,
+      lastAudioTimeSeconds: mappedAudioTime,
+      audioTimestamp: mappedAudioTime,
+      lastActivityType: syncMode === "listening" ? "listening" : "reading",
+      lastVisitedAt: new Date(),
+      whispersync: whispersyncData,
+    };
+
+    if (chapter?._id) {
+      updateData.currentChapterId = chapter._id;
+    }
+
+    if (syncMode === "listening") {
+      updateData.lastListenedAt = new Date();
+    } else {
+      updateData.lastReadAt = new Date();
+    }
+
+    const progress = await UserStoryProgress.findOneAndUpdate(
+      { userId, storyId: story._id },
+      {
+        $set: updateData,
+        $addToSet: {
+          ...(chapter?._id ? { completedChapterIds: chapter._id } : {}),
+          completedChapterIndexes: chNum,
+        },
+      },
+      { new: true, upsert: true }
+    );
+
+    res.status(200).json({
+      success: true,
+      message: `Whispersync position synced from ${deviceType} (${syncMode})`,
+      storySlug: story.slug,
+      storyTitle: typeof story.title === "object" ? story.title.en : story.title,
+      whispersync: progress.whispersync,
+      resumeGuide: {
+        readFromParagraph: mappedParagraph,
+        listenFromSeconds: mappedAudioTime,
+        listenFormattedTime: `${Math.floor(mappedAudioTime / 60).toString().padStart(2, "0")}:${Math.floor(mappedAudioTime % 60).toString().padStart(2, "0")}`,
+      },
+    });
+  } catch (error) {
+    console.error("Error in syncWhispersyncPosition:", error);
+    res.status(500).json({ success: false, message: "Server error during Whispersync position sync", error: error.message });
+  }
+};
+
+exports.getWhispersyncPosition = async (req, res) => {
+  try {
+    const userId = getEffectiveUserId(req);
+    const { slug } = req.params;
+    const { storyId: queryStoryId, storySlug: querySlug } = req.query;
+
+    const targetSlug = slug || querySlug;
+    let story = null;
+
+    if (queryStoryId && mongoose.Types.ObjectId.isValid(queryStoryId)) {
+      story = await Story.findById(queryStoryId).select("_id slug title").lean();
+    } else if (targetSlug) {
+      story = await Story.findOne({ slug: targetSlug }).select("_id slug title").lean();
+    }
+
+    if (!story) {
+      return res.status(404).json({ success: false, message: "Story not found" });
+    }
+
+    const progress = await UserStoryProgress.findOne({ userId, storyId: story._id }).lean();
+
+    if (!progress || !progress.whispersync) {
+      return res.status(200).json({
+        success: true,
+        hasSyncedPosition: false,
+        storySlug: story.slug,
+        whispersync: null,
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      hasSyncedPosition: true,
+      storySlug: story.slug,
+      storyTitle: typeof story.title === "object" ? story.title.en : story.title,
+      whispersync: progress.whispersync,
+      lastActivityType: progress.lastActivityType,
+      lastVisitedAt: progress.lastVisitedAt,
+    });
+  } catch (error) {
+    console.error("Error in getWhispersyncPosition:", error);
+    res.status(500).json({ success: false, message: "Server error retrieving Whispersync position", error: error.message });
+  }
+};

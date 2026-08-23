@@ -30,6 +30,20 @@ const highlightSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+const whispersyncSchema = new mongoose.Schema(
+  {
+    lastSyncAt: { type: Date, default: Date.now },
+    deviceType: { type: String, default: "web-desktop" },
+    chapterIndex: { type: Number, default: 1 },
+    paragraphIndex: { type: Number, default: 0 },
+    audioTimestampSec: { type: Number, default: 0 },
+    mappedParagraphIndex: { type: Number, default: 0 },
+    mappedAudioTimestampSec: { type: Number, default: 0 },
+    syncMode: { type: String, enum: ["reading", "listening"], default: "reading" },
+  },
+  { _id: false }
+);
+
 const userStoryProgressSchema = new mongoose.Schema(
   {
     userId: {
@@ -82,6 +96,7 @@ const userStoryProgressSchema = new mongoose.Schema(
       default: false,
     },
     highlights: [highlightSchema],
+    whispersync: whispersyncSchema,
     audioTimestamp: {
       type: Number,
       default: 0,
