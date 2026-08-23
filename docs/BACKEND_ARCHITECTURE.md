@@ -77,7 +77,16 @@
 
 ---
 
-### ⚡ 1.7 Database Optimization & Caching Layer
+### 💳 1.7 Stripe & RevenueCat Billing Webhook Entitlement Listener
+- **Controller** ([`src/controllers/billing.controller.js`](file:///Users/humayunrashid/multicamp/liiro-ebook/backend/src/controllers/billing.controller.js)):
+  - Real-time entitlement listener handling web subscriptions (`customer.subscription.created`, `updated`, `deleted`) and mobile in-app purchases (`INITIAL_PURCHASE`, `RENEWAL`, `CANCELLATION`).
+- **Endpoints**:
+  - `POST /api/v1/billing/webhook/stripe`
+  - `POST /api/v1/billing/webhook/revenuecat`
+
+---
+
+### ⚡ 1.8 Database Optimization & Caching Layer
 - **Field Projections & Indexes** ([`src/models/Story.model.js`](file:///Users/humayunrashid/multicamp/liiro-ebook/backend/src/models/Story.model.js)):
   - Refactored `getStoriesDashboard` with `.select(...)` to eliminate massive memory overhead.
   - Added compound indexes: `{ isPublished: 1, createdAt: -1 }`, `{ isPublished: 1, isFeatured: 1, featuredRank: 1 }`, `{ userId: 1, lastVisitedAt: -1 }`.
