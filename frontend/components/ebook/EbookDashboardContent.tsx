@@ -45,7 +45,9 @@ import {
   Brain,
   Baby,
   GraduationCap,
+  TrendingUp,
 } from "lucide-react-native";
+import ProfileNavbarMenu from "./ProfileNavbarMenu";
 
 import { AppText as Text } from "@/components/ui/AppText";
 import StoryCard from "./StoryCard";
@@ -644,6 +646,9 @@ const EbookDashboardContent: React.FC<Props> = ({
               </Text>
               <ChevronRight size={13} color={accentColor} />
             </Pressable>
+
+            {/* Profile Avatar Menu */}
+            <ProfileNavbarMenu />
           </View>
         </Animated.View>
 
