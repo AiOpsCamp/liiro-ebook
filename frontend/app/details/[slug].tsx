@@ -14,6 +14,7 @@ import { useLocalSearchParams, useRouter, Stack } from "expo-router";
 import { useSelector } from "react-redux";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
+import { AudioManager } from "@/lib/utils/audioManager";
 import {
   ArrowLeft,
   ChevronLeft,
@@ -177,26 +178,23 @@ export default function BookDetailsScreen() {
   const CHAPTERS_PREVIEW = 8;
   const visibleChapters = chaptersExpanded ? chapters : chapters.slice(0, CHAPTERS_PREVIEW);
 
-  const toggleSampleAudio = () => {
-    const audioUrl = firstChapterWithAudio?.audioUrl;
+  const toggleSampleAudio = async () => {
+    const audioMgr = AudioManager.getInstance();
+    let audioUrl = firstChapterWithAudio?.audioUrl;
+    if (!audioUrl && typeof slug === "string") {
+      audioUrl = await audioMgr.resolveDrmStreamUrl(slug, 1);
+    }
     if (!audioUrl) return;
+
     if (isPlayingSample) {
-      audioSampleRef.current?.pause();
+      await audioMgr.stopAudio();
       setIsPlayingSample(false);
     } else {
-      if (typeof window !== "undefined" && (window as any).Audio) {
-        if (!audioSampleRef.current) {
-          audioSampleRef.current = new (window as any).Audio(audioUrl);
-          audioSampleRef.current.onended = () => setIsPlayingSample(false);
-        }
-        audioSampleRef.current.currentTime = 0;
-        audioSampleRef.current.play().catch(() => {});
-        setIsPlayingSample(true);
-        setTimeout(() => {
-          audioSampleRef.current?.pause();
-          setIsPlayingSample(false);
-        }, 30000);
-      }
+      setIsPlayingSample(true);
+      const success = await audioMgr.playAudio(audioUrl, () => {
+        setIsPlayingSample(false);
+      });
+      if (!success) setIsPlayingSample(false);
     }
   };
 

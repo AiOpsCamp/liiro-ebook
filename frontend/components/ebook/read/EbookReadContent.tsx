@@ -30,6 +30,7 @@ import Animated, {
 import * as Haptics from "expo-haptics";
 import Markdown from "react-native-markdown-display";
 import { getLocalizedText } from "@/utils/getLocalizedText";
+import { AudioManager } from "@/lib/utils/audioManager";
 import {
   Bookmark,
   Search,
@@ -909,53 +910,16 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
     audio.playbackRate = playbackSpeed;
     audio.volume = audioVolume;
 
-    const handleLoadedMetadata = () => {
-      setAudioDuration(audio.duration || 0);
-      setIsAudioLoading(false);
-      // Restore saved timestamp on first load
-      if (initialAudioTimestampRef.current > 0 && initialAudioTimestampRef.current < (audio.duration || 0)) {
-        audio.currentTime = initialAudioTimestampRef.current;
-        initialAudioTimestampRef.current = 0; // only restore once
-      }
+    const audioMgr = AudioManager.getInstance();
+    const handleStatus = ({ position, duration }: { position: number; duration: number }) => {
+      setAudioCurrentTime(position || 0);
+      if (duration > 0) setAudioDuration(duration);
     };
 
-    const handleTimeUpdate = () => {
-      setAudioCurrentTime(audio.currentTime || 0);
-    };
-
-    const handleEnded = () => {
-      setIsPlaying(false);
-      // Sleep-on-chapter-end: stop here, don't advance
-      if (sleepOnChapterEndRef.current) {
-        setSleepOnChapterEnd(false);
-        return;
-      }
-      // Auto-advance to next chapter if available!
-      if (currentChapterIdx < story.chapters.length - 1) {
-        setCurrentChapterIdx((prev) => prev + 1);
-        setIsPlaying(true);
-      }
-    };
-
-    const handleWaiting = () => setIsAudioLoading(true);
-    const handleCanPlay = () => setIsAudioLoading(false);
-
-    audio.addEventListener("loadedmetadata", handleLoadedMetadata);
-    audio.addEventListener("timeupdate", handleTimeUpdate);
-    audio.addEventListener("ended", handleEnded);
-    audio.addEventListener("waiting", handleWaiting);
-    audio.addEventListener("canplay", handleCanPlay);
-
-    if (isPlaying) {
-      audio.play().catch((err) => console.log("Audio play deferred or interrupted:", err.message));
-    }
+    audioMgr.addStatusListener(handleStatus);
 
     return () => {
-      audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
-      audio.removeEventListener("timeupdate", handleTimeUpdate);
-      audio.removeEventListener("ended", handleEnded);
-      audio.removeEventListener("waiting", handleWaiting);
-      audio.removeEventListener("canplay", handleCanPlay);
+      audioMgr.removeStatusListener(handleStatus);
     };
   }, [audioUrl, currentChapterIdx, story.chapters.length]);
 
@@ -1044,36 +1008,52 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
     }
   }, [isPlaying]);
 
-  const togglePlayPause = useCallback(() => {
-    if (!audioElementRef.current || !audioUrl) return;
+  const togglePlayPause = useCallback(async () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    const audioMgr = AudioManager.getInstance();
 
     if (isPlaying) {
-      audioElementRef.current.pause();
+      await audioMgr.pauseAudio();
       setIsPlaying(false);
     } else {
-      audioElementRef.current.play().then(() => setIsPlaying(true)).catch(console.error);
+      let playUrl = audioUrl;
+      if (story?.slug) {
+        playUrl = await audioMgr.resolveDrmStreamUrl(story.slug, currentChapterIdx + 1, selectedVoiceKey);
+      }
+      setIsAudioLoading(true);
+      const success = await audioMgr.playAudio(
+        playUrl,
+        () => {
+          setIsPlaying(false);
+          if (currentChapterIdx < story.chapters.length - 1) {
+            setCurrentChapterIdx((prev) => prev + 1);
+          }
+        },
+        audioCurrentTime
+      );
+      setIsAudioLoading(false);
+      if (success) {
+        setIsPlaying(true);
+        audioMgr.setRate(playbackSpeed);
+      }
     }
-  }, [isPlaying, audioUrl]);
+  }, [isPlaying, audioUrl, story, currentChapterIdx, selectedVoiceKey, audioCurrentTime, playbackSpeed]);
 
-  const seekAudio = useCallback((seconds: number) => {
-    if (!audioElementRef.current || typeof seconds !== "number" || isNaN(seconds) || !isFinite(seconds)) return;
+  const seekAudio = useCallback(async (seconds: number) => {
+    if (typeof seconds !== "number" || isNaN(seconds) || !isFinite(seconds)) return;
     const maxDur = typeof audioDuration === "number" && isFinite(audioDuration) && audioDuration > 0 ? audioDuration : 0;
-    if (maxDur === 0) return;
-
-    const targetTime = Math.max(0, Math.min(seconds, maxDur));
-    if (isFinite(targetTime) && !isNaN(targetTime)) {
-      audioElementRef.current.currentTime = targetTime;
-      setAudioCurrentTime(targetTime);
-      Haptics.selectionAsync();
-    }
+    const targetTime = maxDur > 0 ? Math.max(0, Math.min(seconds, maxDur)) : Math.max(0, seconds);
+    
+    setAudioCurrentTime(targetTime);
+    await AudioManager.getInstance().seekTo(targetTime);
+    Haptics.selectionAsync();
   }, [audioDuration]);
 
   const changeSpeed = useCallback(() => {
     const nextIdx = (SPEED_OPTIONS.indexOf(playbackSpeed) + 1) % SPEED_OPTIONS.length;
     const newSpeed = SPEED_OPTIONS[nextIdx];
     setPlaybackSpeed(newSpeed);
-    if (audioElementRef.current) audioElementRef.current.playbackRate = newSpeed;
+    AudioManager.getInstance().setRate(newSpeed);
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
   }, [playbackSpeed]);
 

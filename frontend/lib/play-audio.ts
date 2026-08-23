@@ -1,150 +1,45 @@
-import { setAudioModeAsync } from "expo-audio";
-import { getNormalizedAudioUrl } from "@/components/words/AudioUtils";
-
-type AudioStatus = {
-  isLoaded?: boolean;
-  playing?: boolean;
-  buffering?: boolean;
-  duration?: number;
-  position?: number;
-  didJustFinish?: boolean;
-  [k: string]: any;
-};
+import { AudioManager } from "@/lib/utils/audioManager";
 
 export class AudioPlayer {
-  private static player: any | null = null;
-  private static statusCallback: ((status: AudioStatus) => void) | null = null;
-  private static pollId: any | null = null;
+  private static audioMgr = AudioManager.getInstance();
 
-  private static async ensurePlayer() {
-    if (!this.player) {
-      this.player =
-        (require("expo-audio") as any).getOrCreateSharedPlayer?.() ??
-        (require("expo-audio") as any).SharedPlayer;
-
-      if (!this.player?.replace) {
-        this.player = (require("expo-audio") as any).createAudioPlayer?.();
-      }
-
-      try {
-        await setAudioModeAsync({
-          playsInSilentMode: true,
-          interruptionMode: "duckOthers",
-          interruptionModeAndroid: "duckOthers",
-          shouldPlayInBackground: false,
-        });
-      } catch {
-        // ignore
-      }
-    }
+  static async play(audioUrl: string, onFinish?: () => void, seekPosition = 0): Promise<boolean> {
+    return await this.audioMgr.playAudio(audioUrl, onFinish, seekPosition);
   }
 
-  private static startPolling() {
-    this.stopPolling();
-    this.pollId = setInterval(async () => {
-      try {
-        const status: AudioStatus = await this.player?.getStatus?.();
-        if (status) {
-          this.statusCallback?.(status);
-          if (status.didJustFinish) {
-            this.stopPolling();
-          }
-        }
-      } catch {}
-    }, 400);
+  static async pause(): Promise<void> {
+    await this.audioMgr.pauseAudio();
   }
 
-  private static stopPolling() {
-    if (this.pollId) {
-      clearInterval(this.pollId);
-      this.pollId = null;
-    }
+  static async stop(): Promise<void> {
+    await this.audioMgr.stopAudio();
   }
 
-  static async playAudio(url: string): Promise<void> {
-    try {
-      await this.ensurePlayer();
-
-      const normalizedUrl = getNormalizedAudioUrl(url);
-      if (!normalizedUrl) return;
-
-      try {
-        await this.player.seekTo?.(0);
-      } catch {}
-      this.player.replace?.({ uri: normalizedUrl });
-      this.player.play?.();
-
-      this.startPolling();
-
-      this.statusCallback?.({
-        isLoaded: true,
-        playing: true,
-        buffering: false,
-        didJustFinish: false,
-      });
-    } catch (error) {
-      console.error("Error playing audio:", error);
-    }
+  static async seekTo(seconds: number): Promise<void> {
+    await this.audioMgr.seekTo(seconds);
   }
 
-  static async stopAudio(): Promise<void> {
-    if (!this.player) return;
-    try {
-      this.player.pause?.();
-      await this.player.seekTo?.(0);
-    } catch {
-      // ignore
-    } finally {
-      this.stopPolling();
-      this.statusCallback?.({
-        isLoaded: true,
-        playing: false,
-        buffering: false,
-        didJustFinish: true,
-      });
-    }
+  static setRate(rate: number): void {
+    this.audioMgr.setRate(rate);
   }
 
-  static async pauseAudio(): Promise<void> {
-    if (!this.player) return;
-    try {
-      this.player.pause?.();
-      const status: AudioStatus = (await this.player.getStatus?.()) ?? { isLoaded: true };
-      this.statusCallback?.({
-        ...status,
-        playing: false,
-      });
-    } catch {
-      // ignore
-    }
+  static getPosition(): number {
+    return this.audioMgr.getPosition();
   }
 
-  static async resumeAudio(): Promise<void> {
-    if (!this.player) return;
-    try {
-      this.player.play?.();
-      this.startPolling();
-      const status: AudioStatus = (await this.player.getStatus?.()) ?? { isLoaded: true };
-      this.statusCallback?.({
-        ...status,
-        playing: true,
-      });
-    } catch {
-      // ignore
-    }
+  static getDuration(): number {
+    return this.audioMgr.getDuration();
   }
 
-  static async isPlaying(): Promise<boolean> {
-    if (!this.player) return false;
-    try {
-      const status: AudioStatus = await this.player.getStatus?.();
-      return !!(status?.isLoaded && status.playing);
-    } catch {
-      return false;
-    }
+  static isPlaying(): boolean {
+    return this.audioMgr.getIsPlaying();
   }
 
-  static setStatusCallback(callback: (status: AudioStatus) => void) {
-    this.statusCallback = callback;
+  static addStatusListener(cb: (status: { position: number; duration: number }) => void): void {
+    this.audioMgr.addStatusListener(cb);
+  }
+
+  static removeStatusListener(cb: (status: { position: number; duration: number }) => void): void {
+    this.audioMgr.removeStatusListener(cb);
   }
 }

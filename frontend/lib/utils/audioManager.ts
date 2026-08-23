@@ -1,4 +1,6 @@
+import { Platform } from "react-native";
 import { setAudioModeAsync, type AudioSource } from "expo-audio";
+import { getToken } from "@/lib/utils";
 
 type AudioStatus = {
   isLoaded?: boolean;
@@ -15,6 +17,7 @@ type StatusListener = (status: { position: number; duration: number }) => void;
 export class AudioManager {
   private static instance: AudioManager;
   private player: any | null = null;
+  private webAudioEl: any | null = null;
   private pollId: any | null = null;
 
   private isPlaying = false;
@@ -31,30 +34,64 @@ export class AudioManager {
   }
 
   private async ensurePlayer() {
-    if (this.player) return;
-    const mod: any = require("expo-audio");
+    if (this.player || this.webAudioEl) return;
 
-    this.player =
-      mod.getOrCreateSharedPlayer?.() ||
-      mod.SharedPlayer ||
-      mod.createAudioPlayer?.();
+    if (Platform.OS === "web" && typeof window !== "undefined") {
+      this.webAudioEl = new (window as any).Audio();
+      return;
+    }
 
-    if (!this.player) {
-      throw new Error("expo-audio player unavailable");
+    try {
+      const mod: any = require("expo-audio");
+      this.player =
+        mod.getOrCreateSharedPlayer?.() ||
+        mod.SharedPlayer ||
+        mod.createAudioPlayer?.();
+    } catch (err) {
+      console.warn("expo-audio native player initialization failed, falling back to Web Audio", err);
+      if (typeof window !== "undefined") {
+        this.webAudioEl = new (window as any).Audio();
+      }
     }
   }
 
   async initializeAudio(): Promise<void> {
     try {
-      await setAudioModeAsync({
-        playsInSilentMode: true,
-        interruptionMode: "duckOthers",
-        interruptionModeAndroid: "duckOthers",
-        shouldPlayInBackground: false,
-      });
+      if (Platform.OS !== "web") {
+        await setAudioModeAsync({
+          playsInSilentMode: true,
+          interruptionMode: "duckOthers",
+          interruptionModeAndroid: "duckOthers",
+          shouldPlayInBackground: true,
+        });
+      }
     } catch (error) {
       console.error("Error setting audio mode:", error);
     }
+  }
+
+  /**
+   * Resolve DRM signed stream token if given a story slug
+   */
+  async resolveDrmStreamUrl(storySlug: string, chapterNumber = 1, voice = "adam"): Promise<string> {
+    const apiBase = process.env.EXPO_PUBLIC_API_URL || "http://localhost:5012/api/v1";
+    const tokenUrl = `${apiBase.replace(/\/$/, "")}/stories/slug/${storySlug}/stream-token?chapterNumber=${chapterNumber}&voice=${voice}`;
+    
+    try {
+      const token = await getToken("token");
+      const headers: Record<string, string> = { "Content-Type": "application/json" };
+      if (token) headers["Authorization"] = `Bearer ${token}`;
+
+      const res = await fetch(tokenUrl, { headers });
+      const json = await res.json();
+      if (json.success && json.signedStreamUrl) {
+        return json.signedStreamUrl;
+      }
+    } catch (e) {
+      console.warn("Failed to fetch DRM stream token, falling back to direct stream URL", e);
+    }
+
+    return `${apiBase.replace(/\/$/, "")}/stories/slug/${storySlug}/stream`;
   }
 
   async playAudio(uri: string, onFinish?: () => void, seekPosition = 0): Promise<boolean> {
@@ -65,23 +102,55 @@ export class AudioManager {
 
       this.onAudioFinishCallback = onFinish || null;
 
-      const source: AudioSource = { uri };
-      try { await this.player.seekTo?.(0); } catch {}
-      this.player.replace?.(source);
+      if (this.webAudioEl) {
+        this.webAudioEl.src = uri;
+        if (seekPosition > 0) {
+          this.webAudioEl.currentTime = seekPosition;
+        }
+        await this.webAudioEl.play();
+        this.isPlaying = true;
 
-      if (seekPosition > 0) {
-        try { await this.player.seekTo?.(seekPosition); } catch {}
+        this.webAudioEl.onended = () => {
+          const cb = this.onAudioFinishCallback;
+          this.cleanup();
+          cb?.();
+        };
+
+        this.startPolling();
+        return true;
       }
 
-      this.player.play?.();
-      this.isPlaying = true;
-      this.startPolling();
-      return true;
+      if (this.player) {
+        const source: AudioSource = { uri };
+        try { await this.player.seekTo?.(0); } catch {}
+        this.player.replace?.(source);
+
+        if (seekPosition > 0) {
+          try { await this.player.seekTo?.(seekPosition); } catch {}
+        }
+
+        this.player.play?.();
+        this.isPlaying = true;
+        this.startPolling();
+        return true;
+      }
+
+      return false;
     } catch (error) {
       console.error("Error playing audio:", error);
       this.isPlaying = false;
       return false;
     }
+  }
+
+  async pauseAudio(): Promise<void> {
+    if (this.webAudioEl) {
+      this.webAudioEl.pause();
+    }
+    if (this.player) {
+      this.player.pause?.();
+    }
+    this.isPlaying = false;
   }
 
   async stopAudio(): Promise<void> {
@@ -90,14 +159,24 @@ export class AudioManager {
 
   async seekTo(seconds: number): Promise<void> {
     try {
-      await this.player?.seekTo?.(seconds);
+      if (this.webAudioEl) {
+        this.webAudioEl.currentTime = seconds;
+      }
+      if (this.player) {
+        await this.player.seekTo?.(seconds);
+      }
       this.lastKnownPosition = seconds;
     } catch {}
   }
 
   setRate(rate: number): void {
     try {
-      if (this.player) this.player.rate = rate;
+      if (this.webAudioEl) {
+        this.webAudioEl.playbackRate = rate;
+      }
+      if (this.player) {
+        this.player.rate = rate;
+      }
     } catch {}
   }
 
@@ -115,12 +194,18 @@ export class AudioManager {
 
   private async stopAndCleanup(): Promise<void> {
     this.stopPolling();
+    if (this.webAudioEl) {
+      try {
+        this.webAudioEl.pause();
+        this.webAudioEl.currentTime = 0;
+      } catch {}
+    }
     if (this.player) {
       try {
         this.player.pause?.();
         await this.player.seekTo?.(0);
       } catch (error) {
-        console.error("Error stopping audio:", error);
+        console.error("Error stopping native audio player:", error);
       }
     }
     this.isPlaying = false;
@@ -141,22 +226,33 @@ export class AudioManager {
     this.stopPolling();
     this.pollId = setInterval(async () => {
       try {
-        const status: AudioStatus = await this.player?.getStatus?.();
-        if (status?.didJustFinish) {
-          const cb = this.onAudioFinishCallback;
-          this.cleanup();
-          cb?.();
-        } else if (this.isPlaying && status) {
-          const position = status.position ?? this.lastKnownPosition;
-          const duration = status.duration ?? this.lastKnownDuration;
+        if (this.webAudioEl) {
+          const position = this.webAudioEl.currentTime || 0;
+          const duration = this.webAudioEl.duration || 0;
           this.lastKnownPosition = position;
           this.lastKnownDuration = duration;
           this.statusListeners.forEach((cb) => cb({ position, duration }));
+          return;
+        }
+
+        if (this.player) {
+          const status: AudioStatus = await this.player?.getStatus?.();
+          if (status?.didJustFinish) {
+            const cb = this.onAudioFinishCallback;
+            this.cleanup();
+            cb?.();
+          } else if (this.isPlaying && status) {
+            const position = status.position ?? this.lastKnownPosition;
+            const duration = status.duration ?? this.lastKnownDuration;
+            this.lastKnownPosition = position;
+            this.lastKnownDuration = duration;
+            this.statusListeners.forEach((cb) => cb({ position, duration }));
+          }
         }
       } catch {
         // ignore polling errors
       }
-    }, 400);
+    }, 300);
   }
 
   private stopPolling() {

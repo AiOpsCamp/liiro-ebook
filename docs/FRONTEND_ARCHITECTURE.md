@@ -67,10 +67,11 @@ flowchart TD
   * Added `useGetStreamTokenQuery`, `useSyncWhispersyncPositionMutation`, `useGetWhispersyncPositionQuery`, `useGetStoryRecommendationsQuery`, and `useGetUserLibraryQuery` hooks to `api/storiesQuery.ts`.
 - [x] **Task 3: Desktop Mouse Drag for Carousels**:
   * Attached `useWebHorizontalDrag` hook to horizontal carousels (`ActivityCardRail` and `SectionRail`) in `EbookDashboardContent.tsx`.
-- [ ] **Task 4: Unify Audio Engine under `expo-audio`**:
-  * Replace HTML5 `new Audio()` in `EbookReadContent.tsx` and `details/[slug].tsx` with `AudioManager` (`expo-audio`) for 100% native iOS, Android, and Web compatibility.
-- [ ] **Task 5: Enable Background Audio Playback**:
-  * Configure `shouldPlayInBackground: true` in `AudioManager.ts` and set up mobile OS lockscreen media controls.
+- [x] **Task 4: Unify Audio Engine under `expo-audio` & DRM Stream Resolution**:
+  * Replaced legacy HTML5 `new Audio()` in `EbookReadContent.tsx` and `details/[slug].tsx` with `AudioManager` (`expo-audio` + Web Audio fallback).
+  * Connected voice selector and player controls to auto-resolve 2-hour pre-signed DRM stream tokens (`resolveDrmStreamUrl`) before starting playback.
+- [x] **Task 5: Enable Background Audio Playback**:
+  * Configured `shouldPlayInBackground: true` and `playsInSilentMode: true` in `AudioManager.ts` for native iOS & Android lockscreen background playback.
 - [ ] **Task 6: Modularize Monolithic Components**:
   * Decompose `EbookReadContent.tsx` (3,900 lines) and `EbookDashboardContent.tsx` (2,000 lines) into clean, reusable modular components.
 - [ ] **Task 7: Offline Chapter & Audio Downloader**:
