@@ -87,8 +87,8 @@ export default function BookDetailsScreen() {
   const insets = useSafeAreaInsets();
   const isDark = useSelector(selectIsDark);
   const tokens = useSelector(selectThemeTokens);
-  const { width } = useWindowDimensions();
-  const maxW = Math.min(width, 1200);
+  const { width = 1200 } = useWindowDimensions() || {};
+  const maxW = Math.min(width || 1200, 1200);
 
   const [isResetModalOpen, setIsResetModalOpen] = useState(false);
   const [selectedLang, setSelectedLang] = useState<string>("en");
