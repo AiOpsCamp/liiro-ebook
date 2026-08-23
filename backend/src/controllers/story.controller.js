@@ -1148,3 +1148,118 @@ exports.getWhispersyncPosition = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error retrieving Whispersync position", error: error.message });
   }
 };
+
+// ── HLS Audio Streaming & Transcoding Engine Controllers ─────────────
+
+const HLSTranscoderService = require("../services/hlsTranscoder.service");
+
+exports.getHLSPlaylist = async (req, res) => {
+  try {
+    const { slug, chapterNumber } = req.params;
+    const { voice = "adam" } = req.query;
+    const chNum = parseInt(chapterNumber) || 1;
+
+    const s3PlaylistKey = `Liiro-Ebook-Prod/hls/${slug}/voices/${voice}/chapter_${chNum}/playlist.m3u8`;
+
+    try {
+      const s3Res = await HLSTranscoderService.getHLSFileStream(s3PlaylistKey);
+      res.setHeader("Content-Type", "application/vnd.apple.mpegurl");
+      res.setHeader("Cache-Control", "no-cache, must-revalidate");
+      res.status(200);
+      return s3Res.Body.pipe(res);
+    } catch (e) {
+      // If HLS playlist is missing on S3, trigger dynamic transcoding
+      console.log(`⚠️ HLS Playlist missing on S3 for ${slug} Ch ${chNum}, triggering automatic transcoding...`);
+
+      const story = await Story.findOne({ slug, isPublished: true }).select("_id slug").lean();
+      if (!story) return res.status(404).json({ success: false, message: "Story not found" });
+
+      const chapter = await StoryChapter.findOne({ storyId: story._id, chapterNumber: chNum }).lean();
+      if (!chapter) return res.status(404).json({ success: false, message: "Chapter not found" });
+
+      let sourceAudioUrl = chapter.audioVoices?.[voice] || chapter.audioUrl?.en || chapter.audioUrl;
+      if (!sourceAudioUrl) {
+        sourceAudioUrl = `https://multicamp-prod-storage.nbg1.your-objectstorage.com/Liiro-Ebook-Prod/audio/${slug}/voices/${voice}/chapter_${chNum}.mp3`;
+      }
+
+      await HLSTranscoderService.transcodeAndUploadHLS(sourceAudioUrl, slug, chNum, voice);
+      const s3Res = await HLSTranscoderService.getHLSFileStream(s3PlaylistKey);
+
+      res.setHeader("Content-Type", "application/vnd.apple.mpegurl");
+      res.setHeader("Cache-Control", "no-cache, must-revalidate");
+      res.status(200);
+      return s3Res.Body.pipe(res);
+    }
+  } catch (error) {
+    console.error("Error in getHLSPlaylist:", error);
+    if (!res.headersSent) {
+      res.status(500).json({ success: false, message: "HLS Playlist streaming error", error: error.message });
+    }
+  }
+};
+
+exports.getHLSSegment = async (req, res) => {
+  try {
+    const { slug, chapterNumber, segmentFile } = req.params;
+    const { voice = "adam" } = req.query;
+    const chNum = parseInt(chapterNumber) || 1;
+
+    const s3SegmentKey = `Liiro-Ebook-Prod/hls/${slug}/voices/${voice}/chapter_${chNum}/${segmentFile}`;
+    const s3Res = await HLSTranscoderService.getHLSFileStream(s3SegmentKey);
+
+    res.setHeader("Content-Type", "video/mp2t");
+    res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+    res.status(200);
+    return s3Res.Body.pipe(res);
+  } catch (error) {
+    console.error("Error in getHLSSegment:", error);
+    if (!res.headersSent) {
+      res.status(500).json({ success: false, message: "HLS Segment streaming error", error: error.message });
+    }
+  }
+};
+
+exports.transcodeStoryToHLS = async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const { voice = "adam" } = { ...req.query, ...req.body };
+
+    const story = await Story.findOne({ slug, isPublished: true }).select("_id slug title").lean();
+    if (!story) {
+      return res.status(404).json({ success: false, message: "Story not found" });
+    }
+
+    const chapters = await StoryChapter.find({ storyId: story._id }).sort({ chapterNumber: 1 }).lean();
+    if (!chapters || chapters.length === 0) {
+      return res.status(404).json({ success: false, message: "No chapters found for story" });
+    }
+
+    console.log(`🚀 Triggering batch HLS transcoding for '${story.slug}' (${chapters.length} chapters)...`);
+    const results = [];
+
+    for (const ch of chapters) {
+      const chNum = ch.chapterNumber || 1;
+      let sourceAudioUrl = ch.audioVoices?.[voice] || ch.audioUrl?.en || ch.audioUrl;
+      if (!sourceAudioUrl) {
+        sourceAudioUrl = `https://multicamp-prod-storage.nbg1.your-objectstorage.com/Liiro-Ebook-Prod/audio/${slug}/voices/${voice}/chapter_${chNum}.mp3`;
+      }
+
+      const transcodeResult = await HLSTranscoderService.transcodeAndUploadHLS(sourceAudioUrl, slug, chNum, voice);
+      results.push(transcodeResult);
+    }
+
+    res.status(200).json({
+      success: true,
+      message: `Successfully transcoded ${results.length} chapters to HLS VOD format`,
+      storySlug: story.slug,
+      transcodedChapters: results.map((r) => ({
+        chapterNumber: r.chapterNumber,
+        segmentCount: r.segmentCount,
+        masterUrl: r.masterUrl,
+      })),
+    });
+  } catch (error) {
+    console.error("Error in transcodeStoryToHLS:", error);
+    res.status(500).json({ success: false, message: "HLS Story Transcoding Error", error: error.message });
+  }
+};

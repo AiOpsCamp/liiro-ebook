@@ -36,6 +36,11 @@ router.get("/slug/:slug/stream-token", authMiddleware.optionalAuth, storyControl
 router.post("/slug/:slug/stream-token", authMiddleware.optionalAuth, storyController.getStreamToken);
 router.get("/slug/:slug/stream", storyController.streamAudio);
 
+// Enterprise HLS Audio Streaming & Transcoding Endpoints (.m3u8 & .ts segments)
+router.get("/slug/:slug/hls/:chapterNumber/playlist.m3u8", storyController.getHLSPlaylist);
+router.get("/slug/:slug/hls/:chapterNumber/:segmentFile", storyController.getHLSSegment);
+router.post("/slug/:slug/hls/transcode", authMiddleware, storyController.transcodeStoryToHLS);
+
 // Core Story Routes (Optional Auth so verified JWT user state is attached if token is present)
 router.get("/dashboard", authMiddleware.optionalAuth, storyController.getStoriesDashboard);
 router.get("/", authMiddleware.optionalAuth, storyController.getStories);

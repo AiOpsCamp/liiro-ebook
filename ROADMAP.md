@@ -23,6 +23,7 @@
 - [x] **Standardize Alignment Timestamp Schema**: Updated `run_openai_whisper_alignment.py` to target `liiro_prod` and populate both `startSec`/`endSec` schema standards.
 - [x] **Parameterize Kokoro TTS Script**: Updated `generate_100pct_full_book_audio_kokoro.py` with CLI flags (`--slug`, `--out_dir`, `--mongo_uri`, `--voice`) for dynamic multi-book audio synthesis.
 - [x] **Hetzner S3 Cache Headers**: Enforced `Cache-Control: public, max-age=31536000, immutable` across S3 upload scripts.
+- [x] **Enterprise HLS Audio Streaming & Transcoder Engine**: Built `HLSTranscoderService` (`hlsTranscoder.service.js`) and endpoints for FFmpeg 6-second MPEG-TS audio chunking and `.m3u8` playlist generation.
 
 ### Phase 4: Missing Endpoints & Microservice Cleanup
 - [x] **`GET /api/v1/user/library`**: Created user library endpoint returning active reads, completed stories, and bookmarked books.
