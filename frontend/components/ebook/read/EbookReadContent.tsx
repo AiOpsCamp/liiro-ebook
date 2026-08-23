@@ -1149,8 +1149,10 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
 
   // Clean Payload Text & Strip Redundant Leading Headers
   const paragraphs = useMemo(() => {
-    if (!chapterDetails?.textPayload) return [];
-    const text = chapterDetails.textPayload.replace(/(?<!\n)\n(?!\n)/g, " ");
+    const rawPayload = chapterDetails?.textPayload || chapterDetails?.content;
+    const rawText = getLocalizedText(rawPayload, "", activeLang);
+    if (!rawText) return [];
+    const text = rawText.replace(/(?<!\n)\n(?!\n)/g, " ");
     const rawParas = text.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
 
     const storyTitleClean = (getLocalizedText(story?.title, "", activeLang) || "").toLowerCase().trim();
@@ -1186,7 +1188,7 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
     }
 
     return cleanedParas.length > 0 ? cleanedParas : rawParas;
-  }, [chapterDetails?.textPayload, chapterStub?.title, chapterStub?.chapterNumber, currentChapterIdx, story?.title, activeLang]);
+  }, [chapterDetails?.textPayload, chapterDetails?.content, chapterStub?.title, chapterStub?.chapterNumber, currentChapterIdx, story?.title, activeLang]);
 
   const processedPayload = useMemo(() => {
     return paragraphs.join("\n\n");
