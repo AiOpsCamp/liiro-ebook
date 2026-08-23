@@ -46,14 +46,16 @@ const GUEST_OBJECT_ID = "000000000000000000000000";
 
 function getEffectiveUserId(req) {
   if (!req) return GUEST_OBJECT_ID;
+  // Strictly prioritize verified JWT user state attached by authMiddleware
   if (req.user && (req.user._id || req.user.id)) {
     return (req.user._id || req.user.id).toString();
   }
+  // Allow x-guest-id ONLY for guest reading state, but reject unauthenticated x-user-id header impersonation
   const headers = req.headers || {};
   const query = req.query || {};
-  const headerId = headers["x-guest-id"] || headers["x-user-id"] || query.guestId;
-  if (headerId && /^[0-9a-fA-F]{24}$/.test(headerId.toString())) {
-    return headerId.toString();
+  const guestId = headers["x-guest-id"] || query.guestId;
+  if (guestId && /^[0-9a-fA-F]{24}$/.test(guestId.toString())) {
+    return guestId.toString();
   }
   return GUEST_OBJECT_ID;
 }
@@ -64,7 +66,10 @@ exports.getStoriesDashboard = async (req, res) => {
     const RAIL = 50;
 
     const [allPublished, progressDocs, chapterCounts] = await Promise.all([
-      Story.find({ isPublished: true }).sort({ createdAt: -1 }).lean(),
+      Story.find({ isPublished: true })
+        .select("title slug synopsis coverImageUrl difficultyLevel author totalDurationSeconds isPremium isFeatured featuredRank contentType tags category createdAt")
+        .sort({ createdAt: -1 })
+        .lean(),
       UserStoryProgress.find({ userId }).sort({ lastVisitedAt: -1, lastReadAt: -1 }).lean(),
       StoryChapter.aggregate([
         { $group: { _id: "$storyId", totalChapters: { $sum: 1 } } }
@@ -691,6 +696,201 @@ exports.getBookSeriesBySlug = async (req, res) => {
     res.status(200).json({ success: true, data: formatted });
   } catch (error) {
     console.error("Error in getBookSeriesBySlug:", error);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};
+
+// ── Search & User Library Controller Extensions ───────────────────────
+
+exports.searchStories = async (req, res) => {
+  try {
+    const { q, page = "1", limit = "20" } = req.query;
+    if (!q || typeof q !== "string" || !q.trim()) {
+      return res.status(200).json({ success: true, count: 0, total: 0, data: [] });
+    }
+
+    const queryStr = q.trim();
+    const regex = new RegExp(queryStr, "i");
+    const filter = {
+      isPublished: true,
+      $or: [
+        { title: regex },
+        { author: regex },
+        { category: regex },
+        { synopsis: regex },
+        { tags: regex },
+      ],
+    };
+
+    const pageNum = Math.max(1, parseInt(page));
+    const pageLimit = Math.min(100, parseInt(limit));
+    const skip = (pageNum - 1) * pageLimit;
+
+    const [stories, total] = await Promise.all([
+      Story.find(filter)
+        .select("title slug synopsis coverImageUrl difficultyLevel author totalDurationSeconds isPremium contentType tags category")
+        .skip(skip)
+        .limit(pageLimit)
+        .lean(),
+      Story.countDocuments(filter),
+    ]);
+
+    res.status(200).json({
+      success: true,
+      count: stories.length,
+      total,
+      pagination: { page: pageNum, limit: pageLimit },
+      data: stories,
+    });
+  } catch (error) {
+    console.error("Error in searchStories:", error);
+    res.status(500).json({ success: false, message: "Server error during search" });
+  }
+};
+
+exports.getUserLibrary = async (req, res) => {
+  try {
+    const userId = getEffectiveUserId(req);
+
+    const progressDocs = await UserStoryProgress.find({ userId })
+      .populate({
+        path: "storyId",
+        select: "title slug coverImageUrl author difficultyLevel totalDurationSeconds isPremium contentType category",
+      })
+      .sort({ lastVisitedAt: -1, updatedAt: -1 })
+      .lean();
+
+    const active = progressDocs.filter((p) => p.storyId && !p.isCompleted);
+    const completed = progressDocs.filter((p) => p.storyId && p.isCompleted);
+    const bookmarked = progressDocs.filter((p) => p.storyId && p.isBookmarked);
+
+    res.status(200).json({
+      success: true,
+      data: {
+        active,
+        completed,
+        bookmarked,
+        totalActive: active.length,
+        totalCompleted: completed.length,
+        totalBookmarked: bookmarked.length,
+      },
+    });
+  } catch (error) {
+    console.error("Error in getUserLibrary:", error);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};
+
+exports.getUserBookmarks = async (req, res) => {
+  try {
+    const userId = getEffectiveUserId(req);
+
+    const progressDocs = await UserStoryProgress.find({ userId, isBookmarked: true })
+      .populate({
+        path: "storyId",
+        select: "title slug coverImageUrl author difficultyLevel totalDurationSeconds contentType",
+      })
+      .lean();
+
+    res.status(200).json({
+      success: true,
+      count: progressDocs.length,
+      data: progressDocs,
+    });
+  } catch (error) {
+    console.error("Error in getUserBookmarks:", error);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};
+
+exports.getUserHighlights = async (req, res) => {
+  try {
+    const userId = getEffectiveUserId(req);
+
+    const progressDocs = await UserStoryProgress.find({ userId, "highlights.0": { $exists: true } })
+      .populate({
+        path: "storyId",
+        select: "title slug coverImageUrl author",
+      })
+      .lean();
+
+    const allHighlights = [];
+    progressDocs.forEach((doc) => {
+      if (Array.isArray(doc.highlights)) {
+        doc.highlights.forEach((h) => {
+          allHighlights.push({
+            ...h,
+            story: doc.storyId,
+          });
+        });
+      }
+    });
+
+    res.status(200).json({
+      success: true,
+      count: allHighlights.length,
+      data: allHighlights,
+    });
+  } catch (error) {
+    console.error("Error in getUserHighlights:", error);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};
+
+exports.batchSyncProgress = async (req, res) => {
+  try {
+    const userId = getEffectiveUserId(req);
+    const { items } = req.body;
+
+    if (!Array.isArray(items) || items.length === 0) {
+      return res.status(400).json({ success: false, message: "items must be a non-empty array" });
+    }
+
+    const results = [];
+    for (const item of items) {
+      const { storySlug, chapterId, chapterIndex, paragraphIndex, audioTimeSeconds, lastActivityType, isCompleted } = item;
+      let storyId = item.storyId;
+
+      if (!storyId && storySlug) {
+        const story = await Story.findOne({ slug: storySlug }).select("_id").lean();
+        if (story) storyId = story._id;
+      }
+
+      if (!storyId) continue;
+
+      const updateData = {
+        lastVisitedAt: new Date(),
+        updatedAt: new Date(),
+      };
+
+      if (chapterId) updateData.currentChapterId = chapterId;
+      if (typeof chapterIndex === "number") updateData.lastChapterIndex = chapterIndex;
+      if (typeof paragraphIndex === "number") updateData.lastParagraphIndex = paragraphIndex;
+      if (typeof audioTimeSeconds === "number") {
+        updateData.lastAudioTimeSeconds = audioTimeSeconds;
+        updateData.audioTimestamp = audioTimeSeconds;
+      }
+      if (lastActivityType) updateData.lastActivityType = lastActivityType;
+      if (typeof isCompleted === "boolean") updateData.isCompleted = isCompleted;
+
+      const progress = await UserStoryProgress.findOneAndUpdate(
+        { userId, storyId },
+        {
+          $set: updateData,
+          $addToSet: {
+            ...(chapterId ? { completedChapterIds: chapterId } : {}),
+            ...(typeof chapterIndex === "number" ? { completedChapterIndexes: chapterIndex } : {}),
+          },
+        },
+        { new: true, upsert: true }
+      );
+
+      results.push(progress);
+    }
+
+    res.status(200).json({ success: true, count: results.length, data: results });
+  } catch (error) {
+    console.error("Error in batchSyncProgress:", error);
     res.status(500).json({ success: false, message: "Server Error" });
   }
 };

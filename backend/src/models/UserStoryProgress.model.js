@@ -126,5 +126,8 @@ const userStoryProgressSchema = new mongoose.Schema(
 );
 
 userStoryProgressSchema.index({ userId: 1, storyId: 1 }, { unique: true });
+userStoryProgressSchema.index({ userId: 1, lastVisitedAt: -1 });
+userStoryProgressSchema.index({ userId: 1, lastReadAt: -1 });
+userStoryProgressSchema.index({ userId: 1, isBookmarked: 1 });
 
 module.exports = mongoose.models.UserStoryProgress || mongoose.model("UserStoryProgress", userStoryProgressSchema);

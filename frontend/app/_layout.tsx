@@ -17,7 +17,7 @@ function RootNavigationGuard({ children }: { children: React.ReactNode }) {
   const router = useRouter();
 
   useEffect(() => {
-    if (isLoading) return;
+    if (isLoading || typeof window === "undefined") return;
 
     const isAuthenticated = Boolean(
       user && (user.data || user.email || user.username || user._id || user.id)
@@ -36,14 +36,6 @@ function RootNavigationGuard({ children }: { children: React.ReactNode }) {
       router.replace("/");
     }
   }, [user, isLoading, segments, pathname, router]);
-
-  if (isLoading) {
-    return (
-      <View style={{ flex: 1, backgroundColor: "#080E1A", alignItems: "center", justifyContent: "center" }}>
-        <ActivityIndicator size="large" color="#0EA5E9" />
-      </View>
-    );
-  }
 
   return <>{children}</>;
 }

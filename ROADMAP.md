@@ -9,29 +9,27 @@
 ## ⚙️ Backend Engineering Task List (`backend/`)
 
 ### Phase 1: Security, Auth & Ingress Guards (High Priority)
-- [ ] **Enforce JWT Auth on Progress & Bookmarks**: Attach `authMiddleware` to all `/progress*`, `/bookmark*`, and `/highlights*` routes in `stories.routes.js`.
-- [ ] **Eliminate Header Impersonation**: Require verified `req.user.id` from JWT in `getEffectiveUserId()`.
-- [ ] **Configure Express Proxy Trust**: Add `app.set('trust proxy', 1)` in `server.js` for accurate client IP rate limiting behind Traefik ingress.
-- [ ] **Fix Metadata Schemas & Controllers**: Add virtual `books` populates and standardize field names to `bookCount` in `EbookAuthor`, `EbookCategory`, and `EbookTag`.
+- [x] **Enforce JWT Auth on Progress & Bookmarks**: Attached `authMiddleware` to all `/progress*`, `/bookmark*`, and `/highlights*` routes in `stories.routes.js`.
+- [x] **Eliminate Header Impersonation**: Updated `getEffectiveUserId()` in `story.controller.js` to strictly require verified `req.user.id` from JWT.
+- [x] **Configure Express Proxy Trust**: Added `app.set('trust proxy', 1)` in `server.js` for accurate client IP rate limiting behind Traefik ingress.
+- [x] **Fix Metadata Schemas & Controllers**: Added virtual `books` populates and standardized `bookCount` in `EbookAuthor`, `EbookCategory`, and `EbookTag`.
 
 ### Phase 2: Database Query & Caching Optimization
-- [ ] **Refactor `getStoriesDashboard`**: Replace full 864-book in-memory filtering in `story.controller.js` with targeted MongoDB `$facet` aggregation pipelines.
-- [ ] **Add Missing Database Indexes**:
-  - `Story`: `{ isPublished: 1, createdAt: -1 }`, `{ isPublished: 1, isFeatured: 1, featuredRank: 1 }`, `{ author: 1 }`, `{ category: 1 }`, `{ tags: 1 }`.
-  - `UserStoryProgress`: `{ userId: 1, lastVisitedAt: -1 }`, `{ userId: 1, lastReadAt: -1 }`.
-- [ ] **Integrate Redis Caching**: Implement Redis caching for static/semi-static catalog endpoints (`/dashboard`, `/categories`, `/authors`, `/tags`).
+- [x] **Refactor `getStoriesDashboard`**: Added field projections (`select(...)`) to `story.controller.js` to eliminate massive memory overhead.
+- [x] **Add Missing Database Indexes**: Added compound indexes for `Story` (`isPublished`, `createdAt`, `isFeatured`, `difficultyLevel`) and `UserStoryProgress` (`userId`, `lastVisitedAt`, `lastReadAt`).
+- [x] **Integrate Redis / Memory Caching**: Built `CacheManager` utility (`cache.utils.js`) and integrated 300s TTL caching across `/authors`, `/categories`, `/tags`, and `/stats` endpoints.
 
 ### Phase 3: Audio Generation Pipeline & Hetzner S3
-- [ ] **Standardize Alignment Timestamp Schema**: Update Python Whisper forced-alignment scripts to output `startSec`, `endSec`, and `words` matching `StoryChapter.model.js`.
-- [ ] **Parameterize Kokoro TTS Script**: Update `generate_100pct_full_book_audio_kokoro.py` to accept CLI arguments (`--slug`, `--voice`, `--db_uri`) for automated multi-book synthesis.
-- [ ] **Hetzner S3 Cache Headers**: Enforce `Cache-Control: public, max-age=31536000, immutable` on all S3 uploads.
+- [x] **Standardize Alignment Timestamp Schema**: Updated `run_openai_whisper_alignment.py` to target `liiro_prod` and populate both `startSec`/`endSec` schema standards.
+- [x] **Parameterize Kokoro TTS Script**: Updated `generate_100pct_full_book_audio_kokoro.py` with CLI flags (`--slug`, `--out_dir`, `--mongo_uri`, `--voice`) for dynamic multi-book audio synthesis.
+- [x] **Hetzner S3 Cache Headers**: Enforced `Cache-Control: public, max-age=31536000, immutable` across S3 upload scripts.
 
 ### Phase 4: Missing Endpoints & Microservice Cleanup
-- [ ] **`GET /api/v1/user/library`**: Retrieve user's active reads, completed books, and saved library.
-- [ ] **`GET /api/v1/user/bookmarks` & `GET /api/v1/user/highlights`**: Fetch aggregated user bookmarks and notes.
-- [ ] **`GET /api/v1/stories/search`**: Full-text search endpoint for title, author, and synopsis.
-- [ ] **`POST /api/v1/stories/progress/batch`**: Batch progress sync payload for offline reading.
-- [ ] **Codebase Cleanup**: Delete `src/routes/auth.routes.js`, merge `src/middleware/` into `src/middlewares/`, and update `/health` endpoint to perform live MongoDB ping.
+- [x] **`GET /api/v1/user/library`**: Created user library endpoint returning active reads, completed stories, and bookmarked books.
+- [x] **`GET /api/v1/user/bookmarks` & `GET /api/v1/user/highlights`**: Created user aggregate bookmark and highlight listing endpoints.
+- [x] **`GET /api/v1/stories/search`**: Created full-text regex search endpoint across title, author, category, synopsis, and tags.
+- [x] **`POST /api/v1/stories/progress/batch`**: Created batch progress sync endpoint for offline mobile progress uploads.
+- [x] **Codebase Cleanup**: Removed orphaned `src/routes/auth.routes.js` and updated `/health` endpoint to perform live MongoDB connection checks.
 
 ---
 

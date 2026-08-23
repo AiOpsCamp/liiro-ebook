@@ -33,12 +33,27 @@ const ebookCategorySchema = new mongoose.Schema(
         type: String,
       },
     ],
+    bookCount: {
+      type: Number,
+      default: 0,
+    },
     booksCount: {
       type: Number,
       default: 0,
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
 );
+
+ebookCategorySchema.virtual("books", {
+  ref: "Story",
+  localField: "name",
+  foreignField: "category",
+  justOne: false,
+});
 
 module.exports = mongoose.models.EbookCategory || mongoose.model("EbookCategory", ebookCategorySchema);

@@ -24,12 +24,27 @@ const ebookAuthorSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    bookCount: {
+      type: Number,
+      default: 0,
+    },
     booksCount: {
       type: Number,
       default: 0,
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
 );
+
+ebookAuthorSchema.virtual("books", {
+  ref: "Story",
+  localField: "name",
+  foreignField: "author",
+  justOne: false,
+});
 
 module.exports = mongoose.models.EbookAuthor || mongoose.model("EbookAuthor", ebookAuthorSchema);

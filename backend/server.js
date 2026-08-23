@@ -14,6 +14,9 @@ const authRoutes = require("./src/modules/auth/routes/auth.routes");
 const app = express();
 const PORT = process.env.PORT || 5012;
 
+// Trust reverse proxy ingress (K3s Traefik / Nginx)
+app.set("trust proxy", 1);
+
 // Security & Middleware
 app.use(helmet({ contentSecurityPolicy: false }));
 
@@ -36,56 +39,45 @@ const apiLimiter = rateLimit({
 app.use("/api/", apiLimiter);
 
 // Health Endpoint
-app.get("/health", (req, res) => {
-  res.status(200).json({
-    status: "healthy",
-    service: "liiro-ebook-backend",
-    version: "1.0.0",
-    database: "liiro_prod",
-    timestamp: new Date().toISOString(),
-  });
-});
-
-app.get("/api/v1/health", (req, res) => {
-  res.status(200).json({
-    status: "healthy",
-    service: "liiro-ebook-backend",
-    version: "1.0.0",
-    database: "liiro_prod",
-    timestamp: new Date().toISOString(),
-  });
+app.get("/health", async (req, res) => {
+  try {
+    const isDbConnected = mongoose.connection.readyState === 1;
+    res.status(200).json({
+      status: "healthy",
+      service: "liiro-ebook-backend",
+      version: "1.0.0",
+      database: "liiro_prod",
+      dbConnected: isDbConnected,
+      timestamp: new Date().toISOString(),
+    });
+  } catch (_) {
+    res.status(500).json({ status: "unhealthy", message: "Database connection failed" });
+  }
 });
 
 // API Routes
 app.use("/api/v1/stories", storiesRoutes);
-app.use("/api/v1/ebook-metadata", ebookMetadataRoutes);
+app.use("/api/v1/metadata", ebookMetadataRoutes);
 app.use("/api/v1/auth", authRoutes);
 
-// 404 Handler
+// Global 404 Handler
 app.use((req, res) => {
-  res.status(404).json({ success: false, message: `Route ${req.originalUrl} not found` });
+  res.status(404).json({ success: false, message: "Route not found" });
 });
 
 // Global Error Handler
 app.use((err, req, res, next) => {
-  console.error("Unhandled Error:", err);
-  res.status(500).json({ success: false, message: err.message || "Internal Server Error" });
+  console.error("Unhandled Server Error:", err);
+  res.status(500).json({
+    success: false,
+    message: err.message || "Internal Server Error",
+  });
 });
 
-// Start Server
-async function startServer() {
-  try {
-    await connectDB();
-    app.listen(PORT, () => {
-      console.log(`=========================================================================`);
-      console.log(`🚀 Liiro Ebook Backend Microservice live on http://localhost:${PORT}`);
-      console.log(`📂 Database: liiro_prod`);
-      console.log(`=========================================================================`);
-    });
-  } catch (err) {
-    console.error("❌ Failed to start server:", err);
-    process.exit(1);
-  }
-}
-
-startServer();
+// Connect to Database & Start Server
+const mongoose = require("mongoose");
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`🚀 Liiro Ebook Backend listening on port ${PORT}`);
+  });
+});

@@ -1,23 +1,20 @@
 import os
 import sys
 import json
+import argparse
 import urllib.request
 import soundfile as sf
 import numpy as np
 from kokoro_onnx import Kokoro
 from pymongo import MongoClient
 
-MONGO_URI = os.getenv("MONGO_URL", "mongodb://admin:PROD_PASSWORD_2026@127.0.0.1:27017/langoread_prod?authSource=admin")
-client = MongoClient(MONGO_URI)
-db = client.get_default_database()
+DEFAULT_MONGO_URI = os.getenv("MONGO_URL", "mongodb://admin:PROD_PASSWORD_2026@127.0.0.1:27017/liiro_prod?authSource=admin&directConnection=true")
 
 MODEL_URL = "https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/kokoro-v1.0.onnx"
 VOICES_URL = "https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/voices-v1.0.bin"
 
 MODEL_PATH = "kokoro-v1.0.onnx"
 VOICES_PATH = "voices-v1.0.bin"
-
-OUTPUT_DIR = "/Users/humayunrashid/multicamp/multicamp-frontend/public/audio/the-strange-case-of-dr-jekyll-and-mr-hyde"
 
 VOICES = [
     {"id": "am_adam", "key": "adam", "name": "Adam (US Male)"},
@@ -36,7 +33,6 @@ def download_if_missing(url, path):
         print(f"✅ Downloaded {path}")
 
 def generate_audio_untruncated(kokoro, full_text, voice_id):
-    # Process EVERY SINGLE PARAGRAPH and WORD (100% untruncated!)
     paragraphs = [p.strip() for p in full_text.split("\n") if p.strip()]
     audio_chunks = []
     final_sr = 24000
@@ -58,25 +54,29 @@ def generate_audio_untruncated(kokoro, full_text, voice_id):
         return None, 24000
     return np.concatenate(audio_chunks), final_sr
 
-def generate_100pct_complete_book():
+def generate_100pct_complete_book(slug, out_dir, mongo_uri, target_voice=None):
+    client = MongoClient(mongo_uri)
+    db = client.get_default_database()
+
     download_if_missing(MODEL_URL, MODEL_PATH)
     download_if_missing(VOICES_URL, VOICES_PATH)
 
-    os.makedirs(OUTPUT_DIR, exist_ok=True)
+    book_out_dir = os.path.join(out_dir, slug)
+    os.makedirs(book_out_dir, exist_ok=True)
 
-    slug = "the-strange-case-of-dr-jekyll-and-mr-hyde"
     story = db["stories"].find_one({"slug": slug})
     if not story:
-        print("❌ Story not found:", slug)
+        print("❌ Story not found in DB:", slug)
         sys.exit(1)
 
     chapters = list(db["storychapters"].find({"storyId": story["_id"]}).sort("chapterNumber", 1))
     story_title = story.get('title')
     if isinstance(story_title, dict):
-        story_title = story_title.get('en', 'Dr. Jekyll')
-    print(f"📖 100% UNTRUNCATED AUDIO SYNTHESIS FOR '{story_title}' ({len(chapters)} Chapters)...")
+        story_title = story_title.get('en', slug)
+    print(f"📖 100% UNTRUNCATED KOKORO TTS AUDIO SYNTHESIS FOR '{story_title}' ({len(chapters)} Chapters)...")
 
     kokoro = Kokoro(MODEL_PATH, VOICES_PATH)
+    selected_voices = [v for v in VOICES if not target_voice or v['key'] == target_voice or v['id'] == target_voice]
 
     for ch in chapters:
         ch_num = ch.get("chapterNumber", 1)
@@ -92,9 +92,9 @@ def generate_100pct_complete_book():
         word_count = len(full_chapter_text.split())
         print(f"\n🎧 [Chapter {ch_num}] {raw_title} ({text_len:,} chars | {word_count:,} words)...")
 
-        for v in VOICES:
-            out_wav = os.path.join(OUTPUT_DIR, f"voice_{v['key']}_chapter_{ch_num}.wav")
-            out_mp3 = os.path.join(OUTPUT_DIR, f"voice_{v['key']}_chapter_{ch_num}.mp3")
+        for v in selected_voices:
+            out_wav = os.path.join(book_out_dir, f"voice_{v['key']}_chapter_{ch_num}.wav")
+            out_mp3 = os.path.join(book_out_dir, f"voice_{v['key']}_chapter_{ch_num}.mp3")
 
             samples, sr = generate_audio_untruncated(kokoro, full_chapter_text, v['id'])
             if samples is not None:
@@ -106,8 +106,16 @@ def generate_100pct_complete_book():
                 print(f"   ✅ {v['name']}: voice_{v['key']}_chapter_{ch_num}.mp3 ({dur_sec/60:.2f} mins / {int(dur_sec)}s)")
 
     print("\n==================================================")
-    print("🎉 100% UNTRUNCATED FULL CHAPTER AUDIO SYNTHESIS COMPLETE!")
+    print("🎉 100% UNTRUNCATED KOKORO TTS SYNTHESIS COMPLETE!")
+    print(f"📁 Output files saved to: {book_out_dir}")
     print("==================================================")
 
 if __name__ == "__main__":
-    generate_100pct_complete_book()
+    parser = argparse.ArgumentParser(description="Parameterized Kokoro TTS Audio Generator for Liiro Ebooks")
+    parser.add_argument("--slug", type=str, default="the-strange-case-of-dr-jekyll-and-mr-hyde", help="Story slug")
+    parser.add_argument("--out_dir", type=str, default="./audio_output", help="Output directory for generated audio")
+    parser.add_argument("--mongo_uri", type=str, default=DEFAULT_MONGO_URI, help="MongoDB connection URI")
+    parser.add_argument("--voice", type=str, default=None, help="Target voice key (adam, heart, emma, george)")
+    args = parser.parse_args()
+
+    generate_100pct_complete_book(args.slug, args.out_dir, args.mongo_uri, args.voice)

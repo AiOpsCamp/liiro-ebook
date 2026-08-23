@@ -104,7 +104,12 @@ const storySchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+storySchema.index({ isPublished: 1, createdAt: -1 });
+storySchema.index({ isPublished: 1, isFeatured: 1, featuredRank: 1 });
 storySchema.index({ isPublished: 1, difficultyLevel: 1 });
 storySchema.index({ category: 1 });
+storySchema.index({ author: 1 });
+storySchema.index({ tags: 1 });
+storySchema.index({ title: "text", synopsis: "text" });
 
 module.exports = mongoose.models.Story || mongoose.model("Story", storySchema);
