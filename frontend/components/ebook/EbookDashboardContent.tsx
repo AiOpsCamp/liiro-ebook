@@ -532,154 +532,155 @@ const EbookDashboardContent: React.FC<Props> = ({
             </View>
           </Pressable>
 
-          {/* Navigation Tabs (Single Row) */}
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            style={{ flex: 1 }}
-            contentContainerStyle={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "flex-end",
-              padding: 4,
-              borderRadius: 100,
-              backgroundColor: isDark ? "rgba(255,255,255,0.06)" : "rgba(15,23,42,0.05)",
-              borderWidth: 1,
-              borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)",
-              gap: 4,
-            }}
-          >
-            <Pressable
-              onPress={() => setActiveNavTab("home")}
-              style={{
+          {/* Navigation Tabs Container */}
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 10, flex: 1, justifyContent: "flex-end" }}>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              style={{ flexShrink: 1 }}
+              contentContainerStyle={{
                 flexDirection: "row",
                 alignItems: "center",
-                paddingHorizontal: 14,
-                paddingVertical: 7,
+                padding: 4,
                 borderRadius: 100,
-                backgroundColor: activeNavTab === "home" ? accentColor : "transparent",
-                gap: 6,
+                backgroundColor: isDark ? "rgba(255,255,255,0.06)" : "rgba(15,23,42,0.05)",
+                borderWidth: 1,
+                borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)",
+                gap: 4,
               }}
             >
-              <Home size={13} color={activeNavTab === "home" ? "#FFFFFF" : textSubColor} />
-              <Text weight="SemiBold" style={{ fontSize: 12.5, color: activeNavTab === "home" ? "#FFFFFF" : textColor }}>
-                Home
-              </Text>
-            </Pressable>
+              <Pressable
+                onPress={() => setActiveNavTab("home")}
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  paddingHorizontal: 14,
+                  paddingVertical: 7,
+                  borderRadius: 100,
+                  backgroundColor: activeNavTab === "home" ? accentColor : "transparent",
+                  gap: 6,
+                }}
+              >
+                <Home size={13} color={activeNavTab === "home" ? "#FFFFFF" : textSubColor} />
+                <Text weight="SemiBold" style={{ fontSize: 12.5, color: activeNavTab === "home" ? "#FFFFFF" : textColor }}>
+                  Home
+                </Text>
+              </Pressable>
 
-            <Pressable
-              onPress={() => setActiveNavTab("authors")}
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                paddingHorizontal: 14,
-                paddingVertical: 7,
-                borderRadius: 100,
-                backgroundColor: activeNavTab === "authors" ? accentColor : "transparent",
-                gap: 6,
-              }}
-            >
-              <Users size={13} color={activeNavTab === "authors" ? "#FFFFFF" : textSubColor} />
-              <Text weight="SemiBold" style={{ fontSize: 12.5, color: activeNavTab === "authors" ? "#FFFFFF" : textColor }}>
-                Authors ({authorsData.length})
-              </Text>
-            </Pressable>
+              <Pressable
+                onPress={() => setActiveNavTab("authors")}
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  paddingHorizontal: 14,
+                  paddingVertical: 7,
+                  borderRadius: 100,
+                  backgroundColor: activeNavTab === "authors" ? accentColor : "transparent",
+                  gap: 6,
+                }}
+              >
+                <Users size={13} color={activeNavTab === "authors" ? "#FFFFFF" : textSubColor} />
+                <Text weight="SemiBold" style={{ fontSize: 12.5, color: activeNavTab === "authors" ? "#FFFFFF" : textColor }}>
+                  Authors ({authorsData.length})
+                </Text>
+              </Pressable>
 
-            <Pressable
-              onPress={() => setActiveNavTab("categories")}
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                paddingHorizontal: 14,
-                paddingVertical: 7,
-                borderRadius: 100,
-                backgroundColor: activeNavTab === "categories" ? accentColor : "transparent",
-                gap: 6,
-              }}
-            >
-              <FolderGit2 size={13} color={activeNavTab === "categories" ? "#FFFFFF" : textSubColor} />
-              <Text weight="SemiBold" style={{ fontSize: 12.5, color: activeNavTab === "categories" ? "#FFFFFF" : textColor }}>
-                Categories ({categoriesData.length})
-              </Text>
-            </Pressable>
+              <Pressable
+                onPress={() => setActiveNavTab("categories")}
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  paddingHorizontal: 14,
+                  paddingVertical: 7,
+                  borderRadius: 100,
+                  backgroundColor: activeNavTab === "categories" ? accentColor : "transparent",
+                  gap: 6,
+                }}
+              >
+                <FolderGit2 size={13} color={activeNavTab === "categories" ? "#FFFFFF" : textSubColor} />
+                <Text weight="SemiBold" style={{ fontSize: 12.5, color: activeNavTab === "categories" ? "#FFFFFF" : textColor }}>
+                  Categories ({categoriesData.length})
+                </Text>
+              </Pressable>
 
-            <Pressable
-              onPress={() => setActiveNavTab("tags")}
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                paddingHorizontal: 14,
-                paddingVertical: 7,
-                borderRadius: 100,
-                backgroundColor: activeNavTab === "tags" ? accentColor : "transparent",
-                gap: 6,
-              }}
-            >
-              <Tag size={13} color={activeNavTab === "tags" ? "#FFFFFF" : textSubColor} />
-              <Text weight="SemiBold" style={{ fontSize: 12.5, color: activeNavTab === "tags" ? "#FFFFFF" : textColor }}>
-                Tags ({tagsData.length})
-              </Text>
-            </Pressable>
+              <Pressable
+                onPress={() => setActiveNavTab("tags")}
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  paddingHorizontal: 14,
+                  paddingVertical: 7,
+                  borderRadius: 100,
+                  backgroundColor: activeNavTab === "tags" ? accentColor : "transparent",
+                  gap: 6,
+                }}
+              >
+                <Tag size={13} color={activeNavTab === "tags" ? "#FFFFFF" : textSubColor} />
+                <Text weight="SemiBold" style={{ fontSize: 12.5, color: activeNavTab === "tags" ? "#FFFFFF" : textColor }}>
+                  Tags ({tagsData.length})
+                </Text>
+              </Pressable>
 
-            <Pressable
-              onPress={() => setActiveNavTab("top100")}
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                paddingHorizontal: 14,
-                paddingVertical: 7,
-                borderRadius: 100,
-                backgroundColor: activeNavTab === "top100" ? "#F59E0B" : "transparent",
-                gap: 6,
-              }}
-            >
-              <Sparkles size={13} color={activeNavTab === "top100" ? "#FFFFFF" : "#F59E0B"} />
-              <Text weight="Bold" style={{ fontSize: 12.5, color: activeNavTab === "top100" ? "#FFFFFF" : textColor }}>
-                Top 100 Picks ⭐
-              </Text>
-            </Pressable>
+              <Pressable
+                onPress={() => setActiveNavTab("top100")}
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  paddingHorizontal: 14,
+                  paddingVertical: 7,
+                  borderRadius: 100,
+                  backgroundColor: activeNavTab === "top100" ? "#F59E0B" : "transparent",
+                  gap: 6,
+                }}
+              >
+                <Sparkles size={13} color={activeNavTab === "top100" ? "#FFFFFF" : "#F59E0B"} />
+                <Text weight="Bold" style={{ fontSize: 12.5, color: activeNavTab === "top100" ? "#FFFFFF" : textColor }}>
+                  Top 100 Picks ⭐
+                </Text>
+              </Pressable>
 
-            <Pressable
-              onPress={() => setActiveNavTab("series")}
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                paddingHorizontal: 14,
-                paddingVertical: 7,
-                borderRadius: 100,
-                backgroundColor: activeNavTab === "series" ? "#8B5CF6" : "transparent",
-                gap: 6,
-              }}
-            >
-              <Layers size={13} color={activeNavTab === "series" ? "#FFFFFF" : "#8B5CF6"} />
-              <Text weight="Bold" style={{ fontSize: 12.5, color: activeNavTab === "series" ? "#FFFFFF" : textColor }}>
-                Book Series ({seriesData.length}) 📚
-              </Text>
-            </Pressable>
+              <Pressable
+                onPress={() => setActiveNavTab("series")}
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  paddingHorizontal: 14,
+                  paddingVertical: 7,
+                  borderRadius: 100,
+                  backgroundColor: activeNavTab === "series" ? "#8B5CF6" : "transparent",
+                  gap: 6,
+                }}
+              >
+                <Layers size={13} color={activeNavTab === "series" ? "#FFFFFF" : "#8B5CF6"} />
+                <Text weight="Bold" style={{ fontSize: 12.5, color: activeNavTab === "series" ? "#FFFFFF" : textColor }}>
+                  Book Series ({seriesData.length}) 📚
+                </Text>
+              </Pressable>
 
-            <Pressable
-              onPress={() => router.push("/ebook/explore")}
-              style={({ pressed }) => ({
-                flexDirection: "row",
-                alignItems: "center",
-                paddingHorizontal: 14,
-                paddingVertical: 7,
-                borderRadius: 100,
-                backgroundColor: "transparent",
-                gap: 6,
-                opacity: pressed ? 0.6 : 1,
-              })}
-            >
-              <Compass size={13} color={accentColor} />
-              <Text weight="Bold" style={{ fontSize: 12.5, color: accentColor }}>
-                Explore All
-              </Text>
-              <ChevronRight size={13} color={accentColor} />
-            </Pressable>
+              <Pressable
+                onPress={() => router.push("/ebook/explore")}
+                style={({ pressed }) => ({
+                  flexDirection: "row",
+                  alignItems: "center",
+                  paddingHorizontal: 14,
+                  paddingVertical: 7,
+                  borderRadius: 100,
+                  backgroundColor: "transparent",
+                  gap: 6,
+                  opacity: pressed ? 0.6 : 1,
+                })}
+              >
+                <Compass size={13} color={accentColor} />
+                <Text weight="Bold" style={{ fontSize: 12.5, color: accentColor }}>
+                  Explore All
+                </Text>
+                <ChevronRight size={13} color={accentColor} />
+              </Pressable>
+            </ScrollView>
 
-            {/* Profile Avatar Menu */}
+            {/* Pinned Profile Avatar Menu (Never Clipped) */}
             <ProfileNavbarMenu />
-          </ScrollView>
+          </View>
         </Animated.View>
 
         {activeNavTab === "authors" ? (
