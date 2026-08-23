@@ -106,10 +106,11 @@ export default function AuthorDetailScreen() {
       </View>
 
       <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={{ width: "100%", maxWidth: maxW, flex: 1, alignSelf: "center" }}
+        showsVerticalScrollIndicator={true}
+        style={{ flex: 1, width: "100%", height: "100%" }}
         contentContainerStyle={{ paddingHorizontal: 20, paddingTop: 20, paddingBottom: 60 }}
       >
+        <View style={{ width: "100%", maxWidth: maxW, alignSelf: "center" }}>
         {isLoading ? (
           <View style={{ paddingVertical: 80, alignItems: "center" }}>
             <ActivityIndicator size="large" color={accentColor} />
@@ -221,6 +222,7 @@ export default function AuthorDetailScreen() {
             </Text>
           </View>
         )}
+        </View>
       </ScrollView>
     </View>
   );

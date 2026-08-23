@@ -277,14 +277,15 @@ export default function BookDetailsScreen() {
   const HERO_HEIGHT = Math.min(420, width * 0.95);
 
   return (
-    <View style={{ flex: 1, width: "100%", backgroundColor: bgColor }}>
+    <View style={{ flex: 1, width: "100%", height: "100%", backgroundColor: bgColor }}>
       <Stack.Screen options={{ headerShown: false }} />
 
       <ScrollView
-        style={{ flex: 1, width: "100%", maxWidth: maxW, alignSelf: "center" }}
+        style={{ flex: 1, width: "100%", height: "100%" }}
         showsVerticalScrollIndicator={true}
         contentContainerStyle={{ paddingBottom: insets.bottom + 60 }}
       >
+        <View style={{ width: "100%", maxWidth: maxW, alignSelf: "center" }}>
         {/* ── CINEMATIC HERO ───────────────────────────── */}
         <View style={{ height: HERO_HEIGHT, overflow: "hidden", position: "relative" }}>
           {/* Blurred backdrop */}
@@ -811,7 +812,7 @@ export default function BookDetailsScreen() {
               </Pressable>
             )}
           </View>
-
+        </View>
         </View>
       </ScrollView>
 

@@ -459,15 +459,16 @@ const EbookDashboardContent: React.FC<Props> = ({
   ];
 
   return (
-    <View style={{ flex: 1, backgroundColor: surfaceBg, alignItems: "center" }}>
+    <View style={{ flex: 1, width: "100%", height: "100%", backgroundColor: surfaceBg }}>
       <ScrollView
         showsVerticalScrollIndicator={true}
-        style={{ width: "100%", maxWidth: maxW }}
+        style={{ flex: 1, width: "100%", height: "100%" }}
         contentContainerStyle={{
           paddingTop: Math.max((safeInsets?.top ?? 0) + 4, 12),
           paddingBottom: Math.max((safeInsets?.bottom ?? 0) + 48, 56),
         }}
       >
+        <View style={{ width: "100%", maxWidth: maxW, alignSelf: "center" }}>
         {/* ── 1. Professional Nav Bar ─────────────────────────────────── */}
         <Animated.View
           entering={FadeInUp.duration(350)}
@@ -1969,6 +1970,7 @@ const EbookDashboardContent: React.FC<Props> = ({
         )}
         </View>
         )}
+        </View>
       </ScrollView>
     </View>
   );

@@ -42,7 +42,7 @@ export default function EbookDashboardScreen() {
   );
 
   return (
-    <View style={{ flex: 1, width: "100%", height: "100%", backgroundColor: tokens?.bg || "#0f172a", overflow: "hidden" }}>
+    <View style={{ flex: 1, width: "100%", height: "100%", backgroundColor: tokens?.bg || "#0f172a" }}>
       <StatusBar style={isDark ? "light" : "dark"} />
 
       <EbookDashboardContent

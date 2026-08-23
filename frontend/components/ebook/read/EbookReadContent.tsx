@@ -1385,7 +1385,7 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
   if (!chapterStub) return null;
 
   return (
-    <View style={{ backgroundColor: bg, flex: 1, width: "100%", height: "100%", overflow: "hidden" }}>
+    <View style={{ backgroundColor: bg, flex: 1, width: "100%", height: "100%" }}>
       {/* ── Floating Top Bar Navigation ────────────── */}
       <Animated.View
         className="shadow-sm"

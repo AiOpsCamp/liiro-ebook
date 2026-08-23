@@ -14,7 +14,7 @@ export default function RootLayout() {
     <Provider store={store}>
       <GlobalProvider>
         <AlertProvider>
-          <GestureHandlerRootView style={{ flex: 1 }}>
+          <GestureHandlerRootView style={{ flex: 1, width: "100%", height: "100%" }}>
             <SafeAreaProvider>
               <StatusBar style="light" />
               <Stack
