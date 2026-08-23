@@ -1312,3 +1312,20 @@ exports.getPersonalizedRecommendations = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error generating personalized recommendations", error: error.message });
   }
 };
+
+// ── Background Queue Worker Status Controller ──────────────────────
+
+const audioQueue = require("../queues/audioQueue");
+
+exports.getQueueStatus = async (req, res) => {
+  try {
+    const status = audioQueue.getQueueStatus();
+    res.status(200).json({
+      success: true,
+      data: status,
+    });
+  } catch (error) {
+    console.error("Error in getQueueStatus:", error);
+    res.status(500).json({ success: false, message: "Server error retrieving queue status", error: error.message });
+  }
+};

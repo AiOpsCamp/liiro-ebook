@@ -86,7 +86,15 @@
 
 ---
 
-### ⚡ 1.8 Database Optimization & Caching Layer
+### ⚡ 1.8 Background Audio Queue Worker Infrastructure
+- **Queue Manager** ([`src/queues/audioQueue.js`](file:///Users/humayunrashid/multicamp/liiro-ebook/backend/src/queues/audioQueue.js)):
+  - Asynchronous background queue engine processing Kokoro TTS generation, OpenAI Whisper alignments, and FFmpeg HLS transcoding tasks.
+- **Endpoints**:
+  - `GET /api/v1/stories/queue/status` (Protected JWT auth required).
+
+---
+
+### ⚡ 1.9 Database Optimization & Caching Layer
 - **Field Projections & Indexes** ([`src/models/Story.model.js`](file:///Users/humayunrashid/multicamp/liiro-ebook/backend/src/models/Story.model.js)):
   - Refactored `getStoriesDashboard` with `.select(...)` to eliminate massive memory overhead.
   - Added compound indexes: `{ isPublished: 1, createdAt: -1 }`, `{ isPublished: 1, isFeatured: 1, featuredRank: 1 }`, `{ userId: 1, lastVisitedAt: -1 }`.

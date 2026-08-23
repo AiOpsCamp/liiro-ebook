@@ -45,6 +45,9 @@ router.post("/slug/:slug/hls/transcode", authMiddleware, storyController.transco
 router.get("/recommendations/personalized", authMiddleware.optionalAuth, storyController.getPersonalizedRecommendations);
 router.get("/slug/:slug/recommendations", storyController.getStoryRecommendations);
 
+// Background Queue Worker Status Endpoint
+router.get("/queue/status", authMiddleware, storyController.getQueueStatus);
+
 // Core Story Routes (Optional Auth so verified JWT user state is attached if token is present)
 router.get("/dashboard", authMiddleware.optionalAuth, storyController.getStoriesDashboard);
 router.get("/", authMiddleware.optionalAuth, storyController.getStories);
