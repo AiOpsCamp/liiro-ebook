@@ -484,27 +484,52 @@ const EbookDashboardContent: React.FC<Props> = ({
             gap: 12,
           }}
         >
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-            <Pressable
-              onPress={handleBack}
-              style={({ pressed }) => ({
-                width: 38,
-                height: 38,
-                borderRadius: 19,
+          {/* ── Liiro Branding Logo ────────────────────────── */}
+          <Pressable
+            onPress={() => router.push("/")}
+            style={({ pressed }) => ({
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 10,
+              opacity: pressed ? 0.8 : 1,
+            })}
+            accessibilityLabel="Liiro Ebook Home"
+          >
+            <LinearGradient
+              colors={["#0EA5E9", "#6366F1"]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={{
+                width: 36,
+                height: 36,
+                borderRadius: 10,
                 alignItems: "center",
                 justifyContent: "center",
-                backgroundColor: isDark ? "rgba(255,255,255,0.07)" : "rgba(15,23,42,0.06)",
-                opacity: pressed ? 0.6 : 1,
-              })}
-              accessibilityLabel="Go back"
+              }}
             >
-              <ArrowLeft size={17} color={textColor} />
-            </Pressable>
+              <BookOpen size={19} color="#FFFFFF" strokeWidth={2.5} />
+            </LinearGradient>
 
-            <Text weight="Bold" style={{ fontSize: 18, color: textColor, letterSpacing: -0.4 }}>
-              LangoReads
-            </Text>
-          </View>
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
+              <Text weight="Bold" style={{ fontSize: 22, color: textColor, letterSpacing: -0.6 }}>
+                Liiro
+              </Text>
+              <View
+                style={{
+                  paddingHorizontal: 7,
+                  paddingVertical: 2,
+                  borderRadius: 6,
+                  backgroundColor: isDark ? "rgba(14, 165, 233, 0.15)" : "rgba(14, 165, 233, 0.10)",
+                  borderWidth: 1,
+                  borderColor: "rgba(14, 165, 233, 0.3)",
+                }}
+              >
+                <Text weight="Bold" style={{ fontSize: 10, color: "#0EA5E9", letterSpacing: 0.5 }}>
+                  EBOOK
+                </Text>
+              </View>
+            </View>
+          </Pressable>
 
           {/* Navigation Tabs */}
           <View
