@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  liiro-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: liiro-ebook-backend
+    ports:
+      - "5012:5012"
+    environment:
+      - PORT=5012
+      - NODE_ENV=production
+      - MONGO_URL=mongodb://mongo:27017/liiro_prod
+    depends_on:
+      - mongo
+    restart: unless-stopped
+
+  mongo:
+    image: mongo:6
+    container_name: liiro-ebook-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - liiro_mongo_data:/data/db
+    restart: unless-stopped
+
+volumes:
+  liiro_mongo_data:

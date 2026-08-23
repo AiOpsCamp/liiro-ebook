@@ -1,0 +1,12 @@
+[
+  {
+    "questionType": "mcq",
+    "total": 5,
+    "correct": 3
+  },
+  {
+    "questionType": "True False",
+    "total": 5,
+    "correct": 3
+  }
+]

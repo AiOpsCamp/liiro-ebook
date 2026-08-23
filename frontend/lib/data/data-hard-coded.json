@@ -1,0 +1,672 @@
+{
+  "courseLanguage": {
+    "name": "swedish",
+    "iso": "sv"
+  },
+  "userLanguage": {
+    "name": "english",
+    "iso": "en"
+  },
+  "userDefaultLanguage": {
+    "name": "swedish",
+    "iso": "sv"
+  },
+  "metadata": {
+    "limit": 10,
+    "returned": 9,
+    "totalAvailable": 32,
+    "strategy": "langowords_pack_session_srs_learnflow_v1",
+    "packSlug": "public-transport",
+    "pack": {
+      "name": "Public transport",
+      "topic": "Public transport",
+      "description": "Common terms used to describe public transport (bus, train, taxi).",
+      "status": "published",
+      "level": "beginner",
+      "category": "Transport",
+      "subcategory": "Public transport",
+      "slug": "public-transport",
+      "image_url": "https://res.cloudinary.com/dndwns70m/image/upload/v1729188831/lingocamp/public_transport_%28bus%2C_train%2C_taxi%29.jpg",
+      "free_access": true,
+      "isEnrolled": true,
+      "user_language": "english",
+      "default_language": "swedish",
+      "access": {
+        "free": true,
+        "premium": false
+      },
+      "exampleFilter": {
+        "mode": "default",
+        "maxExamples": 3,
+        "highlight": false
+      },
+      "pricingDetails": {
+        "_id": "6812ae7a2ec1937a4da415b0",
+        "stripeProductId": "prod_SECCyWDBgggnR4",
+        "stripePriceId": "price_1RJjoEDsBAw0JU7D1Hbi2Cgm",
+        "platform": {
+          "algocodecamp": false,
+          "lingoCamp": true,
+          "languagePackId": "67b9a4c255120aa362dda4e5",
+          "languageName": "Swedish"
+        }
+      },
+      "progress": {
+        "totalTerms": 32,
+        "totalLearned": 0,
+        "totalFavorites": 0,
+        "totalReviews": 0
+      },
+      "isCompleted": false,
+      "completedManually": false
+    }
+  },
+  "flatTerms": [
+    {
+      "id": "671153e29037c6d2d830fce9",
+      "slug": "aisle",
+      "term": "Aisle",
+      "definition": "Gång",
+      "examples": [
+        {
+          "sentence": "The aisle is narrow in the bus.",
+          "meaning": "Gången är smal i bussen.",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/public-transport/sv/the-aisle-is-narrow-in-the-bus-sv.mp3"
+        },
+        {
+          "sentence": "Which aisle has the bread?",
+          "meaning": "Which aisle has the bread?",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/public-transport/sv/which-aisle-has-the-bread-sv.mp3"
+        },
+        {
+          "sentence": "The bread is in aisle five.",
+          "meaning": "The bread is in aisle five.",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/public-transport/sv/the-bread-is-in-aisle-five-sv.mp3"
+        }
+      ],
+      "image": "http://res.cloudinary.com/dndwns70m/image/upload/v1729188833/lingocamp/aisle.jpg",
+      "type": "N/A",
+      "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/public-transport/sv/aisle-sv.mp3",
+      "progress": {
+        "confidence": 0,
+        "worstConfidence": 0,
+        "favorite": false,
+        "markedForReview": false,
+        "isLearned": false,
+        "firstSeenAt": "2025-10-03T14:54:12.139Z",
+        "lastPractisedAt": "2025-10-03T14:54:12.139Z",
+        "lastChangedAt": "2025-10-03T14:54:12.139Z",
+        "exposures": 0,
+        "timesSeen": 0,
+        "correctCount": 0,
+        "incorrectCount": 0,
+        "memoryScore": 0,
+        "nextReviewAt": null,
+        "memoryStrength": 0,
+        "predictedForgettingDate": null,
+        "difficultyIndex": 0.7
+      },
+      "packSlugs": ["public-transport"],
+      "packSlug": "public-transport"
+    },
+    {
+      "id": "671152fb9037c6d2d82f8403",
+      "slug": "arrival",
+      "term": "Arrival",
+      "definition": "Ankomst",
+      "examples": [
+        {
+          "sentence": "The arrival is at 14:20.",
+          "meaning": "Ankomsten är klockan 14:20.",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/public-transport/sv/the-arrival-is-at-1420-sv.mp3"
+        },
+        {
+          "sentence": "Arrival time is at 6 pm.",
+          "meaning": "Arrival time is at 6 pm.",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/public-transport/sv/arrival-time-is-at-6-pm-sv.mp3"
+        },
+        {
+          "sentence": "The arrival is on time.",
+          "meaning": "The arrival is on time.",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/public-transport/sv/the-arrival-is-on-time-sv.mp3"
+        }
+      ],
+      "image": "http://res.cloudinary.com/dndwns70m/image/upload/v1725375897/lingocamp/arrival.jpg",
+      "type": "N/A",
+      "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/public-transport/sv/arrival-sv.mp3",
+      "progress": {
+        "confidence": 0,
+        "worstConfidence": 0,
+        "favorite": false,
+        "markedForReview": false,
+        "isLearned": false,
+        "firstSeenAt": "2025-10-03T14:54:12.139Z",
+        "lastPractisedAt": "2025-10-03T14:54:12.139Z",
+        "lastChangedAt": "2025-10-03T14:54:12.139Z",
+        "exposures": 0,
+        "timesSeen": 0,
+        "correctCount": 0,
+        "incorrectCount": 0,
+        "memoryScore": 0,
+        "nextReviewAt": null,
+        "memoryStrength": 0,
+        "predictedForgettingDate": null,
+        "difficultyIndex": 0.7
+      },
+      "packSlugs": ["public-transport"],
+      "packSlug": "public-transport"
+    },
+    {
+      "id": "671153e69037c6d2d8310219",
+      "slug": "bus",
+      "term": "Bus",
+      "definition": "Buss",
+      "examples": [
+        {
+          "sentence": "The aisle is narrow in the bus.",
+          "meaning": "Gången är smal i bussen.",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/public-transport/sv/the-aisle-is-narrow-in-the-bus-sv.mp3"
+        },
+        {
+          "sentence": "They almost missed the bus.",
+          "meaning": "De saknade nästan bussen.",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/public-transport/sv/they-almost-missed-the-bus-sv.mp3"
+        },
+        {
+          "sentence": "The bus arrives on schedule.",
+          "meaning": "Bussen anländer enligt schemat.",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/public-transport/sv/the-bus-arrives-on-schedule-sv.mp3"
+        }
+      ],
+      "image": "http://res.cloudinary.com/dndwns70m/image/upload/v1725375598/lingocamp/bus.jpg",
+      "type": "N/A",
+      "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/public-transport/sv/bus-sv.mp3",
+      "progress": {
+        "confidence": 0,
+        "worstConfidence": 0,
+        "favorite": false,
+        "markedForReview": false,
+        "isLearned": false,
+        "firstSeenAt": "2025-10-03T14:54:12.139Z",
+        "lastPractisedAt": "2025-10-03T14:54:12.139Z",
+        "lastChangedAt": "2025-10-03T14:54:12.139Z",
+        "exposures": 0,
+        "timesSeen": 0,
+        "correctCount": 0,
+        "incorrectCount": 0,
+        "memoryScore": 0,
+        "nextReviewAt": null,
+        "memoryStrength": 0,
+        "predictedForgettingDate": null,
+        "difficultyIndex": 0.7
+      },
+      "packSlugs": ["public-transport"],
+      "packSlug": "public-transport"
+    },
+    {
+      "id": "671153ea9037c6d2d8310910",
+      "slug": "conductor",
+      "term": "Conductor",
+      "definition": "Dirigent",
+      "examples": [
+        {
+          "sentence": "The conductor checks the tickets.",
+          "meaning": "Konduktören kontrollerar biljetterna.",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/public-transport/sv/the-conductor-checks-the-tickets-sv.mp3"
+        },
+        {
+          "sentence": "Current flows through the conductor.",
+          "meaning": "Ström flyter genom ledaren.",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/public-transport/sv/current-flows-through-the-conductor-sv.mp3"
+        }
+      ],
+      "image": "http://res.cloudinary.com/dndwns70m/image/upload/v1725376691/lingocamp/conductor.jpg",
+      "type": "N/A",
+      "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/public-transport/sv/conductor-sv.mp3",
+      "progress": {
+        "confidence": 0,
+        "worstConfidence": 0,
+        "favorite": false,
+        "markedForReview": false,
+        "isLearned": false,
+        "firstSeenAt": "2025-10-03T14:54:12.139Z",
+        "lastPractisedAt": "2025-10-03T14:54:12.139Z",
+        "lastChangedAt": "2025-10-03T14:54:12.139Z",
+        "exposures": 0,
+        "timesSeen": 0,
+        "correctCount": 0,
+        "incorrectCount": 0,
+        "memoryScore": 0,
+        "nextReviewAt": null,
+        "memoryStrength": 0,
+        "predictedForgettingDate": null,
+        "difficultyIndex": 0.7
+      },
+      "packSlugs": ["public-transport"],
+      "packSlug": "public-transport"
+    },
+    {
+      "id": "671153119037c6d2d82f9fe1",
+      "slug": "departure",
+      "term": "Departure",
+      "definition": "Avresa",
+      "examples": [
+        {
+          "sentence": "Check-in starts two hours before departure.",
+          "meaning": "Incheckningen startar två timmar före avresan.",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/public-transport/sv/check-in-starts-two-hours-before-departure-sv.mp3"
+        },
+        {
+          "sentence": "Departure time is at 10 am.",
+          "meaning": "Avgångstiden är klockan 10.",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/public-transport/sv/departure-time-is-at-10-am-sv.mp3"
+        },
+        {
+          "sentence": "The departure is according to schedule.",
+          "meaning": "Avgången är enligt schemat.",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/public-transport/sv/the-departure-is-according-to-schedule-sv.mp3"
+        }
+      ],
+      "image": "http://res.cloudinary.com/dndwns70m/image/upload/v1725375895/lingocamp/departure.jpg",
+      "type": "N/A",
+      "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/public-transport/sv/departure-sv.mp3",
+      "progress": {
+        "confidence": 0,
+        "worstConfidence": 0,
+        "favorite": false,
+        "markedForReview": false,
+        "isLearned": false,
+        "firstSeenAt": "2025-10-03T14:54:12.139Z",
+        "lastPractisedAt": "2025-10-03T14:54:12.139Z",
+        "lastChangedAt": "2025-10-03T14:54:12.139Z",
+        "exposures": 0,
+        "timesSeen": 0,
+        "correctCount": 0,
+        "incorrectCount": 0,
+        "memoryScore": 0,
+        "nextReviewAt": null,
+        "memoryStrength": 0,
+        "predictedForgettingDate": null,
+        "difficultyIndex": 0.7
+      },
+      "packSlugs": ["public-transport"],
+      "packSlug": "public-transport"
+    },
+    {
+      "id": "671153139037c6d2d82fa1ea",
+      "slug": "destination",
+      "term": "Destination",
+      "definition": "Destination",
+      "examples": [
+        {
+          "sentence": "Our destination is helsinki.",
+          "meaning": "Our destination is helsinki.",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/public-transport/sv/our-destination-is-helsinki-sv.mp3"
+        },
+        {
+          "sentence": "Our destination is beautiful.",
+          "meaning": "Our destination is beautiful.",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/public-transport/sv/our-destination-is-beautiful-sv.mp3"
+        }
+      ],
+      "image": "http://res.cloudinary.com/dndwns70m/image/upload/v1729188626/lingocamp/destination.jpg",
+      "type": "N/A",
+      "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/public-transport/sv/destination-sv.mp3",
+      "progress": {
+        "confidence": 0,
+        "worstConfidence": 0,
+        "favorite": false,
+        "markedForReview": false,
+        "isLearned": false,
+        "firstSeenAt": "2025-10-03T14:54:12.139Z",
+        "lastPractisedAt": "2025-10-03T14:54:12.139Z",
+        "lastChangedAt": "2025-10-03T14:54:12.139Z",
+        "exposures": 0,
+        "timesSeen": 0,
+        "correctCount": 0,
+        "incorrectCount": 0,
+        "memoryScore": 0,
+        "nextReviewAt": null,
+        "memoryStrength": 0,
+        "predictedForgettingDate": null,
+        "difficultyIndex": 0.7
+      },
+      "packSlugs": ["public-transport"],
+      "packSlug": "public-transport"
+    },
+    {
+      "id": "671153ef9037c6d2d83113ab",
+      "slug": "driver",
+      "term": "Driver",
+      "definition": "Förare",
+      "examples": [
+        {
+          "sentence": "The driver is friendly.",
+          "meaning": "Föraren är vänlig.",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/public-transport/sv/the-driver-is-friendly-sv.mp3"
+        },
+        {
+          "sentence": "The driver operates the bus.",
+          "meaning": "Föraren driver bussen.",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/public-transport/sv/the-driver-operates-the-bus-sv.mp3"
+        },
+        {
+          "sentence": "She renewed her driver's license last month.",
+          "meaning": "Hon förnyade sitt körkort förra månaden.",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/public-transport/sv/she-renewed-her-drivers-license-last-month-sv.mp3"
+        }
+      ],
+      "image": "http://res.cloudinary.com/dndwns70m/image/upload/v1725375596/lingocamp/driver.jpg",
+      "type": "N/A",
+      "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/public-transport/sv/driver-sv.mp3",
+      "progress": {
+        "confidence": 0,
+        "worstConfidence": 0,
+        "favorite": false,
+        "markedForReview": false,
+        "isLearned": false,
+        "firstSeenAt": "2025-10-03T14:54:12.139Z",
+        "lastPractisedAt": "2025-10-03T14:54:12.139Z",
+        "lastChangedAt": "2025-10-03T14:54:12.139Z",
+        "exposures": 0,
+        "timesSeen": 0,
+        "correctCount": 0,
+        "incorrectCount": 0,
+        "memoryScore": 0,
+        "nextReviewAt": null,
+        "memoryStrength": 0,
+        "predictedForgettingDate": null,
+        "difficultyIndex": 0.7
+      },
+      "packSlugs": ["public-transport"],
+      "packSlug": "public-transport"
+    },
+    {
+      "id": "671153f09037c6d2d8311607",
+      "slug": "entrance",
+      "term": "Entrance",
+      "definition": "Ingång",
+      "examples": [
+        {
+          "sentence": "The entrance is open from 9 am to 9 pm.",
+          "meaning": "Ingången är öppen från 9 till 21.",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/public-transport/sv/the-entrance-is-open-from-9-am-to-9-pm-sv.mp3"
+        },
+        {
+          "sentence": "The entrance to the roundabout is on the left.",
+          "meaning": "Ingången till rondellen är till vänster.",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/public-transport/sv/the-entrance-to-the-roundabout-is-on-the-left-sv.mp3"
+        },
+        {
+          "sentence": "The entrance is over there.",
+          "meaning": "Ingången är där borta.",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/public-transport/sv/the-entrance-is-over-there-sv.mp3"
+        }
+      ],
+      "image": "http://res.cloudinary.com/dndwns70m/image/upload/v1725375586/lingocamp/entrance.jpg",
+      "type": "N/A",
+      "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/public-transport/sv/entrance-sv.mp3",
+      "progress": {
+        "confidence": 0,
+        "worstConfidence": 0,
+        "favorite": false,
+        "markedForReview": false,
+        "isLearned": false,
+        "firstSeenAt": "2025-10-03T14:54:12.139Z",
+        "lastPractisedAt": "2025-10-03T14:54:12.139Z",
+        "lastChangedAt": "2025-10-03T14:54:12.139Z",
+        "exposures": 0,
+        "timesSeen": 0,
+        "correctCount": 0,
+        "incorrectCount": 0,
+        "memoryScore": 0,
+        "nextReviewAt": null,
+        "memoryStrength": 0,
+        "predictedForgettingDate": null,
+        "difficultyIndex": 0.7
+      },
+      "packSlugs": ["public-transport"],
+      "packSlug": "public-transport"
+    },
+    {
+      "id": "671153f29037c6d2d8311848",
+      "slug": "exit",
+      "term": "Exit",
+      "definition": "Utgång",
+      "examples": [
+        {
+          "sentence": "Emergency lighting illuminates exit routes during power outages.",
+          "meaning": "Nödbelysning belyser utgångsvägar under strömavbrott.",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/public-transport/sv/emergency-lighting-illuminates-exit-routes-during-power-outages-sv.mp3"
+        },
+        {
+          "sentence": "The exit on the highway is clearly marked.",
+          "meaning": "Utgången på motorvägen är tydligt markerad.",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/public-transport/sv/the-exit-on-the-highway-is-clearly-marked-sv.mp3"
+        },
+        {
+          "sentence": "The exit is clearly marked.",
+          "meaning": "Utgången är tydligt markerad.",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/public-transport/sv/the-exit-is-clearly-marked-sv.mp3"
+        }
+      ],
+      "image": "http://res.cloudinary.com/dndwns70m/image/upload/v1725375583/lingocamp/exit.jpg",
+      "type": "N/A",
+      "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/public-transport/sv/exit-sv.mp3",
+      "progress": {
+        "confidence": 0,
+        "worstConfidence": 0,
+        "favorite": false,
+        "markedForReview": false,
+        "isLearned": false,
+        "firstSeenAt": "2025-10-03T14:54:12.139Z",
+        "lastPractisedAt": "2025-10-03T14:54:12.139Z",
+        "lastChangedAt": "2025-10-03T14:54:12.139Z",
+        "exposures": 0,
+        "timesSeen": 0,
+        "correctCount": 0,
+        "incorrectCount": 0,
+        "memoryScore": 0,
+        "nextReviewAt": null,
+        "memoryStrength": 0,
+        "predictedForgettingDate": null,
+        "difficultyIndex": 0.7
+      },
+      "packSlugs": ["public-transport"],
+      "packSlug": "public-transport"
+    }
+  ],
+  "tests": [
+    {
+      "type": "standard_quiz",
+      "category": "standard_quiz",
+      "termId": "671153e29037c6d2d830fce9",
+      "question": "What is the meaning of \"Aisle\"?",
+      "optionTermIds": [
+        "671153e29037c6d2d830fce9",
+        "671152fb9037c6d2d82f8403",
+        "671153e69037c6d2d8310219",
+        "671153ea9037c6d2d8310910"
+      ],
+      "correctTermId": "671153e29037c6d2d830fce9"
+    },
+    {
+      "type": "standard_quiz",
+      "category": "standard_quiz",
+      "termId": "671153f29037c6d2d8311848",
+      "question": "What is the meaning of \"Exit\"?",
+      "optionTermIds": [
+        "671153f29037c6d2d8311848",
+        "671153e29037c6d2d830fce9",
+        "671152fb9037c6d2d82f8403",
+        "671153e69037c6d2d8310219"
+      ],
+      "correctTermId": "671153f29037c6d2d8311848"
+    },
+    {
+      "type": "typed_input",
+      "category": "active_recall",
+      "termId": "671153e29037c6d2d830fce9",
+      "prompt": "Type the meaning of \"Aisle\".",
+      "expectedAnswer": "Gång",
+      "meta": {
+        "image": "http://res.cloudinary.com/dndwns70m/image/upload/v1729188833/lingocamp/aisle.jpg",
+        "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/public-transport/sv/aisle-sv.mp3"
+      }
+    },
+    {
+      "type": "image_match",
+      "category": "image_match",
+      "question": "Match each word to the correct image.",
+      "termIds": [
+        "671153e29037c6d2d830fce9",
+        "671152fb9037c6d2d82f8403",
+        "671153e69037c6d2d8310219",
+        "671153ea9037c6d2d8310910"
+      ]
+    },
+    {
+      "type": "audio_listening",
+      "category": "audio_listening",
+      "termId": "671153e29037c6d2d830fce9",
+      "question": "Which word did you hear?",
+      "audioTermId": "671153e29037c6d2d830fce9",
+      "optionTermIds": [
+        "671153e29037c6d2d830fce9",
+        "671152fb9037c6d2d82f8403",
+        "671153e69037c6d2d8310219",
+        "671153ea9037c6d2d8310910"
+      ],
+      "correctTermId": "671153e29037c6d2d830fce9"
+    },
+    {
+      "type": "audio_listening",
+      "category": "audio_listening",
+      "termId": "671153ea9037c6d2d8310910",
+      "question": "Which word did you hear?",
+      "audioTermId": "671153ea9037c6d2d8310910",
+      "optionTermIds": [
+        "671153ea9037c6d2d8310910",
+        "671153119037c6d2d82f9fe1",
+        "671153139037c6d2d82fa1ea",
+        "671153ef9037c6d2d83113ab"
+      ],
+      "correctTermId": "671153ea9037c6d2d8310910"
+    },
+    {
+      "type": "true_false",
+      "category": "true_false",
+      "termId": "671153ea9037c6d2d8310910",
+      "statement": "\"Conductor\" means \"Ankomst\".",
+      "correctOptionId": "false"
+    },
+    {
+      "type": "image_select",
+      "category": "image_select",
+      "termId": "671153ea9037c6d2d8310910",
+      "imageTermId": "671153ea9037c6d2d8310910",
+      "question": "Which word matches this image?",
+      "optionTermIds": [
+        "671153ea9037c6d2d8310910",
+        "671153119037c6d2d82f9fe1",
+        "671153139037c6d2d82fa1ea",
+        "671153ef9037c6d2d83113ab"
+      ],
+      "correctTermId": "671153ea9037c6d2d8310910"
+    },
+    {
+      "type": "image_match",
+      "category": "image_match",
+      "question": "Match each word to the correct image.",
+      "termIds": [
+        "671153f29037c6d2d8311848",
+        "671153e29037c6d2d830fce9",
+        "671152fb9037c6d2d82f8403",
+        "671153e69037c6d2d8310219"
+      ]
+    },
+    {
+      "type": "final_review",
+      "category": "final_review",
+      "termId": "671153ef9037c6d2d83113ab",
+      "question": "What is the meaning of \"Driver\"?",
+      "optionTermIds": [
+        "671153ef9037c6d2d83113ab",
+        "671153f09037c6d2d8311607",
+        "671153f29037c6d2d8311848",
+        "671153e29037c6d2d830fce9"
+      ],
+      "correctTermId": "671153ef9037c6d2d83113ab"
+    },
+    {
+      "type": "typed_input",
+      "category": "active_recall",
+      "termId": "671153f09037c6d2d8311607",
+      "prompt": "Type the meaning of \"Entrance\".",
+      "expectedAnswer": "Ingång",
+      "meta": {
+        "image": "http://res.cloudinary.com/dndwns70m/image/upload/v1725375586/lingocamp/entrance.jpg",
+        "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/public-transport/sv/entrance-sv.mp3"
+      }
+    },
+    {
+      "type": "typed_input",
+      "category": "active_recall",
+      "termId": "671153f29037c6d2d8311848",
+      "prompt": "Type the meaning of \"Exit\".",
+      "expectedAnswer": "Utgång",
+      "meta": {
+        "image": "http://res.cloudinary.com/dndwns70m/image/upload/v1725375583/lingocamp/exit.jpg",
+        "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/public-transport/sv/exit-sv.mp3"
+      }
+    },
+    {
+      "type": "audio_listening",
+      "category": "audio_listening",
+      "termId": "671153f29037c6d2d8311848",
+      "question": "Which word did you hear?",
+      "audioTermId": "671153f29037c6d2d8311848",
+      "optionTermIds": [
+        "671153f29037c6d2d8311848",
+        "671153e29037c6d2d830fce9",
+        "671152fb9037c6d2d82f8403",
+        "671153e69037c6d2d8310219"
+      ],
+      "correctTermId": "671153f29037c6d2d8311848"
+    },
+    {
+      "type": "true_false",
+      "category": "true_false",
+      "termId": "671153f29037c6d2d8311848",
+      "statement": "\"Exit\" means \"Destination\".",
+      "correctOptionId": "false"
+    },
+    {
+      "type": "image_select",
+      "category": "image_select",
+      "termId": "671153f29037c6d2d8311848",
+      "imageTermId": "671153f29037c6d2d8311848",
+      "question": "Which word matches this image?",
+      "optionTermIds": [
+        "671153f29037c6d2d8311848",
+        "671153e29037c6d2d830fce9",
+        "671152fb9037c6d2d82f8403",
+        "671153e69037c6d2d8310219"
+      ],
+      "correctTermId": "671153f29037c6d2d8311848"
+    },
+    {
+      "type": "final_review",
+      "category": "final_review",
+      "termId": "671153f29037c6d2d8311848",
+      "question": "What is the meaning of \"Exit\"?",
+      "optionTermIds": [
+        "671153f29037c6d2d8311848",
+        "671153e29037c6d2d830fce9",
+        "671152fb9037c6d2d82f8403",
+        "671153e69037c6d2d8310219"
+      ],
+      "correctTermId": "671153f29037c6d2d8311848"
+    }
+  ]
+}

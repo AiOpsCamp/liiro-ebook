@@ -1,0 +1,506 @@
+{
+  "courseLanguage": {
+    "name": "swedish",
+    "iso": "sv"
+  },
+  "userLanguage": {
+    "name": "english",
+    "iso": "en"
+  },
+  "userDefaultLanguage": {
+    "name": "swedish",
+    "iso": "sv"
+  },
+  "metadata": {
+    "limit": 8,
+    "returned": 4,
+    "totalAvailable": 35,
+    "strategy": "langowords_pack_session_srs_test_v1",
+    "packSlug": "greetings",
+    "pack": {
+      "name": "Greetings",
+      "topic": "Greetings",
+      "description": "Common greetings and farewells used in everyday conversations.",
+      "status": "published",
+      "level": "beginner",
+      "category": "Basics",
+      "subcategory": "Intro",
+      "slug": "greetings",
+      "image_url": "https://res.cloudinary.com/dndwns70m/image/upload/v1729765401/greetings_and_introductions.jpg",
+      "free_access": true,
+      "isEnrolled": true,
+      "user_language": "english",
+      "default_language": "swedish",
+      "access": {
+        "free": true,
+        "premium": false
+      },
+      "exampleFilter": {
+        "mode": "default",
+        "maxExamples": 3,
+        "highlight": false
+      },
+      "pricingDetails": {
+        "_id": "6812ae7a2ec1937a4da415b0",
+        "stripeProductId": "prod_SECCyWDBgggnR4",
+        "stripePriceId": "price_1RJjoEDsBAw0JU7D1Hbi2Cgm",
+        "platform": {
+          "algocodecamp": false,
+          "lingoCamp": true,
+          "languagePackId": "67b9a4c255120aa362dda4e5",
+          "languageName": "Swedish"
+        }
+      },
+      "progress": {
+        "totalTerms": 35,
+        "totalLearned": 0,
+        "totalFavorites": 3,
+        "totalReviews": 0
+      },
+      "isCompleted": false,
+      "completedManually": false
+    },
+    "testConfig": {
+      "standardQuiz": false,
+      "trueFalse": false,
+      "audioListening": true,
+      "imageSelect": false,
+      "finalReview": false,
+      "imageMatch": false,
+      "typedInput": false,
+      "clozeSentence": false,
+      "wordOrder": false,
+      "audioImageSelect": true
+    },
+    "testTypesSummary": {
+      "standardQuiz": 0,
+      "trueFalse": 0,
+      "audioListening": 0,
+      "imageSelect": 0,
+      "finalReview": 0,
+      "imageMatch": 0,
+      "typedInput": 0,
+      "clozeSentence": 0,
+      "wordOrder": 0,
+      "audioImageSelect": 0,
+      "maxPerType": 2,
+      "testLimit": 4
+    }
+  },
+  "flatTerms": [
+    {
+      "id": "673244bb0140f3b6c9506fd3",
+      "slug": "good-morning",
+      "term": "Good morning",
+      "definition": "God morgon",
+      "examples": [
+        {
+          "sentence": "Good morning, everyone.",
+          "meaning": "God morgon, alla.",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/greetings/sv/good-morning-everyone-sv.mp3"
+        },
+        {
+          "sentence": "Good morning, Anna.",
+          "meaning": "Good morning, Anna.",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/greetings/sv/good-morning-anna-sv.mp3"
+        },
+        {
+          "sentence": "Good morning! Did you sleep well?",
+          "meaning": "Good morning! Did you sleep well?",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/greetings/sv/good-morning-did-you-sleep-well-sv.mp3"
+        }
+      ],
+      "image": "https://lingocamp.fra1.digitaloceanspaces.com/uploads/images/good_morning-ai.png",
+      "type": "N/A",
+      "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/greetings/sv/good-morning-sv.mp3",
+      "progress": {
+        "confidence": 0,
+        "worstConfidence": 0,
+        "favorite": false,
+        "markedForReview": false,
+        "isLearned": false,
+        "firstSeenAt": "2025-10-25T16:01:20.058Z",
+        "lastPractisedAt": "2025-10-25T16:01:20.058Z",
+        "lastChangedAt": "2025-10-25T16:01:20.058Z",
+        "exposures": 0,
+        "timesSeen": 0,
+        "correctCount": 0,
+        "incorrectCount": 0,
+        "memoryScore": 0,
+        "nextReviewAt": null,
+        "memoryStrength": 0,
+        "predictedForgettingDate": null,
+        "difficultyIndex": 0.7
+      },
+      "packSlugs": ["greetings"],
+      "packSlug": "greetings"
+    },
+    {
+      "id": "673244bc0140f3b6c9507185",
+      "slug": "good-evening",
+      "term": "Good evening",
+      "definition": "God afton",
+      "examples": [
+        {
+          "sentence": "Good evening, how was your day?",
+          "meaning": "God kväll, hur var din dag?",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/greetings/sv/good-evening-how-was-your-day-sv.mp3"
+        },
+        {
+          "sentence": "Good evening, sir.",
+          "meaning": "Good evening, sir.",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/greetings/sv/good-evening-sir-sv.mp3"
+        },
+        {
+          "sentence": "Good evening! Nice to meet you.",
+          "meaning": "Good evening! Nice to meet you.",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/greetings/sv/good-evening-nice-to-meet-you-sv.mp3"
+        }
+      ],
+      "image": "https://lingocamp.fra1.digitaloceanspaces.com/uploads/images/good_evening-ai.png",
+      "type": "N/A",
+      "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/greetings/sv/good-evening-sv.mp3",
+      "progress": {
+        "confidence": 0,
+        "worstConfidence": 0,
+        "favorite": false,
+        "markedForReview": false,
+        "isLearned": false,
+        "firstSeenAt": "2025-10-25T16:01:20.058Z",
+        "lastPractisedAt": "2025-10-25T16:01:20.058Z",
+        "lastChangedAt": "2025-10-25T16:01:20.058Z",
+        "exposures": 0,
+        "timesSeen": 0,
+        "correctCount": 0,
+        "incorrectCount": 0,
+        "memoryScore": 0,
+        "nextReviewAt": null,
+        "memoryStrength": 0,
+        "predictedForgettingDate": null,
+        "difficultyIndex": 0.7
+      },
+      "packSlugs": ["greetings"],
+      "packSlug": "greetings"
+    },
+    {
+      "id": "677d0ec0db4bc3e7e3277303",
+      "slug": "hey",
+      "term": "Hey",
+      "definition": "Hej",
+      "examples": [
+        {
+          "sentence": "Hey, nice to see you!",
+          "meaning": "Hey, nice to see you!",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/greetings/sv/hey-nice-to-see-you-sv.mp3"
+        },
+        {
+          "sentence": "Hey!",
+          "meaning": "Hey!",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/greetings/sv/hey-sv.mp3"
+        }
+      ],
+      "image": "http://res.cloudinary.com/dndwns70m/image/upload/v1736249022/hey.jpg",
+      "type": "N/A",
+      "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/greetings/sv/hey-sv.mp3",
+      "progress": {
+        "confidence": 0,
+        "worstConfidence": 0,
+        "favorite": false,
+        "markedForReview": false,
+        "isLearned": false,
+        "firstSeenAt": "2025-10-25T16:01:20.058Z",
+        "lastPractisedAt": "2025-10-25T16:01:20.058Z",
+        "lastChangedAt": "2025-10-25T16:01:20.058Z",
+        "exposures": 0,
+        "timesSeen": 0,
+        "correctCount": 0,
+        "incorrectCount": 0,
+        "memoryScore": 0,
+        "nextReviewAt": null,
+        "memoryStrength": 0,
+        "predictedForgettingDate": null,
+        "difficultyIndex": 0.7
+      },
+      "packSlugs": ["greetings"],
+      "packSlug": "greetings"
+    },
+    {
+      "id": "677d0eb2db4bc3e7e3277300",
+      "slug": "good-night",
+      "term": "Good night",
+      "definition": "God natt",
+      "examples": [
+        {
+          "sentence": "Good night, sleep well.",
+          "meaning": "God natt, sova bra.",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/greetings/sv/good-night-sleep-well-sv.mp3"
+        },
+        {
+          "sentence": "Good night, sleep well!",
+          "meaning": "Good night, sleep well!",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/greetings/sv/good-night-sleep-well-sv.mp3"
+        },
+        {
+          "sentence": "Good night! Sleep well.",
+          "meaning": "Good night! Sleep well.",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/greetings/sv/good-night-sleep-well-sv.mp3"
+        }
+      ],
+      "image": "http://res.cloudinary.com/dndwns70m/image/upload/v1728824949/lingocamp/night_photography.jpg",
+      "type": "N/A",
+      "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/greetings/sv/good-night-sv.mp3",
+      "progress": {
+        "confidence": 0,
+        "worstConfidence": 0,
+        "favorite": false,
+        "markedForReview": false,
+        "isLearned": false,
+        "firstSeenAt": "2025-10-25T16:01:20.058Z",
+        "lastPractisedAt": "2025-10-25T16:01:20.058Z",
+        "lastChangedAt": "2025-10-25T16:01:20.058Z",
+        "exposures": 0,
+        "timesSeen": 0,
+        "correctCount": 0,
+        "incorrectCount": 0,
+        "memoryScore": 0,
+        "nextReviewAt": null,
+        "memoryStrength": 0,
+        "predictedForgettingDate": null,
+        "difficultyIndex": 0.7
+      },
+      "packSlugs": ["greetings"],
+      "packSlug": "greetings"
+    },
+    {
+      "id": "676b6a8c94ebd38ec304680f",
+      "slug": "nice-to-meet-you",
+      "term": "Nice to meet you",
+      "definition": "Trevligt att träffa dig",
+      "examples": [
+        {
+          "sentence": "Nice to meet you, Alex.",
+          "meaning": "Nice to meet you, Alex.",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/greetings/sv/nice-to-meet-you-alex-sv.mp3"
+        },
+        {
+          "sentence": "Nice to meet you!",
+          "meaning": "Nice to meet you!",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/greetings/sv/nice-to-meet-you-sv.mp3"
+        },
+        {
+          "sentence": "Nice to meet you for the first time!",
+          "meaning": "Nice to meet you for the first time!",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/greetings/sv/nice-to-meet-you-for-the-first-time-sv.mp3"
+        }
+      ],
+      "image": "http://res.cloudinary.com/dndwns70m/image/upload/v1725375574/lingocamp/meet.jpg",
+      "type": "N/A",
+      "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/greetings/sv/nice-to-meet-you-sv.mp3",
+      "progress": {
+        "confidence": 0,
+        "worstConfidence": 0,
+        "favorite": false,
+        "markedForReview": false,
+        "isLearned": false,
+        "firstSeenAt": "2025-10-25T16:01:20.058Z",
+        "lastPractisedAt": "2025-10-25T16:01:20.058Z",
+        "lastChangedAt": "2025-10-25T16:01:20.058Z",
+        "exposures": 0,
+        "timesSeen": 0,
+        "correctCount": 0,
+        "incorrectCount": 0,
+        "memoryScore": 0,
+        "nextReviewAt": null,
+        "memoryStrength": 0,
+        "predictedForgettingDate": null,
+        "difficultyIndex": 0.7
+      },
+      "packSlugs": ["greetings"],
+      "packSlug": "greetings"
+    },
+    {
+      "id": "68f6a116a0cfb3950f18872a",
+      "slug": "pleased-to-meet-you",
+      "term": "Pleased to meet you",
+      "definition": "Pleased to meet you",
+      "examples": [
+        {
+          "sentence": "Pleased to meet you, John.",
+          "meaning": "Pleased to meet you, John.",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/greetings/sv/pleased-to-meet-you-john-sv.mp3"
+        },
+        {
+          "sentence": "Pleased to meet you.",
+          "meaning": "Pleased to meet you.",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/greetings/sv/pleased-to-meet-you-sv.mp3"
+        }
+      ],
+      "image": "https://lingocamp.fra1.digitaloceanspaces.com/uploads/images/pleased_to_meet_you.webp",
+      "type": "phrase",
+      "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/greetings/sv/pleased-to-meet-you-sv.mp3",
+      "progress": {
+        "confidence": 0,
+        "worstConfidence": 0,
+        "favorite": false,
+        "markedForReview": false,
+        "isLearned": false,
+        "firstSeenAt": "2025-10-25T16:01:20.058Z",
+        "lastPractisedAt": "2025-10-25T16:01:20.058Z",
+        "lastChangedAt": "2025-10-25T16:01:20.058Z",
+        "exposures": 0,
+        "timesSeen": 0,
+        "correctCount": 0,
+        "incorrectCount": 0,
+        "memoryScore": 0,
+        "nextReviewAt": null,
+        "memoryStrength": 0,
+        "predictedForgettingDate": null,
+        "difficultyIndex": 0.7
+      },
+      "packSlugs": ["greetings"],
+      "packSlug": "greetings"
+    },
+    {
+      "id": "68849c6335fb30ade53f950a",
+      "slug": "how-are-you",
+      "term": "How are you?",
+      "definition": "How are you?",
+      "examples": [
+        {
+          "sentence": "How are you today?",
+          "meaning": "How are you today?",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/greetings/sv/how-are-you-today-sv.mp3"
+        },
+        {
+          "sentence": "Hi! How are you today?",
+          "meaning": "Hi! How are you today?",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/greetings/sv/hi-how-are-you-today-sv.mp3"
+        },
+        {
+          "sentence": "How are you?",
+          "meaning": "How are you?",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/greetings/sv/how-are-you-sv.mp3"
+        }
+      ],
+      "image": "https://lingocamp.fra1.digitaloceanspaces.com/uploads/images/how_are_you%3F.jpg",
+      "type": "Phrase",
+      "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/greetings/sv/how-are-you-sv.mp3",
+      "progress": {
+        "confidence": 0,
+        "worstConfidence": 0,
+        "favorite": false,
+        "markedForReview": false,
+        "isLearned": false,
+        "firstSeenAt": "2025-10-25T16:01:20.058Z",
+        "lastPractisedAt": "2025-10-25T16:01:20.058Z",
+        "lastChangedAt": "2025-10-25T16:01:20.058Z",
+        "exposures": 0,
+        "timesSeen": 0,
+        "correctCount": 0,
+        "incorrectCount": 0,
+        "memoryScore": 0,
+        "nextReviewAt": null,
+        "memoryStrength": 0,
+        "predictedForgettingDate": null,
+        "difficultyIndex": 0.7
+      },
+      "packSlugs": ["greetings"],
+      "packSlug": "greetings"
+    },
+    {
+      "id": "68f6a118a0cfb3950f18873a",
+      "slug": "hows-it-going",
+      "term": "How’s it going?",
+      "definition": "How’s it going?",
+      "examples": [
+        {
+          "sentence": "Hey, how’s it going?",
+          "meaning": "Hey, how’s it going?",
+          "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/greetings/sv/hey-hows-it-going-sv.mp3"
+        }
+      ],
+      "image": "https://lingocamp.fra1.digitaloceanspaces.com/uploads/images/how’s_it_going?.webp",
+      "type": "phrase",
+      "audio": "https://lingocamp.fra1.cdn.digitaloceanspaces.com/vocabulary-pack-audio/greetings/sv/hows-it-going-sv.mp3",
+      "progress": {
+        "confidence": 0,
+        "worstConfidence": 0,
+        "favorite": false,
+        "markedForReview": false,
+        "isLearned": false,
+        "firstSeenAt": "2025-10-25T16:01:20.058Z",
+        "lastPractisedAt": "2025-10-25T16:01:20.058Z",
+        "lastChangedAt": "2025-10-25T16:01:20.058Z",
+        "exposures": 0,
+        "timesSeen": 0,
+        "correctCount": 0,
+        "incorrectCount": 0,
+        "memoryScore": 0,
+        "nextReviewAt": null,
+        "memoryStrength": 0,
+        "predictedForgettingDate": null,
+        "difficultyIndex": 0.7
+      },
+      "packSlugs": ["greetings"],
+      "packSlug": "greetings"
+    }
+  ],
+  "tests": [
+    {
+      "type": "audio_listening",
+      "category": "audio_listening",
+      "termId": "677d0ec0db4bc3e7e3277303",
+      "question": "Which word did you hear?",
+      "audioTermId": "677d0ec0db4bc3e7e3277303",
+      "optionTermIds": [
+        "677d0ec0db4bc3e7e3277303",
+        "676b6a8c94ebd38ec304680f",
+        "673244bc0140f3b6c9507185",
+        "673244bb0140f3b6c9506fd3"
+      ],
+      "correctTermId": "677d0ec0db4bc3e7e3277303"
+    },
+    {
+      "type": "audio_image_select",
+      "category": "listening_visual",
+      "termId": "677d0ec0db4bc3e7e3277303",
+      "question": "Which image matches what you hear?",
+      "audioTermId": "677d0ec0db4bc3e7e3277303",
+      "optionTermIds": [
+        "68849c6335fb30ade53f950a",
+        "673244bb0140f3b6c9506fd3",
+        "673244bc0140f3b6c9507185",
+        "677d0ec0db4bc3e7e3277303"
+      ],
+      "correctTermId": "677d0ec0db4bc3e7e3277303"
+    },
+    {
+      "type": "audio_listening",
+      "category": "audio_listening",
+      "termId": "673244bb0140f3b6c9506fd3",
+      "question": "Which word did you hear?",
+      "audioTermId": "673244bb0140f3b6c9506fd3",
+      "optionTermIds": [
+        "673244bb0140f3b6c9506fd3",
+        "68849c6335fb30ade53f950a",
+        "68f6a118a0cfb3950f18873a",
+        "676b6a8c94ebd38ec304680f"
+      ],
+      "correctTermId": "673244bb0140f3b6c9506fd3"
+    },
+    {
+      "type": "audio_image_select",
+      "category": "listening_visual",
+      "termId": "676b6a8c94ebd38ec304680f",
+      "question": "Which image matches what you hear?",
+      "audioTermId": "676b6a8c94ebd38ec304680f",
+      "optionTermIds": [
+        "673244bb0140f3b6c9506fd3",
+        "676b6a8c94ebd38ec304680f",
+        "673244bc0140f3b6c9507185",
+        "677d0eb2db4bc3e7e3277300"
+      ],
+      "correctTermId": "676b6a8c94ebd38ec304680f"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyBNbrzgp3gSJ-_2nNuV_-Bki6Q8Ao2G0DE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>925002930635</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.aiopscamp.liiro.ebook</string>
+	<key>PROJECT_ID</key>
+	<string>liiro-ebook</string>
+	<key>STORAGE_BUCKET</key>
+	<string>liiro-ebook.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:925002930635:ios:37cdafe140687369a2fe4e</string>
+</dict>
+</plist>

@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Raleway-Regular', sans-serif;
+  }
+
+  input,
+  textarea,
+  [role="textbox"],
+  [contenteditable="true"] {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  input:focus,
+  textarea:focus,
+  [role="textbox"]:focus,
+  [contenteditable="true"]:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}

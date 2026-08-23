@@ -1,0 +1,52 @@
+{
+  "_comment": "Single source of truth for backend base URLs. Consumed by scripts/setup-app.js (Node, build time) and config/environments.ts (runtime). localPort is the port a developer's local backend binds to by default per multicamp-backend/docs/MULTI_PROJECT_GUIDE.md. devHost/prodHost are the deployed VM hostnames; apiPath matches the Nginx location block for that project's backend.",
+  "langowords": {
+    "localPort": 5005,
+    "devHost": "dev.app.langowords.io",
+    "prodHost": "app.langowords.io",
+    "apiPath": "aiopscamp-langowords-api"
+  },
+  "langoprep": {
+    "localPort": 5006,
+    "devHost": "dev.app.langoprep.io",
+    "prodHost": "app.langoprep.io",
+    "apiPath": "aiopscamp-langoprep-api"
+  },
+  "langoreads": {
+    "localPort": 5011,
+    "devHost": "app.langoread.io",
+    "prodHost": "app.langoread.io",
+    "apiPath": "aiopscamp-langoreads-api"
+  },
+  "langoread": {
+    "localPort": 5011,
+    "devHost": "app.langoread.io",
+    "prodHost": "app.langoread.io",
+    "apiPath": "aiopscamp-langoreads-api"
+  },
+  "liiro": {
+    "localPort": 5012,
+    "devHost": "dev.app.liiro.io",
+    "prodHost": "app.liiro.io",
+    "apiPath": "aiopscamp-liiro-api"
+  },
+  "ieltscamp": {
+    "localPort": 5007,
+    "devHost": "dev.app.ieltscamp.io",
+    "prodHost": "app.ieltscamp.io",
+    "apiPath": "aiopscamp-ieltscamp-api"
+  },
+  "grecamp": {
+    "localPort": 5008,
+    "devHost": "dev.app.grecamp.io",
+    "prodHost": "app.grecamp.io",
+    "apiPath": "aiopscamp-grecamp-api"
+  },
+  "mathmaster": {
+    "_comment": "Unlaunched/experimental — no dedicated backend and no real production presence. Deliberately points 'prod' target at the LangoWords dev host, not a real prod host, so a mathmaster prod build never reaches production data.",
+    "localPort": 5005,
+    "devHost": "dev.app.langowords.io",
+    "prodHost": "dev.app.langowords.io",
+    "apiPath": "aiopscamp-langowords-api"
+  }
+}
