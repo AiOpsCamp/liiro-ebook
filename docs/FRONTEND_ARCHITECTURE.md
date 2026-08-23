@@ -61,19 +61,17 @@ flowchart TD
 
 ### 🛠️ Actionable Frontend Development Tasks
 
-- [ ] **Task 1: Inject Authorization Header in RTK Query**:
-  * Update `api/mainQuery.ts` `prepareHeaders` to retrieve user JWT token from storage and attach `Authorization: Bearer ${token}` automatically.
-- [ ] **Task 2: Unify Audio Engine under `expo-audio`**:
+- [x] **Task 1: Inject Authorization Header in RTK Query**:
+  * Updated `api/mainQuery.ts` `prepareHeaders` to retrieve user JWT token from storage and attach `Authorization: Bearer ${token}` automatically.
+- [x] **Task 2: Add RTK Query Hooks for DRM Stream Tokens & Whispersync**:
+  * Added `useGetStreamTokenQuery`, `useSyncWhispersyncPositionMutation`, `useGetWhispersyncPositionQuery`, `useGetStoryRecommendationsQuery`, and `useGetUserLibraryQuery` hooks to `api/storiesQuery.ts`.
+- [x] **Task 3: Desktop Mouse Drag for Carousels**:
+  * Attached `useWebHorizontalDrag` hook to horizontal carousels (`ActivityCardRail` and `SectionRail`) in `EbookDashboardContent.tsx`.
+- [ ] **Task 4: Unify Audio Engine under `expo-audio`**:
   * Replace HTML5 `new Audio()` in `EbookReadContent.tsx` and `details/[slug].tsx` with `AudioManager` (`expo-audio`) for 100% native iOS, Android, and Web compatibility.
-- [ ] **Task 3: Connect Frontend to DRM Stream Token API**:
-  * Update `storiesQuery.ts` to call `/api/v1/stories/slug/:slug/stream-token` before audio playback and stream signed Hetzner S3 URLs.
-- [ ] **Task 4: Connect Frontend to Whispersync Engine**:
-  * Wire reader scroll/paragraph position and audio player progress to `POST /api/v1/stories/whispersync`. Automatically prompt user to resume reading/listening upon screen load.
 - [ ] **Task 5: Enable Background Audio Playback**:
   * Configure `shouldPlayInBackground: true` in `AudioManager.ts` and set up mobile OS lockscreen media controls.
 - [ ] **Task 6: Modularize Monolithic Components**:
   * Decompose `EbookReadContent.tsx` (3,900 lines) and `EbookDashboardContent.tsx` (2,000 lines) into clean, reusable modular components.
-- [ ] **Task 7: Desktop Mouse Drag for Carousels**:
-  * Attach `useWebHorizontalDrag` hook to horizontal carousels in `EbookDashboardContent.tsx` and `explore.tsx`.
-- [ ] **Task 8: Offline Chapter & Audio Downloader**:
+- [ ] **Task 7: Offline Chapter & Audio Downloader**:
   * Build an offline storage manager using `expo-file-system` to download and store story text and audio files locally for offline reading.

@@ -23,6 +23,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { LinearGradient } from "expo-linear-gradient";
 import { getLocalizedText } from "@/utils/getLocalizedText";
+import { useWebHorizontalDrag } from "@/hooks/useWebHorizontalDrag";
 import {
   ArrowLeft,
   Search,
@@ -220,6 +221,8 @@ const ActivityCardRail: React.FC<{
   onStoryPress: (slug: string, preferAudio?: boolean) => void;
   textColor: string;
 }> = ({ title, icon: Icon, color, stories, variant, onStoryPress, textColor }) => {
+  const scrollRef = useRef<any>(null);
+  const dragProps = useWebHorizontalDrag(scrollRef);
   if (!stories || stories.length === 0) return null;
 
   return (
@@ -235,7 +238,7 @@ const ActivityCardRail: React.FC<{
         </View>
       </View>
 
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 16 }}>
+      <ScrollView ref={scrollRef} {...dragProps} horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 16 }}>
         {stories.map((story) => (
           <ContinueCard key={story._id} story={story} onPress={onStoryPress} variant={variant} />
         ))}
@@ -265,6 +268,8 @@ const SectionRail: React.FC<SectionRailProps> = ({
   isDark,
   textColor,
 }) => {
+  const scrollRef = useRef<any>(null);
+  const dragProps = useWebHorizontalDrag(scrollRef);
   if (!stories || stories.length === 0) return null;
 
   return (
@@ -293,6 +298,8 @@ const SectionRail: React.FC<SectionRailProps> = ({
       </View>
 
       <ScrollView
+        ref={scrollRef}
+        {...dragProps}
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{ paddingHorizontal: 20, gap: 12 }}

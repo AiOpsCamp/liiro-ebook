@@ -302,6 +302,63 @@ export const storiesApi = apiSlice.injectEndpoints({
       }),
       transformResponse: (response: { success: boolean; data: any }) => response.data,
     }),
+    getStreamToken: builder.query<
+      {
+        success: boolean;
+        signedStreamUrl: string;
+        expiresAt: string;
+        expiresInSeconds: number;
+        storySlug: string;
+        chapterNumber: number;
+        voice: string;
+      },
+      { slug: string; chapterNumber?: number; voice?: string }
+    >({
+      query: ({ slug, chapterNumber = 1, voice = "adam" }) => `/stories/slug/${slug}/stream-token?chapterNumber=${chapterNumber}&voice=${voice}`,
+      transformResponse: (response: any) => response,
+    }),
+    syncWhispersyncPosition: builder.mutation<
+      any,
+      {
+        storySlug: string;
+        chapterIndex?: number;
+        paragraphIndex?: number;
+        audioTimestampSec?: number;
+        syncMode?: "reading" | "listening";
+        deviceType?: string;
+      }
+    >({
+      query: ({ storySlug, chapterIndex = 1, paragraphIndex, audioTimestampSec, syncMode = "reading", deviceType = "web-desktop" }) => ({
+        url: "/stories/whispersync",
+        method: "POST",
+        body: { storySlug, chapterIndex, paragraphIndex, audioTimestampSec, syncMode, deviceType },
+      }),
+      transformResponse: (response: { success: boolean; whispersync: any; resumeGuide: any }) => response,
+      invalidatesTags: ["Whispersync", "StoryDashboard", "UserLibrary"] as any,
+    }),
+    getWhispersyncPosition: builder.query<
+      { success: boolean; hasSyncedPosition: boolean; whispersync: any; storySlug: string; lastVisitedAt?: string },
+      string
+    >({
+      query: (slug) => `/stories/slug/${slug}/whispersync`,
+      transformResponse: (response: any) => response,
+      providesTags: ["Whispersync"] as any,
+    }),
+    getStoryRecommendations: builder.query<
+      { targetSlug: string; recommendationsCount: number; recommendations: Story[] },
+      { slug: string; limit?: number }
+    >({
+      query: ({ slug, limit = 10 }) => `/stories/slug/${slug}/recommendations?limit=${limit}`,
+      transformResponse: (response: { success: boolean; data: any }) => response.data,
+    }),
+    getUserLibrary: builder.query<
+      { active: any[]; completed: any[]; bookmarked: any[]; totalActive: number; totalCompleted: number; totalBookmarked: number },
+      void
+    >({
+      query: () => "/stories/user/library",
+      transformResponse: (response: { success: boolean; data: any }) => response.data,
+      providesTags: ["UserLibrary"] as any,
+    }),
   }),
   overrideExisting: false,
 });
@@ -325,4 +382,9 @@ export const {
   useToggleStoryBookmarkMutation,
   useAddStoryHighlightMutation,
   useDeleteStoryHighlightMutation,
+  useGetStreamTokenQuery,
+  useSyncWhispersyncPositionMutation,
+  useGetWhispersyncPositionQuery,
+  useGetStoryRecommendationsQuery,
+  useGetUserLibraryQuery,
 } = storiesApi;
