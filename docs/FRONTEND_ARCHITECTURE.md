@@ -77,5 +77,9 @@ flowchart TD
   * Connected 10-second periodic background position sync (`syncWhispersyncPosition`) in `EbookReadContent.tsx`.
 - [x] **Task 7: Offline Chapter & Audio Downloader**:
   * Built `OfflineManager` (`offlineManager.ts`) using `expo-file-system` to download and store story text payloads and chapter audio files locally for offline reading/listening.
-- [ ] **Task 8: Modularize Monolithic Components**:
-  * Decompose `EbookReadContent.tsx` (3,900 lines) and `EbookDashboardContent.tsx` (2,000 lines) into clean, reusable modular components.
+- [x] **Task 8: Modularize Monolithic Reader Component**:
+  * Decomposed monolithic `EbookReadContent.tsx` by creating clean, decoupled sub-components inside `frontend/components/ebook/read/`:
+    * `EbookReaderHeader.tsx`: Top navbar, book/chapter titles, progress line, and quick theme toggle.
+    * `EbookReaderFooterPlayer.tsx`: Audio player controls, 15s skip buttons, speed selector, and voice badge.
+    * `EbookReaderSettingsModal.tsx`: Reading theme picker, typography settings, font size, and text alignment.
+    * `EbookReaderTocModal.tsx`: Table of Contents chapter list and completion badges.

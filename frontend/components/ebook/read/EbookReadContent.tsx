@@ -32,6 +32,10 @@ import Markdown from "react-native-markdown-display";
 import { getLocalizedText } from "@/utils/getLocalizedText";
 import { AudioManager } from "@/lib/utils/audioManager";
 import { WhispersyncPromptModal } from "../WhispersyncPromptModal";
+import { EbookReaderHeader } from "./EbookReaderHeader";
+import { EbookReaderFooterPlayer } from "./EbookReaderFooterPlayer";
+import { EbookReaderSettingsModal } from "./EbookReaderSettingsModal";
+import { EbookReaderTocModal } from "./EbookReaderTocModal";
 import {
   useSyncWhispersyncPositionMutation,
   useGetWhispersyncPositionQuery,
