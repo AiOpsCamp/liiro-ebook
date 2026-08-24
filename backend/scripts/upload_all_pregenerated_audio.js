@@ -94,7 +94,21 @@ async function processPregeneratedAudio() {
     console.log(`   Directory: ${bookPath}`);
 
     const files = fs.readdirSync(bookPath);
-    const mp3Files = files.filter((f) => f.endsWith(".mp3"));
+    let mp3Files = files.filter((f) => f.endsWith(".mp3"));
+    let langSubfolder = "";
+
+    // Check if files are located inside language subfolders (e.g. en/, es/, fr/)
+    const subDirs = files.filter((f) => fs.statSync(path.join(bookPath, f)).isDirectory());
+    for (const subDir of subDirs) {
+      if (["en", "es", "fr", "de", "it"].includes(subDir.toLowerCase())) {
+        const langFiles = fs.readdirSync(path.join(bookPath, subDir)).filter((f) => f.endsWith(".mp3"));
+        if (langFiles.length > 0) {
+          mp3Files = langFiles;
+          langSubfolder = subDir.toLowerCase();
+          break;
+        }
+      }
+    }
 
     if (mp3Files.length === 0) {
       console.warn(`   ⚠️ No MP3 files found in ${bookPath}. Skipping.`);
@@ -109,8 +123,13 @@ async function processPregeneratedAudio() {
       if (!match) continue;
 
       const chapterNumber = parseInt(match[1], 10);
-      const localMp3Path = path.join(bookPath, mp3File);
-      const s3Key = `LangoReads-Prod/ebooks/${story.slug}/${mp3File}`;
+      const localMp3Path = langSubfolder
+        ? path.join(bookPath, langSubfolder, mp3File)
+        : path.join(bookPath, mp3File);
+      
+      const s3Key = langSubfolder
+        ? `LangoReads-Prod/ebooks/${story.slug}/${langSubfolder}/${mp3File}`
+        : `LangoReads-Prod/ebooks/${story.slug}/${mp3File}`;
 
       console.log(`   ☁️ Uploading Chapter ${chapterNumber}: ${mp3File} -> S3...`);
       const s3Url = await uploadFileToS3(localMp3Path, s3Key, "audio/mpeg");
