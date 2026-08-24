@@ -934,7 +934,14 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
     return availableVoices.find((v) => v.id === selectedVoiceId) || availableVoices[0];
   }, [availableVoices, selectedVoiceId]);
 
-  const audioUrl = activeVoiceObj?.url || chapterDetails?.audioUrl || null;
+  const voiceKey = activeVoiceObj?.key || "adam";
+
+  const { data: streamTokenData } = useGetStreamTokenQuery(
+    { slug: story.slug, chapterNumber: currentChapterIdx + 1, voice: voiceKey },
+    { skip: !story?.slug }
+  );
+
+  const audioUrl = streamTokenData?.signedStreamUrl || activeVoiceObj?.url || chapterDetails?.audioUrl || null;
 
   const togglePlayPause = useCallback(async () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
@@ -944,13 +951,7 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
       await audioMgr.pauseAudio();
       setIsPlaying(false);
     } else {
-      const voiceKey = activeVoiceObj?.key || "adam";
-      let playUrl = audioUrl;
-
-      if (story?.slug) {
-        const drmUrl = await audioMgr.resolveDrmStreamUrl(story.slug, currentChapterIdx + 1, voiceKey);
-        if (drmUrl) playUrl = drmUrl;
-      }
+      const playUrl = audioUrl || (story?.slug ? `http://localhost:5012/api/v1/stories/slug/${story.slug}/stream?chapterNumber=${currentChapterIdx + 1}&voice=${voiceKey}` : null);
 
       if (!playUrl) {
         console.warn("No valid audio URL available to play");
@@ -980,7 +981,7 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
         audioMgr.setRate(playbackSpeed);
       }
     }
-  }, [isPlaying, audioUrl, story, currentChapterIdx, activeVoiceObj, audioCurrentTime, audioDuration, playbackSpeed]);
+  }, [isPlaying, audioUrl, story, currentChapterIdx, voiceKey, audioCurrentTime, audioDuration, playbackSpeed]);
 
   // Audio Manager Telemetry Status Listener
   useEffect(() => {

@@ -221,7 +221,7 @@ exports.getStoryDetails = async (req, res) => {
 
     let existingChapters = await StoryChapter.find({ storyId: story._id })
       .sort({ chapterNumber: 1, chapterIndex: 1 })
-      .select("_id chapterNumber chapterIndex title durationSeconds audioUrl content textPayload")
+      .select("_id chapterNumber chapterIndex title durationSeconds audioUrl audioVoices content textPayload")
       .lean();
 
     if (
@@ -237,56 +237,58 @@ exports.getStoryDetails = async (req, res) => {
       const fresh = await ingestBookFromStandardEbooks(story);
       if (fresh && fresh.length > 0) {
         existingChapters = await StoryChapter.find({ storyId: story._id })
-          .sort({ chapterNumber: 1, chapterIndex: 1 })
-          .select("_id chapterNumber chapterIndex title durationSeconds audioUrl content textPayload")
-          .lean();
-      }
+      existingChapters = await StoryChapter.find({ storyId: story._id })
+        .sort({ chapterNumber: 1, chapterIndex: 1 })
+        .select("_id chapterNumber chapterIndex title durationSeconds audioUrl audioVoices content textPayload")
+        .lean();
     }
-    const storyTags = Array.isArray(story.tags) ? story.tags : [];
-    const [userProgress, similarDocs, authorDocs, seriesDocs] = await Promise.all([
-      userId
-        ? UserStoryProgress.findOne({ userId, storyId: story._id }).lean()
-        : null,
-      Story.find({
-        _id: { $ne: story._id },
-        isPublished: true,
-        $or: [
-          ...(storyTags.length > 0 ? [{ tags: { $in: storyTags } }] : []),
-          ...(story.author ? [{ author: story.author }] : []),
-          ...(story.difficultyLevel ? [{ difficultyLevel: story.difficultyLevel }] : []),
-        ],
-      })
-        .limit(10)
-        .select("_id title slug author coverImageUrl difficultyLevel contentType hasAudio isAudiobook totalDurationSeconds totalAudioDurationSec tags")
-        .lean(),
-      story.author
-        ? Story.find({
-            _id: { $ne: story._id },
-            author: story.author,
-            isPublished: true,
-          })
-            .limit(8)
-            .select("_id title slug author coverImageUrl difficultyLevel contentType hasAudio isAudiobook totalDurationSeconds totalAudioDurationSec")
-            .lean()
-        : Promise.resolve([]),
-      story.seriesName
-        ? Story.find({
-            seriesName: story.seriesName,
-            isPublished: true,
-          })
-            .sort({ seriesOrder: 1 })
-            .select("_id title slug author coverImageUrl difficultyLevel contentType hasAudio isAudiobook seriesName seriesOrder")
-            .lean()
-        : Promise.resolve([]),
-    ]);
+  }
+  const storyTags = Array.isArray(story.tags) ? story.tags : [];
+  const [userProgress, similarDocs, authorDocs, seriesDocs] = await Promise.all([
+    userId
+      ? UserStoryProgress.findOne({ userId, storyId: story._id }).lean()
+      : null,
+    Story.find({
+      _id: { $ne: story._id },
+      isPublished: true,
+      $or: [
+        ...(storyTags.length > 0 ? [{ tags: { $in: storyTags } }] : []),
+        ...(story.author ? [{ author: story.author }] : []),
+        ...(story.difficultyLevel ? [{ difficultyLevel: story.difficultyLevel }] : []),
+      ],
+    })
+      .limit(10)
+      .select("_id title slug author coverImageUrl difficultyLevel contentType hasAudio isAudiobook totalDurationSeconds totalAudioDurationSec tags")
+      .lean(),
+    story.author
+      ? Story.find({
+          _id: { $ne: story._id },
+          author: story.author,
+          isPublished: true,
+        })
+          .limit(8)
+          .select("_id title slug author coverImageUrl difficultyLevel contentType hasAudio isAudiobook totalDurationSeconds totalAudioDurationSec")
+          .lean()
+      : Promise.resolve([]),
+    story.seriesName
+      ? Story.find({
+          seriesName: story.seriesName,
+          isPublished: true,
+        })
+          .sort({ seriesOrder: 1 })
+          .select("_id title slug author coverImageUrl difficultyLevel contentType hasAudio isAudiobook seriesName seriesOrder")
+          .lean()
+      : Promise.resolve([]),
+  ]);
 
-    const formattedChapters = existingChapters.map((ch) => ({
-      ...ch,
-      chapterNumber: ch.chapterNumber || ch.chapterIndex || 1,
-      title: localizeMapField(ch.title, lang, `Chapter ${ch.chapterNumber || ch.chapterIndex || 1}`),
-      durationSeconds: localizeMapField(ch.durationSeconds, lang, 0),
-      audioUrl: localizeMapField(ch.audioUrl, lang, null),
-    }));
+  const formattedChapters = existingChapters.map((ch) => ({
+    ...ch,
+    chapterNumber: ch.chapterNumber || ch.chapterIndex || 1,
+    title: localizeMapField(ch.title, lang, `Chapter ${ch.chapterNumber || ch.chapterIndex || 1}`),
+    durationSeconds: typeof ch.durationSeconds === "number" ? ch.durationSeconds : localizeMapField(ch.durationSeconds, lang, 0),
+    audioUrl: typeof ch.audioUrl === "string" ? ch.audioUrl : localizeMapField(ch.audioUrl, lang, null),
+    audioVoices: ch.audioVoices || null,
+  }));
 
     const formattedSimilarStories = (similarDocs || []).map((s) => ({
       _id: s._id,
@@ -400,9 +402,9 @@ exports.getChapterContent = async (req, res) => {
       ...chapter,
       title: localizeMapField(chapter.title, lang, `Chapter ${chapter.chapterNumber || chapter.chapterIndex || 1}`),
       textPayload: rawText,
-      audioUrl: localizeMapField(chapter.audioUrl, lang, null),
-      audioVoices: localizeMapField(chapter.audioVoices, lang, null),
-      durationSeconds: localizeMapField(chapter.durationSeconds, lang, 0),
+      audioUrl: typeof chapter.audioUrl === "string" ? chapter.audioUrl : localizeMapField(chapter.audioUrl, lang, null),
+      audioVoices: chapter.audioVoices || null,
+      durationSeconds: typeof chapter.durationSeconds === "number" ? chapter.durationSeconds : localizeMapField(chapter.durationSeconds, lang, 0),
       wordTimestamps: localizeMapField(chapter.wordTimestamps, lang, []),
     };
 
