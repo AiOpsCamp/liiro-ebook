@@ -936,6 +936,38 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
 
   const audioUrl = activeVoiceObj?.url || chapterDetails?.audioUrl || null;
 
+  const togglePlayPause = useCallback(async () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    const audioMgr = AudioManager.getInstance();
+
+    if (isPlaying) {
+      await audioMgr.pauseAudio();
+      setIsPlaying(false);
+    } else {
+      let playUrl = audioUrl;
+      const voiceKey = activeVoiceObj?.key || "adam";
+      if (story?.slug) {
+        playUrl = await audioMgr.resolveDrmStreamUrl(story.slug, currentChapterIdx + 1, voiceKey);
+      }
+      setIsAudioLoading(true);
+      const success = await audioMgr.playAudio(
+        playUrl,
+        () => {
+          setIsPlaying(false);
+          if (currentChapterIdx < story.chapters.length - 1) {
+            setCurrentChapterIdx((prev) => prev + 1);
+          }
+        },
+        audioCurrentTime
+      );
+      setIsAudioLoading(false);
+      if (success) {
+        setIsPlaying(true);
+        audioMgr.setRate(playbackSpeed);
+      }
+    }
+  }, [isPlaying, audioUrl, story, currentChapterIdx, activeVoiceObj, audioCurrentTime, playbackSpeed]);
+
   // Audio Manager Telemetry Status Listener
   useEffect(() => {
     const audioMgr = AudioManager.getInstance();
@@ -960,11 +992,11 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
     if (!hasAutoStarted && (startAsAudio || readingMode === "audiobook") && story?.slug && !isPlaying) {
       setHasAutoStarted(true);
       const timer = setTimeout(() => {
-        togglePlayPauseRef.current?.();
+        togglePlayPause();
       }, 600);
       return () => clearTimeout(timer);
     }
-  }, [startAsAudio, readingMode, story?.slug, isPlaying, hasAutoStarted]);
+  }, [startAsAudio, readingMode, story?.slug, isPlaying, hasAutoStarted, togglePlayPause]);
 
   // Ambient Background Music Layering Synchronization
   const activeAmbientTrack = useMemo(() => {
@@ -1050,38 +1082,6 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
       pulseAnim.value = withTiming(1, { duration: 300, easing: Easing.inOut(Easing.ease) });
     }
   }, [isPlaying]);
-
-  const togglePlayPause = useCallback(async () => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    const audioMgr = AudioManager.getInstance();
-
-    if (isPlaying) {
-      await audioMgr.pauseAudio();
-      setIsPlaying(false);
-    } else {
-      let playUrl = audioUrl;
-      const voiceKey = activeVoiceObj?.key || "adam";
-      if (story?.slug) {
-        playUrl = await audioMgr.resolveDrmStreamUrl(story.slug, currentChapterIdx + 1, voiceKey);
-      }
-      setIsAudioLoading(true);
-      const success = await audioMgr.playAudio(
-        playUrl,
-        () => {
-          setIsPlaying(false);
-          if (currentChapterIdx < story.chapters.length - 1) {
-            setCurrentChapterIdx((prev) => prev + 1);
-          }
-        },
-        audioCurrentTime
-      );
-      setIsAudioLoading(false);
-      if (success) {
-        setIsPlaying(true);
-        audioMgr.setRate(playbackSpeed);
-      }
-    }
-  }, [isPlaying, audioUrl, story, currentChapterIdx, activeVoiceObj, audioCurrentTime, playbackSpeed]);
 
   const seekAudio = useCallback(async (seconds: number) => {
     if (typeof seconds !== "number" || isNaN(seconds) || !isFinite(seconds)) return;
