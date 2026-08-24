@@ -29,6 +29,7 @@ module.exports = defineConfig([
       "react-hooks/immutability": "off",
       "react-hooks/rules-of-hooks": "off",
       "react-hooks/exhaustive-deps": "off",
+      "react-hooks/preserve-manual-memoization": "off",
       "import/first": "off"
     }
   }
