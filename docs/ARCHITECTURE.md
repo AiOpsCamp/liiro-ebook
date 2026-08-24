@@ -54,8 +54,11 @@ flowchart TD
 
 Detailed, deep-dive architectural specifications for individual sub-systems are maintained in dedicated documents:
 
-- ⚙️ [**`docs/BACKEND_ARCHITECTURE.md`**](file:///Users/humayunrashid/multicamp/liiro-ebook/docs/BACKEND_ARCHITECTURE.md): Complete backend models, controllers, DRM stream token engine, Whispersync position engine, HLS audio transcoder, caching, and pending backend roadmap.
-- 🎨 [**`docs/FRONTEND_ARCHITECTURE.md`**](file:///Users/humayunrashid/multicamp/liiro-ebook/docs/FRONTEND_ARCHITECTURE.md): Complete frontend UI screens, Expo Router structure, reader engines, cross-platform audio handling, state management, and pending frontend roadmap.
+- ⚙️ [**`docs/BACKEND_ARCHITECTURE.md`**](file:///Users/humayunrashid/multicamp/liiro-ebook/docs/BACKEND_ARCHITECTURE.md): Complete backend models, controllers, DRM stream token engine, Whispersync position engine, HLS audio transcoder, caching, and infrastructure topology.
+- 🎨 [**`docs/FRONTEND_ARCHITECTURE.md`**](file:///Users/humayunrashid/multicamp/liiro-ebook/docs/FRONTEND_ARCHITECTURE.md): Complete frontend UI screens, Expo Router structure, reader engines, cross-platform audio handling, state management, and offline storage.
+- 🎙️ [**`backend/audio_pipeline/README.md`**](file:///Users/humayunrashid/multicamp/liiro-ebook/backend/audio_pipeline/README.md): Standalone audio generation pipeline, text cleaner, header deduplicator, Kokoro ONNX speech engine, Whispersync timestamp aligner, HLS transcoder, and S3 uploader.
+- 🎭 [**`docs/MULTI_VOICE_GUIDE.md`**](file:///Users/humayunrashid/multicamp/liiro-ebook/docs/MULTI_VOICE_GUIDE.md): 11+ AI narrator voice profiles, Hetzner S3 voice storage layout, `audioVoices` MongoDB schema, and UI voice switcher modal.
+- 🧬 [**`docs/CUSTOM_VOICE_CLONING_GUIDE.md`**](file:///Users/humayunrashid/multicamp/liiro-ebook/docs/CUSTOM_VOICE_CLONING_GUIDE.md): Custom voice creation, voice embedding ratio blending, and zero-shot voice cloning from 10–30s WAV audio recordings.
 
 ---
 
@@ -71,6 +74,9 @@ Detailed, deep-dive architectural specifications for individual sub-systems are 
 | **Backend Feed** | OPDS 2.0 Open Publication Catalog Feed | ✅ **100% Implemented** | `src/services/opds.service.js` |
 | **Backend Billing** | Stripe & RevenueCat Webhook Listener | ✅ **100% Implemented** | `src/controllers/billing.controller.js` |
 | **Backend Queue** | Background Audio Queue Worker Manager | ✅ **100% Implemented** | `src/queues/audioQueue.js` |
+| **Backend Pipeline**| Text Cleaner & Header Deduplicator | ✅ **100% Implemented** | `audio_pipeline/cleaner.py` |
+| **Backend TTS** | Kokoro ONNX Speech Synthesizer | ✅ **100% Implemented** | `audio_pipeline/synthesizer.py` |
+| **Backend Cloner**| Custom Voice Blender & Zero-Shot Cloner | ✅ **100% Implemented** | `audio_pipeline/clone_voice.py` |
 | **Backend Caching** | CacheManager (300s TTL) & Compound Indexes | ✅ **100% Implemented** | `src/utils/cache.utils.js` |
 | **Frontend Auth** | Rebranded Liiro EBOOK Login/Register | ✅ **100% Implemented** | `app/(auth)/login.tsx`, `register.tsx` |
 | **Frontend Guard** | Root Navigation Guard & Protection | ✅ **100% Implemented** | `app/_layout.tsx` |
