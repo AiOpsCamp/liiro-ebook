@@ -47,6 +47,9 @@ const apiLimiter = rateLimit({
 app.use("/api/", apiLimiter);
 
 // Health Endpoint
+const path = require("path");
+app.use(express.static(path.join(__dirname, "public")));
+
 app.get("/health", async (req, res) => {
   try {
     const isDbConnected = mongoose.connection.readyState === 1;
