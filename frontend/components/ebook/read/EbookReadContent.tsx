@@ -508,6 +508,16 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
   const [desktopWidth, setDesktopWidth] = useState<number>(680);
   const maxW = desktopWidth >= 1400 ? "96%" : Math.min(width, desktopWidth);
 
+  // Audio Playback State (Declared early so Whispersync effect can access state)
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [audioCurrentTime, setAudioCurrentTime] = useState(0);
+  const [audioDuration, setAudioDuration] = useState(0);
+  const [playbackSpeed, setPlaybackSpeed] = useState(1.0);
+  const [isAudioLoading, setIsAudioLoading] = useState(false);
+  const [bookmarkedChapters, setBookmarkedChapters] = useState<number[]>([]);
+  const [selectedVoiceId, setSelectedVoiceId] = useState<string>("am_adam");
+  const [isVoiceSheetOpen, setIsVoiceSheetOpen] = useState(false);
+
   // Whispersync Hooks & Prompt Modal State
   const [showWhispersyncModal, setShowWhispersyncModal] = useState<boolean>(false);
   const [hasPromptedWhispersync, setHasPromptedWhispersync] = useState<boolean>(false);
@@ -629,16 +639,6 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
   const [isSettingsSheetOpen, setIsSettingsSheetOpen] = useState(false);
   const [isStateLoaded, setIsStateLoaded] = useState(false);
   const [areControlsVisible, setAreControlsVisible] = useState(true);
-
-  // Audio Playback State
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [audioCurrentTime, setAudioCurrentTime] = useState(0);
-  const [audioDuration, setAudioDuration] = useState(0);
-  const [playbackSpeed, setPlaybackSpeed] = useState(1.0);
-  const [isAudioLoading, setIsAudioLoading] = useState(false);
-  const [bookmarkedChapters, setBookmarkedChapters] = useState<number[]>([]);
-  const [selectedVoiceId, setSelectedVoiceId] = useState<string>("am_adam");
-  const [isVoiceSheetOpen, setIsVoiceSheetOpen] = useState(false);
 
   // Ambient Background Music State
   const AMBIENT_TRACKS = useMemo(() => [
