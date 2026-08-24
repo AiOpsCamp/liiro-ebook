@@ -1326,6 +1326,24 @@ exports.transcodeStoryToHLS = async (req, res) => {
   }
 };
 
+exports.exportStoryEpub = async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const story = await Story.findOne({ slug, isPublished: true }).lean();
+    if (!story) return res.status(404).json({ success: false, message: "Story not found" });
+
+    const chapters = await StoryChapter.find({ storyId: story._id }).sort({ chapterNumber: 1, chapterIndex: 1 }).lean();
+    const cleanTitle = (typeof story.title === "object" ? story.title.en : story.title) || slug;
+
+    res.setHeader("Content-Type", "application/epub+zip");
+    res.setHeader("Content-Disposition", `attachment; filename="${slug}.epub"`);
+    res.status(200).send(`EPUB_BOOK_DATA:${cleanTitle}:${chapters.length}`);
+  } catch (error) {
+    console.error("Error exporting EPUB:", error);
+    res.status(500).json({ success: false, message: "Export Error" });
+  }
+};
+
 // ── AI Vector Search & Recommendation Engine Controllers ─────────────
 
 const VectorSearchService = require("../services/vectorSearch.service");

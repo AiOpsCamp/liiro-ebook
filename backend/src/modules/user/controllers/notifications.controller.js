@@ -21,7 +21,24 @@ function parseLimit(v) {
 }
 
 async function list(req, res) {
-  const userId = requireUserId(req);
+  const userId = req.user?._id || req.user?.id;
+  if (!userId) {
+    return res.status(200).json({
+      success: true,
+      message: "Guest notifications",
+      data: {
+        items: [
+          {
+            _id: "notif_welcome",
+            title: "👋 Welcome to Liiro Ebook & Audiobooks!",
+            body: "Explore over 800+ world classics with Whispersync text-to-speech karaoke alignment.",
+            createdAt: new Date().toISOString(),
+          },
+        ],
+        nextCursor: null,
+      },
+    });
+  }
 
   const limit = parseLimit(req.query.limit);
   const before = req.query.before ? String(req.query.before) : null;

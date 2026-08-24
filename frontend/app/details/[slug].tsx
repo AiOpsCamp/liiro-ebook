@@ -606,7 +606,9 @@ export default function BookDetailsScreen() {
                   {isCompleted ? "Mark Unread" : "Mark Read"}
                 </Text>
               </Pressable>
+            </View>
 
+            <View style={{ flexDirection: "row", gap: 8 }}>
               <Pressable
                 onPress={() => {
                   const q = encodeURIComponent(`${titleStr} ${story?.author || ""}`.trim());
@@ -622,6 +624,28 @@ export default function BookDetailsScreen() {
               >
                 <ExternalLink size={13} color={isDark ? "#FBBF24" : "#D97706"} />
                 <Text weight="Bold" style={{ color: isDark ? "#FBBF24" : "#D97706", fontSize: 12.5 }}>Goodreads</Text>
+              </Pressable>
+
+              <Pressable
+                onPress={() => {
+                  const apiBase = process.env.EXPO_PUBLIC_API_URL || "http://localhost:5012/api/v1";
+                  const epubUrl = `${apiBase}/stories/slug/${slug}/export/epub`;
+                  if (typeof window !== "undefined") {
+                    window.open(epubUrl, "_blank");
+                  } else {
+                    Linking.openURL(epubUrl);
+                  }
+                }}
+                style={({ pressed }) => ({
+                  flex: 1, flexDirection: "row", alignItems: "center", justifyContent: "center",
+                  paddingVertical: 11, borderRadius: 12,
+                  backgroundColor: isDark ? "rgba(14,165,233,0.12)" : "#E0F2FE",
+                  borderWidth: 1, borderColor: isDark ? "rgba(14,165,233,0.25)" : "#BAE6FD",
+                  gap: 5, opacity: pressed ? 0.7 : 1,
+                })}
+              >
+                <Download size={13} color="#0EA5E9" />
+                <Text weight="Bold" style={{ color: "#0EA5E9", fontSize: 12.5 }}>EPUB</Text>
               </Pressable>
             </View>
           </View>

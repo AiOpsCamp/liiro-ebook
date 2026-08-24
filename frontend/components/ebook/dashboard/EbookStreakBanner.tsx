@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Pressable } from "react-native";
-import { Flame, Zap, Award, ChevronRight, CheckCircle2 } from "lucide-react-native";
+import { Flame, Zap, Award, ChevronRight, CheckCircle2, Bell, Sparkles } from "lucide-react-native";
 
 interface EbookStreakBannerProps {
   currentStreak?: number;
@@ -9,6 +9,8 @@ interface EbookStreakBannerProps {
   completedMinutesToday?: number;
   isDark?: boolean;
   onPressDetails?: () => void;
+  onPressBell?: () => void;
+  onPressUpgrade?: () => void;
 }
 
 export const EbookStreakBanner: React.FC<EbookStreakBannerProps> = ({
@@ -18,6 +20,8 @@ export const EbookStreakBanner: React.FC<EbookStreakBannerProps> = ({
   completedMinutesToday = 12,
   isDark = true,
   onPressDetails,
+  onPressBell,
+  onPressUpgrade,
 }) => {
   const goalProgressPct = Math.min(100, Math.round((completedMinutesToday / dailyGoalMinutes) * 100));
 
@@ -93,12 +97,45 @@ export const EbookStreakBanner: React.FC<EbookStreakBannerProps> = ({
           </View>
         </View>
 
-        {/* Action Chevron */}
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 4 }}>
-          <Text style={{ color: isDark ? "#94A3B8" : "#64748B", fontSize: 12, fontWeight: "600" }}>
-            Daily Goal
-          </Text>
-          <ChevronRight size={16} color={isDark ? "#94A3B8" : "#64748B"} />
+        {/* Action Controls & Notifications */}
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+          {onPressUpgrade && (
+            <Pressable
+              onPress={onPressUpgrade}
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                gap: 4,
+                paddingHorizontal: 10,
+                paddingVertical: 5,
+                borderRadius: 100,
+                backgroundColor: "rgba(245, 158, 11, 0.2)",
+                borderWidth: 1,
+                borderColor: "rgba(245, 158, 11, 0.5)",
+              }}
+            >
+              <Sparkles size={14} color="#F59E0B" />
+              <Text style={{ color: "#F59E0B", fontSize: 11.5, fontWeight: "700" }}>Pro</Text>
+            </Pressable>
+          )}
+
+          {onPressBell && (
+            <Pressable
+              onPress={onPressBell}
+              style={{
+                width: 32,
+                height: 32,
+                borderRadius: 16,
+                backgroundColor: isDark ? "rgba(255, 255, 255, 0.08)" : "rgba(0, 0, 0, 0.05)",
+                alignItems: "center",
+                justify: "center",
+                alignSelf: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Bell size={16} color={isDark ? "#94A3B8" : "#64748B"} />
+            </Pressable>
+          )}
         </View>
       </View>
 

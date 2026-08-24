@@ -14,6 +14,8 @@ import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { EbookStreakBanner } from "./dashboard/EbookStreakBanner";
 import { EbookMiniAudioPlayer } from "./dashboard/EbookMiniAudioPlayer";
+import { EbookNotificationsModal } from "./EbookNotificationsModal";
+import { EbookSubscriptionModal } from "./EbookSubscriptionModal";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -342,6 +344,8 @@ const EbookDashboardContent: React.FC<Props> = ({
   const [top100Search, setTop100Search] = useState("");
   const [seriesSearch, setSeriesSearch] = useState("");
   const [selectedAuthor, setSelectedAuthor] = useState<EbookAuthor | null>(null);
+  const [isNotifModalOpen, setIsNotifModalOpen] = useState(false);
+  const [isSubModalOpen, setIsSubModalOpen] = useState(false);
 
   const { data: authorsData = [] } = useGetAuthorsQuery();
   const { data: categoriesData = [] } = useGetCategoriesQuery();
@@ -1295,6 +1299,17 @@ const EbookDashboardContent: React.FC<Props> = ({
           </LinearGradient>
         </Animated.View>
 
+        {/* ── 2. Daily Streak Banner ───────────────────── */}
+        <Animated.View entering={FadeInUp.delay(100).duration(450)} style={{ paddingHorizontal: 16, marginBottom: 20 }}>
+          <EbookStreakBanner
+            currentStreak={7}
+            xpScore={450}
+            isDark={isDark}
+            onPressBell={() => setIsNotifModalOpen(true)}
+            onPressUpgrade={() => setIsSubModalOpen(true)}
+          />
+        </Animated.View>
+
         {/* ── 3. Continue Reading ───────────────────────── */}
         {continueStory && !searchQuery.trim() && (
           <Animated.View entering={FadeInUp.delay(120).duration(450)} style={{ paddingHorizontal: 16, marginBottom: 24 }}>
@@ -2059,6 +2074,18 @@ const EbookDashboardContent: React.FC<Props> = ({
       {/* Floating Sticky Bottom Mini Audio Player */}
       <EbookMiniAudioPlayer
         onPressExpand={() => router.push("/ebook/explore")}
+      />
+
+      {/* Notifications Drawer Modal */}
+      <EbookNotificationsModal
+        visible={isNotifModalOpen}
+        onClose={() => setIsNotifModalOpen(false)}
+      />
+
+      {/* Upgrade Subscription Modal */}
+      <EbookSubscriptionModal
+        visible={isSubModalOpen}
+        onClose={() => setIsSubModalOpen(false)}
       />
     </View>
   );

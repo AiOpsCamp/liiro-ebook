@@ -38,6 +38,7 @@ const reviewController = require("../controllers/review.controller");
 router.get("/slug/:slug/reviews", reviewController.getStoryReviews);
 router.post("/slug/:slug/reviews", authMiddleware.optionalAuth, reviewController.addReview);
 router.post("/reviews/:reviewId/like", reviewController.likeReview);
+router.get("/slug/:slug/export/epub", storyController.exportStoryEpub);
 router.get("/share/:slug", storyController.getStoryShareMetadata);
 // Dedicated Whispersync Bi-Directional Position Sync Engine
 router.post("/whispersync", authMiddleware.optionalAuth, storyController.syncWhispersyncPosition);

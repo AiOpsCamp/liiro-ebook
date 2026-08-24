@@ -73,6 +73,7 @@ app.use("/api/v1/metadata", ebookMetadataRoutes);
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/billing", billingRoutes);
 app.use("/api/v1/profiles", profilesRoutes);
+app.use("/api/v1/notifications", notificationRoutes);
 app.use("/opds", opdsRoutes);
 app.use("/api/v1/opds", opdsRoutes);
 
