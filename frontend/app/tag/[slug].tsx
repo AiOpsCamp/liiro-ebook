@@ -29,6 +29,8 @@ export default function TagDetailScreen() {
     } finally {
       setLoading(false);
     }
+  };
+
   const handleBack = () => {
     if (router.canGoBack()) {
       router.back();
