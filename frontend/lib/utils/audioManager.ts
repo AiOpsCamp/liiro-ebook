@@ -94,8 +94,24 @@ export class AudioManager {
     return `${apiBase.replace(/\/$/, "")}/stories/slug/${storySlug}/stream`;
   }
 
+  private formatAudioUrl(url: string | null | undefined): string {
+    if (!url) return "";
+    if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("data:") || url.startsWith("file:")) {
+      return url;
+    }
+    const apiBase = process.env.EXPO_PUBLIC_API_URL || "http://localhost:5012/api/v1";
+    const backendHost = apiBase.replace(/\/api\/v1\/?$/, "");
+    return `${backendHost.replace(/\/$/, "")}/${url.replace(/^\//, "")}`;
+  }
+
   async playAudio(uri: string, onFinish?: () => void, seekPosition = 0): Promise<boolean> {
     try {
+      if (!uri) {
+        console.warn("Cannot play audio: Empty or undefined URI provided");
+        return false;
+      }
+
+      const formattedUri = this.formatAudioUrl(uri);
       await this.initializeAudio();
       await this.ensurePlayer();
       await this.stopAndCleanup();
@@ -103,25 +119,32 @@ export class AudioManager {
       this.onAudioFinishCallback = onFinish || null;
 
       if (this.webAudioEl) {
-        this.webAudioEl.src = uri;
+        this.webAudioEl.src = formattedUri;
         if (seekPosition > 0) {
           this.webAudioEl.currentTime = seekPosition;
         }
-        await this.webAudioEl.play();
-        this.isPlaying = true;
 
-        this.webAudioEl.onended = () => {
-          const cb = this.onAudioFinishCallback;
-          this.cleanup();
-          cb?.();
-        };
+        try {
+          await this.webAudioEl.play();
+          this.isPlaying = true;
 
-        this.startPolling();
-        return true;
+          this.webAudioEl.onended = () => {
+            const cb = this.onAudioFinishCallback;
+            this.cleanup();
+            cb?.();
+          };
+
+          this.startPolling();
+          return true;
+        } catch (playErr) {
+          console.warn("Web Audio play error:", playErr);
+          this.isPlaying = false;
+          return false;
+        }
       }
 
       if (this.player) {
-        const source: AudioSource = { uri };
+        const source: AudioSource = { uri: formattedUri };
         try { await this.player.seekTo?.(0); } catch {}
         this.player.replace?.(source);
 
