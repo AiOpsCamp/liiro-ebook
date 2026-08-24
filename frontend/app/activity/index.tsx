@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, Pressable, ActivityIndicator, Image } from "react-native";
+import { View, Text, ScrollView, Pressable, ActivityIndicator, Image, RefreshControl } from "react-native";
 import { useRouter, Stack } from "expo-router";
+import { useSelector } from "react-redux";
+import { selectThemeTokens } from "@/redux/features/themeSlice";
 import { ArrowLeft, Activity, BookOpen, Headphones, Globe, Clock, Trophy, Pause, Bookmark, RefreshCw } from "lucide-react-native";
 
 export default function UserActivityScreen() {
   const router = useRouter();
+  const tokens = useSelector(selectThemeTokens);
   const [activities, setActivities] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     fetchActivities();
@@ -25,7 +29,13 @@ export default function UserActivityScreen() {
       console.warn("Failed to fetch user activities:", e);
     } finally {
       setLoading(false);
+      setRefreshing(false);
     }
+  };
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    fetchActivities();
   };
 
   const handleBack = () => {
@@ -129,8 +139,11 @@ export default function UserActivityScreen() {
             Start reading or listening to an ebook to log your real-time progress timeline!
           </Text>
         </View>
-      ) : (
-        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 40 }}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 40 }}
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="#818CF8" colors={["#818CF8"]} />}
+        >
           <View style={{ gap: 16 }}>
             {activities.map((act) => {
               const langFlag = act.activeLang === "es" ? "🇪🇸 ES" : act.activeLang === "fr" ? "🇫🇷 FR" : "🇬🇧 EN";
