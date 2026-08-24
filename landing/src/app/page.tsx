@@ -129,17 +129,56 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Right Column (Interactive Feature Card Preview) */}
+        {/* Right Column (Interactive Feature Card Preview & Animated Floating Covers) */}
         <div className="w-full lg:w-1/2 flex items-center justify-center p-6 md:p-12 lg:p-16 relative">
+          
+          {/* Animated Ambient Glow Blobs */}
+          <motion.div
+            animate={{ scale: [1, 1.25, 1], opacity: [0.35, 0.6, 0.35] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute w-72 h-72 bg-amber-500/20 rounded-full filter blur-3xl -top-10 -left-10 pointer-events-none"
+          />
+          <motion.div
+            animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
+            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+            className="absolute w-72 h-72 bg-indigo-500/20 rounded-full filter blur-3xl -bottom-10 -right-10 pointer-events-none"
+          />
+
+          {/* Floating 3D Book Cover Graphic Pill */}
+          <motion.div
+            initial={{ opacity: 0, y: -20, rotate: -6 }}
+            animate={{ opacity: 1, y: [0, -10, 0], rotate: -6 }}
+            transition={{ y: { duration: 4, repeat: Infinity, ease: "easeInOut" }, opacity: { duration: 0.6 } }}
+            className="hidden sm:flex absolute -top-4 -right-4 z-20 bg-slate-900/90 border border-amber-500/40 p-3 rounded-2xl shadow-xl backdrop-blur-md items-center gap-3"
+          >
+            <img
+              src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=200"
+              alt="Pride and Prejudice"
+              className="w-10 h-14 rounded-lg object-cover border border-slate-700"
+            />
+            <div>
+              <div className="text-xs font-bold text-white">Pride & Prejudice</div>
+              <div className="text-[10px] text-amber-400 font-semibold">1,000+ Masterpieces</div>
+            </div>
+          </motion.div>
+
           <motion.div 
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="relative w-full max-w-[480px] bg-slate-900 text-white rounded-3xl shadow-2xl border border-slate-800 overflow-hidden flex flex-col p-6 gap-6"
+            className="relative w-full max-w-[480px] bg-slate-900/95 text-white rounded-3xl shadow-2xl border border-slate-800 overflow-hidden flex flex-col p-6 gap-6 z-10 backdrop-blur-lg"
           >
             <div className="flex items-center justify-between border-b border-slate-800 pb-4">
               <div>
-                <span className="text-amber-400 text-xs font-bold tracking-widest uppercase">NOW PLAYING</span>
+                <span className="text-amber-400 text-xs font-bold tracking-widest uppercase flex items-center gap-2">
+                  {/* Live Equalizer Audio Motion Visualizer */}
+                  <span className="flex items-end gap-0.5 h-3">
+                    <motion.span animate={{ height: ["20%", "100%", "40%"] }} transition={{ duration: 0.6, repeat: Infinity, repeatType: "reverse" }} className="w-0.5 bg-amber-400 rounded-full" />
+                    <motion.span animate={{ height: ["80%", "30%", "100%"] }} transition={{ duration: 0.8, repeat: Infinity, repeatType: "reverse" }} className="w-0.5 bg-amber-400 rounded-full" />
+                    <motion.span animate={{ height: ["40%", "100%", "20%"] }} transition={{ duration: 0.5, repeat: Infinity, repeatType: "reverse" }} className="w-0.5 bg-amber-400 rounded-full" />
+                  </span>
+                  NOW PLAYING NARRATION
+                </span>
                 <h3 className="font-bold text-lg text-white">Dr. Jekyll and Mr. Hyde</h3>
               </div>
               <span className="px-3 py-1 bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs font-bold rounded-full">
@@ -152,23 +191,34 @@ export default function Home() {
               <p className="text-sm leading-relaxed text-slate-400">
                 Mr. Utterson the lawyer was a man of a rugged countenance that was never lighted by a smile; cold, scanty and embarrassed in discourse; backward in sentiment...
               </p>
-              <p className="text-sm leading-relaxed text-amber-400 font-bold bg-amber-500/10 p-2 rounded-lg border border-amber-500/20">
+              <motion.p
+                animate={{ boxShadow: ["0 0 0px rgba(245,158,11,0)", "0 0 15px rgba(245,158,11,0.3)", "0 0 0px rgba(245,158,11,0)"] }}
+                transition={{ duration: 3, repeat: Infinity }}
+                className="text-sm leading-relaxed text-amber-400 font-bold bg-amber-500/10 p-2.5 rounded-xl border border-amber-500/30"
+              >
                 “Man is not truly one, but truly two.”
-              </p>
+              </motion.p>
             </div>
 
             {/* Ambient Soundscapes Switcher */}
             <div>
-              <span className="text-xs font-bold text-slate-400 mb-2 block">AMBIENT SOUNDSCAPE</span>
+              <span className="text-xs text-slate-400 font-bold block mb-3 uppercase tracking-wider">
+                🌧️ Ambient Soundscape Engine
+              </span>
               <div className="flex flex-wrap gap-2">
-                {["Rain on Windowpane", "Cozy Fireplace", "Gothic Library"].map((name) => (
+                {[
+                  "Rain on Windowpane",
+                  "Thunderstorm",
+                  "Cosmic Deep Space",
+                  "Fireplace Crackle",
+                ].map((name) => (
                   <button
                     key={name}
                     onClick={() => setActiveSoundscape(name)}
-                    className={`px-3 py-1.5 rounded-full text-xs font-bold border transition-all ${
+                    className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all border ${
                       activeSoundscape === name
-                        ? "bg-amber-500 text-slate-950 border-amber-400"
-                        : "bg-slate-800 text-slate-400 border-slate-700"
+                        ? "bg-amber-500 text-slate-950 border-amber-400 shadow-md shadow-amber-500/20"
+                        : "bg-slate-800 text-slate-400 border-slate-700 hover:border-slate-600"
                     }`}
                   >
                     🌧️ {name}
