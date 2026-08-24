@@ -370,6 +370,19 @@ const EbookDashboardContent: React.FC<Props> = ({
   const { data: tagsData = [] } = useGetTagsQuery();
   const { data: seriesData = [] } = useGetBookSeriesQuery();
 
+  const handleStoryPress = useCallback(
+    (slug: string, preferAudio?: boolean) => {
+      if (onStoryPress) {
+        onStoryPress(slug, preferAudio);
+      } else if (preferAudio) {
+        router.push(`/read/${slug}?audio=1`);
+      } else {
+        router.push(`/details/${slug}`);
+      }
+    },
+    [onStoryPress, router]
+  );
+
   const handleBack = useCallback(() => {
     if (onBackPress) {
       onBackPress();
@@ -2242,7 +2255,7 @@ const EbookDashboardContent: React.FC<Props> = ({
                   const cols = width >= 1024 ? 4 : width >= 768 ? 3 : 2;
                   return (
                     <View key={story._id} style={{ width: `${100 / cols}%`, paddingHorizontal: 6, paddingBottom: 14 }}>
-                      <StoryCard story={story} onPress={onStoryPress} variant="standard" />
+                      <StoryCard story={story} onPress={handleStoryPress} variant="standard" />
                     </View>
                   );
                 })}
