@@ -65,12 +65,14 @@ app.get("/health", async (req, res) => {
 
 const opdsRoutes = require("./src/routes/opds.routes");
 const billingRoutes = require("./src/routes/billing.routes");
+const profilesRoutes = require("./src/routes/profiles.routes");
 
 // API Routes
 app.use("/api/v1/stories", storiesRoutes);
 app.use("/api/v1/metadata", ebookMetadataRoutes);
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/billing", billingRoutes);
+app.use("/api/v1/profiles", profilesRoutes);
 app.use("/opds", opdsRoutes);
 app.use("/api/v1/opds", opdsRoutes);
 

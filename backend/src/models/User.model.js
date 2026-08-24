@@ -159,6 +159,19 @@ const UserSchema = new Schema(
     monthlyListeningLimitHours: { type: Number, default: 20 },
     usedListeningSecondsCurrentCycle: { type: Number, default: 0 },
 
+    // Family Profiles & Kids Mode Sub-accounts (BookBeat Parity)
+    activeProfileId: { type: Schema.Types.ObjectId, default: null },
+    profiles: [
+      {
+        name: { type: String, required: true },
+        avatarUrl: { type: String, default: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=300" },
+        isKidsMode: { type: Boolean, default: false },
+        ageTier: { type: String, enum: ["0-3", "3-6", "6-9", "9-12", "all"], default: "all" },
+        parentalPin: { type: String, default: null },
+        usedListeningSeconds: { type: Number, default: 0 },
+      },
+    ],
+
     // Legacy single token (backwards compatibility)
     notificationToken: { type: String, default: null },
 
