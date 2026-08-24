@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Pressable, Image, Platform } from "react-native";
-import { Play, Pause, SkipForward, X, Moon } from "lucide-react-native";
+import { Play, Pause, SkipForward, X, Moon, Car } from "lucide-react-native";
 import { AudioManager } from "@/lib/utils/audioManager";
 import { EbookSleepTimerModal } from "../EbookSleepTimerModal";
 
@@ -134,6 +134,14 @@ export const EbookMiniAudioPlayer: React.FC<EbookMiniAudioPlayerProps> = ({
             style={{ width: 32, height: 32, alignItems: "center", justifyContent: "center" }}
           >
             <Moon size={18} color="#818CF8" />
+          </Pressable>
+
+          {/* Car Driving Mode Button */}
+          <Pressable
+            onPress={() => router.push(`/car-mode/${activeStorySlug || "alices-adventures-in-wonderland"}`)}
+            style={{ width: 32, height: 32, alignItems: "center", justifyContent: "center" }}
+          >
+            <Car size={18} color="#F59E0B" />
           </Pressable>
 
           {/* Close Mini Player */}

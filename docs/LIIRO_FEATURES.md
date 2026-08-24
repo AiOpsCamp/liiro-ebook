@@ -18,6 +18,14 @@
 
 ---
 
+## 🚗 1.6. Audible-Style Driving Car Mode UI
+
+* 🚗 **Ultra-High Contrast Driving Layout (`/app/car-mode/[slug]`)**: Deep `#020617` dark canvas with high-contrast gold `#F59E0B` and white typography for maximum legibility while driving or exercising.
+* 🔘 **Extra-Large 96px Touch Targets**: Giant center Play/Pause button and 76px Rewind/Forward 15s skip buttons designed for safe 1-tap operation without looking at the screen.
+* 📌 **1-Tap Driving Bookmark & Speed Selector**: Instant 1-tap bookmark pin dropping and 1.0x to 2.0x playback speed toggling.
+
+---
+
 ## ⚡ 1.5. Blinkist-Style "Key Takeaways" & 15-Minute Audio Summaries
 
 * ⚡ **5-7 Key Takeaway "Blinks" (`/app/summary/[slug]`)**: Instant wisdom breakdown summarizing masterworks into 5 to 7 bullet point insights with key quotes and progress card stack navigation.
