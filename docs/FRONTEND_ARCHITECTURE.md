@@ -48,6 +48,19 @@
 
 ---
 
+### 🎨 1.5 Advanced Reader & Automotive Power Enhancements
+- **Custom Typography Preloader (`expo-font`)** ([`app/_layout.tsx`](file:///Users/humayunrashid/multicamp/liiro-ebook/frontend/app/_layout.tsx)):
+  - Preloaded Google Fonts: **Lora** (Serif), **Playfair Display** (Display), **JetBrains Mono** (Monospace).
+  - Reader Preferences Modal ([`EbookReaderSettingsModal.tsx`](file:///Users/humayunrashid/multicamp/liiro-ebook/frontend/components/ebook/read/EbookReaderSettingsModal.tsx)): Allows switching font families on the fly.
+- **Contextual Selection Tooltip & Highlights** ([`EbookTextSelectionTooltip.tsx`](file:///Users/humayunrashid/multicamp/liiro-ebook/frontend/components/ebook/read/EbookTextSelectionTooltip.tsx)):
+  - **Dictionary Lookup**: Fetches definitions, phonetics, audio pronunciation, and part-of-speech breakdowns.
+  - **Instant Translation**: Translation preview modal for selected text.
+  - **Multi-Color Highlighter**: Highlights text in Yellow (`#FEF08A`), Green (`#BBF7D0`), Blue (`#BFDBFE`), or Pink (`#FBCFE8`).
+- **CarPlay & Android Auto Dashboard Integration** ([`lib/utils/audioManager.ts`](file:///Users/humayunrashid/multicamp/liiro-ebook/frontend/lib/utils/audioManager.ts)):
+  - `updateCarPlayMediaSessionMetadata()`: Exposes `MediaSession` metadata (Cover Artwork, Title, Author, Album) and registers automotive action handlers (`play`, `pause`, `seekbackward`, `seekforward`).
+
+---
+
 ## 🎉 2. Frontend Infrastructure Summary
 
-All planned frontend tasks (RTK Query Authorization Headers, DRM Stream Tokens, Whispersync Reader UI, `expo-audio` Cross-Platform Engine, Offline Storage Manager, and Monolithic Reader Component Decomposition) are **100% completed, verified live, and running on port 8086**.
+All frontend features (RTK Query Auth Headers, DRM Stream Tokens, Whispersync UI, `expo-audio` Engine, Offline Storage Manager, Reader Sub-Component Refactoring, Typography Fonts, Contextual Selection Tooltip, and CarPlay Controls) are **100% completed, verified live, and running on port 8086**.

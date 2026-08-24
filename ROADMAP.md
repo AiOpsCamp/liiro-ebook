@@ -38,6 +38,12 @@
 - [x] **Stripe & RevenueCat Webhook Listener**: Mounted `/api/v1/billing/webhook/stripe` & `/revenuecat` entitlement listeners.
 - [x] **Background Audio Queue Worker Infrastructure**: Built `audioQueue.js` and `/api/v1/stories/queue/status` telemetry endpoint.
 
+### Phase 6: Distributed K8s Queue & Custom Voice Engine
+- [x] **BullMQ + Redis Distributed Queue**: Migrated `audioQueue.js` to BullMQ with Redis backing for multi-server cluster scale (`src/config/redisConfig.js`).
+- [x] **Kubernetes Pods & HPA Autoscaling**: Deployed `redis-deployment.yaml` and `worker-deployment.yaml` with Horizontal Pod Autoscaling (HPA 2 to 10 pods).
+- [x] **Clean Text Generator & Header Deduplicator**: Built `cleaner.py` stripping markdown asterisks, HTML tags, em-dashes, and duplicate title headings.
+- [x] **Multi-Voice & Custom Voice Cloner**: Created `clone_voice.py` supporting 11+ AI narrator voices, ratio blending, and 10s WAV zero-shot voice cloning.
+
 ---
 
 ## 🎨 Frontend Engineering Task List (`frontend/`)
@@ -56,3 +62,8 @@
 ### Phase 3: Offline Storage & Reader Enhancements
 - [x] **Offline Audiobook Downloader**: Implemented `OfflineManager` (`offlineManager.ts`) using `expo-file-system` to download and store story text and audio files locally.
 - [x] **Whispersync Reader UI Integration**: Built `WhispersyncPromptModal` glassmorphism modal auto-prompting users to resume reading/listening from cross-device positions.
+
+### Phase 4: Advanced Reader Typography & Automotive Integration
+- [x] **Custom Typography Preloader (`expo-font`)**: Preloaded Google Fonts (Lora, Playfair Display, JetBrains Mono) via `expo-font` in `_layout.tsx` and updated Reader Preferences modal.
+- [x] **Contextual Selection Tooltip & Highlights**: Built `EbookTextSelectionTooltip.tsx` with free dictionary lookup, translation preview, and 4-color text highlighter.
+- [x] **CarPlay & Android Auto Integration**: Exposed `MediaSession` metadata (Cover Artwork, Title, Author, Album) and registered automotive action handlers (`play`, `pause`, `seekbackward`, `seekforward`) in `audioManager.ts`.
