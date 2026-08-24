@@ -59,6 +59,7 @@ Detailed, deep-dive architectural specifications for individual sub-systems are 
 - 🎙️ [**`backend/audio_pipeline/README.md`**](file:///Users/humayunrashid/multicamp/liiro-ebook/backend/audio_pipeline/README.md): Standalone audio generation pipeline, text cleaner, header deduplicator, Kokoro ONNX speech engine, Whispersync timestamp aligner, HLS transcoder, and S3 uploader.
 - 🎭 [**`docs/MULTI_VOICE_GUIDE.md`**](file:///Users/humayunrashid/multicamp/liiro-ebook/docs/MULTI_VOICE_GUIDE.md): 11+ AI narrator voice profiles, Hetzner S3 voice storage layout, `audioVoices` MongoDB schema, and UI voice switcher modal.
 - 🧬 [**`docs/CUSTOM_VOICE_CLONING_GUIDE.md`**](file:///Users/humayunrashid/multicamp/liiro-ebook/docs/CUSTOM_VOICE_CLONING_GUIDE.md): Custom voice creation, voice embedding ratio blending, and zero-shot voice cloning from 10–30s WAV audio recordings.
+- 🔭 [**`docs/FUTURE_ENHANCEMENTS.md`**](file:///Users/humayunrashid/multicamp/liiro-ebook/docs/FUTURE_ENHANCEMENTS.md): Gap analysis and recommended next-tier power extensions (BullMQ queues, EPUB exporter, WebSockets Whispersync, CarPlay, custom fonts).
 
 ---
 
