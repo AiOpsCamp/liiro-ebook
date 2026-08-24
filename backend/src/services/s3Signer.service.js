@@ -3,7 +3,7 @@
 const crypto = require("crypto");
 const { S3Client, GetObjectCommand } = require("@aws-sdk/client-s3");
 
-const BUCKET = process.env.HETZNER_S3_BUCKET || "multicamp-prod-storage";
+const BUCKET = process.env.HETZNER_S3_BUCKET || "multicamp-prod-k8s-assets";
 const ENDPOINT = process.env.HETZNER_S3_ENDPOINT || "https://nbg1.your-objectstorage.com";
 const HMAC_SECRET = process.env.JWT_SECRET || "liiro_ebook_secure_stream_secret_2026";
 
@@ -47,17 +47,22 @@ function verifyStreamToken(slug, chapterNumber, voice, token, expiresAtMs) {
  * Fetch Audio Object Stream from Hetzner S3 (with HTTP Range Request support)
  */
 async function getS3AudioStream(s3Key, rangeHeader = null) {
+  let targetBucket = BUCKET;
   let key = s3Key;
+
   if (key.startsWith("http://") || key.startsWith("https://")) {
     const urlObj = new URL(key);
-    key = urlObj.pathname.startsWith("/") ? urlObj.pathname.substring(1) : urlObj.pathname;
-    if (key.startsWith(`${BUCKET}/`)) {
-      key = key.substring(BUCKET.length + 1);
+    const parts = urlObj.pathname.replace(/^\//, "").split("/");
+    if (parts.length >= 2 && (parts[0].includes("storage") || parts[0].includes("assets") || parts[0].includes("prod"))) {
+      targetBucket = parts[0];
+      key = parts.slice(1).join("/");
+    } else {
+      key = parts.join("/");
     }
   }
 
   const params = {
-    Bucket: BUCKET,
+    Bucket: targetBucket,
     Key: key,
   };
 

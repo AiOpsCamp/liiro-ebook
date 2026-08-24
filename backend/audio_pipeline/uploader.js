@@ -81,7 +81,21 @@ async function linkChapterInDatabase(slug, chapterNumber, audioUrl, durationSec,
     }
   );
 
-  console.log(`✅ Updated Chapter ${chNum} of '${slug}' in MongoDB liiro_prod (Modified: ${result.modifiedCount})`);
+  // Update parent story document hasAudio and audioVoices
+  await db.collection("stories").updateOne(
+    { _id: story._id },
+    {
+      $set: {
+        hasAudio: true,
+        isAudiobook: true,
+        audioVoices: audioVoicesPayload,
+        defaultVoiceId: voiceKey,
+        updatedAt: new Date(),
+      },
+    }
+  );
+
+  console.log(`✅ Updated Chapter ${chNum} of '${slug}' and parent story in MongoDB liiro_prod (Modified: ${result.modifiedCount})`);
   await mongoose.disconnect();
 }
 

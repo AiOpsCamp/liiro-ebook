@@ -67,7 +67,7 @@ exports.getStoriesDashboard = async (req, res) => {
 
     const [allPublished, progressDocs, chapterCounts] = await Promise.all([
       Story.find({ isPublished: true })
-        .select("title slug synopsis coverImageUrl difficultyLevel author totalDurationSeconds isPremium isFeatured featuredRank contentType tags category createdAt")
+        .select("title slug synopsis coverImageUrl difficultyLevel author totalDurationSeconds isPremium isFeatured featuredRank contentType tags category hasAudio isAudiobook audioVoices defaultVoiceId createdAt")
         .sort({ createdAt: -1 })
         .lean(),
       UserStoryProgress.find({ userId }).sort({ lastVisitedAt: -1, lastReadAt: -1 }).lean(),
@@ -337,6 +337,8 @@ exports.getStoryDetails = async (req, res) => {
         synopsis: typeof story.synopsis === "object" ? localizeMapField(story.synopsis, lang, "") : (story.synopsis || ""),
         languages: story.languages || ["en"],
         contentType: story.contentType || "ebook",
+        hasAudio: story.hasAudio || formattedChapters.some((c) => !!c.audioUrl),
+        isAudiobook: story.isAudiobook || formattedChapters.some((c) => !!c.audioUrl),
         chapters: formattedChapters,
         userProgress: userProgress || null,
         similarStories: formattedSimilarStories,
@@ -921,11 +923,12 @@ exports.getStreamToken = async (req, res) => {
     }
 
     const chNum = chapter.chapterNumber || 1;
-    const { token, expiresAtMs } = createStreamToken(slug, chNum, voice, 7200);
+    const voiceKey = (voice && voice !== "adam" ? voice : chapter.audioVoices?.defaultVoiceId || voice || "adam").replace(/^am_/, "").replace(/^af_/, "");
+    const { token, expiresAtMs } = createStreamToken(slug, chNum, voiceKey, 7200);
 
     const protocol = req.protocol || "http";
     const host = req.get("host") || "localhost:5012";
-    const signedStreamUrl = `${protocol}://${host}/api/v1/stories/slug/${slug}/stream?chapterNumber=${chNum}&voice=${voice}&token=${token}&expires=${expiresAtMs}`;
+    const signedStreamUrl = `${protocol}://${host}/api/v1/stories/slug/${slug}/stream?chapterNumber=${chNum}&voice=${voiceKey}&token=${token}&expires=${expiresAtMs}`;
 
     res.status(200).json({
       success: true,
