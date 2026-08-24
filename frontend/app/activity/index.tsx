@@ -139,6 +139,7 @@ export default function UserActivityScreen() {
             Start reading or listening to an ebook to log your real-time progress timeline!
           </Text>
         </View>
+      ) : (
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 40 }}
