@@ -33,10 +33,11 @@ const THEME_OPTIONS = [
   { key: "forest", name: "Forest 🌲", bg: "#0D1813", text: "#ECFDF5" },
 ];
 
-const FONT_OPTIONS: Array<{ key: "sans" | "serif" | "mono"; name: string }> = [
-  { key: "sans", name: "Sans-Serif" },
-  { key: "serif", name: "Classic Serif" },
-  { key: "mono", name: "Monospace" },
+const FONT_OPTIONS: Array<{ key: "sans" | "serif" | "mono" | "playfair"; name: string; family: string }> = [
+  { key: "sans", name: "Sans-Serif", family: "System" },
+  { key: "serif", name: "Lora (Serif)", family: "Lora" },
+  { key: "playfair", name: "Playfair (Display)", family: "PlayfairDisplay" },
+  { key: "mono", name: "JetBrains (Mono)", family: "JetBrainsMono" },
 ];
 
 export const EbookReaderSettingsModal: React.FC<EbookReaderSettingsModalProps> = ({

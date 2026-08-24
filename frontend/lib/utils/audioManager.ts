@@ -345,4 +345,52 @@ export class AudioManager {
       this.pollId = null;
     }
   }
+
+  /**
+   * Update CarPlay & Android Auto Automotive Dashboard MediaSession Controls
+   */
+  updateCarPlayMediaSessionMetadata(metadata: {
+    title: string;
+    artist: string;
+    album: string;
+    artworkUrl?: string;
+  }): void {
+    if (Platform.OS === "web" && typeof window !== "undefined" && "mediaSession" in navigator) {
+      try {
+        navigator.mediaSession.metadata = new (window as any).MediaMetadata({
+          title: metadata.title,
+          artist: metadata.artist,
+          album: metadata.album,
+          artwork: metadata.artworkUrl
+            ? [
+                { src: metadata.artworkUrl, sizes: "96x96", type: "image/png" },
+                { src: metadata.artworkUrl, sizes: "128x128", type: "image/png" },
+                { src: metadata.artworkUrl, sizes: "192x192", type: "image/png" },
+                { src: metadata.artworkUrl, sizes: "512x512", type: "image/png" },
+              ]
+            : [],
+        });
+
+        // Register Automotive Action Controls (CarPlay / Android Auto)
+        navigator.mediaSession.setActionHandler("play", () => {
+          this.resumeAudio();
+          navigator.mediaSession.playbackState = "playing";
+        });
+        navigator.mediaSession.setActionHandler("pause", () => {
+          this.pauseAudio();
+          navigator.mediaSession.playbackState = "paused";
+        });
+        navigator.mediaSession.setActionHandler("seekbackward", () => {
+          const newPos = Math.max(0, this.lastKnownPosition - 15);
+          this.seekTo(newPos);
+        });
+        navigator.mediaSession.setActionHandler("seekforward", () => {
+          const newPos = this.lastKnownPosition + 15;
+          this.seekTo(newPos);
+        });
+      } catch (err) {
+        console.warn("MediaSession CarPlay metadata initialization warning:", err);
+      }
+    }
+  }
 }

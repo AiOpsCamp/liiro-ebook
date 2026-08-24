@@ -10,6 +10,9 @@
     "web-prod": "cross-env EXPO_PUBLIC_API_URL=https://app.langoread.io/aiopscamp-langoreads-api/api/v1 NODE_OPTIONS=--max_old_space_size=12288 expo start --web --port 8085 --clear"
   },
   "dependencies": {
+    "@expo-google-fonts/jetbrains-mono": "^0.4.1",
+    "@expo-google-fonts/lora": "^0.4.2",
+    "@expo-google-fonts/playfair-display": "^0.4.2",
     "@expo/vector-icons": "^15.0.3",
     "@gorhom/bottom-sheet": "^5.2.14",
     "@react-native-async-storage/async-storage": "2.2.0",

@@ -5,6 +5,9 @@ import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { View, ActivityIndicator } from "react-native";
+import { useFonts, Lora_400Regular, Lora_600SemiBold, Lora_700Bold, Lora_400Regular_Italic } from "@expo-google-fonts/lora";
+import { PlayfairDisplay_400Regular, PlayfairDisplay_600SemiBold, PlayfairDisplay_700Bold } from "@expo-google-fonts/playfair-display";
+import { JetBrainsMono_400Regular, JetBrainsMono_600SemiBold } from "@expo-google-fonts/jetbrains-mono";
 import { store } from "@/redux/store";
 import GlobalProvider, { useGlobalContext } from "@/context/GlobalContext";
 import { AlertProvider } from "@/context/AlertContext";
@@ -15,6 +18,18 @@ function RootNavigationGuard({ children }: { children: React.ReactNode }) {
   const segments = useSegments();
   const pathname = usePathname();
   const router = useRouter();
+
+  const [fontsLoaded] = useFonts({
+    Lora: Lora_400Regular,
+    "Lora-SemiBold": Lora_600SemiBold,
+    "Lora-Bold": Lora_700Bold,
+    "Lora-Italic": Lora_400Regular_Italic,
+    PlayfairDisplay: PlayfairDisplay_400Regular,
+    "PlayfairDisplay-SemiBold": PlayfairDisplay_600SemiBold,
+    "PlayfairDisplay-Bold": PlayfairDisplay_700Bold,
+    JetBrainsMono: JetBrainsMono_400Regular,
+    "JetBrainsMono-SemiBold": JetBrainsMono_600SemiBold,
+  });
 
   useEffect(() => {
     if (isLoading || typeof window === "undefined") return;

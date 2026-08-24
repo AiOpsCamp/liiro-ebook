@@ -36,6 +36,7 @@ import { EbookReaderHeader } from "./EbookReaderHeader";
 import { EbookReaderFooterPlayer } from "./EbookReaderFooterPlayer";
 import { EbookReaderSettingsModal } from "./EbookReaderSettingsModal";
 import { EbookReaderTocModal } from "./EbookReaderTocModal";
+import { EbookTextSelectionTooltip } from "./EbookTextSelectionTooltip";
 import {
   useSyncWhispersyncPositionMutation,
   useGetWhispersyncPositionQuery,
@@ -519,6 +520,21 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
   const [bookmarkedChapters, setBookmarkedChapters] = useState<number[]>([]);
   const [selectedVoiceId, setSelectedVoiceId] = useState<string>("am_adam");
   const [isVoiceSheetOpen, setIsVoiceSheetOpen] = useState(false);
+  const [selectedText, setSelectedText] = useState<string | null>(null);
+
+  // Web Text Selection Listener for Contextual Tooltip
+  useEffect(() => {
+    if (Platform.OS === "web" && typeof window !== "undefined") {
+      const handleSelection = () => {
+        const sel = window.getSelection()?.toString();
+        if (sel && sel.trim().length > 1) {
+          setSelectedText(sel.trim());
+        }
+      };
+      document.addEventListener("selectionchange", handleSelection);
+      return () => document.removeEventListener("selectionchange", handleSelection);
+    }
+  }, []);
 
   // Whispersync Hooks & Prompt Modal State
   const [showWhispersyncModal, setShowWhispersyncModal] = useState<boolean>(false);
@@ -987,6 +1003,12 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
       if (success) {
         setIsPlaying(true);
         audioMgr.setRate(playbackSpeed);
+        audioMgr.updateCarPlayMediaSessionMetadata({
+          title: activeChapter?.title ? (typeof activeChapter.title === "object" ? (activeChapter.title as any).en : activeChapter.title) : `Chapter ${currentChapterIdx + 1}`,
+          artist: typeof story?.author === "object" ? (story.author as any).name : (story?.author || "Liiro Author"),
+          album: typeof story?.title === "object" ? (story.title as any).en : (story?.title || "Liiro Audiobook"),
+          artworkUrl: story?.coverImageUrl || "",
+        });
         if (Platform.OS === "web") {
           audioElementRef.current = audioMgr.getWebAudioElement();
         }
@@ -3954,6 +3976,13 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
           }
         }}
       />
+      {selectedText && (
+        <EbookTextSelectionTooltip
+          selectedText={selectedText}
+          onClose={() => setSelectedText(null)}
+          onHighlight={() => setSelectedText(null)}
+        />
+      )}
     </View>
   );
 };
