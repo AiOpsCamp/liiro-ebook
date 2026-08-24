@@ -145,7 +145,11 @@ const StandardCard: React.FC<Omit<StoryCardProps, "variant">> = ({ story, onPres
   return (
     <Pressable
       onPress={() => onPress(story.slug)}
-      style={({ pressed }) => ({ width: "100%", opacity: pressed ? 0.88 : 1 })}
+      style={({ pressed, hovered }: any) => ({
+        width: "100%",
+        opacity: pressed ? 0.88 : 1,
+        transform: [{ translateY: hovered ? -4 : 0 }, { scale: pressed ? 0.98 : 1 }],
+      })}
       accessibilityLabel={`Read ${getLocalizedText(story.title)}`}
     >
       <View

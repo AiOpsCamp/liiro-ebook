@@ -9,6 +9,37 @@ const CacheManager = require("../utils/cache.utils");
 // ── Authors ─────────────────────────────────────────────────────────────
 exports.getAuthors = async (req, res) => {
   try {
+    const { page, limit, search } = req.query;
+    if (page || limit || search) {
+      const pageNum = Math.max(1, parseInt(page) || 1);
+      const limitNum = Math.min(100, Math.max(1, parseInt(limit) || 24));
+      const skip = (pageNum - 1) * limitNum;
+
+      const filter = {};
+      if (search) {
+        filter.name = { $regex: search, $options: "i" };
+      }
+
+      const [authors, total] = await Promise.all([
+        EbookAuthor.find(filter)
+          .sort({ bookCount: -1, name: 1 })
+          .skip(skip)
+          .limit(limitNum)
+          .populate({ path: "books", select: "title slug coverImageUrl author difficultyLevel isPremium contentType tags", strictPopulate: false })
+          .lean(),
+        EbookAuthor.countDocuments(filter),
+      ]);
+
+      return res.status(200).json({
+        success: true,
+        count: authors.length,
+        total,
+        page: pageNum,
+        totalPages: Math.ceil(total / limitNum),
+        data: authors,
+      });
+    }
+
     const cached = CacheManager.get("authors_list");
     if (cached) {
       return res.status(200).json(cached);

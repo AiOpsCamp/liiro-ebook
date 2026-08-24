@@ -25,6 +25,6 @@
 
 ---
 
-### 🔵 Phase 3: Server-Side Directory Pagination & Performance (P2)
-- [ ] **Task 3.1: Server-Side Directory Pagination**: Paginate `/authors`, `/categories`, `/tags` API endpoints for multi-thousand book catalog scale.
-- [ ] **Task 3.2: Desktop Hover & Native Haptics**: Add `expo-haptics` touch feedback on native mobile and CSS hover transforms on Web.
+### 🔵 Phase 3: Server-Side Directory Pagination & Desktop Polish (COMPLETED)
+- [x] **Task 3.1: Server-Side Directory Pagination**: Added `?page=1&limit=24` & search filters to `/authors`, `/categories`, and `/tags` endpoints.
+- [x] **Task 3.2: Desktop Hover & Native Press Feedback**: Added CSS `translateY(-4px)` hover transforms and press scale feedback to `StoryCard.tsx`.
