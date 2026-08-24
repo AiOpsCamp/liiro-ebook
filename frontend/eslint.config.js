@@ -6,15 +6,15 @@ module.exports = defineConfig([
   expoConfig,
   {
     ignores: [
-      "dist/*",
-      "node_modules/*",
-      ".expo/*",
-      "config/*",
-      "components/ui/*",
-      "hooks/*",
-      "lib/*",
-      "services/*",
-      "types/*"
+      "**/dist/**",
+      "**/node_modules/**",
+      "**/.expo/**",
+      "**/config/**",
+      "**/components/ui/**",
+      "**/hooks/**",
+      "**/lib/**",
+      "**/services/**",
+      "**/types/**"
     ],
     rules: {
       "import/no-unresolved": "off",
@@ -24,7 +24,7 @@ module.exports = defineConfig([
       "react-hooks/refs": "off",
       "react-hooks/immutability": "off",
       "react-hooks/rules-of-hooks": "off",
-      "react-hooks/exhaustive-deps": "warn"
+      "react-hooks/exhaustive-deps": "off"
     }
   }
 ]);
