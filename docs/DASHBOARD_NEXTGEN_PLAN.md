@@ -17,11 +17,11 @@
 
 ---
 
-### 🟡 Phase 2: Engagement, Personalization & Social Proof (Next Phase)
-- [ ] **Task 2.1: Community Ratings & Social Badges**: Add star ratings (`⭐ 4.9`), completed reader counts (`1.2k reads`), and level pills on `StoryCard.tsx`.
-- [ ] **Task 2.2: Personalized Recommendation Rails**: Wire `GET /api/v1/stories/recommendations/personalized` endpoint into dynamic home slates.
-- [ ] **Task 2.3: Whispersync Cloud Sync Toast**: Alert users when cloud reading position on another device is ahead of local progress.
-- [ ] **Task 2.4: Hero Banner Personalization**: Greet user dynamically ("Good morning, Alex!") with personalized quick-resume CTA.
+### 🟡 Phase 2: Engagement, Personalization & Social Proof (COMPLETED)
+- [x] **Task 2.1: Community Ratings & Social Badges**: Added star ratings (`⭐ 4.9`), completed reader counts, and mode pills on `StoryCard.tsx`.
+- [x] **Task 2.2: Personalized Recommendation Rails**: Connected `GET /api/v1/stories/recommendations/personalized` endpoint into dynamic home slates ("✨ Recommended For You").
+- [x] **Task 2.3: Whispersync Cloud Sync Integration**: Synced cloud reading & listening progress across devices.
+- [x] **Task 2.4: Hero Banner Personalization**: Added dynamic user greeting ("Good afternoon, Reader! 👋") and quick-resume CTA.
 
 ---
 

@@ -10,6 +10,7 @@
 
 const fs = require("fs");
 const path = require("path");
+require("dotenv").config({ path: path.join(__dirname, "../.env") });
 const mongoose = require("mongoose");
 const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 
@@ -22,6 +23,7 @@ const S3_SECRET = process.env.HETZNER_S3_SECRET || "";
 const s3Client = new S3Client({
   region: "nbg1",
   endpoint: ENDPOINT,
+  forcePathStyle: true,
   credentials: {
     accessKeyId: S3_KEY,
     secretAccessKey: S3_SECRET,

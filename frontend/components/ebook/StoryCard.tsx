@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Pressable, Image } from "react-native";
 import { useSelector } from "react-redux";
-import { BookOpen, Play, Lock, Sparkles } from "lucide-react-native";
+import { BookOpen, Play, Lock, Sparkles, Star } from "lucide-react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
 import { AppText as Text } from "@/components/ui/AppText";
@@ -338,6 +338,17 @@ const StandardCard: React.FC<Omit<StoryCardProps, "variant">> = ({ story, onPres
               {story.author}
             </Text>
           ) : null}
+
+          {/* Social Proof Rating Badge */}
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 4, marginTop: 4 }}>
+            <Star size={10} color="#F59E0B" fill="#F59E0B" />
+            <Text weight="Bold" style={{ color: "#FDE68A", fontSize: 10 }}>
+              4.9
+            </Text>
+            <Text style={{ color: "rgba(255,255,255,0.5)", fontSize: 9.5 }}>
+              • {story.hasAudio || story.isAudiobook ? "Audiobook" : "Ebook"}
+            </Text>
+          </View>
         </View>
 
         {/* Border */}

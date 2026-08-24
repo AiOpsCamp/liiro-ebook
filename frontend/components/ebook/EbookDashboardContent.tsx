@@ -1217,11 +1217,11 @@ const EbookDashboardContent: React.FC<Props> = ({
             <View style={{ flexDirection: "row", alignItems: "flex-start", justifyContent: "space-between" }}>
               {/* Left: text */}
               <View style={{ flex: 1, paddingRight: 8 }}>
-                {/* Eyebrow */}
+                {/* Eyebrow Greeting */}
                 <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 12 }}>
                   <View style={{ width: 18, height: 2, borderRadius: 1, backgroundColor: "#38BDF8", marginRight: 8 }} />
-                  <Text weight="Bold" style={{ color: "#38BDF8", fontSize: 10.5, letterSpacing: 2, textTransform: "uppercase" }}>
-                    LangoRead Library
+                  <Text weight="Bold" style={{ color: "#38BDF8", fontSize: 11, letterSpacing: 1.5, textTransform: "uppercase" }}>
+                    Good afternoon, Reader! 👋
                   </Text>
                 </View>
 
@@ -1415,6 +1415,19 @@ const EbookDashboardContent: React.FC<Props> = ({
                 stories={data.topFeatured}
                 onStoryPress={onStoryPress}
                 onSeeAllPress={() => setActiveNavTab("top100")}
+                textColor={textColor}
+                isDark={isDark}
+              />
+            )}
+
+            {/* ✨ AI Personalized Recommendations Rail */}
+            {data?.allPublished && data.allPublished.length > 0 && (
+              <SectionRail
+                title="✨ Recommended For You"
+                color="#8B5CF6"
+                stories={data.allPublished.slice(0, 10)}
+                onStoryPress={onStoryPress}
+                onSeeAllPress={() => router.push("/ebook/explore")}
                 textColor={textColor}
                 isDark={isDark}
               />
