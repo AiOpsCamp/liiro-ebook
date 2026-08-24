@@ -6,6 +6,7 @@ const Story = require("../models/Story.model");
 const StoryChapter = require("../models/StoryChapter.model");
 const UserStoryProgress = require("../models/UserStoryProgress.model");
 const CacheManager = require("../utils/cache.utils");
+const S3SignerService = require("../services/s3Signer.service");
 
 function localizeMapField(fieldObj, targetLang = "en", fallback = null) {
   if (fieldObj === undefined || fieldObj === null) return fallback;
@@ -396,11 +397,13 @@ exports.getChapterContent = async (req, res) => {
     }
 
     const currentText = typeof chapter?.content === "object" ? chapter.content.en || "" : typeof chapter?.content === "string" ? chapter.content : "";
-    if (!chapter || currentText.includes("Full text from https://github.com/standardebooks/")) {
-      const fresh = await ingestBookFromStandardEbooks(story);
-      if (fresh && fresh.length > 0) {
-        chapter = fresh[0];
-      }
+    if (chapter && currentText.includes("Full text from https://github.com/standardebooks/")) {
+      // Decouple scraping into background execution to prevent HTTP 10s request timeout
+      setImmediate(() => {
+        ingestBookFromStandardEbooks(story).catch((err) =>
+          console.error(`Background ingestion error for '${story.slug}':`, err.message)
+        );
+      });
     }
 
     if (!chapter) {
@@ -1193,8 +1196,16 @@ const HLSTranscoderService = require("../services/hlsTranscoder.service");
 exports.getHLSPlaylist = async (req, res) => {
   try {
     const { slug, chapterNumber } = req.params;
-    const { voice = "adam" } = req.query;
+    const { voice = "adam", token } = req.query;
     const chNum = parseInt(chapterNumber) || 1;
+
+    // Optional DRM Token Validation if provided
+    if (token) {
+      const isValidToken = S3SignerService.verifyStreamToken(token, slug, chNum, voice);
+      if (!isValidToken) {
+        return res.status(403).json({ success: false, message: "Invalid or expired DRM HLS stream token" });
+      }
+    }
 
     const s3PlaylistKey = `Liiro-Ebook-Prod/hls/${slug}/voices/${voice}/chapter_${chNum}/playlist.m3u8`;
 
@@ -1238,8 +1249,16 @@ exports.getHLSPlaylist = async (req, res) => {
 exports.getHLSSegment = async (req, res) => {
   try {
     const { slug, chapterNumber, segmentFile } = req.params;
-    const { voice = "adam" } = req.query;
+    const { voice = "adam", token } = req.query;
     const chNum = parseInt(chapterNumber) || 1;
+
+    // Optional DRM Token Validation if provided
+    if (token) {
+      const isValidToken = S3SignerService.verifyStreamToken(token, slug, chNum, voice);
+      if (!isValidToken) {
+        return res.status(403).json({ success: false, message: "Invalid or expired DRM HLS segment token" });
+      }
+    }
 
     const s3SegmentKey = `Liiro-Ebook-Prod/hls/${slug}/voices/${voice}/chapter_${chNum}/${segmentFile}`;
     const s3Res = await HLSTranscoderService.getHLSFileStream(s3SegmentKey);

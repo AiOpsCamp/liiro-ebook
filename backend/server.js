@@ -89,7 +89,6 @@ app.use((err, req, res, next) => {
 });
 
 // Connect to Database & Start Server
-const mongoose = require("mongoose");
 connectDB().then(() => {
   app.listen(PORT, () => {
     console.log(`🚀 Liiro Ebook Backend listening on port ${PORT}`);

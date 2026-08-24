@@ -7,7 +7,7 @@ const authMiddleware = require("../middlewares/authMiddleware");
 
 router.get("/", authMiddleware, notificationsController.list);
 router.get("/unread-count", authMiddleware, notificationsController.unreadCount);
-router.post("/mark-read", authMiddleware, notificationsController.markRead);
-router.post("/mark-all-read", authMiddleware, notificationsController.markAllRead);
+router.post("/mark-read", authMiddleware, notificationsController.markReadMany);
+router.post("/mark-all-read", authMiddleware, notificationsController.markReadAll);
 
 module.exports = router;
