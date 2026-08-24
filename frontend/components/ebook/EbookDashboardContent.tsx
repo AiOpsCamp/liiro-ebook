@@ -428,7 +428,7 @@ const EbookDashboardContent: React.FC<Props> = ({
     if (activeCategory === "spanish") return allStories.filter((s) => s.languages?.includes("es"));
     if (activeCategory === "french") return allStories.filter((s) => s.languages?.includes("fr"));
     if (activeCategory === "multilingual") return allStories.filter((s) => s.languages && s.languages.length > 1);
-    if (activeCategory === "audiobooks") return data.audiobooks || allStories.filter((s) => s.contentType === "audiobook" || s.contentType === "both");
+    if (activeCategory === "audiobooks") return (data.audiobooks && data.audiobooks.length > 0) ? data.audiobooks : allStories.filter((s: any) => s.hasAudio || s.contentType === "audiobook" || s.contentType === "both");
     if (activeCategory === "children") return data.byGenre?.children || allStories.filter((s) => matchTag(s, "children") || matchTag(s, "fairy tale") || matchTag(s, "young"));
     if (activeCategory === "lovestories") return data.byGenre?.loveStories || allStories.filter((s) => matchTag(s, "love stories") || matchTag(s, "romance"));
     if (activeCategory === "psychfiction") return data.byGenre?.psychFiction || allStories.filter((s) => matchTag(s, "psychological"));

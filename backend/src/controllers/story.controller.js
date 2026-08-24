@@ -78,8 +78,8 @@ exports.getStoriesDashboard = async (req, res) => {
       const [allPublishedDocs, chapterCounts] = await Promise.all([
         Story.find({ isPublished: true })
           .select("title slug synopsis coverImageUrl difficultyLevel author totalDurationSeconds isPremium isFeatured featuredRank contentType tags category hasAudio isAudiobook audioVoices defaultVoiceId createdAt")
-          .sort({ createdAt: -1 })
-          .limit(100)
+          .sort({ hasAudio: -1, createdAt: -1 })
+          .limit(1000)
           .lean(),
         StoryChapter.aggregate([
           { $group: { _id: "$storyId", totalChapters: { $sum: 1 } } }
@@ -94,10 +94,13 @@ exports.getStoriesDashboard = async (req, res) => {
     }
 
     const { allPublished, chapterCountMap } = catalogSlate;
-    const progressDocs = await UserStoryProgress.find({ userId })
-      .sort({ lastVisitedAt: -1, lastReadAt: -1 })
-      .limit(50)
-      .lean();
+    const isValidUserObjId = mongoose.Types.ObjectId.isValid(userId);
+    const progressDocs = isValidUserObjId
+      ? await UserStoryProgress.find({ userId })
+          .sort({ lastVisitedAt: -1, lastReadAt: -1 })
+          .limit(50)
+          .lean()
+      : [];
 
     const progressMap = {};
     progressDocs.forEach((p) => { progressMap[p.storyId.toString()] = p; });
@@ -116,6 +119,7 @@ exports.getStoriesDashboard = async (req, res) => {
       isFeatured: s.isFeatured || false,
       featuredRank: s.featuredRank || 0,
       contentType: s.contentType || "ebook",
+      hasAudio: s.hasAudio || false,
       tags: Array.isArray(s.tags) ? s.tags.map((t) => (typeof t === "object" ? localizeMapField(t, "en", "") : t)) : [],
       userProgress: progressMap[s._id.toString()] || null,
     });
@@ -196,8 +200,8 @@ exports.getStoriesDashboard = async (req, res) => {
     const shortStories = allPublished.filter((s) => tagMatch(s, "short stories") || tagMatch(s, "short story")).slice(0, RAIL).map(mapStory);
 
     const audiobooks = allPublished
-      .filter((s) => s.contentType === "audiobook" || s.contentType === "both")
-      .slice(0, RAIL)
+      .filter((s) => s.hasAudio || s.contentType === "audiobook" || s.contentType === "both")
+      .slice(0, 100)
       .map(mapStory);
 
     const shortAudiobooksDocs = allPublished.filter(
