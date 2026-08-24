@@ -12,6 +12,8 @@ import { useSelector } from "react-redux";
 import { selectIsDark, selectThemeTokens } from "@/redux/features/themeSlice";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { EbookStreakBanner } from "./dashboard/EbookStreakBanner";
+import { EbookMiniAudioPlayer } from "./dashboard/EbookMiniAudioPlayer";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -1168,6 +1170,18 @@ const EbookDashboardContent: React.FC<Props> = ({
         ) : (
           /* ── HOME DASHBOARD VIEW ──────────────────────────────────── */
           <View style={{ width: "100%" }}>
+        {/* Daily Reading Streak & Goal Banner */}
+        <Animated.View entering={FadeInUp.delay(30).duration(400)} style={{ paddingHorizontal: 16 }}>
+          <EbookStreakBanner
+            currentStreak={7}
+            xpScore={450}
+            dailyGoalMinutes={15}
+            completedMinutesToday={12}
+            isDark={isDark}
+            onPressDetails={() => {}}
+          />
+        </Animated.View>
+
         {/* ── 2. Editorial Hero ──────────────────────────── */}
         <Animated.View entering={FadeInUp.delay(60).duration(480)} style={{ paddingHorizontal: 16, marginBottom: 24 }}>
           <LinearGradient
@@ -2015,6 +2029,11 @@ const EbookDashboardContent: React.FC<Props> = ({
         )}
         </View>
       </ScrollView>
+
+      {/* Floating Sticky Bottom Mini Audio Player */}
+      <EbookMiniAudioPlayer
+        onPressExpand={() => router.push("/ebook/explore")}
+      />
     </View>
   );
 };

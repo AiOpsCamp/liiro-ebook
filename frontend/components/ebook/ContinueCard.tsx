@@ -10,6 +10,7 @@ import type { Story } from "@/api/storiesQuery";
 interface ContinueCardProps {
   story: Story;
   onPress: (slug: string, preferAudio?: boolean) => void;
+  onQuickPlay?: (story: Story) => void;
   variant: "reading" | "listening" | "visit";
 }
 
@@ -184,7 +185,12 @@ export const ContinueCard: React.FC<ContinueCardProps> = ({ story, onPress, vari
                   </Text>
                 </View>
 
-                <View
+                <Pressable
+                  onPress={(e) => {
+                    e.stopPropagation?.();
+                    if (onQuickPlay) onQuickPlay(story);
+                    else onPress(story.slug, true);
+                  }}
                   style={{
                     flexDirection: "row",
                     alignItems: "center",
@@ -199,7 +205,7 @@ export const ContinueCard: React.FC<ContinueCardProps> = ({ story, onPress, vari
                   <Text weight="Bold" style={{ color: "#FFFFFF", fontSize: 11 }}>
                     Listen
                   </Text>
-                </View>
+                </Pressable>
               </View>
             ) : (
               <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
