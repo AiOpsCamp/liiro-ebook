@@ -960,11 +960,11 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
     if (!hasAutoStarted && (startAsAudio || readingMode === "audiobook") && story?.slug && !isPlaying) {
       setHasAutoStarted(true);
       const timer = setTimeout(() => {
-        togglePlayPause();
+        togglePlayPauseRef.current?.();
       }, 600);
       return () => clearTimeout(timer);
     }
-  }, [startAsAudio, readingMode, story?.slug, isPlaying, hasAutoStarted, togglePlayPause]);
+  }, [startAsAudio, readingMode, story?.slug, isPlaying, hasAutoStarted]);
 
   // Ambient Background Music Layering Synchronization
   const activeAmbientTrack = useMemo(() => {
