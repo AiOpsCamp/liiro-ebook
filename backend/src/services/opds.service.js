@@ -45,17 +45,17 @@ class OPDSService {
       groups: [
         {
           metadata: { title: "Featured Categories" },
-          links: categories.map((c) => ({
-            title: c.name,
-            href: `${baseUrl}/opds/v2/categories/${c.slug}`,
+          links: (categories || []).map((c) => ({
+            title: this.getStr(c.name, c.slug || "Category"),
+            href: `${baseUrl}/opds/v2/categories/${c.slug || ""}`,
             type: "application/opds+json",
           })),
         },
         {
           metadata: { title: "Top Authors" },
-          links: authors.map((a) => ({
-            title: a.name,
-            href: `${baseUrl}/opds/v2/authors/${a.slug}`,
+          links: (authors || []).map((a) => ({
+            title: this.getStr(a.name, a.slug || "Author"),
+            href: `${baseUrl}/opds/v2/authors/${a.slug || ""}`,
             type: "application/opds+json",
           })),
         },

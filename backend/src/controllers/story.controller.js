@@ -237,7 +237,8 @@ exports.getStoryDetails = async (req, res) => {
 
     let story = await Story.findOne({ slug, isPublished: true }).lean();
     if (!story) {
-      const slugRegex = new RegExp("^" + slug.replace(/-/g, ".*"), "i");
+      const safeSlug = (slug || "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const slugRegex = new RegExp("^" + safeSlug.replace(/-/g, ".*"), "i");
       story = await Story.findOne({ slug: slugRegex, isPublished: true }).lean();
     }
 

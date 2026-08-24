@@ -35,7 +35,7 @@ async function connectDB(url) {
     return conn;
   } catch (err) {
     console.warn(`⚠️ Cluster hostname resolution (${mongoUrl}) failed locally. Connecting to Hetzner local instance on 127.0.0.1:27017...`);
-    const conn = await mongoose.connect(LOCAL_FALLBACK_URL, {
+    const conn = await mongoose.connect(DEFAULT_MONGO_URL, {
       autoIndex: true,
       serverSelectionTimeoutMS: 5000,
     });
