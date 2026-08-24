@@ -692,6 +692,12 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
   const syncTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const prevChapterKeyRef = useRef<string | null>(null);
   const audioElementRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    if (Platform.OS === "web") {
+      audioElementRef.current = AudioManager.getInstance().getWebAudioElement();
+    }
+  }, []);
   const bgMusicElementRef = useRef<HTMLAudioElement | null>(null);
   const initialAudioTimestampRef = useRef<number>(0); // for restoring position after load
   const togglePlayPauseRef = useRef<() => void>(() => {});
@@ -981,6 +987,9 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
       if (success) {
         setIsPlaying(true);
         audioMgr.setRate(playbackSpeed);
+        if (Platform.OS === "web") {
+          audioElementRef.current = audioMgr.getWebAudioElement();
+        }
       }
     }
   }, [isPlaying, audioUrl, story, currentChapterIdx, voiceKey, audioCurrentTime, audioDuration, playbackSpeed]);
@@ -3626,13 +3635,9 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
                   Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
                   setSelectedVoiceId(voice.id);
                   setIsVoiceSheetOpen(false);
-                  if (audioElementRef.current) {
-                    audioElementRef.current.pause();
-                    audioElementRef.current.src = voice.url;
-                    audioElementRef.current.load();
-                    setIsPlaying(true);
-                    audioElementRef.current.play().catch((err) => console.log("Audio play error:", err));
-                  }
+                  AudioManager.getInstance().playAudio(voice.url, () => setIsPlaying(false)).then((success) => {
+                    if (success) setIsPlaying(true);
+                  });
                 }}
                 style={({ pressed }) => ({
                   flexDirection: "row",

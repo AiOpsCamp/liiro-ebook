@@ -210,6 +210,12 @@ export class AudioManager {
   getPosition(): number { return this.lastKnownPosition; }
   getDuration(): number { return this.lastKnownDuration; }
   getIsPlaying(): boolean { return this.isPlaying; }
+  getWebAudioElement(): any {
+    if (!this.webAudioEl && Platform.OS === "web" && typeof window !== "undefined") {
+      this.webAudioEl = new (window as any).Audio();
+    }
+    return this.webAudioEl;
+  }
 
   addStatusListener(cb: StatusListener): void {
     this.statusListeners.add(cb);
