@@ -17,6 +17,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { AudioManager } from "@/lib/utils/audioManager";
 import { offlineManager } from "@/services/offlineManager";
 import { EbookReviewsSection } from "@/components/ebook/EbookReviewsSection";
+import { SocialQuoteCardModal } from "@/components/ebook/social/SocialQuoteCardModal";
 import {
   ArrowLeft,
   ChevronLeft,
@@ -101,6 +102,7 @@ export default function BookDetailsScreen() {
   const [isDownloading, setIsDownloading] = useState(false);
   const [downloadProgressPct, setDownloadProgressPct] = useState<number>(0);
   const [chaptersExpanded, setChaptersExpanded] = useState(false);
+  const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
   const audioSampleRef = React.useRef<any>(null);
 
   const { data: story, isLoading, error, refetch } = useGetStoryBySlugQuery(
@@ -639,6 +641,20 @@ export default function BookDetailsScreen() {
                 <Sparkles size={13} color="#C084FC" />
                 <Text weight="Bold" style={{ color: "#C084FC", fontSize: 12.5 }}>Liiro Sparks ⚡</Text>
               </Pressable>
+
+              <Pressable
+                onPress={() => setIsQuoteModalOpen(true)}
+                style={({ pressed }) => ({
+                  flex: 1, flexDirection: "row", alignItems: "center", justifyContent: "center",
+                  paddingVertical: 11, borderRadius: 12,
+                  backgroundColor: isDark ? "rgba(245,158,11,0.15)" : "#FEF3C7",
+                  borderWidth: 1, borderColor: isDark ? "rgba(245,158,11,0.35)" : "#FDE68A",
+                  gap: 5, opacity: pressed ? 0.7 : 1,
+                })}
+              >
+                <Sparkles size={13} color="#F59E0B" />
+                <Text weight="Bold" style={{ color: "#F59E0B", fontSize: 12.5 }}>Share Quote 🎨</Text>
+              </Pressable>
             </View>
           </View>
 
@@ -873,7 +889,15 @@ export default function BookDetailsScreen() {
             </View>
           </View>
         </View>
-      </Modal>
+      {/* Social Quote Card Generator Modal */}
+      <SocialQuoteCardModal
+        visible={isQuoteModalOpen}
+        onClose={() => setIsQuoteModalOpen(false)}
+        storyTitle={titleStr}
+        author={story?.author || "Classic Masterwork"}
+        quoteText={story?.synopsis?.en || synopsisStr || "Man is not truly one, but truly two."}
+        coverImageUrl={coverUrl}
+      />
     </View>
   );
 }

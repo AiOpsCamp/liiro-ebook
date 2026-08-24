@@ -16,6 +16,8 @@ import { EbookStreakBanner } from "./dashboard/EbookStreakBanner";
 import { EbookMiniAudioPlayer } from "./dashboard/EbookMiniAudioPlayer";
 import { EbookNotificationsModal } from "./EbookNotificationsModal";
 import { EbookSubscriptionModal } from "./EbookSubscriptionModal";
+import { StreakFlameBadge } from "./streaks/StreakFlameBadge";
+import { AchievementBadgesModal } from "./streaks/AchievementBadgesModal";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -346,6 +348,22 @@ const EbookDashboardContent: React.FC<Props> = ({
   const [selectedAuthor, setSelectedAuthor] = useState<EbookAuthor | null>(null);
   const [isNotifModalOpen, setIsNotifModalOpen] = useState(false);
   const [isSubModalOpen, setIsSubModalOpen] = useState(false);
+  const [isAchievementModalOpen, setIsAchievementModalOpen] = useState(false);
+  const [streakData, setStreakData] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchStreak = async () => {
+      try {
+        const apiBase = process.env.EXPO_PUBLIC_API_URL || "http://localhost:5012/api/v1";
+        const res = await fetch(`${apiBase}/user/streaks`);
+        const json = await res.json();
+        if (json.success) {
+          setStreakData(json.data);
+        }
+      } catch (e) {}
+    };
+    fetchStreak();
+  }, []);
 
   const { data: authorsData = [] } = useGetAuthorsQuery();
   const { data: categoriesData = [] } = useGetCategoriesQuery();
@@ -1310,10 +1328,21 @@ const EbookDashboardContent: React.FC<Props> = ({
                 </View>
 
                 {/* Stat badges */}
-                <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 7 }}>
+                <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 7, marginBottom: 12 }}>
                   <StatBadge icon={BookOpen}   label={`${allStories.length}+ Unabridged Books`} />
                   <StatBadge icon={Headphones} label="Audio + Whispersync" />
                 </View>
+
+                {/* Animated Reading Streak Flame Badge */}
+                {streakData && (
+                  <StreakFlameBadge
+                    currentStreak={streakData.currentStreak}
+                    todayMinutesRead={streakData.todayMinutesRead}
+                    dailyGoalMinutes={streakData.dailyGoalMinutes}
+                    goalPercent={streakData.goalPercent}
+                    onPress={() => setIsAchievementModalOpen(true)}
+                  />
+                )}
               </View>
 
               {/* Right: fanned book covers */}
@@ -2276,6 +2305,14 @@ const EbookDashboardContent: React.FC<Props> = ({
       <EbookSubscriptionModal
         visible={isSubModalOpen}
         onClose={() => setIsSubModalOpen(false)}
+      />
+
+      {/* Reader Achievement Badges Modal */}
+      <AchievementBadgesModal
+        visible={isAchievementModalOpen}
+        onClose={() => setIsAchievementModalOpen(false)}
+        achievements={streakData?.achievements || []}
+        currentStreak={streakData?.currentStreak || 1}
       />
     </View>
   );
