@@ -61,6 +61,8 @@ Detailed, deep-dive architectural specifications for individual sub-systems are 
 - 🧬 [**`docs/CUSTOM_VOICE_CLONING_GUIDE.md`**](file:///Users/humayunrashid/multicamp/liiro-ebook/docs/CUSTOM_VOICE_CLONING_GUIDE.md): Custom voice creation, voice embedding ratio blending, and zero-shot voice cloning from 10–30s WAV audio recordings.
 - 🔭 [**`docs/FUTURE_ENHANCEMENTS.md`**](file:///Users/humayunrashid/multicamp/liiro-ebook/docs/FUTURE_ENHANCEMENTS.md): Gap analysis and recommended next-tier power extensions (BullMQ queues, EPUB exporter, WebSockets Whispersync, CarPlay, custom fonts).
 
+- ⚡ [**`docs/BULLMQ_REDIS_K8S_GUIDE.md`**](file:///Users/humayunrashid/multicamp/liiro-ebook/docs/BULLMQ_REDIS_K8S_GUIDE.md): BullMQ Redis distributed queue migration, standalone worker pod architecture, and Kubernetes (k8s) manifests.
+
 ---
 
 ## 📊 4. Master Feature Status Matrix
@@ -70,6 +72,8 @@ Detailed, deep-dive architectural specifications for individual sub-systems are 
 | **Backend Auth** | JWT Authentication & Optional Auth | ✅ **100% Implemented** | `src/middlewares/authMiddleware.js` |
 | **Backend Security**| DRM HMAC 2-Hour Stream Tokens | ✅ **100% Implemented** | `src/services/s3Signer.service.js` |
 | **Backend Sync** | Whispersync Bi-Directional Position Engine | ✅ **100% Implemented** | `src/services/whispersync.service.js` |
+| **Backend Queue** | BullMQ + Redis Distributed Worker Queue | ✅ **100% Implemented** | `src/queues/audioQueue.js`, `src/workers/audioWorker.js` |
+| **Backend K8s** | Kubernetes Redis & Worker Manifests + HPA | ✅ **100% Implemented** | `k8s/redis-deployment.yaml`, `k8s/worker-deployment.yaml` |
 | **Backend Streaming**| HLS Transcoding (.m3u8 + 6s .ts chunks) | ✅ **100% Implemented** | `src/services/hlsTranscoder.service.js` |
 | **Backend AI** | Vector Search & Recommendation Engine | ✅ **100% Implemented** | `src/services/vectorSearch.service.js` |
 | **Backend Feed** | OPDS 2.0 Open Publication Catalog Feed | ✅ **100% Implemented** | `src/services/opds.service.js` |

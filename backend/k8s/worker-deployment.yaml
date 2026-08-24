@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: liiro-backend-worker
+  namespace: default
+  labels:
+    app: liiro-backend-worker
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: liiro-backend-worker
+  template:
+    metadata:
+      labels:
+        app: liiro-backend-worker
+    spec:
+      containers:
+        - name: worker
+          image: liiro-ebook-backend:latest
+          command: ["node", "src/workers/audioWorker.js"]
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: REDIS_HOST
+              value: "redis-service.default.svc.cluster.local"
+            - name: REDIS_PORT
+              value: "6379"
+            - name: MONGO_URI
+              value: "mongodb://admin:PROD_PASSWORD_2026@10.43.172.242:27017/liiro_prod?authSource=admin&directConnection=true"
+            - name: WORKER_CONCURRENCY
+              value: "4"
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "512Mi"
+            limits:
+              cpu: "2000m"
+              memory: "2048Mi"
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: liiro-backend-worker-hpa
+  namespace: default
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: liiro-backend-worker
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 75
