@@ -38,13 +38,21 @@ export default function ListeningScreen() {
     AudioManager.setPlaybackRate(nextSpeed);
   };
 
+  const handleBack = () => {
+    if (router.canGoBack()) {
+      router.back();
+    } else {
+      router.replace(`/details/${slug}`);
+    }
+  };
+
   return (
     <View className="flex-1 bg-slate-950 px-6 pt-12 justify-between pb-10">
       <Stack.Screen options={{ headerShown: false }} />
 
       {/* Header */}
       <View className="flex-row items-center justify-between">
-        <TouchableOpacity onPress={() => router.back()} className="p-2.5 rounded-full bg-slate-900 border border-slate-800">
+        <TouchableOpacity onPress={handleBack} className="p-2.5 rounded-full bg-slate-900 border border-slate-800">
           <ArrowLeft className="w-5 h-5 text-white" />
         </TouchableOpacity>
         <Text className="text-slate-400 text-xs font-bold uppercase tracking-wider">AUDIOBOOK PLAYER</Text>

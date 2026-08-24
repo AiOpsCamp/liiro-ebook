@@ -43,6 +43,14 @@ export default function BlinksSummaryScreen() {
     }
   };
 
+  const handleBack = () => {
+    if (router.canGoBack()) {
+      router.back();
+    } else {
+      router.replace(`/details/${slug}`);
+    }
+  };
+
   const currentTakeaway = data?.summary?.keyTakeaways?.[activeTakeawayIdx];
   const totalTakeaways = data?.summary?.keyTakeaways?.length || 5;
 
@@ -53,7 +61,7 @@ export default function BlinksSummaryScreen() {
       {/* Header */}
       <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
         <Pressable
-          onPress={() => router.back()}
+          onPress={handleBack}
           style={({ pressed }) => ({
             padding: 10,
             borderRadius: 100,

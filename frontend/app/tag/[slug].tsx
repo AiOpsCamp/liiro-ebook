@@ -29,6 +29,12 @@ export default function TagDetailScreen() {
     } finally {
       setLoading(false);
     }
+  const handleBack = () => {
+    if (router.canGoBack()) {
+      router.back();
+    } else {
+      router.replace("/");
+    }
   };
 
   return (
@@ -37,7 +43,7 @@ export default function TagDetailScreen() {
 
       {/* Header */}
       <View className="flex-row items-center space-x-3 mb-6">
-        <TouchableOpacity onPress={() => router.back()} className="p-2.5 rounded-full bg-slate-900 border border-slate-800">
+        <TouchableOpacity onPress={handleBack} className="p-2.5 rounded-full bg-slate-900 border border-slate-800">
           <ArrowLeft className="w-5 h-5 text-white" />
         </TouchableOpacity>
         <View className="flex-1 flex-row items-center space-x-2">

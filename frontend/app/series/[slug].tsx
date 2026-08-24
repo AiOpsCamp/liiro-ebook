@@ -40,13 +40,21 @@ export default function SeriesDetailScreen() {
     }
   };
 
+  const handleBack = () => {
+    if (router.canGoBack()) {
+      router.back();
+    } else {
+      router.replace("/");
+    }
+  };
+
   return (
     <View className="flex-1 bg-slate-950 px-4 pt-12">
       <Stack.Screen options={{ headerShown: false }} />
 
       {/* Header */}
       <View className="flex-row items-center space-x-3 mb-6">
-        <TouchableOpacity onPress={() => router.back()} className="p-2.5 rounded-full bg-slate-900 border border-slate-800">
+        <TouchableOpacity onPress={handleBack} className="p-2.5 rounded-full bg-slate-900 border border-slate-800">
           <ArrowLeft className="w-5 h-5 text-white" />
         </TouchableOpacity>
         <Text className="text-white text-xl font-bold">Book Series Collection</Text>
