@@ -70,6 +70,7 @@ const opdsRoutes = require("./src/routes/opds.routes");
 const billingRoutes = require("./src/routes/billing.routes");
 const profilesRoutes = require("./src/routes/profiles.routes");
 const activityRoutes = require("./src/routes/activity.routes");
+const reelsRoutes = require("./src/routes/reels.routes");
 
 // API Routes
 app.use("/api/v1/stories", storiesRoutes);
@@ -79,6 +80,7 @@ app.use("/api/v1/billing", billingRoutes);
 app.use("/api/v1/profiles", profilesRoutes);
 app.use("/api/v1/notifications", notificationRoutes);
 app.use("/api/v1/user", activityRoutes);
+app.use("/api/v1/reels", reelsRoutes);
 app.use("/opds", opdsRoutes);
 app.use("/api/v1/opds", opdsRoutes);
 

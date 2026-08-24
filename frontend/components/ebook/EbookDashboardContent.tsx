@@ -1448,6 +1448,39 @@ const EbookDashboardContent: React.FC<Props> = ({
               />
             )}
 
+            {/* 🎥 Book Reels (Short Video Teasers Feed) Banner */}
+            <Pressable
+              onPress={() => router.push("/reels")}
+              style={({ pressed }) => ({
+                marginHorizontal: 20,
+                marginBottom: 32,
+                borderRadius: 24,
+                padding: 20,
+                backgroundColor: isDark ? "rgba(245,158,11,0.12)" : "#FEF3C7",
+                borderWidth: 1.5,
+                borderColor: isDark ? "#F59E0B" : "#FCD34D",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                opacity: pressed ? 0.85 : 1,
+              })}
+            >
+              <View style={{ flex: 1, paddingRight: 16 }}>
+                <View style={{ flexDirection: "row", alignItems: "center", gap: 6, marginBottom: 4 }}>
+                  <Text weight="Bold" style={{ color: "#F59E0B", fontSize: 11, letterSpacing: 1 }}>NEW FEATURE 🎥</Text>
+                </View>
+                <Text weight="Bold" style={{ color: isDark ? "#FFFFFF" : "#0F172A", fontSize: 18, marginBottom: 4 }}>
+                  Explore Book Reels Feed
+                </Text>
+                <Text style={{ color: isDark ? "#CBD5E1" : "#475569", fontSize: 12.5, lineHeight: 18 }}>
+                  Watch short video teasers, ambient quote visuals, and 1-tap jump straight into reading!
+                </Text>
+              </View>
+              <View style={{ backgroundColor: "#F59E0B", paddingHorizontal: 16, paddingVertical: 12, borderRadius: 100 }}>
+                <Text weight="Bold" style={{ color: "#0F172A", fontSize: 13 }}>Watch Reels ❯</Text>
+              </View>
+            </Pressable>
+
             {/* ⚡ Quick Listens (< 3 Hours) Rail */}
             {data?.shortAudiobooks && data.shortAudiobooks.length > 0 && (
               <SectionRail

@@ -18,6 +18,15 @@
 
 ---
 
+## 🎥 1.8. Book Reels Feed (Short Video & Image Reels)
+
+* 🎥 **Full-Screen Vertical Reels Feed (`/app/reels`)**: Instagram & TikTok-style 60fps vertical swipeable video/image feed (`GET /api/v1/reels`) featuring short book teasers, ambient quote cards, narrator voice previews, and dramatic plot hooks.
+* ⚡ **High-Performance Viewport Visibility Engine**: `onViewableItemsChanged` viewport visibility tracking ensuring only the active reel plays media to prevent memory leaks or audio overlap.
+* 📖 **1-Tap Direct Book Switcher ("Read Full Book ❯")**: Floating action pill on every reel enabling readers to instantly jump straight to `/details/[slug]` or `/read/[slug]`.
+* ❤️ **Social Action Rail**: Heart like counter (`POST /api/v1/reels/:id/like`), bookmark pin, comment count, and share triggers.
+
+---
+
 ## 📊 1.7. Real-Time User Activity Tracking & Notification Engine
 
 * 📜 **Real-Time Activity Timeline (`/app/activity`)**: Full-screen chronological timeline tracking every reading and listening event (`POST /api/v1/user/activities` & `GET /api/v1/user/activities`).
