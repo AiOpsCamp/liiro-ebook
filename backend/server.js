@@ -18,7 +18,13 @@ const PORT = process.env.PORT || 5012;
 app.set("trust proxy", 1);
 
 // Security & Middleware
-app.use(helmet({ contentSecurityPolicy: false }));
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+    crossOriginOpenerPolicy: { policy: "unsafe-none" },
+  })
+);
 
 app.use(
   cors({

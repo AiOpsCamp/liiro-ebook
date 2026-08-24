@@ -990,6 +990,8 @@ exports.streamAudio = async (req, res) => {
     if (s3Res.ContentRange) res.setHeader("Content-Range", s3Res.ContentRange);
     res.setHeader("Accept-Ranges", s3Res.AcceptRanges || "bytes");
     res.setHeader("Cache-Control", "private, no-transform, max-age=7200");
+    res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+    res.setHeader("Access-Control-Allow-Origin", "*");
 
     const statusCode = s3Res.$metadata?.httpStatusCode || (rangeHeader ? 206 : 200);
     res.status(statusCode);
