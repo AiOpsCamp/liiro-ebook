@@ -29,9 +29,18 @@ export const EbookMiniAudioPlayer: React.FC<EbookMiniAudioPlayerProps> = ({
       setDurationSec(duration);
     };
 
-    audioMgr.subscribeStatus(handleStatus);
+    if (typeof audioMgr.subscribeStatus === "function") {
+      audioMgr.subscribeStatus(handleStatus);
+    } else if (typeof (audioMgr as any).addStatusListener === "function") {
+      (audioMgr as any).addStatusListener(handleStatus);
+    }
+
     return () => {
-      audioMgr.unsubscribeStatus(handleStatus);
+      if (typeof audioMgr.unsubscribeStatus === "function") {
+        audioMgr.unsubscribeStatus(handleStatus);
+      } else if (typeof (audioMgr as any).removeStatusListener === "function") {
+        (audioMgr as any).removeStatusListener(handleStatus);
+      }
     };
   }, []);
 

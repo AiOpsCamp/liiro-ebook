@@ -291,6 +291,14 @@ export class AudioManager {
     this.statusListeners.delete(cb);
   }
 
+  subscribeStatus(cb: StatusListener): void {
+    this.addStatusListener(cb);
+  }
+
+  unsubscribeStatus(cb: StatusListener): void {
+    this.removeStatusListener(cb);
+  }
+
   private async stopAndCleanup(): Promise<void> {
     this.stopPolling();
     if (this.webAudioEl) {

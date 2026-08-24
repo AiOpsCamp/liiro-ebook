@@ -2,6 +2,7 @@
 
 require("dotenv").config();
 const express = require("express");
+const mongoose = require("mongoose");
 const cors = require("cors");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
@@ -10,6 +11,7 @@ const connectDB = require("./src/db/connect");
 const storiesRoutes = require("./src/routes/stories.routes");
 const ebookMetadataRoutes = require("./src/routes/ebookMetadata.routes");
 const authRoutes = require("./src/modules/auth/routes/auth.routes");
+const notificationRoutes = require("./src/routes/notifications.routes");
 
 const app = express();
 const PORT = process.env.PORT || 5012;
