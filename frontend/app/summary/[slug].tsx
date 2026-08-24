@@ -76,7 +76,7 @@ export default function BlinksSummaryScreen() {
 
         <View style={{ flexDirection: "row", alignItems: "center", gap: 6, backgroundColor: "rgba(245,158,11,0.15)", paddingHorizontal: 14, paddingVertical: 6, borderRadius: 100, borderWidth: 1, borderColor: "rgba(245,158,11,0.35)" }}>
           <Sparkles size={14} color="#F59E0B" />
-          <Text style={{ color: "#F59E0B", fontWeight: "800", fontSize: 12, letterSpacing: 0.5 }}>BLINKIST MODE ⚡</Text>
+          <Text style={{ color: "#F59E0B", fontWeight: "800", fontSize: 12, letterSpacing: 0.5 }}>LIIRO SPARKS ⚡</Text>
         </View>
 
         <Pressable

@@ -67,6 +67,7 @@ exports.getBookSummary = async (req, res) => {
 
     res.status(200).json({
       success: true,
+      featureName: "Liiro Sparks ⚡",
       data: {
         story,
         summary,

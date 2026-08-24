@@ -637,7 +637,7 @@ export default function BookDetailsScreen() {
                 })}
               >
                 <Sparkles size={13} color="#C084FC" />
-                <Text weight="Bold" style={{ color: "#C084FC", fontSize: 12.5 }}>Key Takeaways ⚡</Text>
+                <Text weight="Bold" style={{ color: "#C084FC", fontSize: 12.5 }}>Liiro Sparks ⚡</Text>
               </Pressable>
             </View>
           </View>
