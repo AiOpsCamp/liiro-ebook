@@ -38,6 +38,7 @@ import { EbookReaderSettingsModal } from "./EbookReaderSettingsModal";
 import { EbookReaderTocModal } from "./EbookReaderTocModal";
 import { EbookTextSelectionTooltip } from "./EbookTextSelectionTooltip";
 import { EbookAmbientSoundscapeModal } from "../EbookAmbientSoundscapeModal";
+import { ActivityTracker } from "@/lib/utils/activityTracker";
 import {
   useSyncWhispersyncPositionMutation,
   useGetWhispersyncPositionQuery,
@@ -1379,15 +1380,25 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
   }, [currentChapterIdx, story.chapters, story.slug, syncProgress, readingMode]);
 
   // ── Sync Activity (Reading vs Listening vs Visited) ──────────────
-  // 1) Visit Tracking on Story Load
+  // 1) Visit Tracking on Story Load & Activity Logger
   useEffect(() => {
     if (story.slug && chapterStub?._id) {
       syncProgress({
         slug: story.slug,
         chapterId: chapterStub._id,
         activityType: "visited" }).catch(() => {});
+
+      ActivityTracker.log({
+        activityType: readingMode === "audiobook" ? "started_listening" : "started_reading",
+        storySlug: story.slug,
+        storyTitle: getLocalizedText(story.title, "", activeLang),
+        chapterNumber: currentChapterIdx + 1,
+        chapterTitle: getLocalizedText(chapterStub.title, "", activeLang),
+        activeLang,
+        readingMode,
+      }).catch(() => {});
     }
-  }, [story.slug, chapterStub?._id]);
+  }, [story.slug, chapterStub?._id, activeLang, readingMode]);
 
   // 2) Reading Progress Sync (Debounced on Chapter / Page change)
   useEffect(() => {

@@ -18,6 +18,14 @@
 
 ---
 
+## 📊 1.7. Real-Time User Activity Tracking & Notification Engine
+
+* 📜 **Real-Time Activity Timeline (`/app/activity`)**: Full-screen chronological timeline tracking every reading and listening event (`POST /api/v1/user/activities` & `GET /api/v1/user/activities`).
+* 🌐 **Language & Position Auditing**: Records active reading language (`🇬🇧 EN`, `🇪🇸 ES`, `🇫🇷 FR`), chapter pause position timestamps (`Paused at 14m 20s • 65%`), and device indicators (`Web`, `iOS`, `Android`).
+* 🔔 **Activity-Triggered Notifications**: Automatically fires smart push & drawer notifications (`GET /api/v1/user/notifications`) on milestones (e.g. *Started reading in Spanish*, *Paused listening at 14m 20s*, *Completed Chapter 3*).
+
+---
+
 ## 🚗 1.6. Audible-Style Driving Car Mode UI
 
 * 🚗 **Ultra-High Contrast Driving Layout (`/app/car-mode/[slug]`)**: Deep `#020617` dark canvas with high-contrast gold `#F59E0B` and white typography for maximum legibility while driving or exercising.
