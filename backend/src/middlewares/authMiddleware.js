@@ -161,23 +161,42 @@ module.exports = async function authMiddleware(req, res, next) {
 
 module.exports.optionalAuth = async function optionalAuth(req, res, next) {
   const token = extractToken(req);
-  if (!token) return next();
+  if (!token) {
+    return res.status(401).json({
+      success: false,
+      message: "Unauthorized: Authentication token is required.",
+    });
+  }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findById(decoded.id);
     if (
-      user &&
-      !user.deletedAt &&
-      user.accountStatus !== "deleted" &&
-      !user.isSuspended &&
-      user.accountStatus !== "suspended"
+      !user ||
+      user.deletedAt ||
+      user.accountStatus === "deleted" ||
+      user.isSuspended ||
+      user.accountStatus === "suspended"
     ) {
-      req.user = user;
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized: Account is suspended or inactive.",
+      });
     }
-  } catch (_) {
-    // Optional auth fallback
-  }
 
-  next();
+    req.user = user;
+    req.body = req.body || {};
+    req.body.userId = user._id;
+    req.body.role = user.role;
+    req.body.emailVerified = !!user.emailVerified;
+    req.isAdmin = user.role === "admin";
+    req.isModerator = user.role === "moderator";
+
+    next();
+  } catch (error) {
+    return res.status(401).json({
+      success: false,
+      message: "Unauthorized: Invalid or expired authentication token.",
+    });
+  }
 };
