@@ -231,6 +231,21 @@ export class AudioManager {
     this.isPlaying = false;
   }
 
+  async resumeAudio(): Promise<void> {
+    try {
+      if (this.webAudioEl) {
+        await this.webAudioEl.play();
+      }
+      if (this.player) {
+        this.player.play?.();
+      }
+      this.isPlaying = true;
+      this.startPolling();
+    } catch (err) {
+      console.warn("Failed to resume audio playback:", err);
+    }
+  }
+
   async stopAudio(): Promise<void> {
     await this.stopAndCleanup();
   }

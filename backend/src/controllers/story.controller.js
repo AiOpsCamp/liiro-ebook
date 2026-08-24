@@ -50,14 +50,18 @@ function getEffectiveUserId(req) {
   if (req.user && (req.user._id || req.user.id)) {
     return (req.user._id || req.user.id).toString();
   }
-  // Allow x-guest-id ONLY for guest reading state, but reject unauthenticated x-user-id header impersonation
+  // Allow x-guest-id ONLY for guest reading state
   const headers = req.headers || {};
   const query = req.query || {};
   const guestId = headers["x-guest-id"] || query.guestId;
   if (guestId && /^[0-9a-fA-F]{24}$/.test(guestId.toString())) {
     return guestId.toString();
   }
-  return GUEST_OBJECT_ID;
+  // Generate deterministic IP + UserAgent guest ID to prevent cross-guest progress overwrites
+  const clientIp = headers["x-forwarded-for"] || req.ip || "127.0.0.1";
+  const userAgent = headers["user-agent"] || "guest-client";
+  const hash = crypto.createHash("md5").update(`${clientIp}:${userAgent}`).digest("hex").substring(0, 24);
+  return hash;
 }
 
 exports.getStoriesDashboard = async (req, res) => {

@@ -98,6 +98,7 @@ export default function BookDetailsScreen() {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isDownloaded, setIsDownloaded] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [downloadProgressPct, setDownloadProgressPct] = useState<number>(0);
   const [chaptersExpanded, setChaptersExpanded] = useState(false);
   const audioSampleRef = React.useRef<any>(null);
 

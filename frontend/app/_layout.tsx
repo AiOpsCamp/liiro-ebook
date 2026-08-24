@@ -52,6 +52,14 @@ function RootNavigationGuard({ children }: { children: React.ReactNode }) {
     }
   }, [user, isLoading, segments, pathname, router]);
 
+  if (!fontsLoaded) {
+    return (
+      <View style={{ flex: 1, backgroundColor: "#0F172A", alignItems: "center", justifyContent: "center" }}>
+        <ActivityIndicator size="large" color="#0EA5E9" />
+      </View>
+    );
+  }
+
   return <>{children}</>;
 }
 

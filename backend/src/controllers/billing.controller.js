@@ -12,7 +12,19 @@ const User = mongoose.models.User || mongoose.model("User", new mongoose.Schema(
 
 exports.handleStripeWebhook = async (req, res) => {
   try {
-    const event = req.body;
+    const sig = req.headers["stripe-signature"];
+    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+    let event = req.body;
+
+    if (webhookSecret && sig) {
+      try {
+        const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+        event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
+      } catch (err) {
+        console.error("⚠️ Stripe Webhook Signature Verification Failed:", err.message);
+        return res.status(400).json({ success: false, message: `Webhook Signature Error: ${err.message}` });
+      }
+    }
 
     if (!event || !event.type) {
       return res.status(400).json({ success: false, message: "Invalid Stripe event payload" });
@@ -79,8 +91,8 @@ exports.handleRevenueCatWebhook = async (req, res) => {
     const authHeader = req.headers.authorization;
     const expectedAuth = process.env.REVENUECAT_WEBHOOK_AUTH || "Bearer liiro_rc_webhook_secret_2026";
 
-    if (authHeader && authHeader !== expectedAuth) {
-      return res.status(403).json({ success: false, message: "Unauthorized RevenueCat webhook request" });
+    if (!authHeader || authHeader !== expectedAuth) {
+      return res.status(401).json({ success: false, message: "Unauthorized RevenueCat webhook request" });
     }
 
     const { event } = req.body;

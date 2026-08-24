@@ -2,12 +2,11 @@
 
 const mongoose = require("mongoose");
 
-const CLUSTER_URL = "mongodb://admin:PROD_PASSWORD_2026@mongodb-svc.multicamp.svc.cluster.local:27017/liiro_prod?authSource=admin";
-const LOCAL_FALLBACK_URL = "mongodb://127.0.0.1:27017/liiro_prod";
+const DEFAULT_MONGO_URL = "mongodb://127.0.0.1:27017/liiro_prod";
 let isConnected = false;
 
 async function connectDB(url) {
-  let mongoUrl = url || process.env.MONGODB_URI || process.env.MONGO_URI || process.env.MONGO_URL || CLUSTER_URL;
+  let mongoUrl = url || process.env.MONGODB_URI || process.env.MONGO_URI || process.env.MONGO_URL || DEFAULT_MONGO_URL;
 
   if (isConnected && mongoose.connection.readyState === 1) {
     return mongoose.connection;

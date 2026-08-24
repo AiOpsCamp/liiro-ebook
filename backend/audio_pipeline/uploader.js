@@ -13,11 +13,11 @@ const path = require("path");
 const mongoose = require("mongoose");
 const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 
-const MONGO_URI = process.env.MONGO_URI || "mongodb://admin:PROD_PASSWORD_2026@127.0.0.1:27017/liiro_prod?authSource=admin&directConnection=true";
+const MONGO_URI = process.env.MONGO_URI || process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/liiro_prod";
 const BUCKET = process.env.HETZNER_S3_BUCKET || "multicamp-prod-k8s-assets";
 const ENDPOINT = process.env.HETZNER_S3_ENDPOINT || "https://nbg1.your-objectstorage.com";
-const S3_KEY = process.env.HETZNER_S3_KEY || "KVFSGG7GLKG95GYEJOE3";
-const S3_SECRET = process.env.HETZNER_S3_SECRET || "DsaLlvMswIAzVx93FjkvaUyfsqUrzatR8kF1SrGK";
+const S3_KEY = process.env.HETZNER_S3_KEY || "";
+const S3_SECRET = process.env.HETZNER_S3_SECRET || "";
 
 const s3Client = new S3Client({
   region: "nbg1",
