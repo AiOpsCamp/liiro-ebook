@@ -1062,8 +1062,9 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
       setIsPlaying(false);
     } else {
       let playUrl = audioUrl;
+      const voiceKey = activeVoiceObj?.key || "adam";
       if (story?.slug) {
-        playUrl = await audioMgr.resolveDrmStreamUrl(story.slug, currentChapterIdx + 1, selectedVoiceKey);
+        playUrl = await audioMgr.resolveDrmStreamUrl(story.slug, currentChapterIdx + 1, voiceKey);
       }
       setIsAudioLoading(true);
       const success = await audioMgr.playAudio(
@@ -1082,7 +1083,7 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
         audioMgr.setRate(playbackSpeed);
       }
     }
-  }, [isPlaying, audioUrl, story, currentChapterIdx, selectedVoiceKey, audioCurrentTime, playbackSpeed]);
+  }, [isPlaying, audioUrl, story, currentChapterIdx, activeVoiceObj, audioCurrentTime, playbackSpeed]);
 
   const seekAudio = useCallback(async (seconds: number) => {
     if (typeof seconds !== "number" || isNaN(seconds) || !isFinite(seconds)) return;
