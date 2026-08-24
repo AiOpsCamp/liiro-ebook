@@ -1222,46 +1222,97 @@ const EbookDashboardContent: React.FC<Props> = ({
               {/* Left: text */}
               <View style={{ flex: 1, paddingRight: 8 }}>
                 {/* Eyebrow Greeting */}
-                <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 12 }}>
-                  <View style={{ width: 18, height: 2, borderRadius: 1, backgroundColor: "#38BDF8", marginRight: 8 }} />
-                  <Text weight="Bold" style={{ color: "#38BDF8", fontSize: 11, letterSpacing: 1.5, textTransform: "uppercase" }}>
-                    Good afternoon, Reader! 👋
+                <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 10 }}>
+                  <View style={{ width: 18, height: 2, borderRadius: 1, backgroundColor: "#F59E0B", marginRight: 8 }} />
+                  <Text weight="Bold" style={{ color: "#F59E0B", fontSize: 11, letterSpacing: 1.5, textTransform: "uppercase" }}>
+                    LIIRO EBOOK & AUDIOBOOKS 🎧
                   </Text>
                 </View>
 
                 {/* Headline */}
-                <Text weight="Bold" style={{ color: "#FFFFFF", fontSize: 26, lineHeight: 33, letterSpacing: -0.6, marginBottom: 14 }}>
-                  Discover &{"\n"}Read World{"\n"}Classics
+                <Text weight="Bold" style={{ color: "#FFFFFF", fontSize: 26, lineHeight: 33, letterSpacing: -0.6, marginBottom: 12 }}>
+                  Experience Unabridged{"\n"}Classics with Whispersync{"\n"}& Ambient Soundscapes
                 </Text>
 
-                {/* Explore All CTA Button */}
-                <Pressable
-                  onPress={() => router.push("/ebook/explore")}
-                  style={({ pressed }) => ({
-                    flexDirection: "row",
-                    alignItems: "center",
-                    backgroundColor: "#38BDF8",
-                    paddingHorizontal: 16,
-                    paddingVertical: 10,
-                    borderRadius: 100,
-                    alignSelf: "flex-start",
-                    marginBottom: 16,
-                    gap: 6,
-                    opacity: pressed ? 0.85 : 1,
-                  })}
-                >
-                  <Compass size={14} color="#0F172A" />
-                  <Text weight="Bold" style={{ color: "#0F172A", fontSize: 13 }}>
-                    Explore All {allStories.length}+ Books
-                  </Text>
-                  <ChevronRight size={14} color="#0F172A" />
-                </Pressable>
+                {/* Interactive Quick-Access Feature Bar */}
+                <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8, marginBottom: 16 }}>
+                  <Pressable
+                    onPress={() => router.push("/reels")}
+                    style={({ pressed }) => ({
+                      backgroundColor: "rgba(245,158,11,0.2)",
+                      borderWidth: 1,
+                      borderColor: "#F59E0B",
+                      paddingHorizontal: 12,
+                      paddingVertical: 7,
+                      borderRadius: 100,
+                      flexDirection: "row",
+                      alignItems: "center",
+                      gap: 6,
+                      opacity: pressed ? 0.8 : 1,
+                    })}
+                  >
+                    <Text weight="Bold" style={{ color: "#F59E0B", fontSize: 11.5 }}>🎥 Book Reels</Text>
+                  </Pressable>
+
+                  <Pressable
+                    onPress={() => router.push("/summary/the-strange-case-of-dr-jekyll-and-mr-hyde")}
+                    style={({ pressed }) => ({
+                      backgroundColor: "rgba(99,102,241,0.2)",
+                      borderWidth: 1,
+                      borderColor: "#818CF8",
+                      paddingHorizontal: 12,
+                      paddingVertical: 7,
+                      borderRadius: 100,
+                      flexDirection: "row",
+                      alignItems: "center",
+                      gap: 6,
+                      opacity: pressed ? 0.8 : 1,
+                    })}
+                  >
+                    <Text weight="Bold" style={{ color: "#818CF8", fontSize: 11.5 }}>⚡ 15-Min Summary</Text>
+                  </Pressable>
+
+                  <Pressable
+                    onPress={() => router.push("/car-mode/the-strange-case-of-dr-jekyll-and-mr-hyde")}
+                    style={({ pressed }) => ({
+                      backgroundColor: "rgba(16,185,129,0.2)",
+                      borderWidth: 1,
+                      borderColor: "#10B981",
+                      paddingHorizontal: 12,
+                      paddingVertical: 7,
+                      borderRadius: 100,
+                      flexDirection: "row",
+                      alignItems: "center",
+                      gap: 6,
+                      opacity: pressed ? 0.8 : 1,
+                    })}
+                  >
+                    <Text weight="Bold" style={{ color: "#10B981", fontSize: 11.5 }}>🚗 Car Mode</Text>
+                  </Pressable>
+
+                  <Pressable
+                    onPress={() => router.push("/activity")}
+                    style={({ pressed }) => ({
+                      backgroundColor: "rgba(56,189,248,0.2)",
+                      borderWidth: 1,
+                      borderColor: "#38BDF8",
+                      paddingHorizontal: 12,
+                      paddingVertical: 7,
+                      borderRadius: 100,
+                      flexDirection: "row",
+                      alignItems: "center",
+                      gap: 6,
+                      opacity: pressed ? 0.8 : 1,
+                    })}
+                  >
+                    <Text weight="Bold" style={{ color: "#38BDF8", fontSize: 11.5 }}>📊 Activity History</Text>
+                  </Pressable>
+                </View>
 
                 {/* Stat badges */}
                 <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 7 }}>
-                  <StatBadge icon={BookOpen}   label={`${allStories.length}+ Books`} />
-                  <StatBadge icon={Headphones} label="Audio Included" />
-                  <StatBadge icon={Award}      label="A1 – C2" />
+                  <StatBadge icon={BookOpen}   label={`${allStories.length}+ Unabridged Books`} />
+                  <StatBadge icon={Headphones} label="Audio + Whispersync" />
                 </View>
               </View>
 
@@ -1435,18 +1486,124 @@ const EbookDashboardContent: React.FC<Props> = ({
               />
             )}
 
-            {/* ✨ AI Personalized Recommendations Rail */}
-            {data?.allPublished && data.allPublished.length > 0 && (
-              <SectionRail
-                title="✨ Recommended For You"
-                color="#8B5CF6"
-                stories={data.allPublished.slice(0, 10)}
-                onStoryPress={onStoryPress}
-                onSeeAllPress={() => router.push("/ebook/explore")}
-                textColor={textColor}
-                isDark={isDark}
-              />
-            )}
+            {/* 💎 Liiro 7 Signature Feature Pillars Grid */}
+            <View style={{ marginHorizontal: 20, marginBottom: 36, backgroundColor: isDark ? "#0F172A" : "#F8FAFC", borderWidth: 1, borderColor: isDark ? "#1E293B" : "#E2E8F0", borderRadius: 28, padding: 22 }}>
+              <View style={{ flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 6 }}>
+                <View style={{ width: 4, height: 18, borderRadius: 2, backgroundColor: "#F59E0B" }} />
+                <Text weight="Bold" style={{ color: "#F59E0B", fontSize: 11, letterSpacing: 1.2 }}>
+                  WHY LIIRO IS UNIQUE 💎
+                </Text>
+              </View>
+              <Text weight="Bold" style={{ color: isDark ? "#FFFFFF" : "#0F172A", fontSize: 22, marginBottom: 16 }}>
+                Built for Ultimate Ebook & Audiobook Lovers
+              </Text>
+
+              <View style={{ gap: 14 }}>
+                {/* Feature 1: Blinkist Mode */}
+                <Pressable
+                  onPress={() => router.push("/summary/the-strange-case-of-dr-jekyll-and-mr-hyde")}
+                  style={({ pressed }) => ({
+                    backgroundColor: isDark ? "rgba(99,102,241,0.12)" : "#EEF2FF",
+                    borderWidth: 1,
+                    borderColor: isDark ? "rgba(99,102,241,0.3)" : "#C7D2FE",
+                    borderRadius: 18,
+                    padding: 16,
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    opacity: pressed ? 0.85 : 1,
+                  })}
+                >
+                  <View style={{ flex: 1, paddingRight: 12 }}>
+                    <Text weight="Bold" style={{ color: "#818CF8", fontSize: 15, marginBottom: 2 }}>
+                      ⚡ 15-Min Blinkist Key Takeaways
+                    </Text>
+                    <Text style={{ color: isDark ? "#CBD5E1" : "#475569", fontSize: 12, lineHeight: 17 }}>
+                      Master masterworks in 15 mins with 5-7 key insight cards and summary audio!
+                    </Text>
+                  </View>
+                  <Text weight="Bold" style={{ color: "#818CF8", fontSize: 12 }}>Try Now ❯</Text>
+                </Pressable>
+
+                {/* Feature 2: Book Reels */}
+                <Pressable
+                  onPress={() => router.push("/reels")}
+                  style={({ pressed }) => ({
+                    backgroundColor: isDark ? "rgba(245,158,11,0.12)" : "#FEF3C7",
+                    borderWidth: 1,
+                    borderColor: isDark ? "rgba(245,158,11,0.3)" : "#FDE68A",
+                    borderRadius: 18,
+                    padding: 16,
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    opacity: pressed ? 0.85 : 1,
+                  })}
+                >
+                  <View style={{ flex: 1, paddingRight: 12 }}>
+                    <Text weight="Bold" style={{ color: "#F59E0B", fontSize: 15, marginBottom: 2 }}>
+                      🎥 Short Video Book Reels Feed
+                    </Text>
+                    <Text style={{ color: isDark ? "#CBD5E1" : "#475569", fontSize: 12, lineHeight: 17 }}>
+                      Swipe 60fps vertical book clips and 1-tap jump straight into reading!
+                    </Text>
+                  </View>
+                  <Text weight="Bold" style={{ color: "#F59E0B", fontSize: 12 }}>Watch ❯</Text>
+                </Pressable>
+
+                {/* Feature 3: Audible Car Mode */}
+                <Pressable
+                  onPress={() => router.push("/car-mode/the-strange-case-of-dr-jekyll-and-mr-hyde")}
+                  style={({ pressed }) => ({
+                    backgroundColor: isDark ? "rgba(16,185,129,0.12)" : "#ECFDF5",
+                    borderWidth: 1,
+                    borderColor: isDark ? "rgba(16,185,129,0.3)" : "#A7F3D0",
+                    borderRadius: 18,
+                    padding: 16,
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    opacity: pressed ? 0.85 : 1,
+                  })}
+                >
+                  <View style={{ flex: 1, paddingRight: 12 }}>
+                    <Text weight="Bold" style={{ color: "#10B981", fontSize: 15, marginBottom: 2 }}>
+                      🚗 Audible-Style Driving Car Mode
+                    </Text>
+                    <Text style={{ color: isDark ? "#CBD5E1" : "#475569", fontSize: 12, lineHeight: 17 }}>
+                      Giant 96px targets & 1-tap bookmarks for safe hands-free driving playback.
+                    </Text>
+                  </View>
+                  <Text weight="Bold" style={{ color: "#10B981", fontSize: 12 }}>Drive ❯</Text>
+                </Pressable>
+
+                {/* Feature 4: Activity Timeline */}
+                <Pressable
+                  onPress={() => router.push("/activity")}
+                  style={({ pressed }) => ({
+                    backgroundColor: isDark ? "rgba(56,189,248,0.12)" : "#E0F2FE",
+                    borderWidth: 1,
+                    borderColor: isDark ? "rgba(56,189,248,0.3)" : "#BAE6FD",
+                    borderRadius: 18,
+                    padding: 16,
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    opacity: pressed ? 0.85 : 1,
+                  })}
+                >
+                  <View style={{ flex: 1, paddingRight: 12 }}>
+                    <Text weight="Bold" style={{ color: "#38BDF8", fontSize: 15, marginBottom: 2 }}>
+                      📊 Real-Time Activity & Notifications
+                    </Text>
+                    <Text style={{ color: isDark ? "#CBD5E1" : "#475569", fontSize: 12, lineHeight: 17 }}>
+                      Audit reading timestamps, language changes, and milestone achievements.
+                    </Text>
+                  </View>
+                  <Text weight="Bold" style={{ color: "#38BDF8", fontSize: 12 }}>View ❯</Text>
+                </Pressable>
+              </View>
+            </View>
 
             {/* 🎥 Book Reels (Short Video Teasers Feed) Banner */}
             <Pressable
