@@ -1,9 +1,11 @@
 "use strict";
 
+const crypto = require("crypto");
 const mongoose = require("mongoose");
 const Story = require("../models/Story.model");
 const StoryChapter = require("../models/StoryChapter.model");
 const UserStoryProgress = require("../models/UserStoryProgress.model");
+const CacheManager = require("../utils/cache.utils");
 
 function localizeMapField(fieldObj, targetLang = "en", fallback = null) {
   if (fieldObj === undefined || fieldObj === null) return fallback;
@@ -68,20 +70,30 @@ exports.getStoriesDashboard = async (req, res) => {
   try {
     const userId = getEffectiveUserId(req);
     const RAIL = 50;
+    const cacheKey = "dashboard_catalog_slate";
+    let catalogSlate = CacheManager.get(cacheKey);
 
-    const [allPublished, progressDocs, chapterCounts] = await Promise.all([
-      Story.find({ isPublished: true })
-        .select("title slug synopsis coverImageUrl difficultyLevel author totalDurationSeconds isPremium isFeatured featuredRank contentType tags category hasAudio isAudiobook audioVoices defaultVoiceId createdAt")
-        .sort({ createdAt: -1 })
-        .lean(),
-      UserStoryProgress.find({ userId }).sort({ lastVisitedAt: -1, lastReadAt: -1 }).lean(),
-      StoryChapter.aggregate([
-        { $group: { _id: "$storyId", totalChapters: { $sum: 1 } } }
-      ])
-    ]);
+    if (!catalogSlate) {
+      const [allPublishedDocs, chapterCounts] = await Promise.all([
+        Story.find({ isPublished: true })
+          .select("title slug synopsis coverImageUrl difficultyLevel author totalDurationSeconds isPremium isFeatured featuredRank contentType tags category hasAudio isAudiobook audioVoices defaultVoiceId createdAt")
+          .sort({ createdAt: -1 })
+          .limit(100)
+          .lean(),
+        StoryChapter.aggregate([
+          { $group: { _id: "$storyId", totalChapters: { $sum: 1 } } }
+        ])
+      ]);
 
-    const chapterCountMap = {};
-    chapterCounts.forEach((c) => { chapterCountMap[c._id.toString()] = c.totalChapters; });
+      const chapterCountMap = {};
+      chapterCounts.forEach((c) => { chapterCountMap[c._id.toString()] = c.totalChapters; });
+
+      catalogSlate = { allPublished: allPublishedDocs, chapterCountMap };
+      CacheManager.set(cacheKey, catalogSlate, 300);
+    }
+
+    const { allPublished, chapterCountMap } = catalogSlate;
+    const progressDocs = await UserStoryProgress.find({ userId }).sort({ lastVisitedAt: -1, lastReadAt: -1 }).lean();
 
     const progressMap = {};
     progressDocs.forEach((p) => { progressMap[p.storyId.toString()] = p; });
@@ -854,15 +866,17 @@ exports.batchSyncProgress = async (req, res) => {
       return res.status(400).json({ success: false, message: "items must be a non-empty array" });
     }
 
-    const results = [];
+    const slugs = items.filter((i) => !i.storyId && i.storySlug).map((i) => i.storySlug);
+    const storySlugMap = {};
+    if (slugs.length > 0) {
+      const stories = await Story.find({ slug: { $in: slugs } }).select("_id slug").lean();
+      stories.forEach((s) => { storySlugMap[s.slug] = s._id; });
+    }
+
+    const bulkOps = [];
     for (const item of items) {
       const { storySlug, chapterId, chapterIndex, paragraphIndex, audioTimeSeconds, lastActivityType, isCompleted } = item;
-      let storyId = item.storyId;
-
-      if (!storyId && storySlug) {
-        const story = await Story.findOne({ slug: storySlug }).select("_id").lean();
-        if (story) storyId = story._id;
-      }
+      const storyId = item.storyId || storySlugMap[storySlug];
 
       if (!storyId) continue;
 
@@ -881,22 +895,34 @@ exports.batchSyncProgress = async (req, res) => {
       if (lastActivityType) updateData.lastActivityType = lastActivityType;
       if (typeof isCompleted === "boolean") updateData.isCompleted = isCompleted;
 
-      const progress = await UserStoryProgress.findOneAndUpdate(
-        { userId, storyId },
-        {
-          $set: updateData,
-          $addToSet: {
-            ...(chapterId ? { completedChapterIds: chapterId } : {}),
-            ...(typeof chapterIndex === "number" ? { completedChapterIndexes: chapterIndex } : {}),
-          },
-        },
-        { new: true, upsert: true }
-      );
+      const addToSet = {};
+      if (chapterId) addToSet.completedChapterIds = chapterId;
+      if (typeof chapterIndex === "number") addToSet.completedChapterIndexes = chapterIndex;
 
-      results.push(progress);
+      bulkOps.push({
+        updateOne: {
+          filter: { userId, storyId },
+          update: {
+            $set: updateData,
+            ...(Object.keys(addToSet).length > 0 ? { $addToSet: addToSet } : {}),
+          },
+          upsert: true,
+        },
+      });
     }
 
-    res.status(200).json({ success: true, count: results.length, data: results });
+    let bulkResult = null;
+    if (bulkOps.length > 0) {
+      bulkResult = await UserStoryProgress.bulkWrite(bulkOps);
+    }
+
+    res.status(200).json({
+      success: true,
+      count: bulkOps.length,
+      matchedCount: bulkResult?.matchedCount || 0,
+      modifiedCount: bulkResult?.modifiedCount || 0,
+      upsertedCount: bulkResult?.upsertedCount || 0,
+    });
   } catch (error) {
     console.error("Error in batchSyncProgress:", error);
     res.status(500).json({ success: false, message: "Server Error" });

@@ -55,6 +55,7 @@ router.get("/slug/:slug", authMiddleware.optionalAuth, storyController.getStoryD
 router.get("/slug/:slug/chapters/:chapterId", authMiddleware.optionalAuth, storyController.getChapterContent);
 
 // Protected User Progress, Bookmarks & Highlights Routes (Strict JWT Auth Required)
+router.post("/progress/batch", authMiddleware.optionalAuth, storyController.batchSyncProgress);
 router.post("/slug/:slug/progress", authMiddleware, storyController.syncProgress);
 router.post("/slug/:slug/progress/reset", authMiddleware, storyController.resetProgress);
 router.post("/slug/:slug/progress/complete", authMiddleware, storyController.markCompleted);

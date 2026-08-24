@@ -8,6 +8,9 @@ const { connectionOptions } = require("../config/redisConfig");
 const QUEUE_NAME = process.env.AUDIO_QUEUE_NAME || "liiro-audio-generation-queue";
 const CONCURRENCY = parseInt(process.env.WORKER_CONCURRENCY || "4", 10);
 
+const { execFile } = require("child_process");
+const path = require("path");
+
 async function startWorker() {
   console.log("⚡ Starting Liiro Audio Generation Worker...");
   await connectDB();
@@ -15,18 +18,38 @@ async function startWorker() {
   const worker = new Worker(
     QUEUE_NAME,
     async (job) => {
-      console.log(`🎧 Processing job ${job.id}: ${job.name} (Data: ${JSON.stringify(job.data)})`);
+      console.log(`🎧 [Worker] Processing BullMQ Audio Job #${job.id}: ${job.name} (Slug: ${job.data.slug || job.data.storySlug})`);
       
-      const { storyId, chapterSlug, audioUrl } = job.data;
-      
-      return {
-        success: true,
-        jobId: job.id,
-        storyId,
-        chapterSlug,
-        audioUrl: audioUrl || "https://multicamp-prod-k8s-assets.nbg1.your-objectstorage.com/audio/sample.mp3",
-        processedAt: new Date().toISOString()
-      };
+      const slug = job.data.slug || job.data.storySlug;
+      const voice = job.data.voice || "af_heart";
+      const chapterNumber = job.data.chapterNumber;
+
+      if (!slug) {
+        throw new Error("Job payload missing required 'slug' field");
+      }
+
+      const pythonScript = path.resolve(__dirname, "../../audio_pipeline/run_full_pipeline.py");
+      const args = ["-u", pythonScript, "--slug", slug, "--voice", voice, "--upload", "--hls"];
+      if (chapterNumber) {
+        args.push("--chapter", chapterNumber.toString());
+      }
+
+      return new Promise((resolve, reject) => {
+        execFile("python3", args, { maxBuffer: 10 * 1024 * 1024 }, (error, stdout, stderr) => {
+          if (error) {
+            console.error(`❌ [Worker Job ${job.id}] Pipeline Execution Error:`, stderr || error.message);
+            return reject(error);
+          }
+          console.log(`✅ [Worker Job ${job.id}] Pipeline Output:\n${stdout.substring(0, 500)}...`);
+          resolve({
+            success: true,
+            jobId: job.id,
+            slug,
+            voice,
+            completedAt: new Date().toISOString(),
+          });
+        });
+      });
     },
     {
       connection: connectionOptions,
