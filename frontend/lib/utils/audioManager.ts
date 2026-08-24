@@ -119,31 +119,82 @@ export class AudioManager {
       this.onAudioFinishCallback = onFinish || null;
 
       if (this.webAudioEl) {
-        this.webAudioEl.src = formattedUri;
+        if (this.webAudioEl.src !== formattedUri) {
+          this.webAudioEl.src = formattedUri;
+          try { this.webAudioEl.load(); } catch {}
+        }
+
+        this.webAudioEl.onended = () => {
+          const cb = this.onAudioFinishCallback;
+          this.cleanup();
+          cb?.();
+        };
 
         try {
           await this.webAudioEl.play();
           if (seekPosition > 0) {
-            try {
-              this.webAudioEl.currentTime = seekPosition;
-            } catch (seekErr) {
-              console.warn("Could not set initial seek position:", seekErr);
-            }
+            try { this.webAudioEl.currentTime = seekPosition; } catch {}
           }
           this.isPlaying = true;
-
-          this.webAudioEl.onended = () => {
-            const cb = this.onAudioFinishCallback;
-            this.cleanup();
-            cb?.();
-          };
-
           this.startPolling();
           return true;
         } catch (playErr) {
-          console.warn("Web Audio play error:", playErr);
-          this.isPlaying = false;
-          return false;
+          console.warn("Immediate Web Audio play error, trying canplay listener...", playErr);
+
+          return new Promise<boolean>((resolve) => {
+            let resolved = false;
+            const cleanupListeners = () => {
+              if (this.webAudioEl) {
+                this.webAudioEl.removeEventListener("canplay", onCanPlay);
+                this.webAudioEl.removeEventListener("error", onError);
+              }
+            };
+
+            const onCanPlay = async () => {
+              if (resolved) return;
+              resolved = true;
+              cleanupListeners();
+              try {
+                await this.webAudioEl.play();
+                if (seekPosition > 0) {
+                  try { this.webAudioEl.currentTime = seekPosition; } catch {}
+                }
+                this.isPlaying = true;
+                this.startPolling();
+                resolve(true);
+              } catch (retryErr) {
+                console.warn("Retry Web Audio play error:", retryErr);
+                this.isPlaying = false;
+                resolve(false);
+              }
+            };
+
+            const onError = (err: any) => {
+              if (resolved) return;
+              resolved = true;
+              cleanupListeners();
+              console.warn("Web Audio media load error:", err);
+              this.isPlaying = false;
+              resolve(false);
+            };
+
+            if (this.webAudioEl.readyState >= 3) {
+              onCanPlay();
+            } else {
+              this.webAudioEl.addEventListener("canplay", onCanPlay);
+              this.webAudioEl.addEventListener("error", onError);
+            }
+
+            setTimeout(() => {
+              if (!resolved) {
+                resolved = true;
+                cleanupListeners();
+                console.warn("Web Audio play timeout");
+                this.isPlaying = false;
+                resolve(false);
+              }
+            }, 4000);
+          });
         }
       }
 
