@@ -973,7 +973,9 @@ exports.getStreamToken = async (req, res) => {
 
     const protocol = req.protocol || "http";
     const host = req.get("host") || "localhost:5012";
-    const signedStreamUrl = `${protocol}://${host}/api/v1/stories/slug/${slug}/stream?chapterNumber=${chNum}&voice=${voiceKey}&token=${token}&expires=${expiresAtMs}`;
+    const fallbackStreamUrl = `${protocol}://${host}/api/v1/stories/slug/${slug}/stream?chapterNumber=${chNum}&voice=${voiceKey}&token=${token}&expires=${expiresAtMs}`;
+    const directUrl = typeof chapter.audioUrl === "string" ? chapter.audioUrl : (chapter.audioUrl && typeof chapter.audioUrl === "object" ? chapter.audioUrl.en : null);
+    const signedStreamUrl = directUrl || fallbackStreamUrl;
 
     res.status(200).json({
       success: true,
