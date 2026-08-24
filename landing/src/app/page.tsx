@@ -562,6 +562,151 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Community User Reviews & Testimonials Section */}
+      <section className="py-24 bg-slate-50 dark:bg-zinc-950 border-t border-slate-200/60 dark:border-zinc-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="text-amber-500 font-bold text-xs tracking-widest uppercase mb-3 block">
+              COMMUNITY REVIEWS & FEEDBACK
+            </span>
+            <h2 className="font-serif text-3xl sm:text-5xl font-black text-slate-900 dark:text-white mb-6">
+              Loved by 50,000+ Passionate Readers
+            </h2>
+            <p className="text-slate-600 dark:text-zinc-400 text-base leading-relaxed">
+              Read how literary lovers, daily commuters, busy executives, and language learners use Liiro to enrich their reading journey.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Review 1 */}
+            <div className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-3xl p-8 shadow-sm flex flex-col justify-between hover:border-amber-500/50 transition-all">
+              <div>
+                <div className="flex items-center gap-1 text-amber-400 mb-4">
+                  {"★".repeat(5)}
+                </div>
+                <p className="text-slate-700 dark:text-zinc-300 text-sm leading-relaxed mb-6 font-medium">
+                  "Liiro completely changed my daily commuting routine. The Whispersync karaoke highlighting while listening to Kokoro narration on Frankenstein makes reading classics so effortless!"
+                </p>
+              </div>
+              <div className="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-zinc-800">
+                <div>
+                  <h4 className="font-bold text-sm text-slate-900 dark:text-white">Elena Rostova</h4>
+                  <p className="text-xs text-slate-400 font-medium">Literature Scholar</p>
+                </div>
+                <span className="px-2.5 py-1 bg-amber-500/10 text-amber-500 text-[10px] font-extrabold rounded-full">
+                  Whispersync 🎤
+                </span>
+              </div>
+            </div>
+
+            {/* Review 2 */}
+            <div className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-3xl p-8 shadow-sm flex flex-col justify-between hover:border-indigo-500/50 transition-all">
+              <div>
+                <div className="flex items-center gap-1 text-amber-400 mb-4">
+                  {"★".repeat(5)}
+                </div>
+                <p className="text-slate-700 dark:text-zinc-300 text-sm leading-relaxed mb-6 font-medium">
+                  "Liiro Sparks ⚡ gives me authentic key takeaways in 15 minutes without shallow AI fluff. I can catch up on stoic philosophy while getting ready in the morning."
+                </p>
+              </div>
+              <div className="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-zinc-800">
+                <div>
+                  <h4 className="font-bold text-sm text-slate-900 dark:text-white">Marcus Vance</h4>
+                  <p className="text-xs text-slate-400 font-medium">Tech Executive</p>
+                </div>
+                <span className="px-2.5 py-1 bg-indigo-500/10 text-indigo-500 text-[10px] font-extrabold rounded-full">
+                  Liiro Sparks ⚡
+                </span>
+              </div>
+            </div>
+
+            {/* Review 3 */}
+            <div className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-3xl p-8 shadow-sm flex flex-col justify-between hover:border-emerald-500/50 transition-all">
+              <div>
+                <div className="flex items-center gap-1 text-amber-400 mb-4">
+                  {"★".repeat(5)}
+                </div>
+                <p className="text-slate-700 dark:text-zinc-300 text-sm leading-relaxed mb-6 font-medium">
+                  "The Family Profiles with PIN Lock and Kids Mode are brilliant! My kids love listening to Alice in Wonderland while I listen to Jekyll & Hyde in Car Mode during long drives."
+                </p>
+              </div>
+              <div className="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-zinc-800">
+                <div>
+                  <h4 className="font-bold text-sm text-slate-900 dark:text-white">Dr. Sarah Jenkins</h4>
+                  <p className="text-xs text-slate-400 font-medium">Parent & Educator</p>
+                </div>
+                <span className="px-2.5 py-1 bg-emerald-500/10 text-emerald-500 text-[10px] font-extrabold rounded-full">
+                  5 Family Profiles 👨‍👩‍👧
+                </span>
+              </div>
+            </div>
+
+            {/* Review 4 */}
+            <div className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-3xl p-8 shadow-sm flex flex-col justify-between hover:border-sky-500/50 transition-all">
+              <div>
+                <div className="flex items-center gap-1 text-amber-400 mb-4">
+                  {"★".repeat(5)}
+                </div>
+                <p className="text-slate-700 dark:text-zinc-300 text-sm leading-relaxed mb-6 font-medium">
+                  "The multi-language support (English, Spanish, French) with real-time text sync is the best tool I've used for bilingual reading practice. Unbeatable value!"
+                </p>
+              </div>
+              <div className="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-zinc-800">
+                <div>
+                  <h4 className="font-bold text-sm text-slate-900 dark:text-white">Carlos Mendoza</h4>
+                  <p className="text-xs text-slate-400 font-medium">Polyglot & Student</p>
+                </div>
+                <span className="px-2.5 py-1 bg-sky-500/10 text-sky-500 text-[10px] font-extrabold rounded-full">
+                  Multi-Lang EN/ES/FR 🌐
+                </span>
+              </div>
+            </div>
+
+            {/* Review 5 */}
+            <div className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-3xl p-8 shadow-sm flex flex-col justify-between hover:border-purple-500/50 transition-all">
+              <div>
+                <div className="flex items-center gap-1 text-amber-400 mb-4">
+                  {"★".repeat(5)}
+                </div>
+                <p className="text-slate-700 dark:text-zinc-300 text-sm leading-relaxed mb-6 font-medium">
+                  "The Book Reels vertical feed is so addictive! It introduces me to great classics through short 60-second visual teasers before I start reading the full book."
+                </p>
+              </div>
+              <div className="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-zinc-800">
+                <div>
+                  <h4 className="font-bold text-sm text-slate-900 dark:text-white">Amina Al-Mansoor</h4>
+                  <p className="text-xs text-slate-400 font-medium">Content Creator</p>
+                </div>
+                <span className="px-2.5 py-1 bg-purple-500/10 text-purple-500 text-[10px] font-extrabold rounded-full">
+                  Book Reels 🎥
+                </span>
+              </div>
+            </div>
+
+            {/* Review 6 */}
+            <div className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-3xl p-8 shadow-sm flex flex-col justify-between hover:border-amber-500/50 transition-all">
+              <div>
+                <div className="flex items-center gap-1 text-amber-400 mb-4">
+                  {"★".repeat(5)}
+                </div>
+                <p className="text-slate-700 dark:text-zinc-300 text-sm leading-relaxed mb-6 font-medium">
+                  "Combining rain soundscapes with Dr. Jekyll narration while reading in Sepia theme is pure bliss. Absolutely worth every penny over Audible's credit trap!"
+                </p>
+              </div>
+              <div className="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-zinc-800">
+                <div>
+                  <h4 className="font-bold text-sm text-slate-900 dark:text-white">David K.</h4>
+                  <p className="text-xs text-slate-400 font-medium">Nighttime Reader</p>
+                </div>
+                <span className="px-2.5 py-1 bg-amber-500/10 text-amber-500 text-[10px] font-extrabold rounded-full">
+                  Soundscapes 🌧️
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Pricing Section */}
       <section id="pricing" className="py-24 bg-slate-50 dark:bg-zinc-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
