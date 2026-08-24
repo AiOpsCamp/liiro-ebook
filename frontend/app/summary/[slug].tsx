@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator, Image } from "react-native";
+import { View, Text, ScrollView, Pressable, ActivityIndicator, Image } from "react-native";
 import { useLocalSearchParams, useRouter, Stack } from "expo-router";
-import { ArrowLeft, Sparkles, Clock, Play, Pause, ChevronRight, BookOpen, Quote, Share2 } from "lucide-react-native";
+import { ArrowLeft, Sparkles, Clock, Play, Pause, ChevronRight, BookOpen, Quote } from "lucide-react-native";
 import { AudioManager } from "@/lib/utils/audioManager";
 
 export default function BlinksSummaryScreen() {
@@ -47,96 +47,133 @@ export default function BlinksSummaryScreen() {
   const totalTakeaways = data?.summary?.keyTakeaways?.length || 5;
 
   return (
-    <View className="flex-1 bg-slate-950 px-4 pt-12">
+    <View style={{ flex: 1, backgroundColor: "#080E1A", paddingHorizontal: 16, paddingTop: 48 }}>
       <Stack.Screen options={{ headerShown: false }} />
 
       {/* Header */}
-      <View className="flex-row items-center justify-between mb-6">
-        <TouchableOpacity onPress={() => router.back()} className="p-2.5 rounded-full bg-slate-900 border border-slate-800">
-          <ArrowLeft className="w-5 h-5 text-white" />
-        </TouchableOpacity>
+      <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
+        <Pressable
+          onPress={() => router.back()}
+          style={({ pressed }) => ({
+            padding: 10,
+            borderRadius: 100,
+            backgroundColor: "#0F172A",
+            borderWidth: 1,
+            borderColor: "#1E293B",
+            opacity: pressed ? 0.7 : 1,
+          })}
+        >
+          <ArrowLeft size={18} color="#FFFFFF" />
+        </Pressable>
 
-        <View className="flex-row items-center space-x-2 bg-amber-500/20 px-3.5 py-1.5 rounded-full border border-amber-500/40">
-          <Sparkles className="w-4 h-4 text-amber-400" />
-          <Text className="text-amber-400 font-extrabold text-xs">BLINKIST MODE</Text>
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 6, backgroundColor: "rgba(245,158,11,0.15)", paddingHorizontal: 14, paddingVertical: 6, borderRadius: 100, borderWidth: 1, borderColor: "rgba(245,158,11,0.35)" }}>
+          <Sparkles size={14} color="#F59E0B" />
+          <Text style={{ color: "#F59E0B", fontWeight: "800", fontSize: 12, letterSpacing: 0.5 }}>BLINKIST MODE ⚡</Text>
         </View>
 
-        <TouchableOpacity onPress={() => router.push(`/read/${slug}`)} className="p-2.5 rounded-full bg-indigo-600">
-          <BookOpen className="w-5 h-5 text-white" />
-        </TouchableOpacity>
+        <Pressable
+          onPress={() => router.push(`/read/${slug}`)}
+          style={({ pressed }) => ({
+            paddingHorizontal: 14,
+            paddingVertical: 8,
+            borderRadius: 100,
+            backgroundColor: "#4F46E5",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 6,
+            opacity: pressed ? 0.8 : 1,
+          })}
+        >
+          <BookOpen size={14} color="#FFFFFF" />
+          <Text style={{ color: "#FFFFFF", fontWeight: "700", fontSize: 12 }}>Full Book</Text>
+        </Pressable>
       </View>
 
       {loading ? (
-        <ActivityIndicator size="large" color="#818CF8" className="my-20" />
+        <ActivityIndicator size="large" color="#818CF8" style={{ marginTop: 80 }} />
       ) : (
         <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 40 }}>
           {/* Hero Summary Book Card */}
-          <View className="bg-slate-900 border border-slate-800 rounded-3xl p-5 mb-6">
-            <View className="flex-row items-center space-x-4 mb-4">
+          <View style={{ backgroundColor: "#0F172A", borderWidth: 1, borderColor: "#1E293B", borderRadius: 24, padding: 20, marginBottom: 20 }}>
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 16, marginBottom: 16 }}>
               <Image
                 source={{ uri: data?.story?.coverImageUrl || "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=300" }}
-                className="w-16 h-22 rounded-xl bg-slate-800"
+                style={{ width: 68, height: 96, borderRadius: 12, backgroundColor: "#1E293B" }}
+                resizeMode="cover"
               />
-              <View className="flex-1">
-                <Text className="text-white text-lg font-bold mb-1" numberOfLines={1}>
+              <View style={{ flex: 1 }}>
+                <Text style={{ color: "#FFFFFF", fontSize: 18, fontWeight: "700", marginBottom: 4 }} numberOfLines={1}>
                   {data?.story?.title?.en || data?.story?.title}
                 </Text>
-                <Text className="text-slate-400 text-xs mb-2">by {data?.story?.author}</Text>
-                <View className="flex-row items-center space-x-3">
-                  <View className="flex-row items-center space-x-1">
-                    <Clock className="w-3.5 h-3.5 text-amber-400" />
-                    <Text className="text-amber-400 text-xs font-bold">{data?.summary?.estimatedAudioMinutes || 12} Min Audio</Text>
-                  </View>
-                  <Text className="text-slate-500 text-xs">• {totalTakeaways} Blinks</Text>
+                <Text style={{ color: "#94A3B8", fontSize: 13, marginBottom: 8 }}>by {data?.story?.author}</Text>
+                <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
+                  <Clock size={13} color="#F59E0B" />
+                  <Text style={{ color: "#F59E0B", fontSize: 12, fontWeight: "700" }}>{data?.summary?.estimatedAudioMinutes || 12} Min Audio</Text>
+                  <Text style={{ color: "#64748B", fontSize: 12 }}>• {totalTakeaways} Blinks</Text>
                 </View>
               </View>
             </View>
 
-            <Text className="text-slate-300 text-xs leading-relaxed mb-4">{data?.summary?.overview}</Text>
+            <Text style={{ color: "#CBD5E1", fontSize: 13, lineHeight: 19, marginBottom: 16 }}>{data?.summary?.overview}</Text>
 
             {/* 15-Min Audio Summary Player */}
-            <TouchableOpacity
+            <Pressable
               onPress={handleToggleAudio}
-              className="bg-amber-500 p-3.5 rounded-2xl flex-row items-center justify-center space-x-2 shadow-lg shadow-amber-500/20"
+              style={({ pressed }) => ({
+                backgroundColor: "#F59E0B",
+                paddingVertical: 14,
+                paddingHorizontal: 20,
+                borderRadius: 16,
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 8,
+                opacity: pressed ? 0.85 : 1,
+              })}
             >
-              {isPlayingAudio ? <Pause className="w-4 h-4 text-slate-950" /> : <Play className="w-4 h-4 text-slate-950 ml-0.5" />}
-              <Text className="text-slate-950 font-extrabold text-xs">
+              {isPlayingAudio ? <Pause size={16} color="#0F172A" /> : <Play size={16} color="#0F172A" style={{ marginLeft: 2 }} />}
+              <Text style={{ color: "#0F172A", fontWeight: "800", fontSize: 13 }}>
                 {isPlayingAudio ? "Pause 15-Min Audio Summary" : "Listen to 15-Min Audio Summary"}
               </Text>
-            </TouchableOpacity>
+            </Pressable>
           </View>
 
           {/* Progress Indicators */}
-          <View className="flex-row space-x-1.5 mb-6">
+          <View style={{ flexDirection: "row", gap: 6, marginBottom: 20 }}>
             {data?.summary?.keyTakeaways?.map((_: any, idx: number) => (
-              <TouchableOpacity
+              <Pressable
                 key={idx}
                 onPress={() => setActiveTakeawayIdx(idx)}
-                style={{ width: `${100 / totalTakeaways - 2}%` }}
-                className={`h-1.5 rounded-full ${
-                  idx === activeTakeawayIdx ? "bg-amber-400" : idx < activeTakeawayIdx ? "bg-slate-700" : "bg-slate-800"
-                }`}
+                style={{
+                  flex: 1,
+                  height: 6,
+                  borderRadius: 3,
+                  backgroundColor: idx === activeTakeawayIdx ? "#F59E0B" : idx < activeTakeawayIdx ? "#334155" : "#1E293B",
+                }}
               />
             ))}
           </View>
 
           {/* Key Takeaway Card */}
           {currentTakeaway && (
-            <View className="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 mb-6">
-              <View className="flex-row items-center justify-between mb-3">
-                <Text className="text-amber-400 font-extrabold text-xs tracking-widest uppercase">
-                  KEY TAKEAWAY #{currentTakeaway.takeawayNumber} OF {totalTakeaways}
-                </Text>
-              </View>
+            <View style={{ backgroundColor: "#0F172A", borderWidth: 1.5, borderColor: "#1E293B", borderRadius: 24, padding: 24, marginBottom: 24 }}>
+              <Text style={{ color: "#F59E0B", fontWeight: "800", fontSize: 11, letterSpacing: 1.2, textTransform: "uppercase", marginBottom: 8 }}>
+                KEY TAKEAWAY #{currentTakeaway.takeawayNumber} OF {totalTakeaways}
+              </Text>
 
-              <Text className="text-white text-xl font-bold mb-3">{currentTakeaway.title}</Text>
-              <Text className="text-slate-300 text-sm leading-relaxed mb-6">{currentTakeaway.content}</Text>
+              <Text style={{ color: "#FFFFFF", fontSize: 22, fontWeight: "800", marginBottom: 12, lineHeight: 28 }}>
+                {currentTakeaway.title}
+              </Text>
+
+              <Text style={{ color: "#E2E8F0", fontSize: 14, lineHeight: 22, marginBottom: 20 }}>
+                {currentTakeaway.content}
+              </Text>
 
               {/* Quote Pill */}
               {currentTakeaway.quote && (
-                <View className="bg-slate-950/80 border border-slate-800 p-4 rounded-2xl flex-row items-start space-x-3 mb-4">
-                  <Quote className="w-5 h-5 text-amber-400" />
-                  <Text className="text-slate-300 italic text-xs leading-relaxed flex-1 font-medium">
+                <View style={{ backgroundColor: "#030712", borderWidth: 1, borderColor: "rgba(245,158,11,0.3)", padding: 16, borderRadius: 16, flexDirection: "row", alignItems: "flex-start", gap: 12 }}>
+                  <Quote size={18} color="#F59E0B" />
+                  <Text style={{ color: "#FBBF24", fontStyle: "italic", fontSize: 13, lineHeight: 19, flex: 1, fontWeight: "500" }}>
                     "{currentTakeaway.quote}"
                   </Text>
                 </View>
@@ -145,18 +182,25 @@ export default function BlinksSummaryScreen() {
           )}
 
           {/* Bottom Controls */}
-          <View className="flex-row items-center justify-between">
-            <TouchableOpacity
+          <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
+            <Pressable
               onPress={() => setActiveTakeawayIdx((prev) => Math.max(0, prev - 1))}
               disabled={activeTakeawayIdx === 0}
-              className={`px-5 py-3 rounded-2xl border ${
-                activeTakeawayIdx === 0 ? "bg-slate-900/40 border-slate-800/40 opacity-40" : "bg-slate-900 border-slate-800"
-              }`}
+              style={({ pressed }) => ({
+                flex: 1,
+                paddingVertical: 14,
+                borderRadius: 16,
+                backgroundColor: "#0F172A",
+                borderWidth: 1,
+                borderColor: "#1E293B",
+                alignItems: "center",
+                opacity: activeTakeawayIdx === 0 ? 0.3 : pressed ? 0.8 : 1,
+              })}
             >
-              <Text className="text-white font-bold text-xs">Previous Blink</Text>
-            </TouchableOpacity>
+              <Text style={{ color: "#FFFFFF", fontWeight: "700", fontSize: 13 }}>Previous Blink</Text>
+            </Pressable>
 
-            <TouchableOpacity
+            <Pressable
               onPress={() => {
                 if (activeTakeawayIdx < totalTakeaways - 1) {
                   setActiveTakeawayIdx((prev) => prev + 1);
@@ -164,13 +208,23 @@ export default function BlinksSummaryScreen() {
                   router.push(`/read/${slug}`);
                 }
               }}
-              className="bg-indigo-600 px-6 py-3 rounded-2xl flex-row items-center space-x-2"
+              style={({ pressed }) => ({
+                flex: 1,
+                paddingVertical: 14,
+                borderRadius: 16,
+                backgroundColor: "#4F46E5",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 6,
+                opacity: pressed ? 0.85 : 1,
+              })}
             >
-              <Text className="text-white font-bold text-xs">
+              <Text style={{ color: "#FFFFFF", fontWeight: "800", fontSize: 13 }}>
                 {activeTakeawayIdx < totalTakeaways - 1 ? "Next Blink" : "Read Full Book"}
               </Text>
-              <ChevronRight className="w-4 h-4 text-white" />
-            </TouchableOpacity>
+              <ChevronRight size={16} color="#FFFFFF" />
+            </Pressable>
           </View>
         </ScrollView>
       )}
