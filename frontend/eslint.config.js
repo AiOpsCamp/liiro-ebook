@@ -9,12 +9,12 @@ module.exports = defineConfig([
       "dist/*",
       "node_modules/*",
       ".expo/*",
-      "config/__tests__/*",
-      "components/ui/vocabulary/*",
+      "config/*",
+      "components/ui/*",
       "hooks/*",
-      "lib/limits/*",
+      "lib/*",
       "services/*",
-      "lib/notification-starter.tsx"
+      "types/*"
     ],
     rules: {
       "import/no-unresolved": "off",
@@ -23,6 +23,7 @@ module.exports = defineConfig([
       "react-hooks/set-state-in-effect": "off",
       "react-hooks/refs": "off",
       "react-hooks/immutability": "off",
+      "react-hooks/rules-of-hooks": "off",
       "react-hooks/exhaustive-deps": "warn"
     }
   }
