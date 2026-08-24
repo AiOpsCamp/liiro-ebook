@@ -17,8 +17,12 @@ spec:
     spec:
       containers:
         - name: worker
-          image: liiro-ebook-backend:latest
+          image: ghcr.io/aiopscamp/liiro-api:latest
+          imagePullPolicy: IfNotPresent
           command: ["node", "src/workers/audioWorker.js"]
+          envFrom:
+            - secretRef:
+                name: liiro-backend-secrets
           env:
             - name: NODE_ENV
               value: "production"
@@ -27,7 +31,9 @@ spec:
             - name: REDIS_PORT
               value: "6379"
             - name: MONGO_URI
-              value: "mongodb://admin:PROD_PASSWORD_2026@10.43.172.242:27017/liiro_prod?authSource=admin&directConnection=true"
+              value: "mongodb://admin:PROD_PASSWORD_2026@mongodb-svc.multicamp.svc.cluster.local:27017/liiro_prod?authSource=admin"
+            - name: MONGODB_URI
+              value: "mongodb://admin:PROD_PASSWORD_2026@mongodb-svc.multicamp.svc.cluster.local:27017/liiro_prod?authSource=admin"
             - name: WORKER_CONCURRENCY
               value: "4"
           resources:

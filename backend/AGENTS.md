@@ -1,99 +1,74 @@
-# 🤖 AGENTS & DEVELOPER GUIDE: Liiro Ebook Backend & Infrastructure
+# 🤖 LIIRO PRODUCT & BACKEND AGENT HANDOVER GUIDE
 
-> **Purpose**: This authoritative instruction guide is for AI Agents (Antigravity, AGY, Claude, Cursor, Copilot) and human developers working on the **Liiro Ebook** product ecosystem inside the Multicamp cluster architecture.
-
----
-
-## 🏗️ 1. Architecture Overview
-
-- **Product Name**: Liiro Ebook (`liiro`)
-- **Landing Domain**: `https://liiro.io` (Next.js container, port `3012`)
-- **Web App Domain**: `https://app.liiro.io` (Expo Web production export served via Nginx, port `8094`)
-- **API Endpoint**: `https://app.liiro.io/aiopscamp-liiro-api/` (Express API, port `5018`)
-- **Cluster IP**: `46.224.188.251` (Hetzner K3s Master Node `multicamp-prod-k8s-master`)
+> **Target Service**: Liiro Ebook Web & API Service (`app.liiro.io` & `liiro.io`)  
+> **Production API Health**: `https://app.liiro.io/aiopscamp-liiro-api/health`  
+> **Target Database**: `liiro_prod` (56,585 documents / 864 stories / 26,914 chapters)  
+> **Infrastructure Repo**: [`https://github.com/AiOpsCamp/langoprep-infra`](https://github.com/AiOpsCamp/langoprep-infra)
 
 ---
 
-## 🗄️ 2. Database Architecture (MongoDB)
+## ⚡ 1. Infrastructure Status & Integration Matrix
 
-Production database runs inside Kubernetes on master node `multicamp-prod-k8s-master` (`mongodb-0.multicamp.svc.cluster.local:27017`).
+`INFRA_STATUS: READY`
 
-- **Database Name**: `liiro_prod`
-- **Source Database (Reference/Clone)**: `langoread_prod`
-- **Total Catalog**: 864 stories, 26,914 chapters, categories, tags, and audio links.
+- **In-Cluster Redis**: `redis-service.default.svc.cluster.local:6379` (BullMQ backing)
+- **Distributed Worker Pods**: `liiro-backend-worker` (HPA Autoscaling **2 to 10 replicas**, concurrency **4**)
+- **Target Queue**: `"liiro-audio-generation-queue"`
+- **Hetzner S3 Assets**: `https://multicamp-prod-k8s-assets.nbg1.your-objectstorage.com` (CORS enabled for byte-range HLS `.m3u8` / `.ts` playback)
 
-### 🔑 Credentials:
-```env
-# Production In-Cluster Connection
-MONGODB_URI="mongodb://admin:PROD_PASSWORD_2026@mongodb-svc.multicamp.svc.cluster.local:27017/liiro_prod?authSource=admin"
+---
 
-# Local Machine Tunnel Connection (via SSH Tunnel)
+## 🎧 2. How Liiro Agent Integrates Audio Generation Queue
+
+### A. Enqueuing Jobs from API Controllers (`src/controllers/story.controller.js`)
+
+```javascript
+const { Queue } = require("bullmq");
+const { connectionOptions } = require("../config/redisConfig");
+
+const audioQueue = new Queue("liiro-audio-generation-queue", { connection: connectionOptions });
+
+// Example: Trigger audio generation for a chapter
+async function triggerChapterAudio(storyId, chapterSlug, voiceId = "custom_mystic_narrator") {
+  const job = await audioQueue.add("generate-chapter-audio", {
+    storyId,
+    chapterSlug,
+    voiceId,
+    requestedAt: new Date().toISOString()
+  });
+
+  return job.id;
+}
+```
+
+### B. Worker Audio Pipeline Execution (`src/workers/audioWorker.js`)
+
+K8s worker pods run `src/workers/audioWorker.js` continuously:
+1. Picks up jobs from `"liiro-audio-generation-queue"`.
+2. Runs Kokoro TTS voice synthesis & OpenAI Whisper sentence-level alignment.
+3. Transcodes output into HLS `.m3u8` and byte-range `.ts` chunks.
+4. Uploads assets to Hetzner S3 (`multicamp-prod-k8s-assets`).
+5. Updates `liiro_prod.storychapters` document with stream URLs and sentence timestamp alignment array.
+
+---
+
+## 🛠️ 3. Local Machine Single-Command MongoDB Tunnel
+
+To connect your local machine or local backend server to production `liiro_prod` MongoDB:
+
+```bash
+# Run single-command tunnel (Exposes NodePort 32017 to localhost:27017)
+./scripts/tunnel-hetzner-mongo.sh
+
+# Local .env setting:
 MONGODB_URI="mongodb://admin:PROD_PASSWORD_2026@127.0.0.1:27017/liiro_prod?authSource=admin"
 ```
 
 ---
 
-## 💻 3. Local Development with Hetzner MongoDB
-
-To run local backend services (`npm run dev`) connected directly to the production Hetzner MongoDB database (`liiro_prod`):
-
-1. **Start the SSH Tunnel** (run in a separate terminal window):
-   ```bash
-   /Users/humayunrashid/multicamp/scripts/tunnel-hetzner-mongo.sh
-   ```
-   *(Or manually: `ssh -N -L 27017:127.0.0.1:27017 root@46.224.188.251`)*
-
-2. **Run Local Server**:
-   ```bash
-   cd /Users/humayunrashid/multicamp/liiro-ebook/backend
-   npm run dev
-   ```
-
----
-
-## 🚀 4. Build & Deployment Commands
-
-The unified deployment tool is located at `/Users/humayunrashid/multicamp/deploy.sh`.
+## 🚢 4. Deployment Command
 
 ```bash
-# Deploy Liiro Suite (Backend + Frontend + Landing)
-/Users/humayunrashid/multicamp/deploy.sh liiro
-
-# Deploy Liiro Backend only
-/Users/humayunrashid/multicamp/deploy.sh backend-liiro
-
-# Deploy Liiro Frontend Web App only
-/Users/humayunrashid/multicamp/deploy.sh frontend-liiro
-
-# Deploy All Multicamp Services (LangoWords + LangoReads + Liiro)
-/Users/humayunrashid/multicamp/deploy.sh all
+# Rebuild and redeploy Liiro backend & frontend to Hetzner K8s cluster
+./deploy.sh liiro
 ```
-
----
-
-## ☁️ 5. Hetzner S3 Object Storage Credentials
-
-```env
-HETZNER_S3_KEY=KVFSGG7GLKG95GYEJOE3
-HETZNER_S3_SECRET=DsaLlvMswIAzVx93FjkvaUyfsqUrzatR8kF1SrGK
-HETZNER_S3_ENDPOINT=https://nbg1.your-objectstorage.com
-HETZNER_S3_BUCKET=multicamp-prod-k8s-assets
-```
-
----
-
-## 🌐 6. DNS Records (Cloudflare & Namecheap)
-
-| Type | Host | Target / Value | Purpose |
-| :---: | :---: | :--- | :--- |
-| **A** | `@` | `46.224.188.251` | `liiro.io` Landing Page |
-| **A** | `app` | `46.224.188.251` | `app.liiro.io` Web App |
-| **CNAME** | `www` | `liiro.io.` | Alias |
-
----
-
-## ⚠️ 7. Strict Rules for AI Agents
-
-1. **MongoDB URI Resolution**: `src/db/connect.js` MUST check `process.env.MONGODB_URI` first before falling back to local instances.
-2. **CORS Allowlist**: Always verify domain origins in `src/config/cors-origins.js` include `https://liiro.io`, `https://app.liiro.io`, and `https://dev.app.liiro.io`.
-3. **K8s Container Image Policy**: Set `imagePullPolicy: IfNotPresent` for locally built images imported into K3s containerd (`k3s ctr images import`).

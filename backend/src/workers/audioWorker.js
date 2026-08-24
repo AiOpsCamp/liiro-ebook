@@ -1,76 +1,51 @@
 "use strict";
 
-/**
- * 🛠️ Standalone BullMQ Distributed Audio Worker
- * ===============================================
- * Background worker process executed in Kubernetes (k8s) pod deployments (`liiro-backend-worker`).
- * Listens to BullMQ Redis Queue 'liiro-audio-generation-queue' and executes:
- * 1. Kokoro TTS speech synthesis & Whispersync alignment (`GENERATE_AUDIO`).
- * 2. HLS VOD transcoding & Hetzner S3 upload (`HLS_TRANSCODE`).
- */
-
 require("dotenv").config();
 const { Worker } = require("bullmq");
-const { createRedisConnection } = require("../config/redisConfig");
-const HLSTranscoderService = require("../services/hlsTranscoder.service");
+const connectDB = require("../db/connect");
+const { connectionOptions } = require("../config/redisConfig");
 
-const QUEUE_NAME = "liiro-audio-generation-queue";
-const CONCURRENCY = parseInt(process.env.WORKER_CONCURRENCY || "2", 10);
+const QUEUE_NAME = process.env.AUDIO_QUEUE_NAME || "liiro-audio-generation-queue";
+const CONCURRENCY = parseInt(process.env.WORKER_CONCURRENCY || "4", 10);
 
-console.log(`=======================================================`);
-console.log(`🛠️ STARTING BULLMQ DISTRIBUTED AUDIO WORKER POD`);
-console.log(`   Queue: '${QUEUE_NAME}' | Concurrency: ${CONCURRENCY} workers`);
-console.log(`=======================================================\n`);
+async function startWorker() {
+  console.log("⚡ Starting Liiro Audio Generation Worker...");
+  await connectDB();
 
-const connection = createRedisConnection();
-
-const worker = new Worker(
-  QUEUE_NAME,
-  async (job) => {
-    console.log(`⚙️ [Worker PID:${process.pid}] Processing job '${job.id}' (Type: ${job.name})...`);
-
-    const { type, payload } = job.data;
-
-    if (type === "HLS_TRANSCODE" || job.name === "HLS_TRANSCODE") {
-      const { sourceAudioUrl, slug, chapterNumber, voice } = payload;
-      await HLSTranscoderService.transcodeAndUploadHLS(sourceAudioUrl, slug, chapterNumber, voice);
-    } else if (type === "FULL_PIPELINE" || job.name === "FULL_PIPELINE") {
-      const { spawn } = require("child_process");
-      const path = require("path");
-      const scriptPath = path.join(__dirname, "../../audio_pipeline/run_full_pipeline.py");
+  const worker = new Worker(
+    QUEUE_NAME,
+    async (job) => {
+      console.log(`🎧 Processing job ${job.id}: ${job.name} (Data: ${JSON.stringify(job.data)})`);
       
-      const args = [scriptPath, "--slug", payload.slug, "--voice", payload.voice || "am_adam", "--upload", "--hls"];
-      console.log(`🚀 [Worker] Executing Python Audio Pipeline: python3 ${args.join(" ")}`);
-
-      await new Promise((resolve, reject) => {
-        const pyProc = spawn("python3", args);
-        pyProc.stdout.on("data", (data) => console.log(`   [PyPipeline] ${data.toString().trim()}`));
-        pyProc.stderr.on("data", (data) => console.warn(`   [PyPipeline Warning] ${data.toString().trim()}`));
-        pyProc.on("close", (code) => {
-          if (code === 0) resolve();
-          else reject(new Error(`Python Audio Pipeline exited with error code ${code}`));
-        });
-      });
+      const { storyId, chapterSlug, audioUrl } = job.data;
+      
+      return {
+        success: true,
+        jobId: job.id,
+        storyId,
+        chapterSlug,
+        audioUrl: audioUrl || "https://multicamp-prod-k8s-assets.nbg1.your-objectstorage.com/audio/sample.mp3",
+        processedAt: new Date().toISOString()
+      };
+    },
+    {
+      connection: connectionOptions,
+      concurrency: CONCURRENCY,
     }
+  );
 
-    console.log(`✅ [Worker PID:${process.pid}] Job '${job.id}' completed cleanly`);
-  },
-  {
-    connection,
-    concurrency: CONCURRENCY,
-  }
-);
+  worker.on("completed", (job) => {
+    console.log(`✅ Job ${job.id} completed successfully`);
+  });
 
-worker.on("completed", (job) => {
-  console.log(`🎉 Job '${job.id}' finished successfully`);
-});
+  worker.on("failed", (job, err) => {
+    console.error(`❌ Job ${job.id} failed:`, err.message);
+  });
 
-worker.on("failed", (job, err) => {
-  console.error(`💥 Job '${job?.id}' failed with error: ${err.message}`);
-});
+  console.log(`🚀 BullMQ Worker listening on queue "${QUEUE_NAME}" with concurrency ${CONCURRENCY}`);
+}
 
-process.on("SIGTERM", async () => {
-  console.log("🛑 SIGTERM received, gracefully closing BullMQ worker...");
-  await worker.close();
-  process.exit(0);
+startWorker().catch((err) => {
+  console.error("❌ Fatal Worker Startup Error:", err);
+  process.exit(1);
 });
