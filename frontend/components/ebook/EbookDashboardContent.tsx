@@ -737,7 +737,7 @@ const EbookDashboardContent: React.FC<Props> = ({
 
         {activeNavTab === "authors" ? (
           /* ── AUTHORS VIEW ────────────────────────────────────────── */
-          <Animated.View entering={FadeInUp.duration(350)} style={{ paddingHorizontal: 16 }}>
+          <Animated.View entering={safeAnim(FadeInUp.duration(350))} style={{ paddingHorizontal: 16 }}>
             <View style={{ marginBottom: 16 }}>
               <Text weight="Bold" style={{ fontSize: 22, color: textColor, marginBottom: 4 }}>
                 Classic Authors Directory
@@ -831,7 +831,7 @@ const EbookDashboardContent: React.FC<Props> = ({
           </Animated.View>
         ) : activeNavTab === "categories" ? (
           /* ── CATEGORIES VIEW ─────────────────────────────────────── */
-          <Animated.View entering={FadeInUp.duration(350)} style={{ paddingHorizontal: 16 }}>
+          <Animated.View entering={safeAnim(FadeInUp.duration(350))} style={{ paddingHorizontal: 16 }}>
             <View style={{ marginBottom: 16 }}>
               <Text weight="Bold" style={{ fontSize: 22, color: textColor, marginBottom: 4 }}>
                 Browse by Category & Genre
@@ -909,7 +909,7 @@ const EbookDashboardContent: React.FC<Props> = ({
           </Animated.View>
         ) : activeNavTab === "tags" ? (
           /* ── TAGS DIRECTORY VIEW ─────────────────────────────────── */
-          <Animated.View entering={FadeInUp.duration(350)} style={{ paddingHorizontal: 16 }}>
+          <Animated.View entering={safeAnim(FadeInUp.duration(350))} style={{ paddingHorizontal: 16 }}>
             <View style={{ marginBottom: 16 }}>
               <Text weight="Bold" style={{ fontSize: 22, color: textColor, marginBottom: 4 }}>
                 Literary Tags & Topics Directory
@@ -991,7 +991,7 @@ const EbookDashboardContent: React.FC<Props> = ({
           </Animated.View>
         ) : activeNavTab === "top100" ? (
           /* ── TOP 100 PICKS VIEW ──────────────────────────────────── */
-          <Animated.View entering={FadeInUp.duration(350)} style={{ paddingHorizontal: 16 }}>
+          <Animated.View entering={safeAnim(FadeInUp.duration(350))} style={{ paddingHorizontal: 16 }}>
             <View style={{ marginBottom: 20 }}>
               <View style={{ flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 4 }}>
                 <Sparkles size={20} color="#F59E0B" />
@@ -1061,7 +1061,7 @@ const EbookDashboardContent: React.FC<Props> = ({
           </Animated.View>
         ) : activeNavTab === "series" ? (
           /* ── BOOK SERIES VIEW ─────────────────────────────────────── */
-          <Animated.View entering={FadeInUp.duration(350)} style={{ paddingHorizontal: 16 }}>
+          <Animated.View entering={safeAnim(FadeInUp.duration(350))} style={{ paddingHorizontal: 16 }}>
             <View style={{ marginBottom: 20 }}>
               <View style={{ flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 4 }}>
                 <Layers size={20} color="#8B5CF6" />
@@ -2224,7 +2224,7 @@ const EbookDashboardContent: React.FC<Props> = ({
           </Animated.View>
         ) : (
           /* Grid View */
-          <Animated.View entering={FadeInUp.delay(220).duration(450)} style={{ paddingHorizontal: 16 }}>
+          <Animated.View entering={safeAnim(FadeInUp.delay(220).duration(450))} style={{ paddingHorizontal: 16 }}>
             {/* Grid header */}
             <View
               style={{
