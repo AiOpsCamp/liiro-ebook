@@ -229,6 +229,121 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Featured Genres & Timeless Ebook Gallery Section */}
+      <section className="py-24 bg-white dark:bg-zinc-900 border-b border-slate-200/60 dark:border-zinc-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="text-amber-500 font-bold text-xs tracking-widest uppercase mb-3 block">
+              EXPLORE CURATED LITERARY GENRES
+            </span>
+            <h2 className="font-serif text-3xl sm:text-5xl font-black text-slate-900 dark:text-white mb-6">
+              Timeless Classics Across Every Genre
+            </h2>
+            <p className="text-slate-600 dark:text-zinc-400 text-base leading-relaxed">
+              From chilling Gothic horrors to romantic Victorian masterworks, discover hand-curated classics with high-definition audio narration.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Genre 1: Gothic Fiction */}
+            <div className="bg-slate-50 dark:bg-zinc-950 border border-slate-200/80 dark:border-zinc-800 rounded-3xl overflow-hidden hover:border-amber-500/50 transition-all group">
+              <div className="h-56 relative overflow-hidden bg-slate-900">
+                <img
+                  src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=800"
+                  alt="Gothic Fiction"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80"
+                />
+                <div className="absolute top-4 left-4 bg-amber-500 text-slate-950 text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase tracking-wider">
+                  GOTHIC FICTION
+                </div>
+              </div>
+              <div className="p-6">
+                <h3 className="font-serif font-bold text-lg text-slate-900 dark:text-white mb-1">
+                  Dr. Jekyll & Mr. Hyde
+                </h3>
+                <p className="text-xs text-slate-500 dark:text-zinc-400 mb-4 font-medium">Robert Louis Stevenson</p>
+                <div className="flex items-center justify-between text-xs font-bold text-amber-500">
+                  <span>Audio + Whispersync 🎤</span>
+                  <a href="http://localhost:8086/details/the-strange-case-of-dr-jekyll-and-mr-hyde" className="hover:underline">Read Now ❯</a>
+                </div>
+              </div>
+            </div>
+
+            {/* Genre 2: Victorian Romance */}
+            <div className="bg-slate-50 dark:bg-zinc-950 border border-slate-200/80 dark:border-zinc-800 rounded-3xl overflow-hidden hover:border-indigo-500/50 transition-all group">
+              <div className="h-56 relative overflow-hidden bg-slate-900">
+                <img
+                  src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=800"
+                  alt="Victorian Masterworks"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80"
+                />
+                <div className="absolute top-4 left-4 bg-indigo-500 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase tracking-wider">
+                  VICTORIAN CLASSICS
+                </div>
+              </div>
+              <div className="p-6">
+                <h3 className="font-serif font-bold text-lg text-slate-900 dark:text-white mb-1">
+                  Pride and Prejudice
+                </h3>
+                <p className="text-xs text-slate-500 dark:text-zinc-400 mb-4 font-medium">Jane Austen</p>
+                <div className="flex items-center justify-between text-xs font-bold text-indigo-500">
+                  <span>Full eBook + Audio 🎧</span>
+                  <a href="http://localhost:8086" className="hover:underline">Read Now ❯</a>
+                </div>
+              </div>
+            </div>
+
+            {/* Genre 3: Mystery & Detectives */}
+            <div className="bg-slate-50 dark:bg-zinc-950 border border-slate-200/80 dark:border-zinc-800 rounded-3xl overflow-hidden hover:border-sky-500/50 transition-all group">
+              <div className="h-56 relative overflow-hidden bg-slate-900">
+                <img
+                  src="https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80&w=800"
+                  alt="Mystery & Detective"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80"
+                />
+                <div className="absolute top-4 left-4 bg-sky-500 text-slate-950 text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase tracking-wider">
+                  MYSTERY & SUSPENSE
+                </div>
+              </div>
+              <div className="p-6">
+                <h3 className="font-serif font-bold text-lg text-slate-900 dark:text-white mb-1">
+                  Sherlock Holmes
+                </h3>
+                <p className="text-xs text-slate-500 dark:text-zinc-400 mb-4 font-medium">Sir Arthur Conan Doyle</p>
+                <div className="flex items-center justify-between text-xs font-bold text-sky-500">
+                  <span>15-Min Blinks ⚡</span>
+                  <a href="http://localhost:8086" className="hover:underline">Read Now ❯</a>
+                </div>
+              </div>
+            </div>
+
+            {/* Genre 4: Fantasy & Wonder */}
+            <div className="bg-slate-50 dark:bg-zinc-950 border border-slate-200/80 dark:border-zinc-800 rounded-3xl overflow-hidden hover:border-emerald-500/50 transition-all group">
+              <div className="h-56 relative overflow-hidden bg-slate-900">
+                <img
+                  src="https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=800"
+                  alt="Fantasy & Wonder"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80"
+                />
+                <div className="absolute top-4 left-4 bg-emerald-500 text-slate-950 text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase tracking-wider">
+                  FANTASY & WONDER
+                </div>
+              </div>
+              <div className="p-6">
+                <h3 className="font-serif font-bold text-lg text-slate-900 dark:text-white mb-1">
+                  Alice in Wonderland
+                </h3>
+                <p className="text-xs text-slate-500 dark:text-zinc-400 mb-4 font-medium">Lewis Carroll</p>
+                <div className="flex items-center justify-between text-xs font-bold text-emerald-500">
+                  <span>Multi-Voice Audio 🎙️</span>
+                  <a href="http://localhost:8086/details/alices-adventures-in-wonderland" className="hover:underline">Read Now ❯</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* 7 Signature Pillars Section */}
       <section className="py-24 bg-slate-900 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
