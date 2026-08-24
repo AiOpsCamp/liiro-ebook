@@ -2,7 +2,7 @@ import React, { useCallback, useState } from "react";
 import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
-import { useRouter, useFocusEffect } from "expo-router";
+import { useRouter, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { useSelector } from "react-redux";
 
 import { selectThemeTokens, selectIsDark } from "@/redux/features/themeSlice";
@@ -14,6 +14,14 @@ export default function EbookDashboardScreen() {
   const insets = useSafeAreaInsets();
   const tokens = useSelector(selectThemeTokens);
   const isDark = useSelector(selectIsDark);
+  const { slug } = useLocalSearchParams<{ slug?: string }>();
+
+  // Auto-redirect if slug query param is present in URL
+  React.useEffect(() => {
+    if (slug) {
+      router.replace(`/details/${slug}`);
+    }
+  }, [slug, router]);
 
   const { data, isLoading, error, refetch } = useGetStoriesDashboardQuery();
   const [isRefreshing, setIsRefreshing] = useState(false);
