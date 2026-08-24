@@ -27,7 +27,15 @@ from synthesizer import AudioSynthesizer
 from aligner import generate_sentence_timestamps
 from transcoder import transcode_to_hls
 
-MONGO_URI = os.getenv("MONGO_URI", "mongodb://admin:PROD_PASSWORD_2026@127.0.0.1:27017/liiro_prod?authSource=admin&directConnection=true")
+MONGO_URI = os.getenv("MONGO_URI", "mongodb://127.0.0.1:27017/liiro_prod")
+
+def get_mongo_client():
+    try:
+        client = MongoClient(MONGO_URI, serverSelectionTimeoutMS=3000)
+        client.server_info()
+        return client
+    except Exception:
+        return MongoClient("mongodb://127.0.0.1:27017/liiro_prod")
 
 def run_pipeline(slug: str, voice: str = "am_adam", speed: float = 1.0, upload: bool = True, hls: bool = True, chapter_limit: int = 0):
     print(f"\n=======================================================")
@@ -36,7 +44,7 @@ def run_pipeline(slug: str, voice: str = "am_adam", speed: float = 1.0, upload: 
     print(f"=======================================================\n")
 
     # Connect to MongoDB
-    client = MongoClient(MONGO_URI)
+    client = get_mongo_client()
     db = client.get_database("liiro_prod")
 
     story = db.stories.find_one({"slug": slug})

@@ -28,7 +28,7 @@ const CATEGORY_TAXONOMY = [
 ];
 
 function slugify(text) {
-  return text.toString().toLowerCase().trim().replace(/\s+/g, "-").replace(/[^\w\-]+/g, "").replace(/\-\-+/g, "-");
+  return text.toString().toLowerCase().trim().replace(/\s+/g, "-").replace(/[^\w-]+/g, "").replace(/--+/g, "-");
 }
 
 function fetchRaw(url) {

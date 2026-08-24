@@ -43,8 +43,10 @@ async function uploadFileToS3(localPath, s3Key, contentType = "audio/mpeg") {
   return `${ENDPOINT.replace(/\/$/, "")}/${BUCKET}/${s3Key}`;
 }
 
+const connectDB = require("../src/db/connect");
+
 async function linkChapterInDatabase(slug, chapterNumber, audioUrl, durationSec, timestamps = [], voice = "adam") {
-  await mongoose.connect(MONGO_URI);
+  await connectDB();
   const db = mongoose.connection.db;
 
   const story = await db.collection("stories").findOne({ slug });

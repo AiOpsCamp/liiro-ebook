@@ -44,7 +44,7 @@ async function deepScanAndInjectAllIllustrations() {
         // Determine raw GitHub repository URL candidate
         let repoName = null;
         if (story.coverImageUrl && story.coverImageUrl.includes("standardebooks/")) {
-          const match = story.coverImageUrl.match(/standardebooks\/([^\/]+)\//);
+          const match = story.coverImageUrl.match(/standardebooks\/([^/]+)\//);
           if (match) repoName = match[1];
         }
 

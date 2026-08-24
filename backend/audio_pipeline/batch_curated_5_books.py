@@ -21,9 +21,9 @@ MONGO_URI = os.getenv("MONGO_URI", "mongodb://127.0.0.1:27017/liiro_prod")
 
 CURATED_BOOKS = [
     {
-        "slug": "the-adventures-of-sherlock-holmes",
-        "title": "The Adventures of Sherlock Holmes",
-        "voice": "am_michael",
+        "slug": "the-strange-case-of-dr-jekyll-and-mr-hyde",
+        "title": "The Strange Case of Dr Jekyll and Mr Hyde",
+        "voice": "am_adam",
     },
     {
         "slug": "frankenstein",
@@ -52,7 +52,11 @@ def batch_generate_curated():
     print(f"📚 STARTING BATCH SYNTHESIS FOR 5 CURATED CLASSIC AUDIOBOOKS")
     print(f"=======================================================\n")
 
-    client = MongoClient(MONGO_URI)
+    try:
+        client = MongoClient("mongodb://127.0.0.1:27017/liiro_prod", serverSelectionTimeoutMS=3000)
+        client.server_info()
+    except Exception:
+        client = MongoClient("mongodb://127.0.0.1:27017/liiro_prod")
     db = client.get_database("liiro_prod")
 
     start_time = time.time()

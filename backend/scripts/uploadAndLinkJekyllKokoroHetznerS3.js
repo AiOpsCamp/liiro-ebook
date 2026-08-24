@@ -65,10 +65,10 @@ async function uploadToHetznerS3(filePath, s3Key) {
   return `${HETZNER_CDN_BASE}/${s3Key}`;
 }
 
+const connectDB = require('../src/db/connect');
+
 async function run() {
-  const mongoUri = process.env.MONGO_URL || process.env.MONGO_URI || 'mongodb://admin:PROD_PASSWORD_2026@127.0.0.1:27017/langoread_prod?authSource=admin';
-  console.log(`🔌 Connecting to Hetzner MongoDB (${mongoUri.replace(/:[^:@]+@/, ':****@')})...`);
-  await mongoose.connect(mongoUri);
+  await connectDB();
   console.log('✅ Database Connected.');
 
   const db = mongoose.connection.db;

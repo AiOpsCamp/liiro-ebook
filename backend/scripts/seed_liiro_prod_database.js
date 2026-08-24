@@ -59,7 +59,7 @@ async function seedLiiroProdDatabase() {
 
     // Mirror author taxonomy
     if (story.author) {
-      const authorSlug = story.author.toLowerCase().trim().replace(/\s+/g, "-").replace(/[^\w\-]+/g, "");
+      const authorSlug = story.author.toLowerCase().trim().replace(/\s+/g, "-").replace(/[^\w-]+/g, "");
       await targetDb.collection("ebookauthors").updateOne(
         { slug: authorSlug },
         { $set: { name: story.author, slug: authorSlug, updatedAt: new Date() }, $inc: { booksCount: 1 } },

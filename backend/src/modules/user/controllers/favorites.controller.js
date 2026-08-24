@@ -17,37 +17,33 @@ const {
  * Helper: Validate item exists and get its type
  */
 async function validateAndGetItemInfo(itemId, itemSlug, contentType) {
-  try {
-    let item = null;
-    let actualType = contentType;
+  let item = null;
+  let actualType = contentType;
 
-    if (contentType === "LexiconPack") {
-      item = await LexiconPack.findOne({
-        $or: [{ _id: mongoose.Types.ObjectId.isValid(itemId) ? itemId : null }, { slug: itemSlug }],
-      })
-        .select("_id slug")
-        .lean();
-      actualType = "LexiconPack";
-    } else if (contentType === "Dialogue") {
-      item = await Dialogue.findOne({
-        $or: [{ _id: mongoose.Types.ObjectId.isValid(itemId) ? itemId : null }, { slug: itemSlug }],
-      })
-        .select("_id slug")
-        .lean();
-      actualType = "Dialogue";
-    } else if (contentType === "Exercise") {
-      item = await Exercise.findOne({
-        $or: [{ _id: mongoose.Types.ObjectId.isValid(itemId) ? itemId : null }, { slug: itemSlug }],
-      })
-        .select("_id slug")
-        .lean();
-      actualType = "Exercise";
-    }
-
-    return { item, actualType };
-  } catch (err) {
-    throw err;
+  if (contentType === "LexiconPack") {
+    item = await LexiconPack.findOne({
+      $or: [{ _id: mongoose.Types.ObjectId.isValid(itemId) ? itemId : null }, { slug: itemSlug }],
+    })
+      .select("_id slug")
+      .lean();
+    actualType = "LexiconPack";
+  } else if (contentType === "Dialogue") {
+    item = await Dialogue.findOne({
+      $or: [{ _id: mongoose.Types.ObjectId.isValid(itemId) ? itemId : null }, { slug: itemSlug }],
+    })
+      .select("_id slug")
+      .lean();
+    actualType = "Dialogue";
+  } else if (contentType === "Exercise") {
+    item = await Exercise.findOne({
+      $or: [{ _id: mongoose.Types.ObjectId.isValid(itemId) ? itemId : null }, { slug: itemSlug }],
+    })
+      .select("_id slug")
+      .lean();
+    actualType = "Exercise";
   }
+
+  return { item, actualType };
 }
 
 /**

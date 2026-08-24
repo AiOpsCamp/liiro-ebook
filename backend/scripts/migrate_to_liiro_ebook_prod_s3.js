@@ -19,21 +19,21 @@ const MONGO_URI = process.env.MONGO_URI || process.env.MONGO_URL || "mongodb://a
 // Helper to determine destination key in Liiro-Ebook-Prod/
 function mapToLiiroEbookProdKey(sourceKey) {
   // Pattern 1: ebooks/audio/<slug>/voice_<voice>_chapter_<num>.<ext>
-  let match = sourceKey.match(/^ebooks\/audio\/([^\/]+)\/voice_([^_]+)_chapter_(\d+)\.(mp3|wav)$/);
+  let match = sourceKey.match(/^ebooks\/audio\/([^/]+)\/voice_([^_]+)_chapter_(\d+)\.(mp3|wav)$/);
   if (match) {
     const [, slug, voice, num, ext] = match;
     return `Liiro-Ebook-Prod/audio/${slug}/voices/${voice}/chapter_${num}.${ext}`;
   }
 
   // Pattern 2: LangoReads-Prod/ebooks/<slug>/voice_<voice>_chapter_<num>.<ext>
-  match = sourceKey.match(/^LangoReads-Prod\/ebooks\/([^\/]+)\/voice_([^_]+)_chapter_(\d+)\.(mp3|wav)$/);
+  match = sourceKey.match(/^LangoReads-Prod\/ebooks\/([^/]+)\/voice_([^_]+)_chapter_(\d+)\.(mp3|wav)$/);
   if (match) {
     const [, slug, voice, num, ext] = match;
     return `Liiro-Ebook-Prod/audio/${slug}/voices/${voice}/chapter_${num}.${ext}`;
   }
 
   // Pattern 3: LangoReads-Prod/ebooks/<slug>/<lang>/chapter_<num>.<ext>
-  match = sourceKey.match(/^LangoReads-Prod\/ebooks\/([^\/]+)\/([a-z]{2})\/chapter_(\d+)\.(mp3|wav)$/);
+  match = sourceKey.match(/^LangoReads-Prod\/ebooks\/([^/]+)\/([a-z]{2})\/chapter_(\d+)\.(mp3|wav)$/);
   if (match) {
     const [, slug, lang, num, ext] = match;
     return `Liiro-Ebook-Prod/audio/${slug}/${lang}/chapter_${num}.${ext}`;

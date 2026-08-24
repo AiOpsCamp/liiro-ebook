@@ -93,7 +93,9 @@ module.exports = async function authMiddleware(req, res, next) {
     ------------------------------ */
     try {
       await user.updateLastLoginAndCheckXP();
-    } catch (_) {}
+    } catch (_) {
+      // Best-effort XP update
+    }
 
     /* -----------------------------
        Track last known IP & UA (best-effort)
@@ -114,7 +116,9 @@ module.exports = async function authMiddleware(req, res, next) {
           { timestamps: false }
         );
       }
-    } catch (_) {}
+    } catch (_) {
+      // Best-effort IP tracking
+    }
 
     /* -----------------------------
        Attach helpers to request
@@ -171,7 +175,9 @@ module.exports.optionalAuth = async function optionalAuth(req, res, next) {
     ) {
       req.user = user;
     }
-  } catch (_) {}
+  } catch (_) {
+    // Optional auth fallback
+  }
 
   next();
 };
