@@ -62,6 +62,7 @@ Detailed, deep-dive architectural specifications for individual sub-systems are 
 - 🔭 [**`docs/FUTURE_ENHANCEMENTS.md`**](file:///Users/humayunrashid/multicamp/liiro-ebook/docs/FUTURE_ENHANCEMENTS.md): Gap analysis and recommended next-tier power extensions (BullMQ queues, EPUB exporter, WebSockets Whispersync, CarPlay, custom fonts).
 
 - ⚡ [**`docs/BULLMQ_REDIS_K8S_GUIDE.md`**](file:///Users/humayunrashid/multicamp/liiro-ebook/docs/BULLMQ_REDIS_K8S_GUIDE.md): BullMQ Redis distributed queue migration, standalone worker pod architecture, and Kubernetes (k8s) manifests.
+- 🌩️ [**`docs/HETZNER_AUDIO_GENERATION_GUIDE.md`**](file:///Users/humayunrashid/multicamp/liiro-ebook/docs/HETZNER_AUDIO_GENERATION_GUIDE.md): Guide for running audio generation directly on Hetzner Cloud Servers (`46.224.188.251`) and K8s Worker Pods.
 
 ---
 
