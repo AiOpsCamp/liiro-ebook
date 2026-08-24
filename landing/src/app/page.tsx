@@ -341,6 +341,30 @@ export default function Home() {
               </div>
             </div>
           </div>
+
+          {/* Anti-AI Manifesto Hook Banner */}
+          <div className="mt-12 bg-gradient-to-r from-amber-500/10 via-amber-500/15 to-indigo-500/10 border-2 border-amber-500/30 rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-amber-500 text-slate-950 font-black flex items-center justify-center text-2xl shrink-0 mt-0.5">
+                💡
+              </div>
+              <div>
+                <h3 className="font-serif font-bold text-lg sm:text-xl text-slate-900 dark:text-white mb-1">
+                  Don't Waste Your Time Listening to Shallow, AI-Generated Summary Rubbish
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-zinc-300 leading-relaxed max-w-2xl font-medium">
+                  Get real human depth, masterly prose, and authentic wisdom. Browse our complete library of 1,000+ curated literary classics.
+                </p>
+              </div>
+            </div>
+
+            <Link
+              href="/categories"
+              className="px-6 py-3.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs rounded-full transition-all shrink-0 shadow-md shadow-amber-500/20"
+            >
+              View Full Catalog ❯
+            </Link>
+          </div>
         </div>
       </section>
 
