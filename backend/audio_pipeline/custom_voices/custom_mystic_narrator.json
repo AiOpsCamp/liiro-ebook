@@ -1,0 +1,8 @@
+{
+  "id": "custom_mystic_narrator",
+  "name": "Custom Mystic Narrator",
+  "type": "custom_blend",
+  "voiceA": "am_adam",
+  "voiceB": "am_michael",
+  "weightA": 0.6
+}
