@@ -3,33 +3,14 @@ import { View, Text, FlatList, useWindowDimensions, ActivityIndicator, Pressable
 import { useRouter, Stack } from "expo-router";
 import { ArrowLeft, Film, Sparkles } from "lucide-react-native";
 import { EbookReelItem, BookReelData } from "@/components/ebook/reels/EbookReelItem";
+import { useGetReelsQuery } from "@/api/storiesQuery";
 
 export default function BookReelsFeedScreen() {
   const router = useRouter();
   const { height } = useWindowDimensions();
-  const [reels, setReels] = useState<BookReelData[]>([]);
-  const [loading, setLoading] = useState(true);
   const [activeIdx, setActiveIdx] = useState(0);
 
-  useEffect(() => {
-    fetchReels();
-  }, []);
-
-  const fetchReels = async () => {
-    try {
-      setLoading(true);
-      const apiBase = process.env.EXPO_PUBLIC_API_URL || "http://localhost:5012/api/v1";
-      const res = await fetch(`${apiBase}/reels?limit=20`);
-      const json = await res.json();
-      if (json.success) {
-        setReels(json.data || []);
-      }
-    } catch (e) {
-      console.warn("Failed to fetch book reels:", e);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { data: reels = [], isLoading: loading } = useGetReelsQuery(20);
 
   const handleBack = () => {
     if (router.canGoBack()) {

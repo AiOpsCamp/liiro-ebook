@@ -49,6 +49,9 @@ const ebookCategorySchema = new mongoose.Schema(
   }
 );
 
+ebookCategorySchema.index({ bookCount: -1, name: 1 });
+ebookCategorySchema.index({ name: 1 });
+
 ebookCategorySchema.virtual("books", {
   ref: "Story",
   localField: "name",

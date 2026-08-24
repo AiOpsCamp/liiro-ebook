@@ -359,6 +359,35 @@ export const storiesApi = apiSlice.injectEndpoints({
       transformResponse: (response: { success: boolean; data: any }) => response.data,
       providesTags: ["UserLibrary"] as any,
     }),
+    getStorySummary: builder.query<any, string>({
+      query: (slug) => `/stories/slug/${slug}/summary`,
+      transformResponse: (res: any) => (res.success ? res.data : null),
+    }),
+    getReels: builder.query<any[], number | void>({
+      query: (limit = 20) => `/reels?limit=${limit}`,
+      transformResponse: (res: any) => (res.success ? res.data : []),
+    }),
+    likeReel: builder.mutation<any, string>({
+      query: (reelId) => ({
+        url: `/reels/${reelId}/like`,
+        method: "POST",
+      }),
+    }),
+    getUserActivities: builder.query<any[], number | void>({
+      query: (limit = 30) => `/user/activities?limit=${limit}`,
+      transformResponse: (res: any) => (res.success ? res.data : []),
+    }),
+    getUserStreaks: builder.query<any, void>({
+      query: () => "/user/streaks",
+      transformResponse: (res: any) => (res.success ? res.data : null),
+    }),
+    pingDailyStreak: builder.mutation<any, number | void>({
+      query: (minutesRead = 5) => ({
+        url: "/user/streaks/ping",
+        method: "POST",
+        body: { minutesRead },
+      }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -387,4 +416,10 @@ export const {
   useGetWhispersyncPositionQuery,
   useGetStoryRecommendationsQuery,
   useGetUserLibraryQuery,
+  useGetStorySummaryQuery,
+  useGetReelsQuery,
+  useLikeReelMutation,
+  useGetUserActivitiesQuery,
+  useGetUserStreaksQuery,
+  usePingDailyStreakMutation,
 } = storiesApi;

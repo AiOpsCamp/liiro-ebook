@@ -3,34 +3,15 @@ import { View, Text, ScrollView, Pressable, ActivityIndicator, Image } from "rea
 import { useLocalSearchParams, useRouter, Stack } from "expo-router";
 import { ArrowLeft, Sparkles, Clock, Play, Pause, ChevronRight, BookOpen, Quote } from "lucide-react-native";
 import { AudioManager } from "@/lib/utils/audioManager";
+import { useGetStorySummaryQuery } from "@/api/storiesQuery";
 
 export default function BlinksSummaryScreen() {
   const { slug } = useLocalSearchParams<{ slug: string }>();
   const router = useRouter();
-  const [data, setData] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
   const [activeTakeawayIdx, setActiveTakeawayIdx] = useState(0);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
 
-  useEffect(() => {
-    fetchSummary();
-  }, [slug]);
-
-  const fetchSummary = async () => {
-    try {
-      setLoading(true);
-      const apiBase = process.env.EXPO_PUBLIC_API_URL || "http://localhost:5012/api/v1";
-      const res = await fetch(`${apiBase}/stories/slug/${slug}/summary`);
-      const json = await res.json();
-      if (json.success) {
-        setData(json.data);
-      }
-    } catch (e) {
-      console.warn("Failed to fetch summary:", e);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { data, isLoading: loading } = useGetStorySummaryQuery(slug as string, { skip: !slug });
 
   const handleToggleAudio = () => {
     if (!data?.summary?.summaryAudioUrl) return;

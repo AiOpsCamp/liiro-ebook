@@ -20,5 +20,6 @@ const bookReviewSchema = new Schema(
 );
 
 bookReviewSchema.index({ storyId: 1, createdAt: -1 });
+bookReviewSchema.index({ storyId: 1, likesCount: -1, createdAt: -1 });
 
 module.exports = mongoose.models.BookReview || mongoose.model("BookReview", bookReviewSchema);

@@ -122,6 +122,7 @@ module.exports = async function authMiddleware(req, res, next) {
     req.user = user;
 
     // Keep backward compatibility with existing controllers
+    req.body = req.body || {};
     req.body.userId = user._id;
     req.body.role = user.role;
     req.body.emailVerified = !!user.emailVerified;

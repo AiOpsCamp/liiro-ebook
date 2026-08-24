@@ -263,12 +263,10 @@ exports.getStoryDetails = async (req, res) => {
       const fresh = await ingestBookFromStandardEbooks(story);
       if (fresh && fresh.length > 0) {
         existingChapters = await StoryChapter.find({ storyId: story._id })
-      existingChapters = await StoryChapter.find({ storyId: story._id })
-        .sort({ chapterNumber: 1, chapterIndex: 1 })
-        .select("_id chapterNumber chapterIndex title durationSeconds audioUrl audioVoices content textPayload")
-        .lean();
+          .sort({ chapterNumber: 1, chapterIndex: 1 })
+          .select("_id chapterNumber chapterIndex title durationSeconds audioUrl audioVoices content textPayload")
+      }
     }
-  }
   const storyTags = Array.isArray(story.tags) ? story.tags : [];
   const [userProgress, similarDocs, authorDocs, seriesDocs] = await Promise.all([
     userId
@@ -1402,7 +1400,7 @@ const audioQueue = require("../queues/audioQueue");
 
 exports.getQueueStatus = async (req, res) => {
   try {
-    const status = audioQueue.getQueueStatus();
+    const status = await audioQueue.getQueueStatus();
     res.status(200).json({
       success: true,
       data: status,

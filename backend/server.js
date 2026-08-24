@@ -35,6 +35,9 @@ app.use(
   })
 );
 
+// Raw body parser specifically for Stripe Webhook signature verification
+app.use("/api/v1/billing/webhook/stripe", express.raw({ type: "application/json" }));
+
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 

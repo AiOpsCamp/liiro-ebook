@@ -40,6 +40,9 @@ const ebookAuthorSchema = new mongoose.Schema(
   }
 );
 
+ebookAuthorSchema.index({ bookCount: -1, name: 1 });
+ebookAuthorSchema.index({ name: 1 });
+
 ebookAuthorSchema.virtual("books", {
   ref: "Story",
   localField: "name",
