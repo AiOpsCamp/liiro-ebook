@@ -422,34 +422,10 @@ export class AudioManager {
     });
   }
 
-  private async stopAndCleanup(): Promise<void> {
-    this.stopPolling();
-    if (this.webAudioEl) {
-      try {
-        this.webAudioEl.pause();
-        this.webAudioEl.currentTime = 0;
-      } catch {}
-    }
-    if (this.player) {
-      try {
-        this.player.pause?.();
-        await this.player.seekTo?.(0);
-      } catch (error) {
-        console.error("Error stopping native audio player:", error);
-      }
-    }
-    this.isPlaying = false;
-    this.onAudioFinishCallback = null;
-  }
-
   private cleanup(): void {
     this.stopPolling();
     this.isPlaying = false;
     this.onAudioFinishCallback = null;
-  }
-
-  async dispose(): Promise<void> {
-    await this.stopAndCleanup();
   }
 
   private startPolling() {

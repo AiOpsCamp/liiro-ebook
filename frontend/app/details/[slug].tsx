@@ -889,6 +889,8 @@ export default function BookDetailsScreen() {
             </View>
           </View>
         </View>
+      </Modal>
+
       {/* Social Quote Card Generator Modal */}
       <SocialQuoteCardModal
         visible={isQuoteModalOpen}
