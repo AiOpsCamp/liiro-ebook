@@ -627,25 +627,17 @@ export default function BookDetailsScreen() {
               </Pressable>
 
               <Pressable
-                onPress={() => {
-                  const apiBase = process.env.EXPO_PUBLIC_API_URL || "http://localhost:5012/api/v1";
-                  const epubUrl = `${apiBase}/stories/slug/${slug}/export/epub`;
-                  if (typeof window !== "undefined") {
-                    window.open(epubUrl, "_blank");
-                  } else {
-                    Linking.openURL(epubUrl);
-                  }
-                }}
+                onPress={() => router.push(`/summary/${slug}`)}
                 style={({ pressed }) => ({
                   flex: 1, flexDirection: "row", alignItems: "center", justifyContent: "center",
                   paddingVertical: 11, borderRadius: 12,
-                  backgroundColor: isDark ? "rgba(14,165,233,0.12)" : "#E0F2FE",
-                  borderWidth: 1, borderColor: isDark ? "rgba(14,165,233,0.25)" : "#BAE6FD",
+                  backgroundColor: isDark ? "rgba(168,85,247,0.15)" : "#F3E8FF",
+                  borderWidth: 1, borderColor: isDark ? "rgba(168,85,247,0.35)" : "#E9D5FF",
                   gap: 5, opacity: pressed ? 0.7 : 1,
                 })}
               >
-                <Download size={13} color="#0EA5E9" />
-                <Text weight="Bold" style={{ color: "#0EA5E9", fontSize: 12.5 }}>EPUB</Text>
+                <Sparkles size={13} color="#C084FC" />
+                <Text weight="Bold" style={{ color: "#C084FC", fontSize: 12.5 }}>Key Takeaways ⚡</Text>
               </Pressable>
             </View>
           </View>

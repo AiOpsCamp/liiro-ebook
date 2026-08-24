@@ -18,6 +18,14 @@
 
 ---
 
+## ⚡ 1.5. Blinkist-Style "Key Takeaways" & 15-Minute Audio Summaries
+
+* ⚡ **5-7 Key Takeaway "Blinks" (`/app/summary/[slug]`)**: Instant wisdom breakdown summarizing masterworks into 5 to 7 bullet point insights with key quotes and progress card stack navigation.
+* 🎧 **15-Minute Audio Summary Player**: Dedicated fast-learning audio summary player (`GET /api/v1/stories/slug/:slug/summary`) allowing commuters to master any book in under 15 minutes.
+* 🏷️ **1-Tap Details Action Badge**: Interactive *"Key Takeaways ⚡"* badge on every book details page (`details/[slug].tsx`).
+
+---
+
 ## 📖 2. Reader & Typography Experience
 
 * 🎤 **Whispersync Sentence & Word-Level Karaoke**: Highlights active sentences and words in real-time synchronized with audio timestamps generated via OpenAI Whisper forced alignment.
