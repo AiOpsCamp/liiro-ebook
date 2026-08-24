@@ -38,6 +38,7 @@ async function uploadFileToS3(localPath, s3Key, contentType = "audio/mpeg") {
     Key: s3Key,
     Body: fileBuffer,
     ContentType: contentType,
+    ACL: "public-read",
     CacheControl: "public, max-age=31536000, immutable",
   });
   await s3Client.send(command);
@@ -144,9 +145,19 @@ async function processPregeneratedAudio() {
         voices: [voiceObj],
       };
 
-      // Update storychapter in MongoDB
+      const storyObjId = typeof story._id === "string" ? new mongoose.Types.ObjectId(story._id) : story._id;
+      const storyStrId = story._id.toString();
+
       await db.collection("storychapters").updateOne(
-        { storyId: story._id, $or: [{ chapterNumber }, { chapterIndex: chapterNumber }] },
+        {
+          $or: [{ storyId: storyObjId }, { storyId: storyStrId }],
+          $or: [
+            { chapterNumber: chapterNumber },
+            { chapterNumber: String(chapterNumber) },
+            { chapterIndex: chapterNumber },
+            { chapterIndex: String(chapterNumber) },
+          ],
+        },
         {
           $set: {
             audioUrl: s3Url,
