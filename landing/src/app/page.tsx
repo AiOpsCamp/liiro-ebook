@@ -444,8 +444,120 @@ export default function Home() {
               <p className="text-slate-400 text-sm leading-relaxed mb-4">
                 Support for 5 isolated sub-accounts per subscription with 4-digit PIN lock and age-tiered Kids Mode (0-12 yrs).
               </p>
-              <span className="text-violet-400 text-xs font-bold">Parental PIN Security</span>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Why Choose Liiro Competitor Comparison Table Section */}
+      <section className="py-24 bg-white dark:bg-zinc-900 border-t border-slate-200/60 dark:border-zinc-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="text-amber-500 font-bold text-xs tracking-widest uppercase mb-3 block">
+              HEAD-TO-HEAD COMPARISON
+            </span>
+            <h2 className="font-serif text-3xl sm:text-5xl font-black text-slate-900 dark:text-white mb-6">
+              Why Readers Choose Liiro Over Others
+            </h2>
+            <p className="text-slate-600 dark:text-zinc-400 text-base leading-relaxed">
+              See how Liiro stacks up against traditional single-format apps like Audible, Blinkist, Kindle, and Storytel.
+            </p>
+          </div>
+
+          <div className="overflow-x-auto rounded-3xl border border-slate-200 dark:border-zinc-800 shadow-lg">
+            <table className="w-full text-left border-collapse bg-white dark:bg-zinc-950">
+              <thead>
+                <tr className="bg-slate-100 dark:bg-zinc-900 border-b border-slate-200 dark:border-zinc-800">
+                  <th className="p-5 text-sm font-bold text-slate-900 dark:text-white">Feature / Capability</th>
+                  <th className="p-5 text-sm font-bold text-slate-500 dark:text-zinc-400 text-center">Audible 🎧</th>
+                  <th className="p-5 text-sm font-bold text-slate-500 dark:text-zinc-400 text-center">Blinkist ⚡</th>
+                  <th className="p-5 text-sm font-bold text-slate-500 dark:text-zinc-400 text-center">Kindle 📖</th>
+                  <th className="p-5 text-sm font-bold text-slate-500 dark:text-zinc-400 text-center">Storytel 📚</th>
+                  <th className="p-5 text-sm font-bold text-amber-500 text-center bg-amber-500/10">Liiro Ebook 🚀</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100 dark:divide-zinc-800/80 text-xs sm:text-sm font-medium">
+                {/* Row 1 */}
+                <tr>
+                  <td className="p-5 font-bold text-slate-900 dark:text-white">Monthly Subscription Price</td>
+                  <td className="p-5 text-center text-slate-500">$14.95 / 1 Credit</td>
+                  <td className="p-5 text-center text-slate-500">$15.99 / Month</td>
+                  <td className="p-5 text-center text-slate-500">$11.99 / Month</td>
+                  <td className="p-5 text-center text-slate-500">$14.99 / Month</td>
+                  <td className="p-5 text-center font-bold text-amber-500 bg-amber-500/10">$9.99 / Unlimited</td>
+                </tr>
+
+                {/* Row 2 */}
+                <tr>
+                  <td className="p-5 font-bold text-slate-900 dark:text-white">1,000+ Free Public Domain Masterpieces</td>
+                  <td className="p-5 text-center text-red-500 font-bold">❌ $15 Per Book</td>
+                  <td className="p-5 text-center text-red-500 font-bold">❌ Summaries Only</td>
+                  <td className="p-5 text-center text-amber-500 font-bold">⚠️ Text Only</td>
+                  <td className="p-5 text-center text-slate-500">❌ Standard Catalog</td>
+                  <td className="p-5 text-center font-bold text-emerald-500 bg-amber-500/10">✅ Included Free</td>
+                </tr>
+
+                {/* Row 3 */}
+                <tr>
+                  <td className="p-5 font-bold text-slate-900 dark:text-white">Liiro Sparks ⚡ (15-Min Executive Summaries)</td>
+                  <td className="p-5 text-center text-red-500 font-bold">❌ No Summaries</td>
+                  <td className="p-5 text-center text-emerald-500 font-bold">✅ Summaries Only</td>
+                  <td className="p-5 text-center text-red-500 font-bold">❌ No Summaries</td>
+                  <td className="p-5 text-center text-red-500 font-bold">❌ No Summaries</td>
+                  <td className="p-5 text-center font-bold text-emerald-500 bg-amber-500/10">✅ 15-Min + Full Book</td>
+                </tr>
+
+                {/* Row 4 */}
+                <tr>
+                  <td className="p-5 font-bold text-slate-900 dark:text-white">Whispersync Karaoke Text Sync</td>
+                  <td className="p-5 text-center text-amber-500 font-bold">⚠️ Extra Cost</td>
+                  <td className="p-5 text-center text-red-500 font-bold">❌ No Text Sync</td>
+                  <td className="p-5 text-center text-amber-500 font-bold">⚠️ Extra Cost</td>
+                  <td className="p-5 text-center text-slate-500">❌ Basic Text</td>
+                  <td className="p-5 text-center font-bold text-emerald-500 bg-amber-500/10">✅ EN, ES, FR Karaoke</td>
+                </tr>
+
+                {/* Row 5 */}
+                <tr>
+                  <td className="p-5 font-bold text-slate-900 dark:text-white">Short Video & Image Book Reels Feed</td>
+                  <td className="p-5 text-center text-red-500 font-bold">❌ No Reels</td>
+                  <td className="p-5 text-center text-red-500 font-bold">❌ No Reels</td>
+                  <td className="p-5 text-center text-red-500 font-bold">❌ No Reels</td>
+                  <td className="p-5 text-center text-red-500 font-bold">❌ No Reels</td>
+                  <td className="p-5 text-center font-bold text-emerald-500 bg-amber-500/10">✅ 60fps Vertical Feed</td>
+                </tr>
+
+                {/* Row 6 */}
+                <tr>
+                  <td className="p-5 font-bold text-slate-900 dark:text-white">Ambient Reading Soundscapes Engine</td>
+                  <td className="p-5 text-center text-red-500 font-bold">❌ No Soundscapes</td>
+                  <td className="p-5 text-center text-red-500 font-bold">❌ No Soundscapes</td>
+                  <td className="p-5 text-center text-red-500 font-bold">❌ No Soundscapes</td>
+                  <td className="p-5 text-center text-red-500 font-bold">❌ No Soundscapes</td>
+                  <td className="p-5 text-center font-bold text-emerald-500 bg-amber-500/10">✅ 5 Hetzner Loops</td>
+                </tr>
+
+                {/* Row 7 */}
+                <tr>
+                  <td className="p-5 font-bold text-slate-900 dark:text-white">Audible Driving Car Mode UI</td>
+                  <td className="p-5 text-center text-emerald-500 font-bold">✅ Driving Mode</td>
+                  <td className="p-5 text-center text-red-500 font-bold">❌ Standard UI</td>
+                  <td className="p-5 text-center text-red-500 font-bold">❌ Standard UI</td>
+                  <td className="p-5 text-center text-red-500 font-bold">❌ Standard UI</td>
+                  <td className="p-5 text-center font-bold text-emerald-500 bg-amber-500/10">✅ Giant 96px Touch UI</td>
+                </tr>
+
+                {/* Row 8 */}
+                <tr>
+                  <td className="p-5 font-bold text-slate-900 dark:text-white">5 Family Profiles & PIN Lock</td>
+                  <td className="p-5 text-center text-red-500 font-bold">❌ Single Account</td>
+                  <td className="p-5 text-center text-red-500 font-bold">❌ Single Account</td>
+                  <td className="p-5 text-center text-red-500 font-bold">❌ Single Account</td>
+                  <td className="p-5 text-center text-amber-500 font-bold">⚠️ Basic Family</td>
+                  <td className="p-5 text-center font-bold text-emerald-500 bg-amber-500/10">✅ 5 Sub-Accounts + PIN</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </section>
