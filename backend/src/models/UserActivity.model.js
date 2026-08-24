@@ -37,4 +37,8 @@ const userActivitySchema = new Schema(
   { timestamps: true }
 );
 
+userActivitySchema.index({ userId: 1, activityType: 1 });
+userActivitySchema.index({ userId: 1, createdAt: -1 });
+userActivitySchema.index({ storySlug: 1, createdAt: -1 });
+
 module.exports = mongoose.models.UserActivity || mongoose.model("UserActivity", userActivitySchema);

@@ -246,8 +246,36 @@ export class AudioManager {
     }
   }
 
+  async stopAndCleanup(): Promise<void> {
+    this.cancelSleepTimer();
+    if (this.pollId) {
+      clearInterval(this.pollId);
+      this.pollId = null;
+    }
+    if (this.webAudioEl) {
+      try {
+        this.webAudioEl.pause();
+        this.webAudioEl.currentTime = 0;
+      } catch {}
+    }
+    if (this.player) {
+      try {
+        this.player.pause?.();
+        await this.player.seekTo?.(0);
+      } catch {}
+    }
+    this.isPlaying = false;
+    this.lastKnownPosition = 0;
+  }
+
   async stopAudio(): Promise<void> {
     await this.stopAndCleanup();
+  }
+
+  dispose(): void {
+    this.cancelSleepTimer();
+    this.stopAndCleanup();
+    this.statusListeners.clear();
   }
 
   async seekTo(seconds: number): Promise<void> {

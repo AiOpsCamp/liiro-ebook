@@ -53,18 +53,18 @@ function getEffectiveUserId(req) {
   if (req.user && (req.user._id || req.user.id)) {
     return (req.user._id || req.user.id).toString();
   }
-  // Allow x-guest-id ONLY for guest reading state
+  // Allow x-guest-id ONLY for non-authenticated guests with explicit guest_ prefix
   const headers = req.headers || {};
   const query = req.query || {};
   const guestId = headers["x-guest-id"] || query.guestId;
-  if (guestId && /^[0-9a-fA-F]{24}$/.test(guestId.toString())) {
-    return guestId.toString();
+  if (guestId && typeof guestId === "string" && guestId.startsWith("guest_")) {
+    return guestId;
   }
-  // Generate deterministic IP + UserAgent guest ID to prevent cross-guest progress overwrites
+  // Generate deterministic IP + UserAgent guest ID with guest_ prefix to prevent IDOR spoofing
   const clientIp = headers["x-forwarded-for"] || req.ip || "127.0.0.1";
   const userAgent = headers["user-agent"] || "guest-client";
-  const hash = crypto.createHash("md5").update(`${clientIp}:${userAgent}`).digest("hex").substring(0, 24);
-  return hash;
+  const hash = crypto.createHash("md5").update(`${clientIp}:${userAgent}`).digest("hex").substring(0, 18);
+  return `guest_${hash}`;
 }
 
 exports.getStoriesDashboard = async (req, res) => {
@@ -94,7 +94,10 @@ exports.getStoriesDashboard = async (req, res) => {
     }
 
     const { allPublished, chapterCountMap } = catalogSlate;
-    const progressDocs = await UserStoryProgress.find({ userId }).sort({ lastVisitedAt: -1, lastReadAt: -1 }).lean();
+    const progressDocs = await UserStoryProgress.find({ userId })
+      .sort({ lastVisitedAt: -1, lastReadAt: -1 })
+      .limit(50)
+      .lean();
 
     const progressMap = {};
     progressDocs.forEach((p) => { progressMap[p.storyId.toString()] = p; });

@@ -17,4 +17,7 @@ const userNotificationSchema = new Schema(
   { timestamps: true }
 );
 
+userNotificationSchema.index({ userId: 1, isRead: 1 });
+userNotificationSchema.index({ userId: 1, createdAt: -1 });
+
 module.exports = mongoose.models.UserNotification || mongoose.model("UserNotification", userNotificationSchema);
