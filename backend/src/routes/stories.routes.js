@@ -32,7 +32,12 @@ router.get("/user/analytics/summary", authMiddleware.optionalAuth, storyControll
 router.get("/user/analytics/heatmap", authMiddleware.optionalAuth, storyController.getUserAnalyticsHeatmap);
 router.get("/user/streak", authMiddleware.optionalAuth, storyController.getUserStreak);
 router.post("/user/streak/freeze", authMiddleware.optionalAuth, storyController.freezeUserStreak);
-router.post("/quote-card", storyController.generateQuoteCard);
+const reviewController = require("../controllers/review.controller");
+
+// Dedicated Book & Goodreads Review Endpoints
+router.get("/slug/:slug/reviews", reviewController.getStoryReviews);
+router.post("/slug/:slug/reviews", authMiddleware.optionalAuth, reviewController.addReview);
+router.post("/reviews/:reviewId/like", reviewController.likeReview);
 router.get("/share/:slug", storyController.getStoryShareMetadata);
 // Dedicated Whispersync Bi-Directional Position Sync Engine
 router.post("/whispersync", authMiddleware.optionalAuth, storyController.syncWhispersyncPosition);

@@ -16,6 +16,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import { AudioManager } from "@/lib/utils/audioManager";
 import { offlineManager } from "@/services/offlineManager";
+import { EbookReviewsSection } from "@/components/ebook/EbookReviewsSection";
 import {
   ArrowLeft,
   ChevronLeft,
@@ -826,6 +827,8 @@ export default function BookDetailsScreen() {
                 </Text>
               </Pressable>
             )}
+            {/* Community & Goodreads Book Reviews Section */}
+            <EbookReviewsSection storySlug={String(slug)} isDark={isDark} />
           </View>
         </View>
         </View>
