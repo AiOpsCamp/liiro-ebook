@@ -352,17 +352,22 @@ const EbookDashboardContent: React.FC<Props> = ({
   const [streakData, setStreakData] = useState<any>(null);
 
   useEffect(() => {
+    let isMounted = true;
     const fetchStreak = async () => {
       try {
+        const token = await AsyncStorage.getItem("userToken");
         const apiBase = process.env.EXPO_PUBLIC_API_URL || "http://localhost:5012/api/v1";
-        const res = await fetch(`${apiBase}/user/streaks`);
+        const headers: any = {};
+        if (token) headers["Authorization"] = `Bearer ${token}`;
+        const res = await fetch(`${apiBase}/user/streaks`, { headers });
         const json = await res.json();
-        if (json.success) {
+        if (isMounted && json.success) {
           setStreakData(json.data);
         }
       } catch (e) {}
     };
     fetchStreak();
+    return () => { isMounted = false; };
   }, []);
 
   const { data: authorsData = [] } = useGetAuthorsQuery();
@@ -497,6 +502,9 @@ const EbookDashboardContent: React.FC<Props> = ({
   const accentColor = tokens.accentPrimary || "#0EA5E9";
   const isSectionRailMode = activeCategory === "all" && !searchQuery.trim();
 
+  const isWeb = Platform.OS === "web";
+  const safeAnim = (anim: any) => (isWeb ? undefined : anim);
+
   /* Cover fan positions */
   const FAN_OFFSETS = [
     { left: 0, top: 14, rotate: "-10deg", opacity: 0.55, zIndex: 1 },
@@ -517,7 +525,7 @@ const EbookDashboardContent: React.FC<Props> = ({
         <View style={{ width: "100%", maxWidth: maxW, alignSelf: "center" }}>
         {/* ── 1. Professional Nav Bar ─────────────────────────────────── */}
         <Animated.View
-          entering={FadeInUp.duration(350)}
+          entering={safeAnim(FadeInUp.duration(350))}
           style={{
             flexDirection: "row",
             alignItems: "center",
@@ -1206,7 +1214,7 @@ const EbookDashboardContent: React.FC<Props> = ({
           /* ── HOME DASHBOARD VIEW ──────────────────────────────────── */
           <View style={{ width: "100%" }}>
         {/* Daily Reading Streak & Goal Banner */}
-        <Animated.View entering={FadeInUp.delay(30).duration(400)} style={{ paddingHorizontal: 16 }}>
+        <Animated.View entering={safeAnim(FadeInUp.delay(30).duration(400))} style={{ paddingHorizontal: 16 }}>
           <EbookStreakBanner
             currentStreak={7}
             xpScore={450}
@@ -1218,7 +1226,7 @@ const EbookDashboardContent: React.FC<Props> = ({
         </Animated.View>
 
         {/* ── 2. Editorial Hero ──────────────────────────── */}
-        <Animated.View entering={FadeInUp.delay(60).duration(480)} style={{ paddingHorizontal: 16, marginBottom: 24 }}>
+        <Animated.View entering={safeAnim(FadeInUp.delay(60).duration(480))} style={{ paddingHorizontal: 16, marginBottom: 24 }}>
           <LinearGradient
             colors={["#0A1628", "#12233E", "#162B4E"]}
             start={{ x: 0, y: 0 }}
@@ -1393,7 +1401,7 @@ const EbookDashboardContent: React.FC<Props> = ({
         </Animated.View>
 
         {/* ── 2. Daily Streak Banner ───────────────────── */}
-        <Animated.View entering={FadeInUp.delay(100).duration(450)} style={{ paddingHorizontal: 16, marginBottom: 20 }}>
+        <Animated.View entering={safeAnim(FadeInUp.delay(100).duration(450))} style={{ paddingHorizontal: 16, marginBottom: 20 }}>
           <EbookStreakBanner
             currentStreak={7}
             xpScore={450}
@@ -1405,13 +1413,13 @@ const EbookDashboardContent: React.FC<Props> = ({
 
         {/* ── 3. Continue Reading ───────────────────────── */}
         {continueStory && !searchQuery.trim() && (
-          <Animated.View entering={FadeInUp.delay(120).duration(450)} style={{ paddingHorizontal: 16, marginBottom: 24 }}>
+          <Animated.View entering={safeAnim(FadeInUp.delay(120).duration(450))} style={{ paddingHorizontal: 16, marginBottom: 24 }}>
             <StoryCard story={continueStory} onPress={onStoryPress} variant="continue" />
           </Animated.View>
         )}
 
         {/* ── 4. Search ─────────────────────────────────── */}
-        <Animated.View entering={FadeInUp.delay(160).duration(450)} style={{ paddingHorizontal: 16, marginBottom: 16 }}>
+        <Animated.View entering={safeAnim(FadeInUp.delay(160).duration(450))} style={{ paddingHorizontal: 16, marginBottom: 16 }}>
           <View
             style={{
               flexDirection: "row",
@@ -1463,7 +1471,7 @@ const EbookDashboardContent: React.FC<Props> = ({
 
         {/* ── 5. Category Pills ─────────────────────────── */}
         {!searchQuery.trim() && (
-          <Animated.View entering={FadeInUp.delay(190).duration(450)} style={{ marginBottom: 28 }}>
+          <Animated.View entering={safeAnim(FadeInUp.delay(190).duration(450))} style={{ marginBottom: 28 }}>
             <ScrollView
               horizontal
               showsHorizontalScrollIndicator={false}
@@ -1514,7 +1522,7 @@ const EbookDashboardContent: React.FC<Props> = ({
 
         {/* ── 6. Main Content: Rails or Grid ────────────── */}
         {isSectionRailMode ? (
-          <Animated.View entering={FadeInUp.delay(220).duration(450)}>
+          <Animated.View entering={safeAnim(FadeInUp.delay(220).duration(450))}>
             {/* Top 100 Featured Masterworks Showcase Rail */}
             {data?.topFeatured && data.topFeatured.length > 0 && (
               <SectionRail

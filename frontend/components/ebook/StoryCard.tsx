@@ -384,4 +384,4 @@ const StoryCard: React.FC<StoryCardProps> = ({ story, onPress, variant = "standa
   return <StandardCard story={story} onPress={onPress} />;
 };
 
-export default StoryCard;
+export default React.memo(StoryCard);
