@@ -1017,8 +1017,9 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
       if (success) {
         setIsPlaying(true);
         audioMgr.setRate(playbackSpeed);
+        const activeChapterObj = chapterDetails || chapterStub;
         audioMgr.updateCarPlayMediaSessionMetadata({
-          title: activeChapter?.title ? (typeof activeChapter.title === "object" ? (activeChapter.title as any).en : activeChapter.title) : `Chapter ${currentChapterIdx + 1}`,
+          title: activeChapterObj?.title ? (typeof activeChapterObj.title === "object" ? (activeChapterObj.title as any).en : activeChapterObj.title) : `Chapter ${currentChapterIdx + 1}`,
           artist: typeof story?.author === "object" ? (story.author as any).name : (story?.author || "Liiro Author"),
           album: typeof story?.title === "object" ? (story.title as any).en : (story?.title || "Liiro Audiobook"),
           artworkUrl: story?.coverImageUrl || "",
