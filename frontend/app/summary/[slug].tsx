@@ -35,10 +35,10 @@ export default function BlinksSummaryScreen() {
   const handleToggleAudio = () => {
     if (!data?.summary?.summaryAudioUrl) return;
     if (isPlayingAudio) {
-      AudioManager.pauseAudio();
+      AudioManager.getInstance().pauseAudio();
       setIsPlayingAudio(false);
     } else {
-      AudioManager.playAudio(data.summary.summaryAudioUrl, () => setIsPlayingAudio(false));
+      AudioManager.getInstance().playAudio(data.summary.summaryAudioUrl, () => setIsPlayingAudio(false));
       setIsPlayingAudio(true);
     }
   };

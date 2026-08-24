@@ -527,4 +527,18 @@ export class AudioManager {
       }
     }
   }
+
+  // Static Helper Aliases
+  static playAudio(url: string, onFinish?: () => void): Promise<boolean> {
+    return AudioManager.getInstance().playAudio(url, onFinish);
+  }
+  static pauseAudio(): void {
+    AudioManager.getInstance().pauseAudio();
+  }
+  static resumeAudio(): void {
+    AudioManager.getInstance().resumeAudio();
+  }
+  static stopAudio(): void {
+    AudioManager.getInstance().stopAudio();
+  }
 }
