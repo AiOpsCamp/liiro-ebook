@@ -79,10 +79,12 @@ import ResponsiveSheet from "@/components/ui/shared/ResponsiveSheet";
 import { selectIsDark } from "@/redux/features/themeSlice";
 import {
   useGetChapterContentQuery,
+  useGetStreamTokenQuery,
   useSyncStoryProgressMutation,
   useToggleStoryBookmarkMutation,
   useAddStoryHighlightMutation,
-  useDeleteStoryHighlightMutation } from "@/api/storiesQuery";
+  useDeleteStoryHighlightMutation
+} from "@/api/storiesQuery";
 import type { StoryDetail, HighlightItem } from "@/api/storiesQuery";
 
 /* ── Types ───────────────────────────────────────────── */
