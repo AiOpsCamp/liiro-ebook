@@ -5,12 +5,14 @@ import axios from "axios";
 
 interface EbookTextSelectionTooltipProps {
   selectedText: string;
+  isAudioPlayerVisible?: boolean;
   onClose: () => void;
   onHighlight: (color: string) => void;
 }
 
 export function EbookTextSelectionTooltip({
   selectedText,
+  isAudioPlayerVisible = true,
   onClose,
   onHighlight,
 }: EbookTextSelectionTooltipProps) {
@@ -60,10 +62,12 @@ export function EbookTextSelectionTooltip({
     { name: "Pink", hex: "#FBCFE8" },
   ];
 
+  const bottomPosClass = isAudioPlayerVisible ? "bottom-28" : "bottom-6";
+
   return (
     <>
       {/* Floating Action Toolbar */}
-      <View className="absolute bottom-24 left-4 right-4 z-50 bg-[#0F172A] border border-cyan-500/30 rounded-2xl p-3 shadow-2xl flex-row items-center justify-between">
+      <View className={`absolute ${bottomPosClass} left-4 right-4 z-50 bg-[#0F172A] border border-cyan-500/30 rounded-2xl p-3 shadow-2xl flex-row items-center justify-between`}>
         <View className="flex-row items-center space-x-2 flex-1 pr-2">
           <Text className="text-white text-xs font-semibold" numberOfLines={1}>
             "{selectedText}"

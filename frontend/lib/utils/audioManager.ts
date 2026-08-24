@@ -330,6 +330,7 @@ export class AudioManager {
           const duration = this.webAudioEl.duration || 0;
           this.lastKnownPosition = position;
           this.lastKnownDuration = duration;
+          this.updateMediaSessionPositionState(position, duration);
           this.statusListeners.forEach((cb) => cb({ position, duration }));
           return;
         }
@@ -345,6 +346,7 @@ export class AudioManager {
             const duration = status.duration ?? this.lastKnownDuration;
             this.lastKnownPosition = position;
             this.lastKnownDuration = duration;
+            this.updateMediaSessionPositionState(position, duration);
             this.statusListeners.forEach((cb) => cb({ position, duration }));
           }
         }
@@ -352,6 +354,20 @@ export class AudioManager {
         // ignore polling errors
       }
     }, 300);
+  }
+
+  private updateMediaSessionPositionState(position: number, duration: number) {
+    if (Platform.OS === "web" && typeof window !== "undefined" && "mediaSession" in navigator && (navigator.mediaSession as any).setPositionState) {
+      if (duration > 0 && position >= 0 && position <= duration) {
+        try {
+          (navigator.mediaSession as any).setPositionState({
+            duration: Math.max(0, duration),
+            playbackRate: 1.0,
+            position: Math.max(0, Math.min(position, duration)),
+          });
+        } catch {}
+      }
+    }
   }
 
   private stopPolling() {

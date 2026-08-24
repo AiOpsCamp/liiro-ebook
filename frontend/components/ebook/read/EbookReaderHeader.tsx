@@ -61,8 +61,11 @@ export const EbookReaderHeader: React.FC<EbookReaderHeaderProps> = ({
             onPress={onBack}
             hitSlop={12}
             style={({ pressed }) => ({
-              padding: 6,
-              borderRadius: 20,
+              minWidth: 44,
+              minHeight: 44,
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 22,
               backgroundColor: isDarkTheme ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.05)",
               opacity: pressed ? 0.7 : 1,
             })}
@@ -81,20 +84,23 @@ export const EbookReaderHeader: React.FC<EbookReaderHeaderProps> = ({
               numberOfLines={1}
               style={{ color: themeColors.textSecondary, fontSize: 11, marginTop: 1 }}
             >
-              Chapter {currentChapterIdx + 1} of {totalChapters} {chapterTitle ? `• ${chapterTitle}` : ""}
+              {chapterTitle || `Chapter ${currentChapterIdx + 1} of ${totalChapters}`}
             </Text>
           </View>
         </View>
 
-        {/* Right Action Icons */}
+        {/* Right Actions */}
         <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
           {/* Quick Theme Toggle */}
           <Pressable
             onPress={onToggleQuickTheme}
             hitSlop={8}
             style={({ pressed }) => ({
-              padding: 7,
-              borderRadius: 20,
+              minWidth: 44,
+              minHeight: 44,
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 22,
               backgroundColor: isDarkTheme ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.05)",
               opacity: pressed ? 0.7 : 1,
             })}
@@ -107,8 +113,11 @@ export const EbookReaderHeader: React.FC<EbookReaderHeaderProps> = ({
             onPress={onToggleBookmark}
             hitSlop={8}
             style={({ pressed }) => ({
-              padding: 7,
-              borderRadius: 20,
+              minWidth: 44,
+              minHeight: 44,
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 22,
               backgroundColor: isBookmarked ? themeColors.accent + "20" : isDarkTheme ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.05)",
               opacity: pressed ? 0.7 : 1,
             })}
@@ -125,8 +134,11 @@ export const EbookReaderHeader: React.FC<EbookReaderHeaderProps> = ({
             onPress={onOpenToc}
             hitSlop={8}
             style={({ pressed }) => ({
-              padding: 7,
-              borderRadius: 20,
+              minWidth: 44,
+              minHeight: 44,
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 22,
               backgroundColor: isDarkTheme ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.05)",
               opacity: pressed ? 0.7 : 1,
             })}
@@ -139,8 +151,11 @@ export const EbookReaderHeader: React.FC<EbookReaderHeaderProps> = ({
             onPress={onOpenSettings}
             hitSlop={8}
             style={({ pressed }) => ({
-              padding: 7,
-              borderRadius: 20,
+              minWidth: 44,
+              minHeight: 44,
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 22,
               backgroundColor: isDarkTheme ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.05)",
               opacity: pressed ? 0.7 : 1,
             })}

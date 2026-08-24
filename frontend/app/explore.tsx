@@ -365,8 +365,9 @@ export default function ExploreAllBooksScreen() {
           <View style={{ flexDirection: "row", flexWrap: "wrap", marginHorizontal: -6 }}>
             {paginatedStories.map((story) => {
               const cols = viewMode === "grid" ? (width >= 1024 ? 4 : width >= 768 ? 3 : 2) : 1;
+              const itemWidth = cols === 1 ? "100%" : cols === 2 ? "50%" : cols === 3 ? "33.33%" : "25%";
               return (
-                <View key={story._id} style={{ width: `${100 / cols}%`, paddingHorizontal: 6, paddingBottom: 14 }}>
+                <View key={story._id} style={{ width: itemWidth, flexGrow: 0, flexShrink: 0, paddingHorizontal: 6, paddingBottom: 14 }}>
                   <StoryCard story={story} onPress={handleStoryPress} variant="standard" />
                 </View>
               );
