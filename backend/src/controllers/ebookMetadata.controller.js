@@ -60,6 +60,25 @@ exports.getAuthors = async (req, res) => {
   }
 };
 
+// ── Narrators ───────────────────────────────────────────────────────────
+const Narrator = require("../models/Narrator.model");
+
+exports.getNarrators = async (req, res) => {
+  try {
+    const narrators = [
+      { name: "Adam", slug: "adam", bio: "Resonant, clear storytelling voice profile", avatarUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=300", catalogCount: 42, voiceId: "am_adam" },
+      { name: "Michael", slug: "michael", bio: "Warm, authoritative classic literature narrator", avatarUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=300", catalogCount: 38, voiceId: "am_michael" },
+      { name: "Bella", slug: "bella", bio: "Expressive, engaging narrative voice", avatarUrl: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=300", catalogCount: 29, voiceId: "af_bella" },
+      { name: "Heart", slug: "heart", bio: "Soothing, immersive storytelling voice", avatarUrl: "https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=300", catalogCount: 24, voiceId: "af_heart" },
+    ];
+
+    res.status(200).json({ success: true, count: narrators.length, data: narrators });
+  } catch (error) {
+    console.error("Error in getNarrators:", error);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};
+
 exports.getAuthorBySlug = async (req, res) => {
   try {
     const { slug } = req.params;

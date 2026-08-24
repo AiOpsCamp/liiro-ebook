@@ -231,3 +231,40 @@ exports.createPortalSession = async (req, res) => {
     res.status(500).json({ success: false, message: "Portal Error", error: error.message });
   }
 };
+
+// ── Metered Audiobook Listening Session Heartbeat (BookBeat Parity) ─────────
+
+exports.logListeningSession = async (req, res) => {
+  try {
+    const userId = req.user?._id || req.user?.id;
+    const { durationSeconds = 30 } = req.body;
+
+    if (!userId) {
+      return res.status(200).json({ success: true, message: "Guest session logged" });
+    }
+
+    const secs = Math.min(Math.max(parseInt(durationSeconds) || 30, 1), 300);
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { $inc: { usedListeningSecondsCurrentCycle: secs } },
+      { new: true }
+    ).select("monthlyListeningLimitHours usedListeningSecondsCurrentCycle").lean();
+
+    const limitSecs = (user?.monthlyListeningLimitHours || 20) * 3600;
+    const usedSecs = user?.usedListeningSecondsCurrentCycle || 0;
+    const remainingHours = Math.max(0, (limitSecs - usedSecs) / 3600);
+
+    res.status(200).json({
+      success: true,
+      data: {
+        usedSeconds: usedSecs,
+        limitHours: user?.monthlyListeningLimitHours || 20,
+        remainingHours: parseFloat(remainingHours.toFixed(1)),
+        isQuotaExhausted: usedSecs >= limitSecs,
+      },
+    });
+  } catch (error) {
+    console.error("Error in logListeningSession:", error);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};

@@ -155,6 +155,10 @@ const UserSchema = new Schema(
     // Multi-device Expo push tokens
     pushTokens: { type: [PushTokenSchema], default: [] },
 
+    // Metered Audiobook Listening Tier Tracking (BookBeat Parity)
+    monthlyListeningLimitHours: { type: Number, default: 20 },
+    usedListeningSecondsCurrentCycle: { type: Number, default: 0 },
+
     // Legacy single token (backwards compatibility)
     notificationToken: { type: String, default: null },
 

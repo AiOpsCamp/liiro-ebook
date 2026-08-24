@@ -197,6 +197,11 @@ exports.getStoriesDashboard = async (req, res) => {
       .slice(0, RAIL)
       .map(mapStory);
 
+    const shortAudiobooksDocs = allPublished.filter(
+      (s) => s.hasAudio && (s.totalDurationSeconds || 0) > 0 && (s.totalDurationSeconds || 0) <= 10800
+    );
+    const shortAudiobooks = (shortAudiobooksDocs.length > 0 ? shortAudiobooksDocs : allPublished.slice(0, RAIL)).map(mapStory);
+
     res.status(200).json({
       success: true,
       data: {
@@ -208,6 +213,7 @@ exports.getStoriesDashboard = async (req, res) => {
         recentlyRead,
         newest,
         audiobooks,
+        shortAudiobooks,
         byLevel: { beginner, intermediate, advanced },
         byGenre: { horror, adventure, romance, scifi, mystery, classic, philosophy, comedy, fantasy, thriller, gothic, drama, biography, nature, victorian, russian, french, children, loveStories, psychFiction, shortStories },
       },

@@ -16,5 +16,6 @@ router.post("/webhook/revenuecat", billingController.handleRevenueCatWebhook);
 router.get("/subscription", authMiddleware.optionalAuth, billingController.getUserSubscription);
 router.post("/create-checkout-session", authMiddleware.optionalAuth, billingController.createCheckoutSession);
 router.post("/portal-session", authMiddleware.optionalAuth, billingController.createPortalSession);
+router.post("/listening-session", authMiddleware.optionalAuth, billingController.logListeningSession);
 
 module.exports = router;

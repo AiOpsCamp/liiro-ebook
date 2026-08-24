@@ -273,6 +273,18 @@ export class AudioManager {
     } catch {}
   }
 
+  setVolume(volume: number): void {
+    const safeVol = Math.max(0, Math.min(1, volume));
+    try {
+      if (this.webAudioEl) {
+        this.webAudioEl.volume = safeVol;
+      }
+      if (this.player) {
+        this.player.volume = safeVol;
+      }
+    } catch {}
+  }
+
   getPosition(): number { return this.lastKnownPosition; }
   getDuration(): number { return this.lastKnownDuration; }
   getIsPlaying(): boolean { return this.isPlaying; }
@@ -297,6 +309,89 @@ export class AudioManager {
 
   unsubscribeStatus(cb: StatusListener): void {
     this.removeStatusListener(cb);
+  }
+
+  // ── BookBeat Sleep Timer & Dynamic Fade Engine ──────────────────────────────
+  private sleepTimerId: any | null = null;
+  private sleepTimerEndMs: number | null = null;
+  private isEndOfChapterMode = false;
+  private fadeIntervalId: any | null = null;
+
+  setSleepTimer(minutes: number | "end_of_chapter"): void {
+    this.cancelSleepTimer();
+
+    if (minutes === "end_of_chapter") {
+      this.isEndOfChapterMode = true;
+      this.sleepTimerEndMs = null;
+      console.log("🌙 Sleep timer set to End of Chapter");
+      return;
+    }
+
+    const durationMs = minutes * 60 * 1000;
+    this.sleepTimerEndMs = Date.now() + durationMs;
+    this.isEndOfChapterMode = false;
+
+    console.log(`🌙 Sleep timer set for ${minutes} minutes (Expires at ${new Date(this.sleepTimerEndMs).toLocaleTimeString()})`);
+
+    this.sleepTimerId = setTimeout(() => {
+      this.triggerSleepTimerExpiration();
+    }, durationMs);
+  }
+
+  extendSleepTimer(extraMinutes = 15): void {
+    const currentRemainingSec = this.getRemainingSleepTimerSeconds();
+    const newMinutes = Math.ceil(currentRemainingSec / 60) + extraMinutes;
+    this.setSleepTimer(newMinutes);
+  }
+
+  cancelSleepTimer(): void {
+    if (this.sleepTimerId) {
+      clearTimeout(this.sleepTimerId);
+      this.sleepTimerId = null;
+    }
+    if (this.fadeIntervalId) {
+      clearInterval(this.fadeIntervalId);
+      this.fadeIntervalId = null;
+    }
+    this.sleepTimerEndMs = null;
+    this.isEndOfChapterMode = false;
+    this.setVolume(1.0);
+  }
+
+  getRemainingSleepTimerSeconds(): number {
+    if (this.isEndOfChapterMode) return -1; // -1 represents End of Chapter
+    if (!this.sleepTimerEndMs) return 0;
+    const diff = Math.max(0, Math.floor((this.sleepTimerEndMs - Date.now()) / 1000));
+    return diff;
+  }
+
+  private async triggerSleepTimerExpiration(): Promise<void> {
+    console.log("🌙 Sleep timer expiring, initiating dynamic volume fade-out...");
+    await this.fadeVolume(0, 5000); // Smooth 5-second fade-out
+    await this.pauseAudio();
+    this.cancelSleepTimer();
+  }
+
+  async fadeVolume(targetVolume = 0, durationMs = 3000): Promise<void> {
+    const steps = 20;
+    const intervalMs = durationMs / steps;
+    let currentStep = 0;
+    const initialVolume = 1.0;
+
+    return new Promise((resolve) => {
+      this.fadeIntervalId = setInterval(() => {
+        currentStep++;
+        const factor = 1 - currentStep / steps;
+        const vol = Math.max(targetVolume, initialVolume * factor);
+        this.setVolume(vol);
+
+        if (currentStep >= steps) {
+          clearInterval(this.fadeIntervalId);
+          this.fadeIntervalId = null;
+          resolve();
+        }
+      }, intervalMs);
+    });
   }
 
   private async stopAndCleanup(): Promise<void> {

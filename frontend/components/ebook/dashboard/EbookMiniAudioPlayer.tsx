@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Pressable, Image, Platform } from "react-native";
-import { Play, Pause, SkipForward, X, Volume2 } from "lucide-react-native";
+import { Play, Pause, SkipForward, X, Moon } from "lucide-react-native";
 import { AudioManager } from "@/lib/utils/audioManager";
+import { EbookSleepTimerModal } from "../EbookSleepTimerModal";
 
 interface EbookMiniAudioPlayerProps {
   storyTitle?: string;
@@ -21,6 +22,7 @@ export const EbookMiniAudioPlayer: React.FC<EbookMiniAudioPlayerProps> = ({
   const [isPlaying, setIsPlaying] = useState(false);
   const [positionSec, setPositionSec] = useState(0);
   const [durationSec, setDurationSec] = useState(0);
+  const [isSleepModalOpen, setIsSleepModalOpen] = useState(false);
 
   useEffect(() => {
     const audioMgr = AudioManager.getInstance();
@@ -126,6 +128,14 @@ export const EbookMiniAudioPlayer: React.FC<EbookMiniAudioPlayerProps> = ({
             <SkipForward size={18} color="#94A3B8" />
           </Pressable>
 
+          {/* Sleep Timer Button */}
+          <Pressable
+            onPress={() => setIsSleepModalOpen(true)}
+            style={{ width: 32, height: 32, alignItems: "center", justifyContent: "center" }}
+          >
+            <Moon size={18} color="#818CF8" />
+          </Pressable>
+
           {/* Close Mini Player */}
           {onClosePlayer && (
             <Pressable
@@ -137,6 +147,11 @@ export const EbookMiniAudioPlayer: React.FC<EbookMiniAudioPlayerProps> = ({
           )}
         </View>
       </View>
+
+      <EbookSleepTimerModal
+        visible={isSleepModalOpen}
+        onClose={() => setIsSleepModalOpen(false)}
+      />
     </Pressable>
   );
 };

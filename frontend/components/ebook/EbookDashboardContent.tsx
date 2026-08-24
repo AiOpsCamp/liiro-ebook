@@ -1433,6 +1433,19 @@ const EbookDashboardContent: React.FC<Props> = ({
               />
             )}
 
+            {/* ⚡ Quick Listens (< 3 Hours) Rail */}
+            {data?.shortAudiobooks && data.shortAudiobooks.length > 0 && (
+              <SectionRail
+                title="⚡ Quick Listens (< 3 Hours)"
+                color="#06B6D4"
+                stories={data.shortAudiobooks}
+                onStoryPress={onStoryPress}
+                onSeeAllPress={() => router.push("/ebook/explore")}
+                textColor={textColor}
+                isDark={isDark}
+              />
+            )}
+
             {/* Children's Books Rail */}
             {childrenStories.length > 0 && (
               <View style={{ marginBottom: 36 }}>
