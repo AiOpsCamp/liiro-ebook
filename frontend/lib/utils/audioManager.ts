@@ -94,14 +94,16 @@ export class AudioManager {
     return `${apiBase.replace(/\/$/, "")}/stories/slug/${storySlug}/stream`;
   }
 
-  private formatAudioUrl(url: string | null | undefined): string {
+  private formatAudioUrl(url: any): string {
     if (!url) return "";
-    if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("data:") || url.startsWith("file:")) {
-      return url;
+    let rawStr = typeof url === "string" ? url : (url.en || url.es || url.fr || Object.values(url)[0]);
+    if (typeof rawStr !== "string") return "";
+    if (rawStr.startsWith("http://") || rawStr.startsWith("https://") || rawStr.startsWith("data:") || rawStr.startsWith("file:")) {
+      return rawStr;
     }
     const apiBase = process.env.EXPO_PUBLIC_API_URL || "http://localhost:5012/api/v1";
     const backendHost = apiBase.replace(/\/api\/v1\/?$/, "");
-    return `${backendHost.replace(/\/$/, "")}/${url.replace(/^\//, "")}`;
+    return `${backendHost.replace(/\/$/, "")}/${rawStr.replace(/^\//, "")}`;
   }
 
   async playAudio(uri: string, onFinish?: () => void, seekPosition = 0): Promise<boolean> {

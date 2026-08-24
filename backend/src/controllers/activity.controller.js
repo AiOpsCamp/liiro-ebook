@@ -75,10 +75,13 @@ exports.logActivity = async (req, res) => {
       return res.status(400).json({ success: false, message: "activityType and storySlug are required" });
     }
 
+    const mongoose = require("mongoose");
+    const validStoryId = mongoose.Types.ObjectId.isValid(storyId) ? storyId : undefined;
+
     const activity = await UserActivity.create({
       userId,
       activityType,
-      storyId,
+      storyId: validStoryId,
       storySlug,
       storyTitle: storyTitle || storySlug,
       chapterNumber: chapterNumber || 1,

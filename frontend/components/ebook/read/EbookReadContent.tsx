@@ -1812,10 +1812,9 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
               const activeUri = bgImages[currentSlideIdx % bgImages.length];
 
               return (
-                <Animated.Image
+                <Animated.View
                   key={activeUri}
                   entering={FadeIn.duration(1400)}
-                  source={{ uri: activeUri }}
                   style={{
                     position: "absolute",
                     top: 0,
@@ -1824,8 +1823,14 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
                     bottom: 0,
                     width: "100%",
                     height: "100%",
-                    resizeMode: "cover" }}
-                />
+                  }}
+                >
+                  <Image
+                    source={{ uri: activeUri }}
+                    style={{ width: "100%", height: "100%" }}
+                    resizeMode="cover"
+                  />
+                </Animated.View>
               );
             })()}
 
