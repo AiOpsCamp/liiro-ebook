@@ -21,23 +21,26 @@ export default function Navbar() {
 
         {/* Desktop Nav Links */}
         <nav className="hidden md:flex items-center gap-8 text-sm font-bold text-slate-600 dark:text-zinc-400">
-          <Link href="#reels" className="hover:text-amber-500 dark:hover:text-amber-400 transition-colors flex items-center gap-1.5">
+          <Link href="/reels" className="hover:text-amber-500 dark:hover:text-amber-400 transition-colors flex items-center gap-1.5">
             <Film size={15} className="text-amber-500" />
             Book Reels
           </Link>
-          <Link href="#blinks" className="hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors flex items-center gap-1.5">
+          <Link href="/sparks" className="hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors flex items-center gap-1.5">
             <Zap size={15} className="text-indigo-500" />
-            15-Min Blinks
+            Liiro Sparks ⚡
           </Link>
-          <Link href="#whispersync" className="hover:text-sky-500 dark:hover:text-sky-400 transition-colors flex items-center gap-1.5">
+          <Link href="/whispersync" className="hover:text-sky-500 dark:hover:text-sky-400 transition-colors flex items-center gap-1.5">
             <BookOpen size={15} className="text-sky-500" />
             Whispersync
           </Link>
-          <Link href="#carmode" className="hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors flex items-center gap-1.5">
+          <Link href="/car-mode" className="hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors flex items-center gap-1.5">
             <Car size={15} className="text-emerald-500" />
             Car Mode
           </Link>
-          <Link href="#pricing" className="hover:text-primary transition-colors">
+          <Link href="/categories" className="hover:text-primary transition-colors">
+            Catalog
+          </Link>
+          <Link href="/#pricing" className="hover:text-primary transition-colors">
             Pricing
           </Link>
         </nav>

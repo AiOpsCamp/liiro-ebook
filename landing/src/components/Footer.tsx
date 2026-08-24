@@ -25,11 +25,10 @@ export default function Footer() {
           <div>
             <h4 className="font-bold text-white text-sm mb-4 tracking-wider uppercase">Features</h4>
             <ul className="space-y-2.5 text-sm">
-              <li><Link href="#whispersync" className="hover:text-amber-400 transition-colors">Whispersync Karaoke</Link></li>
-              <li><Link href="#blinks" className="hover:text-amber-400 transition-colors">15-Min Key Takeaway Blinks</Link></li>
-              <li><Link href="#reels" className="hover:text-amber-400 transition-colors">Book Reels Feed</Link></li>
-              <li><Link href="#soundscapes" className="hover:text-amber-400 transition-colors">Ambient Soundscapes Engine</Link></li>
-              <li><Link href="#carmode" className="hover:text-amber-400 transition-colors">Audible Driving Car Mode</Link></li>
+              <li><Link href="/whispersync" className="hover:text-amber-400 transition-colors">Whispersync Karaoke</Link></li>
+              <li><Link href="/sparks" className="hover:text-amber-400 transition-colors">Liiro Sparks ⚡ (15-Min Summaries)</Link></li>
+              <li><Link href="/reels" className="hover:text-amber-400 transition-colors">Book Reels Feed</Link></li>
+              <li><Link href="/car-mode" className="hover:text-amber-400 transition-colors">Audible Driving Car Mode</Link></li>
             </ul>
           </div>
 
