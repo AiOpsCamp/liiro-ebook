@@ -120,12 +120,16 @@ export class AudioManager {
 
       if (this.webAudioEl) {
         this.webAudioEl.src = formattedUri;
-        if (seekPosition > 0) {
-          this.webAudioEl.currentTime = seekPosition;
-        }
 
         try {
           await this.webAudioEl.play();
+          if (seekPosition > 0) {
+            try {
+              this.webAudioEl.currentTime = seekPosition;
+            } catch (seekErr) {
+              console.warn("Could not set initial seek position:", seekErr);
+            }
+          }
           this.isPlaying = true;
 
           this.webAudioEl.onended = () => {

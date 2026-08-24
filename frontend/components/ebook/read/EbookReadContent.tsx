@@ -944,11 +944,25 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
       await audioMgr.pauseAudio();
       setIsPlaying(false);
     } else {
-      let playUrl = audioUrl;
       const voiceKey = activeVoiceObj?.key || "adam";
+      let playUrl = audioUrl;
+
       if (story?.slug) {
-        playUrl = await audioMgr.resolveDrmStreamUrl(story.slug, currentChapterIdx + 1, voiceKey);
+        const drmUrl = await audioMgr.resolveDrmStreamUrl(story.slug, currentChapterIdx + 1, voiceKey);
+        if (drmUrl) playUrl = drmUrl;
       }
+
+      if (!playUrl) {
+        console.warn("No valid audio URL available to play");
+        return;
+      }
+
+      // Reset seek position if current position is near or past end of track
+      const targetSeek = (audioDuration > 0 && audioCurrentTime >= audioDuration - 1) ? 0 : audioCurrentTime;
+      if (targetSeek === 0) {
+        setAudioCurrentTime(0);
+      }
+
       setIsAudioLoading(true);
       const success = await audioMgr.playAudio(
         playUrl,
@@ -958,7 +972,7 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
             setCurrentChapterIdx((prev) => prev + 1);
           }
         },
-        audioCurrentTime
+        targetSeek
       );
       setIsAudioLoading(false);
       if (success) {
@@ -966,7 +980,7 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
         audioMgr.setRate(playbackSpeed);
       }
     }
-  }, [isPlaying, audioUrl, story, currentChapterIdx, activeVoiceObj, audioCurrentTime, playbackSpeed]);
+  }, [isPlaying, audioUrl, story, currentChapterIdx, activeVoiceObj, audioCurrentTime, audioDuration, playbackSpeed]);
 
   // Audio Manager Telemetry Status Listener
   useEffect(() => {
