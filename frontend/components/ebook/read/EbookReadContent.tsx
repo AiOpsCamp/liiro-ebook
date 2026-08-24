@@ -37,6 +37,7 @@ import { EbookReaderFooterPlayer } from "./EbookReaderFooterPlayer";
 import { EbookReaderSettingsModal } from "./EbookReaderSettingsModal";
 import { EbookReaderTocModal } from "./EbookReaderTocModal";
 import { EbookTextSelectionTooltip } from "./EbookTextSelectionTooltip";
+import { EbookAmbientSoundscapeModal } from "../EbookAmbientSoundscapeModal";
 import {
   useSyncWhispersyncPositionMutation,
   useGetWhispersyncPositionQuery,
@@ -521,6 +522,7 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
   const [selectedVoiceId, setSelectedVoiceId] = useState<string>("am_adam");
   const [isVoiceSheetOpen, setIsVoiceSheetOpen] = useState(false);
   const [selectedText, setSelectedText] = useState<string | null>(null);
+  const [isSoundscapeModalOpen, setIsSoundscapeModalOpen] = useState(false);
 
   // Web Text Selection Listener for Contextual Tooltip
   useEffect(() => {
@@ -1687,6 +1689,17 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
               accessibilityLabel="Toggle dark/light mode"
             >
               {currentTheme.isDark ? <Sun size={15} color={textMain} /> : <Moon size={15} color={textMain} />}
+            </Pressable>
+
+            {/* Ambient Soundscapes Button */}
+            <Pressable
+              onPress={() => setIsSoundscapeModalOpen(true)}
+              className="w-9 h-9 rounded-full items-center justify-center mr-2"
+              style={({ pressed }) => ({
+                backgroundColor: currentTheme.isDark ? "rgba(56,189,248,0.12)" : "rgba(14,165,233,0.1)",
+                opacity: pressed ? 0.7 : 1 })}
+            >
+              <CloudRain size={16} color="#38BDF8" />
             </Pressable>
 
             {/* Appearance Settings Button */}
@@ -3983,6 +3996,10 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
           onHighlight={() => setSelectedText(null)}
         />
       )}
+      <EbookAmbientSoundscapeModal
+        visible={isSoundscapeModalOpen}
+        onClose={() => setIsSoundscapeModalOpen(false)}
+      />
     </View>
   );
 };

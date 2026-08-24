@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Pressable } from "react-native";
-import { ArrowLeft, Settings2, List, Bookmark, BookMarked, Sun, Moon } from "lucide-react-native";
+import { ArrowLeft, Settings2, List, Bookmark, BookMarked, Sun, Moon, CloudRain } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface EbookReaderHeaderProps {
@@ -23,6 +23,7 @@ interface EbookReaderHeaderProps {
   onOpenSettings: () => void;
   onOpenToc: () => void;
   onToggleQuickTheme: () => void;
+  onOpenSoundscapes?: () => void;
 }
 
 export const EbookReaderHeader: React.FC<EbookReaderHeaderProps> = ({
@@ -91,6 +92,25 @@ export const EbookReaderHeader: React.FC<EbookReaderHeaderProps> = ({
 
         {/* Right Actions */}
         <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
+          {/* Ambient Soundscapes Toggle */}
+          {onOpenSoundscapes && (
+            <Pressable
+              onPress={onOpenSoundscapes}
+              hitSlop={8}
+              style={({ pressed }) => ({
+                minWidth: 44,
+                minHeight: 44,
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: 22,
+                backgroundColor: isDarkTheme ? "rgba(56,189,248,0.12)" : "rgba(14,165,233,0.1)",
+                opacity: pressed ? 0.7 : 1,
+              })}
+            >
+              <CloudRain size={17} color="#38BDF8" />
+            </Pressable>
+          )}
+
           {/* Quick Theme Toggle */}
           <Pressable
             onPress={onToggleQuickTheme}
