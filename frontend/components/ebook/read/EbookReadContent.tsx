@@ -936,37 +936,35 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
 
   const audioUrl = activeVoiceObj?.url || chapterDetails?.audioUrl || null;
 
+  // Audio Manager Telemetry Status Listener
   useEffect(() => {
-    if (typeof window === "undefined" || !audioUrl) return;
-
-    let isSrcChanged = false;
-
-    if (!audioElementRef.current) {
-      audioElementRef.current = new Audio(audioUrl);
-      isSrcChanged = true;
-    } else if (audioElementRef.current.src !== audioUrl) {
-      audioElementRef.current.pause();
-      audioElementRef.current.src = audioUrl;
-      audioElementRef.current.load();
-      isSrcChanged = true;
-    }
-
-    const audio = audioElementRef.current;
-    audio.playbackRate = playbackSpeed;
-    audio.volume = audioVolume;
-
     const audioMgr = AudioManager.getInstance();
     const handleStatus = ({ position, duration }: { position: number; duration: number }) => {
-      setAudioCurrentTime(position || 0);
-      if (duration > 0) setAudioDuration(duration);
+      if (typeof position === "number" && !isNaN(position)) {
+        setAudioCurrentTime(position);
+      }
+      if (typeof duration === "number" && !isNaN(duration) && duration > 0) {
+        setAudioDuration(duration);
+      }
     };
 
     audioMgr.addStatusListener(handleStatus);
-
     return () => {
       audioMgr.removeStatusListener(handleStatus);
     };
-  }, [audioUrl, currentChapterIdx, story.chapters.length]);
+  }, []);
+
+  // Auto-start audiobook playback when requested via query param or prop
+  const [hasAutoStarted, setHasAutoStarted] = useState(false);
+  useEffect(() => {
+    if (!hasAutoStarted && (startAsAudio || readingMode === "audiobook") && story?.slug && !isPlaying) {
+      setHasAutoStarted(true);
+      const timer = setTimeout(() => {
+        togglePlayPause();
+      }, 600);
+      return () => clearTimeout(timer);
+    }
+  }, [startAsAudio, readingMode, story?.slug, isPlaying, hasAutoStarted, togglePlayPause]);
 
   // Ambient Background Music Layering Synchronization
   const activeAmbientTrack = useMemo(() => {
