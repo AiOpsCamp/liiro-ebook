@@ -24,6 +24,7 @@ module.exports = defineConfig([
       "@typescript-eslint/no-require-imports": "off",
       "@typescript-eslint/array-type": "off",
       "react/no-unescaped-entities": "off",
+      "react/display-name": "off",
       "react-hooks/set-state-in-effect": "off",
       "react-hooks/refs": "off",
       "react-hooks/immutability": "off",

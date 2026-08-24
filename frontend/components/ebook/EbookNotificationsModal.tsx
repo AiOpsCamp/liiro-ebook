@@ -16,24 +16,26 @@ interface EbookNotificationsModalProps {
   onClose: () => void;
 }
 
+const DEFAULT_NOTIFICATIONS: NotificationItem[] = [
+  {
+    _id: "notif_1",
+    title: "🔥 7-Day Reading Streak Achieved!",
+    body: "Congratulations! You earned +50 XP for reading 15 minutes today.",
+    createdAt: "2026-08-24T12:00:00.000Z",
+  },
+  {
+    _id: "notif_2",
+    title: "🎧 New Audiobook Release: Frankenstein",
+    body: "Adam's multi-voice narration for Frankenstein is now available in your library.",
+    createdAt: "2026-08-23T12:00:00.000Z",
+  },
+];
+
 export const EbookNotificationsModal: React.FC<EbookNotificationsModalProps> = ({
   visible,
   onClose,
 }) => {
-  const [notifications, setNotifications] = useState<NotificationItem[]>([
-    {
-      _id: "notif_1",
-      title: "🔥 7-Day Reading Streak Achieved!",
-      body: "Congratulations! You earned +50 XP for reading 15 minutes today.",
-      createdAt: new Date().toISOString(),
-    },
-    {
-      _id: "notif_2",
-      title: "🎧 New Audiobook Release: Frankenstein",
-      body: "Adam's multi-voice narration for Frankenstein is now available in your library.",
-      createdAt: new Date(Date.now() - 86400000).toISOString(),
-    },
-  ]);
+  const [notifications, setNotifications] = useState<NotificationItem[]>(DEFAULT_NOTIFICATIONS);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
