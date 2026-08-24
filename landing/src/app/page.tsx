@@ -229,6 +229,122 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Multi-Voice Narrator & Multi-Language Edition Section */}
+      <section className="py-24 bg-gradient-to-b from-indigo-950/80 via-slate-900 to-slate-950 text-white border-y border-indigo-500/20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="text-amber-400 font-bold text-xs tracking-widest uppercase mb-3 block">
+              NEVER SETTLE FOR A SINGLE VOICE OR ONE LANGUAGE
+            </span>
+            <h2 className="font-serif text-3xl sm:text-5xl font-black tracking-tight text-white mb-6">
+              Multiple Voices & Languages for the Same Book
+            </h2>
+            <p className="text-slate-300 text-base sm:text-lg leading-relaxed">
+              Experience the ultimate listening freedom. Read and listen to the exact same classic in English 🇬🇧, Spanish 🇪🇸, or French 🇫🇷 — and choose your favorite professional narrator voice on the fly.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+            {/* Feature Card 1: Multi-Language Edition Switcher */}
+            <div className="bg-slate-900/90 border border-indigo-500/30 rounded-3xl p-8 flex flex-col justify-between shadow-xl">
+              <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-500/20 border border-indigo-500/40 text-indigo-400 font-bold text-xs rounded-full mb-6">
+                  <span>🌐 TRILINGUAL MASTERWORKS</span>
+                </div>
+                <h3 className="font-serif text-2xl font-bold text-white mb-4">
+                  Same Book, 3 Languages (EN 🇬🇧, ES 🇪🇸, FR 🇫🇷)
+                </h3>
+                <p className="text-slate-400 text-sm leading-relaxed mb-6">
+                  Whether you are perfecting your Spanish listening comprehension or reading Victor Hugo in original French, Liiro lets you switch book languages instantly while preserving your exact reading bookmark and audio timestamp.
+                </p>
+
+                <div className="grid grid-cols-3 gap-3 mb-6">
+                  <div className="p-3 bg-slate-950 border border-slate-800 rounded-2xl text-center">
+                    <span className="text-2xl mb-1 block">🇬🇧</span>
+                    <span className="text-xs font-bold text-slate-200">English Edition</span>
+                  </div>
+                  <div className="p-3 bg-slate-950 border border-slate-800 rounded-2xl text-center">
+                    <span className="text-2xl mb-1 block">🇪🇸</span>
+                    <span className="text-xs font-bold text-slate-200">Spanish Edition</span>
+                  </div>
+                  <div className="p-3 bg-slate-950 border border-slate-800 rounded-2xl text-center">
+                    <span className="text-2xl mb-1 block">🇫🇷</span>
+                    <span className="text-xs font-bold text-slate-200">French Edition</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-4 border-t border-slate-800 flex items-center justify-between text-xs text-indigo-400 font-bold">
+                <span>Real-Time Bilingual Karaoke Sync</span>
+                <span>Included in All Plans ❯</span>
+              </div>
+            </div>
+
+            {/* Feature Card 2: Multi-Voice Studio Selector */}
+            <div className="bg-slate-900/90 border border-amber-500/30 rounded-3xl p-8 flex flex-col justify-between shadow-xl">
+              <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-500/20 border border-amber-500/40 text-amber-400 font-bold text-xs rounded-full mb-6">
+                  <span>🎙️ CUSTOM VOICE STUDIO</span>
+                </div>
+                <h3 className="font-serif text-2xl font-bold text-white mb-4">
+                  Choose Your Preferred Voice Narrator
+                </h3>
+                <p className="text-slate-400 text-sm leading-relaxed mb-6">
+                  Don't like a monotone voice? Switch between distinct neural voice actors (deep American male, warm British female, classic storyteller, poetic French) to match your personal mood.
+                </p>
+
+                <div className="grid grid-cols-2 gap-3 mb-6">
+                  <div className="p-3 bg-slate-950 border border-amber-500/20 rounded-2xl flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-xs shrink-0">
+                      👨‍💼
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-white">Adam</div>
+                      <div className="text-[10px] text-slate-400">Deep American Male</div>
+                    </div>
+                  </div>
+
+                  <div className="p-3 bg-slate-950 border border-indigo-500/20 rounded-2xl flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-xs shrink-0">
+                      👩‍💼
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-white">Bella</div>
+                      <div className="text-[10px] text-slate-400">Expressive British Female</div>
+                    </div>
+                  </div>
+
+                  <div className="p-3 bg-slate-950 border border-sky-500/20 rounded-2xl flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-sky-500/20 text-sky-400 flex items-center justify-center font-bold text-xs shrink-0">
+                      👨‍⚖️
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-white">Michael</div>
+                      <div className="text-[10px] text-slate-400">Classic Authoritative</div>
+                    </div>
+                  </div>
+
+                  <div className="p-3 bg-slate-950 border border-emerald-500/20 rounded-2xl flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xs shrink-0">
+                      👩‍🏫
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-white">Nicole</div>
+                      <div className="text-[10px] text-slate-400">Calm Storyteller</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-4 border-t border-slate-800 flex items-center justify-between text-xs text-amber-400 font-bold">
+                <span>Kokoro Neural Speech Engine</span>
+                <span>Switch Anytime ❯</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Featured Genres & Timeless Ebook Gallery Section */}
       <section className="py-24 bg-white dark:bg-zinc-900 border-b border-slate-200/60 dark:border-zinc-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
