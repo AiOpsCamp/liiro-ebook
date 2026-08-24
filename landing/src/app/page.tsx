@@ -61,7 +61,7 @@ export default function Home() {
               className="mb-6"
             >
               <h1 className="font-serif text-[42px] sm:text-[56px] lg:text-[64px] font-black leading-[1.05] tracking-tight text-slate-900 dark:text-white mb-4">
-                Read, listen, and <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-500 via-indigo-500 to-violet-500">experience</span> masterworks.
+                1,000+ Public Domain <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-500 via-indigo-500 to-violet-500">Timeless Classics</span>. Unlimited Audio & Text.
               </h1>
             </motion.div>
             
@@ -72,7 +72,7 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-[16px] sm:text-[18px] text-slate-600 dark:text-zinc-400 leading-relaxed mb-8 max-w-[540px]"
             >
-              Immerse yourself in unabridged classics with Whispersync Karaoke alignment, 15-Minute Blinkist Key Takeaway audio summaries, Ambient Reading Soundscapes, and short Book Reels.
+              No monthly credit traps or paywalls per book. Enjoy 100% legal, copyright-free literary masterpieces enriched with multi-voice audiobooks, Whispersync Karaoke, 15-Min summaries, and ambient soundscapes.
             </motion.p>
             
             {/* Action Buttons */}
@@ -179,6 +179,55 @@ export default function Home() {
           </motion.div>
         </div>
       </main>
+
+      {/* Public Domain & Rich Materials Value Proposition Section */}
+      <section className="py-20 bg-slate-50 dark:bg-zinc-950 border-y border-slate-200/60 dark:border-zinc-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="text-amber-500 font-bold text-xs tracking-widest uppercase mb-3 block">
+              100% COPYRIGHT-FREE MASTERWORKS
+            </span>
+            <h2 className="font-serif text-3xl sm:text-5xl font-black text-slate-900 dark:text-white mb-6">
+              Why Pay $15 Per Book Credit on Audible for Public Domain Classics?
+            </h2>
+            <p className="text-slate-600 dark:text-zinc-400 text-base sm:text-lg leading-relaxed">
+              Liiro curates over 1,000+ timeless literary masterpieces (Dr. Jekyll & Mr. Hyde, Alice in Wonderland, Frankenstein, Pride & Prejudice, Moby Dick, War & Peace) — all 100% legal, copyright-free, and enriched with cutting-edge audio technology.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-3xl p-8 shadow-sm">
+              <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-500 flex items-center justify-center font-bold text-xl mb-6">
+                🏛️
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">1,000+ Free Masterpieces</h3>
+              <p className="text-slate-600 dark:text-zinc-400 text-sm leading-relaxed">
+                Full unabridged access to the greatest human literature ever written, legally preserved and formatted for mobile & web.
+              </p>
+            </div>
+
+            <div className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-3xl p-8 shadow-sm">
+              <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-500 flex items-center justify-center font-bold text-xl mb-6">
+                🎙️
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">Rich Audio Narration</h3>
+              <p className="text-slate-600 dark:text-zinc-400 text-sm leading-relaxed">
+                Every classic is paired with Kokoro Neural TTS speech synthesis and human narrator profiles in English, Spanish, and French.
+              </p>
+            </div>
+
+            <div className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-3xl p-8 shadow-sm">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 flex items-center justify-center font-bold text-xl mb-6">
+                📚
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">Blinks & Book Reels</h3>
+              <p className="text-slate-600 dark:text-zinc-400 text-sm leading-relaxed">
+                Explore books through 15-minute executive summaries or 60fps vertical video reels before diving into full reading.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* 7 Signature Pillars Section */}
       <section className="py-24 bg-slate-900 text-white">
