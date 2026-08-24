@@ -37,6 +37,10 @@ export default function Navbar() {
             <Car size={15} className="text-emerald-500" />
             Car Mode
           </Link>
+          <Link href="/streaks" className="hover:text-amber-500 dark:hover:text-amber-400 transition-colors flex items-center gap-1.5">
+            <Sparkles size={15} className="text-amber-500" />
+            Streaks 🔥
+          </Link>
           <Link href="/categories" className="hover:text-primary transition-colors">
             Catalog
           </Link>

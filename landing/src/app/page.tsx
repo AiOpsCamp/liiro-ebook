@@ -395,6 +395,71 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Gamified Reading Streaks & Social Quote Exporter Section */}
+      <section className="py-24 bg-slate-900 border-b border-slate-800 text-white relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="bg-amber-500/10 text-amber-400 border border-amber-500/20 px-3.5 py-1.5 rounded-full font-bold text-xs tracking-wider uppercase mb-4 inline-flex items-center gap-1.5">
+              🔥 GAMIFIED HABITS & VIRAL SHARING
+            </span>
+            <h2 className="font-serif text-3xl sm:text-5xl font-black text-white mb-6">
+              Build Daily Reading Habits. <br />
+              <span className="text-amber-400">Share Your Progress with Aesthetic Quote Cards.</span>
+            </h2>
+            <p className="text-slate-400 text-base sm:text-lg leading-relaxed">
+              Stay motivated with daily 15-minute goal streak flames, earn prestige achievement badges, and export gorgeous quote card status graphics to Instagram Stories or X.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Pillar 1: Flame Streaks */}
+            <div className="bg-slate-950/80 border border-amber-500/30 rounded-3xl p-8 space-y-4">
+              <div className="w-12 h-12 rounded-2xl bg-amber-500/20 flex items-center justify-center text-2xl">
+                🔥
+              </div>
+              <h3 className="font-serif text-xl font-bold text-white">Daily Flame Streaks</h3>
+              <p className="text-slate-400 text-sm leading-relaxed">
+                Maintain consecutive reading days with 🔥 flame badges and real-time daily reading goal progress indicators.
+              </p>
+              <div className="pt-2 text-xs font-bold text-amber-400 flex items-center justify-between">
+                <span>15 Min Goal / Day</span>
+                <span>Active 🔥</span>
+              </div>
+            </div>
+
+            {/* Pillar 2: Milestone Badges */}
+            <div className="bg-slate-950/80 border border-indigo-500/30 rounded-3xl p-8 space-y-4">
+              <div className="w-12 h-12 rounded-2xl bg-indigo-500/20 flex items-center justify-center text-2xl">
+                🏆
+              </div>
+              <h3 className="font-serif text-xl font-bold text-white">Milestone Badges</h3>
+              <p className="text-slate-400 text-sm leading-relaxed">
+                Unlock prestige badges: Gothic Master, Stoic Scholar, Night Owls, and Trilingual Polyglots as you conquer classics.
+              </p>
+              <div className="pt-2 text-xs font-bold text-indigo-400 flex items-center justify-between">
+                <span>6 Global Badges</span>
+                <span>Unlockable 🏆</span>
+              </div>
+            </div>
+
+            {/* Pillar 3: Quote Exporter */}
+            <div className="bg-slate-950/80 border border-rose-500/30 rounded-3xl p-8 space-y-4">
+              <div className="w-12 h-12 rounded-2xl bg-rose-500/20 flex items-center justify-center text-2xl">
+                🎨
+              </div>
+              <h3 className="font-serif text-xl font-bold text-white">1-Tap Social Exporter</h3>
+              <p className="text-slate-400 text-sm leading-relaxed">
+                Turn your favorite book quotes into custom card graphics (Gothic Gold, Warm Sepia) ready for Instagram Stories.
+              </p>
+              <div className="pt-2 text-xs font-bold text-rose-400 flex items-center justify-between">
+                <span>Instagram & X Ready</span>
+                <span>1-Tap Share 🚀</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Featured Genres & Timeless Ebook Gallery Section */}
       <section className="py-24 bg-white dark:bg-zinc-900 border-b border-slate-200/60 dark:border-zinc-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
