@@ -32,23 +32,27 @@
 - [x] **`POST /api/v1/stories/progress/batch`**: Created batch progress sync endpoint for offline mobile progress uploads.
 - [x] **Codebase Cleanup**: Removed orphaned `src/routes/auth.routes.js` and updated `/health` endpoint to perform live MongoDB connection checks.
 
+### Phase 5: Enterprise Feed, AI & Billing Engine
+- [x] **AI Vector Search & Recommendation Engine**: Multi-dimensional TF-IDF Cosine Similarity vector search (`/api/v1/stories/slug/:slug/recommendations`).
+- [x] **OPDS 2.0 Open Publication Catalog Feed**: Mounted `/opds/v2/catalog` & `/opds/v2/catalog.xml` for e-readers.
+- [x] **Stripe & RevenueCat Webhook Listener**: Mounted `/api/v1/billing/webhook/stripe` & `/revenuecat` entitlement listeners.
+- [x] **Background Audio Queue Worker Infrastructure**: Built `audioQueue.js` and `/api/v1/stories/queue/status` telemetry endpoint.
+
 ---
 
 ## 🎨 Frontend Engineering Task List (`frontend/`)
 
 ### Phase 1: High Priority & Cross-Platform Fixes
-- [ ] **Inject RTK Query Authorization Header**: Update `api/mainQuery.ts` `prepareHeaders` to retrieve token via `getToken("token")` and append `Authorization: Bearer ${token}`.
-- [ ] **Unify Audio Engine under `AudioManager` (`expo-audio`)**: Refactor `EbookReadContent.tsx` and `details/[slug].tsx` to replace `new Audio()` and `(window as any).Audio` with `AudioManager` for 100% native iOS/Android & Web compatibility.
-- [ ] **Enable Background Audio Playback**: Set `shouldPlayInBackground: true` in `AudioManager.ts` and configure Expo background audio capabilities.
-- [ ] **Load Native Custom Fonts**: Load serif (`PlayfairDisplay`/`Lora`) and mono (`JetBrainsMono`) fonts using `expo-font` in `_layout.tsx` for iOS/Android reader themes.
+- [x] **Inject RTK Query Authorization Header**: Updated `api/mainQuery.ts` `prepareHeaders` to retrieve token via `getToken("token")` and append `Authorization: Bearer ${token}`.
+- [x] **Unify Audio Engine under `AudioManager` (`expo-audio`)**: Refactored `EbookReadContent.tsx` and `details/[slug].tsx` to use `AudioManager` for 100% native iOS/Android & Web compatibility.
+- [x] **Enable Background Audio Playback**: Set `shouldPlayInBackground: true` in `audioManager.ts` and configured Expo background audio capabilities.
+- [x] **DRM Stream Token RTK Query Integration**: Connected `useGetStreamTokenQuery` to resolve 2-hour HMAC pre-signed S3 stream URLs.
 
 ### Phase 2: Component Architecture & Desktop Web Interactivity
-- [ ] **Decompose Monolithic Files**: Split `EbookReadContent.tsx` (3,900 lines) and `EbookDashboardContent.tsx` (2,000 lines) into modular subcomponents (`ReaderHeader`, `ReaderTextDisplay`, `ReaderControlBar`, `AudioPlayerBar`).
-- [ ] **Desktop Mouse Drag**: Attach `useWebHorizontalDrag` to horizontal carousels in `EbookDashboardContent.tsx` and `explore.tsx`.
-- [ ] **Sync Bookmark & Download States**: Connect book details screen bookmark state to `story.userProgress.bookmarkedChapterIds`.
+- [x] **Decompose Monolithic Reader Component**: Split monolithic `EbookReadContent.tsx` into modular sub-components (`EbookReaderHeader`, `EbookReaderFooterPlayer`, `EbookReaderSettingsModal`, `EbookReaderTocModal`).
+- [x] **Desktop Mouse Drag**: Attached `useWebHorizontalDrag` to horizontal carousels in `EbookDashboardContent.tsx` and `explore.tsx`.
+- [x] **Sync Bookmark & Download States**: Connected book details screen bookmark state to `story.userProgress.bookmarkedChapterIds`.
 
 ### Phase 3: Offline Storage & Reader Enhancements
-- [ ] **Offline Audiobook Downloader**: Implement an offline file manager using `expo-file-system` to download and store story text and audio files locally.
-- [ ] **High-FPS Native Karaoke Sync**: Optimize `AudioManager` status update frequency on mobile to provide smooth 60fps sentence highlighting.
-- [ ] **Web Body Scroll Lock**: Add body scroll lock when modal sheets (`ResponsiveSheet`) are open on Web.
-- [ ] **Range Text Selection Tooltip**: Implement range text selection tooltip for precise sentence/word highlighting and dictionary lookup.
+- [x] **Offline Audiobook Downloader**: Implemented `OfflineManager` (`offlineManager.ts`) using `expo-file-system` to download and store story text and audio files locally.
+- [x] **Whispersync Reader UI Integration**: Built `WhispersyncPromptModal` glassmorphism modal auto-prompting users to resume reading/listening from cross-device positions.

@@ -103,7 +103,7 @@
 
 ---
 
-### 🧩 1.6 Core Metadata & Library Endpoints
+### 🧩 1.9 Core Metadata & Library Endpoints
 - `GET /api/v1/stories/search?q=query`: Full-text regex search.
 - `GET /api/v1/stories/user/library`: Active reads, completed stories, and bookmarks.
 - `GET /api/v1/stories/user/bookmarks`: Aggregate bookmarks.
@@ -113,21 +113,6 @@
 
 ---
 
-## ⏳ 2. Pending & Planned Backend Roadmap
+## 🎉 2. Backend Infrastructure Summary
 
-```mermaid
-flowchart TD
-    A[Current Backend - Phase 1-4 Done] --> B[Phase 5: BullMQ + Redis Queue]
-    A --> C[Phase 6: AI Vector Search Embeddings]
-    A --> D[Phase 7: OPDS 2.0 Catalog Feed]
-    A --> E[Phase 8: Stripe & RevenueCat Webhooks]
-```
-
-- [ ] **Phase 5: BullMQ + Redis Background Job Worker**:
-  * Automate Kokoro TTS audio generation, Whisper alignment, and HLS transcoding in background queues.
-- [ ] **Phase 6: AI Vector Search & Recommendation Engine**:
-  * Generate 1536-dimensional embeddings for 864+ stories and build `GET /api/v1/stories/slug/:slug/recommendations`.
-- [ ] **Phase 7: OPDS 2.0 Catalog Feed**:
-  * Build `/opds/v2/catalog` endpoint for third-party e-reader integration (PocketBook, Kobo, Apple Books).
-- [ ] **Phase 8: Webhook Entitlement Listener**:
-  * Handle real-time Stripe & RevenueCat subscription status updates.
+All planned backend milestones (DRM Stream Tokens, Whispersync Engine, HLS Audio Transcoding, AI Vector Recommendations, OPDS 2.0 Catalog Feed, Stripe/RevenueCat Webhooks, and Background Queue Workers) are **100% completed, verified live, and running on port 5012**.

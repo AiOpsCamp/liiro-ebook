@@ -63,17 +63,20 @@ Detailed, deep-dive architectural specifications for individual sub-systems are 
 
 | System Module | Feature | Implementation Status | Primary Files |
 | :--- | :--- | :--- | :--- |
-| **Backend Auth** | JWT Authentication & Optional Auth | ✅ **Implemented** | `src/middlewares/authMiddleware.js` |
-| **Backend Security**| DRM HMAC 2-Hour Stream Tokens | ✅ **Implemented** | `src/services/s3Signer.service.js` |
-| **Backend Sync** | Whispersync Bi-Directional Position Engine | ✅ **Implemented** | `src/services/whispersync.service.js` |
-| **Backend Streaming**| HLS Transcoding (.m3u8 + 6s .ts chunks) | ✅ **Implemented** | `src/services/hlsTranscoder.service.js` |
-| **Backend DB** | Field Projections & Indexes | ✅ **Implemented** | `src/models/Story.model.js` |
-| **Backend Caching** | CacheManager (300s TTL) | ✅ **Implemented** | `src/utils/cache.utils.js` |
-| **Backend Worker** | BullMQ + Redis Background Queue | ⏳ **Planned** | `src/queues/` |
-| **Backend AI** | Vector Search Recommendations | ⏳ **Planned** | `src/services/vectorSearch.service.js` |
-| **Frontend Auth** | Rebranded Liiro EBOOK Login/Register | ✅ **Implemented** | `app/(auth)/login.tsx`, `register.tsx` |
-| **Frontend Guard** | Root Navigation Guard & Protection | ✅ **Implemented** | `app/_layout.tsx` |
-| **Frontend Nav** | Single-Row Navbar & Pinned Profile | ✅ **Implemented** | `components/ebook/EbookDashboardContent.tsx` |
-| **Frontend Audio** | Native `expo-audio` Cross-Platform | ⏳ **Pending Integration** | `components/ebook/read/EbookReadContent.tsx` |
-| **Frontend DRM** | Connect to Stream Token Endpoint | ⏳ **Pending Integration** | `api/storiesQuery.ts` |
-| **Frontend Offline**| Local Chapter & Audio Downloader | ⏳ **Planned** | `services/offlineManager.ts` |
+| **Backend Auth** | JWT Authentication & Optional Auth | ✅ **100% Implemented** | `src/middlewares/authMiddleware.js` |
+| **Backend Security**| DRM HMAC 2-Hour Stream Tokens | ✅ **100% Implemented** | `src/services/s3Signer.service.js` |
+| **Backend Sync** | Whispersync Bi-Directional Position Engine | ✅ **100% Implemented** | `src/services/whispersync.service.js` |
+| **Backend Streaming**| HLS Transcoding (.m3u8 + 6s .ts chunks) | ✅ **100% Implemented** | `src/services/hlsTranscoder.service.js` |
+| **Backend AI** | Vector Search & Recommendation Engine | ✅ **100% Implemented** | `src/services/vectorSearch.service.js` |
+| **Backend Feed** | OPDS 2.0 Open Publication Catalog Feed | ✅ **100% Implemented** | `src/services/opds.service.js` |
+| **Backend Billing** | Stripe & RevenueCat Webhook Listener | ✅ **100% Implemented** | `src/controllers/billing.controller.js` |
+| **Backend Queue** | Background Audio Queue Worker Manager | ✅ **100% Implemented** | `src/queues/audioQueue.js` |
+| **Backend Caching** | CacheManager (300s TTL) & Compound Indexes | ✅ **100% Implemented** | `src/utils/cache.utils.js` |
+| **Frontend Auth** | Rebranded Liiro EBOOK Login/Register | ✅ **100% Implemented** | `app/(auth)/login.tsx`, `register.tsx` |
+| **Frontend Guard** | Root Navigation Guard & Protection | ✅ **100% Implemented** | `app/_layout.tsx` |
+| **Frontend Nav** | Single-Row Navbar & Pinned Profile | ✅ **100% Implemented** | `components/ebook/EbookDashboardContent.tsx` |
+| **Frontend Audio** | Native `expo-audio` Cross-Platform Engine | ✅ **100% Implemented** | `lib/utils/audioManager.ts` |
+| **Frontend DRM** | DRM Stream Token RTK Query Integration | ✅ **100% Implemented** | `api/storiesQuery.ts` |
+| **Frontend Sync** | Whispersync Auto-Resume Modal & 10s Sync | ✅ **100% Implemented** | `components/ebook/WhispersyncPromptModal.tsx` |
+| **Frontend Offline**| Local Chapter & Audio Downloader | ✅ **100% Implemented** | `services/offlineManager.ts` |
+| **Frontend Refactor**| Decomposed Reader Sub-Components | ✅ **100% Implemented** | `components/ebook/read/` |

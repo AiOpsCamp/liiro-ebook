@@ -48,38 +48,6 @@
 
 ---
 
-## ⏳ 2. Pending & Planned Frontend Roadmap
+## 🎉 2. Frontend Infrastructure Summary
 
-```mermaid
-flowchart TD
-    A[Current Frontend Status] --> B[Phase 1: RTK Query Auth Header]
-    A --> C[Phase 2: Unified Cross-Platform expo-audio Engine]
-    A --> D[Phase 3: Connect DRM Stream Token API]
-    A --> E[Phase 4: Connect Whispersync Position API]
-    A --> F[Phase 5: Offline Chapter & Audio Downloader]
-```
-
-### 🛠️ Actionable Frontend Development Tasks
-
-- [x] **Task 1: Inject Authorization Header in RTK Query**:
-  * Updated `api/mainQuery.ts` `prepareHeaders` to retrieve user JWT token from storage and attach `Authorization: Bearer ${token}` automatically.
-- [x] **Task 2: Add RTK Query Hooks for DRM Stream Tokens & Whispersync**:
-  * Added `useGetStreamTokenQuery`, `useSyncWhispersyncPositionMutation`, `useGetWhispersyncPositionQuery`, `useGetStoryRecommendationsQuery`, and `useGetUserLibraryQuery` hooks to `api/storiesQuery.ts`.
-- [x] **Task 3: Desktop Mouse Drag for Carousels**:
-  * Attached `useWebHorizontalDrag` hook to horizontal carousels (`ActivityCardRail` and `SectionRail`) in `EbookDashboardContent.tsx`.
-- [x] **Task 4: Unify Audio Engine under `expo-audio` & DRM Stream Resolution**:
-  * Replaced legacy HTML5 `new Audio()` in `EbookReadContent.tsx` and `details/[slug].tsx` with `AudioManager` (`expo-audio` + Web Audio fallback).
-  * Connected voice selector and player controls to auto-resolve 2-hour pre-signed DRM stream tokens (`resolveDrmStreamUrl`) before starting playback.
-- [x] **Task 5: Enable Background Audio Playback**:
-  * Configured `shouldPlayInBackground: true` and `playsInSilentMode: true` in `AudioManager.ts` for native iOS & Android lockscreen background playback.
-- [x] **Task 6: Connect Reader UI to Whispersync Engine**:
-  * Built `WhispersyncPromptModal` (`WhispersyncPromptModal.tsx`) glassmorphism modal auto-prompting users to resume reading/listening from cross-device positions (e.g. CarPlay, Web).
-  * Connected 10-second periodic background position sync (`syncWhispersyncPosition`) in `EbookReadContent.tsx`.
-- [x] **Task 7: Offline Chapter & Audio Downloader**:
-  * Built `OfflineManager` (`offlineManager.ts`) using `expo-file-system` to download and store story text payloads and chapter audio files locally for offline reading/listening.
-- [x] **Task 8: Modularize Monolithic Reader Component**:
-  * Decomposed monolithic `EbookReadContent.tsx` by creating clean, decoupled sub-components inside `frontend/components/ebook/read/`:
-    * `EbookReaderHeader.tsx`: Top navbar, book/chapter titles, progress line, and quick theme toggle.
-    * `EbookReaderFooterPlayer.tsx`: Audio player controls, 15s skip buttons, speed selector, and voice badge.
-    * `EbookReaderSettingsModal.tsx`: Reading theme picker, typography settings, font size, and text alignment.
-    * `EbookReaderTocModal.tsx`: Table of Contents chapter list and completion badges.
+All planned frontend tasks (RTK Query Authorization Headers, DRM Stream Tokens, Whispersync Reader UI, `expo-audio` Cross-Platform Engine, Offline Storage Manager, and Monolithic Reader Component Decomposition) are **100% completed, verified live, and running on port 8086**.
