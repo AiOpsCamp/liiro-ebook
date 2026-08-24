@@ -274,7 +274,7 @@ exports.getStoryDetails = async (req, res) => {
     }
   const storyTags = Array.isArray(story.tags) ? story.tags : [];
   const [userProgress, similarDocs, authorDocs, seriesDocs] = await Promise.all([
-    userId
+    mongoose.Types.ObjectId.isValid(userId)
       ? UserStoryProgress.findOne({ userId, storyId: story._id }).lean()
       : null,
     Story.find({

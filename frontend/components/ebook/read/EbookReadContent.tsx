@@ -971,14 +971,15 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
 
   const audioUrl = useMemo(() => {
     if (activeVoiceObj?.url) return activeVoiceObj.url;
-    if (typeof chapterDetails?.audioUrl === "string" && chapterDetails.audioUrl) return chapterDetails.audioUrl;
-    if (chapterDetails?.audioUrl && typeof chapterDetails.audioUrl === "object") {
-      const localized = (chapterDetails.audioUrl as any)[activeLang] || Object.values(chapterDetails.audioUrl)[0];
+    const rawUrl = chapterDetails?.audioUrl || chapterStub?.audioUrl;
+    if (typeof rawUrl === "string" && rawUrl) return rawUrl;
+    if (rawUrl && typeof rawUrl === "object") {
+      const localized = (rawUrl as any)[activeLang] || Object.values(rawUrl)[0];
       if (localized && typeof localized === "string") return localized;
     }
     if (streamTokenData?.signedStreamUrl) return streamTokenData.signedStreamUrl;
     return null;
-  }, [activeVoiceObj, chapterDetails, activeLang, streamTokenData]);
+  }, [activeVoiceObj, chapterDetails, chapterStub, activeLang, streamTokenData]);
 
   const togglePlayPause = useCallback(async () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
@@ -988,7 +989,7 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
       await audioMgr.pauseAudio();
       setIsPlaying(false);
     } else {
-      const playUrl = audioUrl || (chapterDetails?.audioUrl ? (typeof chapterDetails.audioUrl === "string" ? chapterDetails.audioUrl : (chapterDetails.audioUrl as any)[activeLang]) : null);
+      const playUrl = audioUrl || (chapterDetails?.audioUrl ? (typeof chapterDetails.audioUrl === "string" ? chapterDetails.audioUrl : (chapterDetails.audioUrl as any)[activeLang]) : (chapterStub?.audioUrl ? (typeof chapterStub.audioUrl === "string" ? chapterStub.audioUrl : (chapterStub.audioUrl as any)[activeLang]) : null));
 
       if (!playUrl) {
         console.warn("No valid audio URL available to play");

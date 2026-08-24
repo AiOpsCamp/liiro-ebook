@@ -114,6 +114,11 @@ export class AudioManager {
       }
 
       const formattedUri = this.formatAudioUrl(uri);
+      if (!formattedUri || formattedUri.trim() === "") {
+        console.warn("Cannot play audio: Formatted URI is empty for:", uri);
+        return false;
+      }
+
       await this.initializeAudio();
       await this.ensurePlayer();
       await this.stopAndCleanup();
