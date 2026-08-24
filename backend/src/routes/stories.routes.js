@@ -26,6 +26,14 @@ router.get("/search", storyController.searchStories);
 router.get("/user/library", authMiddleware, storyController.getUserLibrary);
 router.get("/user/bookmarks", authMiddleware, storyController.getUserBookmarks);
 router.get("/user/highlights", authMiddleware, storyController.getUserHighlights);
+
+// User Analytics, Reading Streaks & Social Sharing Endpoints
+router.get("/user/analytics/summary", authMiddleware.optionalAuth, storyController.getUserAnalyticsSummary);
+router.get("/user/analytics/heatmap", authMiddleware.optionalAuth, storyController.getUserAnalyticsHeatmap);
+router.get("/user/streak", authMiddleware.optionalAuth, storyController.getUserStreak);
+router.post("/user/streak/freeze", authMiddleware.optionalAuth, storyController.freezeUserStreak);
+router.post("/quote-card", storyController.generateQuoteCard);
+router.get("/share/:slug", storyController.getStoryShareMetadata);
 // Dedicated Whispersync Bi-Directional Position Sync Engine
 router.post("/whispersync", authMiddleware.optionalAuth, storyController.syncWhispersyncPosition);
 router.get("/whispersync", authMiddleware.optionalAuth, storyController.getWhispersyncPosition);
