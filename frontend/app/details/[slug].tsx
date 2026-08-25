@@ -103,6 +103,7 @@ export default function BookDetailsScreen() {
   const [downloadProgressPct, setDownloadProgressPct] = useState<number>(0);
   const [chaptersExpanded, setChaptersExpanded] = useState(false);
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
+  const [selectedVoiceKey, setSelectedVoiceKey] = useState<string>("heart");
   const audioSampleRef = React.useRef<any>(null);
 
   const { data: story, isLoading, error, refetch } = useGetStoryBySlugQuery(
@@ -229,16 +230,16 @@ export default function BookDetailsScreen() {
 
   const handleStartReading = () => {
     syncProgress({ slug: slug as string, activityType: "reading" }).catch(() => {});
-    router.push(`/read/${slug}?lang=${selectedLang}`);
+    router.push(`/read/${slug}?lang=${selectedLang}&voice=${selectedVoiceKey}`);
   };
 
   const handleStartAudio = () => {
     syncProgress({ slug: slug as string, activityType: "listening" }).catch(() => {});
-    router.push(`/read/${slug}?audio=true&lang=${selectedLang}`);
+    router.push(`/read/${slug}?audio=true&lang=${selectedLang}&voice=${selectedVoiceKey}`);
   };
 
   const handleChapterPress = (chapterId: string) => {
-    router.push(`/read/${slug}?chapter=${chapterId}&lang=${selectedLang}`);
+    router.push(`/read/${slug}?chapter=${chapterId}&lang=${selectedLang}&voice=${selectedVoiceKey}`);
   };
 
   const handleConfirmReset = async () => {
@@ -542,6 +543,58 @@ export default function BookDetailsScreen() {
                 <Text weight="Bold" style={{ color: "#FFFFFF", fontSize: 16 }}>{resumeLabel}</Text>
               </LinearGradient>
             </Pressable>
+
+            {hasAudio && (
+              <View style={{ marginTop: 4, marginBottom: 6, padding: 14, borderRadius: 16, backgroundColor: surfaceColor, borderWidth: 1, borderColor }}>
+                <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
+                  <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+                    <Volume2 size={16} color="#8B5CF6" />
+                    <Text weight="Bold" style={{ fontSize: 13, color: textColor }}>Studio Voice Narrator</Text>
+                  </View>
+                  <View style={{ paddingHorizontal: 8, paddingVertical: 2, borderRadius: 100, backgroundColor: "rgba(139,92,246,0.15)" }}>
+                    <Text weight="Bold" style={{ fontSize: 10, color: "#8B5CF6" }}>Neural Studio v1.0</Text>
+                  </View>
+                </View>
+
+                <View style={{ flexDirection: "row", gap: 8 }}>
+                  {[
+                    { id: "af_heart", key: "heart", name: "Heart", avatar: "👩", desc: "US Female", isDefault: true },
+                    { id: "am_adam", key: "adam", name: "Adam", avatar: "👨", desc: "US Male" },
+                    { id: "bf_emma", key: "emma", name: "Emma", avatar: "🇬🇧", desc: "UK Female" },
+                    { id: "bm_george", key: "george", name: "George", avatar: "🎙️", desc: "UK Male" },
+                  ].map((v) => {
+                    const isSelected = selectedVoiceKey === v.key;
+                    return (
+                      <Pressable
+                        key={v.key}
+                        onPress={() => setSelectedVoiceKey(v.key)}
+                        style={{
+                          flex: 1,
+                          alignItems: "center",
+                          paddingVertical: 10,
+                          paddingHorizontal: 4,
+                          borderRadius: 12,
+                          backgroundColor: isSelected ? "rgba(139,92,246,0.2)" : isDark ? "rgba(255,255,255,0.04)" : "#F8FAFC",
+                          borderWidth: 1.5,
+                          borderColor: isSelected ? "#8B5CF6" : borderColor,
+                        }}
+                      >
+                        <Text style={{ fontSize: 16 }}>{v.avatar}</Text>
+                        <Text weight="Bold" style={{ fontSize: 12, color: isSelected ? "#8B5CF6" : textColor, marginTop: 4 }}>
+                          {v.name}
+                        </Text>
+                        <Text style={{ fontSize: 9, color: textSubColor, marginTop: 1 }}>{v.desc}</Text>
+                        {v.isDefault && (
+                          <View style={{ marginTop: 4, paddingHorizontal: 4, paddingVertical: 1, borderRadius: 4, backgroundColor: "rgba(16,185,129,0.2)" }}>
+                            <Text weight="Bold" style={{ fontSize: 8, color: "#10B981" }}>Default</Text>
+                          </View>
+                        )}
+                      </Pressable>
+                    );
+                  })}
+                </View>
+              </View>
+            )}
 
             {hasAudio && (
               <Pressable onPress={handleStartAudio} style={({ pressed }) => ({ opacity: pressed ? 0.9 : 1 })}>

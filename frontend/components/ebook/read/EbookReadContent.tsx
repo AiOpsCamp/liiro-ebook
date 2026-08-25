@@ -511,7 +511,7 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
   const [textAlign, setTextAlign] = useState<"left" | "justify" | "center">("justify");
   const [fontFamily, setFontFamily] = useState<"sans" | "serif" | "mono">("serif");
   const [fontSizeValue, setFontSizeValue] = useState<number>(18);
-  const { lang: queryLang } = useLocalSearchParams<{ lang?: string | string[] }>();
+  const { lang: queryLang, voice: queryVoice } = useLocalSearchParams<{ lang?: string | string[]; voice?: string | string[] }>();
   const activeLang = useMemo(() => {
     if (queryLang) return Array.isArray(queryLang) ? queryLang[0] : queryLang;
     if (Platform.OS === "web" && typeof window !== "undefined" && window.location?.search) {
@@ -521,6 +521,16 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
     }
     return "en";
   }, [queryLang]);
+
+  const activeVoiceParam = useMemo(() => {
+    if (queryVoice) return Array.isArray(queryVoice) ? queryVoice[0] : queryVoice;
+    if (Platform.OS === "web" && typeof window !== "undefined" && window.location?.search) {
+      const params = new URLSearchParams(window.location.search);
+      const v = params.get("voice");
+      if (v) return v;
+    }
+    return "heart";
+  }, [queryVoice]);
 
   const [desktopWidth, setDesktopWidth] = useState<number>(680);
   const maxW = desktopWidth >= 1400 ? "96%" : Math.min(width, desktopWidth);
@@ -532,7 +542,7 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
   const [playbackSpeed, setPlaybackSpeed] = useState(1.0);
   const [isAudioLoading, setIsAudioLoading] = useState(false);
   const [bookmarkedChapters, setBookmarkedChapters] = useState<number[]>([]);
-  const [selectedVoiceId, setSelectedVoiceId] = useState<string>("am_adam");
+  const [selectedVoiceId, setSelectedVoiceId] = useState<string>(activeVoiceParam);
   const [isVoiceSheetOpen, setIsVoiceSheetOpen] = useState(false);
   const [selectedText, setSelectedText] = useState<string | null>(null);
   const [isSoundscapeModalOpen, setIsSoundscapeModalOpen] = useState(false);
