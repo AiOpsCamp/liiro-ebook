@@ -1271,7 +1271,13 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
         }
       }
 
-      cleanedParas.push(pClean);
+      let narrativePara = pClean;
+      if (cleanedParas.length === 0) {
+        // Strip duplicate chapter title prefixes (e.g. "II: The Pool of Tears II The Pool of Tears")
+        narrativePara = narrativePara.replace(/^[IVXLCDM\d]+[:.\s-]+[^"“'\n]{3,60}?\s+[IVXLCDM\d]+[:.\s-]+[^"“'\n]{3,60}?\s*/i, "").trim();
+      }
+
+      cleanedParas.push(narrativePara);
     }
 
     return cleanedParas.length > 0 ? cleanedParas : rawParas;
