@@ -293,19 +293,62 @@ def generate_and_align_ebook_audio(slug):
         clean_body = clean_body_text_for_audio(raw_text, raw_title, ch_num)
         full_chapter_text = f"{spoken_header}.\n\n{clean_body}"
 
-        print(f"\n🎧 [Chapter {ch_num}/{len(chapters)}] Synthesizing Audio for \"{spoken_header}\"...")
+        # Multi-Voice Audio Generation (Adam, Heart, Emma, George)
+        multi_voice_flag = "--multivoice" in sys.argv or os.getenv("GENERATE_MULTI_VOICE") == "true"
+        voice_targets = [
+            {"id": "am_adam", "key": "adam", "name": "Adam (US Male)"},
+            {"id": "af_heart", "key": "heart", "name": "Heart (US Female)"},
+            {"id": "bf_emma", "key": "emma", "name": "Emma (UK Female)"},
+            {"id": "bm_george", "key": "george", "name": "George (UK Male)"}
+        ] if multi_voice_flag else [
+            {"id": "am_adam", "key": "adam", "name": "Adam (US Male)"}
+        ]
 
-        wav_path = os.path.join(out_dir, f"chapter_{ch_num}.wav")
+        audio_voices_map = {
+            "defaultVoiceId": "adam",
+            "voices": []
+        }
 
-        samples, sr = generate_audio_for_text(kokoro, full_chapter_text, voice_id="am_adam")
-        if samples is None or len(samples) == 0:
-            print(f"⚠️ Failed to generate audio for Chapter {ch_num}")
-            continue
+        for v in voice_targets:
+            v_key = v["key"]
+            v_id = v["id"]
+            v_wav = os.path.join(out_dir, f"chapter_{ch_num}_{v_key}.wav")
+            v_mp3 = os.path.join(out_dir, f"chapter_{ch_num}_{v_key}.mp3")
 
-        sf.write(wav_path, samples, sr)
+            v_samples, v_sr = generate_audio_for_text(kokoro, full_chapter_text, voice_id=v_id)
+            if v_samples is not None:
+                sf.write(v_wav, v_samples, v_sr)
+                os.system(f"ffmpeg -y -i \"{v_wav}\" -ac 1 -b:a 64k \"{v_mp3}\" >/dev/null 2>&1")
+
+                v_s3_key = f"LangoReads-Prod/ebooks/{slug}/voices/{v_key}/chapter_{ch_num}.mp3"
+                with open(v_mp3, "rb") as vf:
+                    s3_client.put_object(
+                        Bucket=HETZNER_BUCKET,
+                        Key=v_s3_key,
+                        Body=vf,
+                        ACL="public-read",
+                        ContentType="audio/mpeg",
+                        CacheControl="public, max-age=31536000, immutable"
+                    )
+
+                v_cdn_url = f"{HETZNER_CDN_BASE}/{slug}/voices/{v_key}/chapter_{ch_num}.mp3"
+                audio_voices_map[v_key] = v_cdn_url
+                audio_voices_map["voices"].append({
+                    "id": v_id,
+                    "key": v_key,
+                    "name": v["name"],
+                    "url": v_cdn_url
+                })
+
+        # Default master audio for multi-bitrate transcoding
+        master_wav_path = os.path.join(out_dir, f"chapter_{ch_num}_adam.wav")
+        if not os.path.exists(master_wav_path):
+            samples, sr = generate_audio_for_text(kokoro, full_chapter_text, voice_id="am_adam")
+            if samples is not None:
+                sf.write(master_wav_path, samples, sr)
 
         # Transcode & Upload 3 Multi-Bitrate Profiles (High 128k, Standard 64k, Low 32k)
-        bitrate_urls, local_whisper_mp3 = transcode_and_upload_multi_bitrates(s3_client, wav_path, slug, ch_num, out_dir)
+        bitrate_urls, local_whisper_mp3 = transcode_and_upload_multi_bitrates(s3_client, master_wav_path, slug, ch_num, out_dir)
 
         print(f"🎯 Running OpenAI Whisper Sentence & Word Alignment for Chapter {ch_num}...")
         alignment_res = whisper_model.transcribe(local_whisper_mp3, word_timestamps=True)
@@ -368,13 +411,7 @@ def generate_and_align_ebook_audio(slug):
                         "standard": bitrate_urls["standard"],
                         "low": bitrate_urls["low"]
                     },
-                    "audioVoices": {
-                        "defaultVoiceId": "adam",
-                        "adam": bitrate_urls["standard"],
-                        "voices": [
-                            {"id": "am_adam", "key": "adam", "name": "Adam (Studio Male)", "url": bitrate_urls["standard"]}
-                        ]
-                    },
+                    "audioVoices": audio_voices_map,
                     "wordTimestamps.en": exercise_sentences,
                     "timestamps": schema_timestamps,
                     "durationSeconds.en": duration_sec,
@@ -382,7 +419,7 @@ def generate_and_align_ebook_audio(slug):
                 }
             }
         )
-        print(f"   ✅ Chapter {ch_num} Multi-Bitrate Audio & Alignment Saved to MongoDB! (Duration: {duration_sec:.1f}s, Sentences: {len(schema_timestamps)})")
+        print(f"   ✅ Chapter {ch_num} Multi-Voice & Multi-Bitrate Audio Saved to MongoDB!")
 
     db["stories"].update_one(
         {"_id": story["_id"]},
