@@ -1312,8 +1312,9 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
       }));
     }
 
+    const bodyHtml = html.replace(/<header[^>]*>[\s\S]*?<\/header>/gi, "").replace(/<hgroup[^>]*>[\s\S]*?<\/hgroup>/gi, "");
     const tagRegex = /<figure[^>]*>[\s\S]*?<\/figure>|<p[^>]*>[\s\S]*?<\/p>/gi;
-    const rawElements = [...html.matchAll(tagRegex)].map((m) => m[0]);
+    const rawElements = [...bodyHtml.matchAll(tagRegex)].map((m) => m[0]);
     if (rawElements.length === 0) {
       return paragraphs.map((text, paraIdx) => ({
         type: "text" as const,
@@ -1369,17 +1370,16 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
 
   const displayHeaderSubtitle = useMemo(() => {
     const rawTitle = getLocalizedText(chapterDetails?.title || chapterStub?.title, "", activeLang);
+    if (!rawTitle) return `Chapter ${chapterStub?.chapterNumber || currentChapterIdx + 1}`;
+
     let titleStr = rawTitle.replace(/^(CHAPTER|BOOK|STAVE)\s+[0-9IVXLCDM\d]+\b[.\s:-]*/i, "").trim();
-    if (/^[IVXLCDM]+\.?$/i.test(titleStr)) {
-      titleStr = "";
-    }
     if (titleStr.includes(":")) {
       const parts = titleStr.split(":");
       if (/^[IVXLCDM\d\s]+$/i.test(parts[0].trim())) {
         titleStr = parts.slice(1).join(":").trim();
       }
     }
-    return titleStr || `Chapter ${chapterStub?.chapterNumber || currentChapterIdx + 1}`;
+    return titleStr || rawTitle || `Chapter ${chapterStub?.chapterNumber || currentChapterIdx + 1}`;
   }, [chapterDetails?.title, chapterStub?.title, chapterStub?.chapterNumber, currentChapterIdx, activeLang]);
 
   // In-chapter search
@@ -2781,18 +2781,16 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
                 return (
                   <View style={{ marginBottom: 40, alignItems: "center", paddingTop: 8, paddingBottom: 28, borderBottomWidth: 1, borderBottomColor: borderSoft }}>
                     {/* Chapter badge */}
-                    <View style={{ backgroundColor: accent + "18", borderRadius: 100, paddingHorizontal: 16, paddingVertical: 5, marginBottom: 16 }}>
+                    <View style={{ backgroundColor: accent + "18", borderRadius: 100, paddingHorizontal: 16, paddingVertical: 5, marginBottom: 14 }}>
                       <AppText weight="Bold" style={{ fontSize: 11, color: accent, letterSpacing: 1.4 }}>
                         CHAPTER {chNum} OF {totalChapters}
                       </AppText>
                     </View>
 
-                    {/* Chapter title — only when non-trivial */}
-                    {!isTrivialTitle && (
-                      <AppText weight="Bold" style={{ fontSize: 28, lineHeight: 38, letterSpacing: -0.3, color: textMain, textAlign: "center", marginBottom: 6 }}>
-                        {displayHeaderSubtitle}
-                      </AppText>
-                    )}
+                    {/* Chapter title — centered title */}
+                    <AppText weight="Bold" style={{ fontSize: 26, lineHeight: 36, letterSpacing: 0.2, color: textMain, textAlign: "center", marginBottom: 6 }}>
+                      {displayHeaderSubtitle}
+                    </AppText>
 
                     {/* Ornament divider */}
                     <View style={{ flexDirection: "row", alignItems: "center", gap: 8, marginTop: isTrivialTitle ? 4 : 14, marginBottom: 12 }}>
