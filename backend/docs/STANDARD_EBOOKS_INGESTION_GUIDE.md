@@ -1,55 +1,54 @@
-# 📖 Universal Standard Ebooks Automated Ingestion Pipeline & Validation Guide
+# 📖 Universal Standard Ebooks Automated Ingestion & Audio Generation Pipeline Guide
 
 ## 🚀 Overview & Architecture
-The **Universal Standard Ebooks Automated Ingestion Pipeline** (`backend/scripts/ingest_standard_ebook.js`) is an enterprise-grade automated pipeline for importing any public-domain ebook directly from [Standard Ebooks](https://standardebooks.org/) GitHub repositories into the Liiro Ebook platform (MongoDB `liiro_prod` & Hetzner S3 Object Storage CDN).
+The **Universal Standard Ebooks Automated Ingestion & Audio Pipeline** (`backend/scripts/ingest_standard_ebook.js` & `backend/scripts/generate_and_align_ebook_audio.py`) provides an end-to-end enterprise solution for importing public-domain ebooks and generating studio-grade audiobook audio with Whispersync alignment.
 
 The pipeline automatically handles:
 - **Auto-Detection of Artwork & Illustrations**: Scans `content.opf` for embedded `<figure>` vector/raster images (`.svg`, `.png`, `.jpg`).
-- **Parallel S3 CDN Asset Sync**: Uploads cover art, vector illustrations, and logos to Hetzner Object Storage (`LangoReads-Prod/ebooks/<slug>/images/...`) in parallel with `public-read` permissions and long-term caching.
-- **Hgroup & Header Metadata Parser**: Prioritizes `<hgroup>` outer tags over body poem `<header>` blocks to extract exact chapter titles (`I: Looking-Glass House`, `Down the Rabbit-Hole`, `Jonathan Harker's Journal`).
-- **Document-Order DOM Parsing**: Preserves 100% exact XHTML document-order element structure (`<p>`, `<figure>`, `<blockquote>`).
-- **Whispersync Audio Alignment**: Links high-bitrate MP3 chapter audio and sentence-level millisecond timestamp arrays (`chapter_N_timestamps.json`).
-- **MongoDB Sync**: Creates or updates `Story`, `Author`, and `StoryChapter` models with clean metadata.
-- **4-Layer Automated Post-Import Validation**: Automatically validates API query availability, chapter count integrity, S3 cover CDN status, and runs **100.00% word-for-word narrative text body diff checks**.
+- **Parallel S3 CDN Asset Sync**: Uploads cover art, vector illustrations, and audio files to Hetzner Object Storage (`LangoReads-Prod/ebooks/<slug>/...`) in parallel with `public-read` permissions.
+- **Hgroup & Header Metadata Parser**: Prioritizes `<hgroup>` outer tags over body poem `<header>` blocks to extract exact chapter titles (`I: Looking-Glass House`, `Down the Rabbit-Hole`).
+- **Studio Kokoro TTS Audio Generation**: Synthesizes studio-grade MP3 audio using Kokoro ONNX v1.0 engine (`kokoro-v1.0.onnx` / `am_adam` voice).
+- **OpenAI Whisper Forced Alignment**: Transcribes audio to generate sentence and word-level millisecond start/end timestamps (`word_timestamps=True`).
+- **4-Layer Automated Post-Import Validation**: Automatically validates API query availability, chapter count integrity, 100.00% word-for-word narrative text body diff checks, and S3 CDN HTTP status.
 
 ---
 
 ## 🛠️ Step-by-Step CLI Execution Guide
 
-### 1. Ingest Any Single Standard Ebook
-Pass any GitHub repository name, standardebooks.org URL, or title slug to `node scripts/ingest_standard_ebook.js`:
-
+### 1. Ingest Standard Ebook (Text & Illustrations Only)
 ```bash
 cd backend
-
-# 🎨 Illustrated Classics Examples:
 node scripts/ingest_standard_ebook.js lewis-carroll_through-the-looking-glass_john-tenniel
-node scripts/ingest_standard_ebook.js lewis-carroll_alices-adventures-in-wonderland_john-tenniel
-node scripts/ingest_standard_ebook.js rudyard-kipling_just-so-stories
-node scripts/ingest_standard_ebook.js arthur-conan-doyle_the-return-of-sherlock-holmes
-
-# 📚 Non-Illustrated Novels Examples:
-node scripts/ingest_standard_ebook.js bram-stoker_dracula
-node scripts/ingest_standard_ebook.js mary-wollstonecraft-shelley_frankenstein
-node scripts/ingest_standard_ebook.js l-frank-baum_the-wonderful-wizard-of-oz
-node scripts/ingest_standard_ebook.js carlo-collodi_the-adventures-of-pinocchio
 ```
 
-### 2. Standalone Word-for-Word Narrative Diff Validator
-To manually run word-for-word sentence and narrative content comparison between MongoDB and raw Standard Ebooks source XHTML:
+### 2. Ingest Standard Ebook + Full Studio Audio & Whisper Alignment (--audio flag)
+To run text ingestion, vector image upload, Kokoro TTS studio audio generation, and OpenAI Whisper forced sentence alignment in one command:
 
 ```bash
 cd backend
-node scripts/validate_ebook_content_diff.js <story-slug> [github-repo-name]
+node scripts/ingest_standard_ebook.js lewis-carroll_through-the-looking-glass_john-tenniel --audio
+```
+
+### 3. Standalone Audio Generation & Alignment CLI
+To generate studio audio and Whisper forced timestamps for any existing story in MongoDB:
+
+```bash
+cd backend
+PYTHONUNBUFFERED=1 /Users/humayunrashid/multicamp/.venv/bin/python scripts/generate_and_align_ebook_audio.py <story-slug>
 
 # Example:
+PYTHONUNBUFFERED=1 /Users/humayunrashid/multicamp/.venv/bin/python scripts/generate_and_align_ebook_audio.py through-the-looking-glass
+```
+
+### 4. Standalone Narrative Text Diff Validator
+```bash
+cd backend
 node scripts/validate_ebook_content_diff.js through-the-looking-glass lewis-carroll_through-the-looking-glass_john-tenniel
-node scripts/validate_ebook_content_diff.js alices-adventures-in-wonderland lewis-carroll_alices-adventures-in-wonderland_john-tenniel
 ```
 
 ---
 
-## 📊 Pipeline Stages & Architecture
+## 📊 End-to-End Pipeline Architecture
 
 ```mermaid
 flowchart TD
@@ -59,46 +58,21 @@ flowchart TD
     D --> E[Parallel Upload to Hetzner S3 CDN ACL: public-read]
     C -- No --> F[Set isIllustrated = false]
     E --> G[Set isIllustrated = true]
-    F --> H[Parse Chapter XHTML Files]
+    F --> H[Parse Chapter XHTML Files & hgroup Titles]
     G --> H
-    H --> I[Parse hgroup / header & Extract Main Title]
-    I --> J[Rewrite img src to Hetzner CDN URLs]
-    J --> K[Link Whispersync Timestamps & MP3 Audio]
-    K --> L[Update MongoDB liiro_prod Collections]
-    L --> M[4-Layer Post-Import Validation Engine]
-    M --> N[100% Word-for-Word Narrative Content Diff Check]
+    H --> I[Update MongoDB liiro_prod Collections]
+    I --> J[4-Layer Post-Import Validation Engine]
+    J --> K{Is --audio Flag Passed?}
+    K -- Yes --> L[Synthesize Audio with Kokoro ONNX v1.0 Engine]
+    L --> M[Upload Chapter MP3s to Hetzner S3 CDN]
+    M --> N[Run OpenAI Whisper Forced Alignment word_timestamps=True]
+    N --> O[Save Whispersync Sentence & Word Timestamps to MongoDB]
+    K -- No --> P[Ingestion Complete]
+    O --> P
 ```
-
-### Key Database Collections Updated:
-1. **`stories`**:
-   - `slug`: `through-the-looking-glass` | `alice-in-wonderland` | `dracula`
-   - `title`: `{ en: "Through the Looking-Glass" }`
-   - `coverImageUrl`: `https://multicamp-prod-storage.nbg1.your-objectstorage.com/LangoReads-Prod/ebooks/<slug>/images/cover.svg`
-   - `hasAudio`: `true`
-   - `isIllustrated`: `true` (auto-detected)
-   - `illustrationsCount`: `50` (exact figure count)
-2. **`storychapters`**:
-   - `chapterNumber`: `1..N`
-   - `title`: `{ en: "I: Looking-Glass House" }`
-   - `content`: Cleaned XHTML with responsive S3 figure tags `<figure class="illustrated-figure"><img src="..." /><figcaption>...</figcaption></figure>`
-   - `audioUrl`: `https://multicamp-prod-storage.nbg1.your-objectstorage.com/LangoReads-Prod/ebooks/<slug>/chapter_N.mp3`
-   - `timestamps`: Whispersync sentence-level millisecond alignment array `[{ text, start, end }]`
-
----
-
-## 🧪 Verification & Testing Results
-
-| Book Title | Repo Target | Chapters | S3 Images Uploaded | isIllustrated | Narrative Diff Accuracy | Post-Import Status |
-| :--- | :--- | :---: | :---: | :---: | :---: | :---: |
-| **Through the Looking-Glass** | `lewis-carroll_through-the-looking-glass_john-tenniel` | 12 | 55 | `true` (50 Figures) | **100.00% Match** | ✅ PASSED |
-| **Alice in Wonderland** | `lewis-carroll_alices-adventures-in-wonderland_john-tenniel` | 12 | 45 | `true` (41 Figures) | **100.00% Match** | ✅ PASSED |
-| **The Adventures of Pinocchio** | `carlo-collodi_the-adventures-of-pinocchio` | 36 | 3 | `false` (0 Figures) | **100.00% Match** | ✅ PASSED |
-| **Dracula** | `bram-stoker_dracula` | 27 | 3 | `false` (0 Figures) | **100.00% Match** | ✅ PASSED |
-| **Frankenstein** | `mary-wollstonecraft-shelley_frankenstein` | 24 | 3 | `false` (0 Figures) | **100.00% Match** | ✅ PASSED |
 
 ---
 
 ## 🌐 Live Reader Verification Endpoints
-- **Web Reader (Through the Looking-Glass)**: [http://localhost:8086/read/through-the-looking-glass?audio=true&lang=en](http://localhost:8086/read/through-the-looking-glass?audio=true&lang=en)
-- **Web Reader (Alice in Wonderland)**: [http://localhost:8086/read/alices-adventures-in-wonderland?audio=true&lang=en](http://localhost:8086/read/alices-adventures-in-wonderland?audio=true&lang=en)
+- **Web Reader**: [http://localhost:8086/read/through-the-looking-glass?audio=true&lang=en](http://localhost:8086/read/through-the-looking-glass?audio=true&lang=en)
 - **Backend API Query**: `http://localhost:5012/api/v1/stories/slug/through-the-looking-glass`
