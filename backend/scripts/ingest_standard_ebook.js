@@ -190,28 +190,45 @@ async function ingestStandardEbook(repoInput) {
     const rawXhtml = await fetchText(`${rawBase}/text/${chFile}`);
     if (!rawXhtml) continue;
 
-    // Clean Chapter Title
-    let titleText = `Chapter ${chNum}`;
-    const pTitleMatch = rawXhtml.match(/<p[^>]*epub:type=["']title["'][^>]*>(.*?)<\/p>/i);
-    const h2TitleMatch = rawXhtml.match(/<h2[^>]*>(.*?)<\/h2>/i);
-    const docTitleMatch = rawXhtml.match(/<title>(.*?)<\/title>/i);
+    // Extract header metadata cleanly
+    const headerMatch = rawXhtml.match(/<header[^>]*>([\s\S]*?)<\/header>/i) || rawXhtml.match(/<hgroup[^>]*>([\s\S]*?)<\/hgroup>/i);
+    let ordinalText = `Chapter ${chNum}`;
+    let mainTitleText = "";
+    let subTitleText = "";
+    let headerHtmlBlock = "";
 
-    if (pTitleMatch) {
-      titleText = cleanText(pTitleMatch[1]);
-    } else if (h2TitleMatch) {
-      titleText = cleanText(h2TitleMatch[1]);
-    } else if (docTitleMatch) {
-      titleText = cleanText(docTitleMatch[1]);
+    if (headerMatch) {
+      const headerInner = headerMatch[1];
+      const h2Match = headerInner.match(/<h2[^>]*>(.*?)<\/h2>/i);
+      const titleMatches = [...headerInner.matchAll(/<(?:p|h3|h4)[^>]*>(.*?)<\/(?:p|h3|h4)>/gi)].map(m => m[1]);
+
+      if (h2Match) ordinalText = cleanText(h2Match[1]);
+      mainTitleText = titleMatches[0] ? cleanText(titleMatches[0]) : "";
+      subTitleText = titleMatches[1] ? cleanText(titleMatches[1]) : "";
+
+      headerHtmlBlock = `
+        <header class="chapter-header-styled" style="text-align: center; margin-bottom: 28px; display: block;">
+          ${ordinalText ? `<h2 style="font-family: Georgia, serif; font-size: 1.8rem; font-weight: 700; text-align: center; margin-bottom: 8px;">${ordinalText}</h2>` : ""}
+          ${mainTitleText ? `<h3 style="font-family: Georgia, serif; font-size: 1.15rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; text-align: center; margin-bottom: 4px; color: #374151;">${mainTitleText}</h3>` : ""}
+          ${subTitleText ? `<p style="font-size: 0.95rem; font-style: italic; opacity: 0.75; text-align: center; margin-bottom: 0;">${subTitleText}</p>` : ""}
+        </header>
+      `;
     }
-    titleText = titleText.replace(/^[IVXLCDM]+\s*[:.-]\s*/i, "").trim();
+
+    let titleText = mainTitleText ? `${ordinalText}: ${mainTitleText}` : ordinalText;
 
     // Extract section content
     const sectionMatch = rawXhtml.match(/<section[^>]*>([\s\S]*?)<\/section>/i);
     let sectionHtml = sectionMatch ? sectionMatch[1] : rawXhtml;
 
-    // Strip header metadata duplicates
-    sectionHtml = sectionHtml.replace(/<hgroup>[\s\S]*?<\/hgroup>/gi, "");
-    sectionHtml = sectionHtml.replace(/<header>[\s\S]*?<\/header>/gi, "");
+    // Replace header or hgroup with headerHtmlBlock
+    if (sectionHtml.match(/<header[^>]*>[\s\S]*?<\/header>/i)) {
+      sectionHtml = sectionHtml.replace(/<header[^>]*>[\s\S]*?<\/header>/i, headerHtmlBlock);
+    } else if (sectionHtml.match(/<hgroup[^>]*>[\s\S]*?<\/hgroup>/i)) {
+      sectionHtml = sectionHtml.replace(/<hgroup[^>]*>[\s\S]*?<\/hgroup>/i, headerHtmlBlock);
+    } else if (headerHtmlBlock) {
+      sectionHtml = headerHtmlBlock + sectionHtml;
+    }
 
     // Replace image sources with Hetzner S3 URLs
     sectionHtml = sectionHtml.replace(/<figure([^>]*)>([\s\S]*?)<\/figure>/gi, (fullMatch, figAttrs, figInner) => {
