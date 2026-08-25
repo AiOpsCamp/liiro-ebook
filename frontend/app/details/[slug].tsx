@@ -173,7 +173,17 @@ export default function BookDetailsScreen() {
     [chapters, progress]
   );
 
-  const resumeLabel = isCompleted
+  const hasActiveProgress = useMemo(() => {
+    if (!progress) return false;
+    if (progress.isCompleted) return true;
+    if (Array.isArray(progress.completedChapterIds) && progress.completedChapterIds.length > 0) return true;
+    if (progress.currentChapterId && (progress.scrollOffset > 0 || progress.audioTimestamp > 0 || progress.lastReadAt || progress.lastListenedAt)) return true;
+    return false;
+  }, [progress]);
+
+  const resumeLabel = !hasActiveProgress
+    ? "Start Reading"
+    : isCompleted
     ? "Read Again"
     : currentChapter
     ? `Resume ${getLocalizedText(currentChapter.title, "Reading", selectedLang)}`

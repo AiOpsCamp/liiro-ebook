@@ -47,8 +47,7 @@ const whispersyncSchema = new mongoose.Schema(
 const userStoryProgressSchema = new mongoose.Schema(
   {
     userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      type: mongoose.Schema.Types.Mixed,
       required: true,
       index: true,
     },

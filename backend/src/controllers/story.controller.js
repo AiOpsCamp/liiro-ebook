@@ -274,9 +274,7 @@ exports.getStoryDetails = async (req, res) => {
     }
   const storyTags = Array.isArray(story.tags) ? story.tags : [];
   const [userProgress, similarDocs, authorDocs, seriesDocs] = await Promise.all([
-    mongoose.Types.ObjectId.isValid(userId)
-      ? UserStoryProgress.findOne({ userId, storyId: story._id }).lean()
-      : null,
+    userId ? UserStoryProgress.findOne({ userId, storyId: story._id }).lean() : null,
     Story.find({
       _id: { $ne: story._id },
       isPublished: true,
@@ -453,7 +451,7 @@ exports.syncProgress = async (req, res) => {
   try {
     const userId = getEffectiveUserId(req);
     const { slug } = req.params;
-    const { currentChapterId, audioTimestamp, scrollOffset, currentPageIdx, activityType = "reading", readerSettings } = req.body;
+    const { currentChapterId, audioTimestamp, scrollOffset, currentPageIdx, activityType = "reading", readerSettings, isChapterCompleted } = req.body;
 
     const story = await Story.findOne({ slug });
     if (!story) {
@@ -465,14 +463,22 @@ exports.syncProgress = async (req, res) => {
       lastActivityType: activityType,
     };
 
-    if (currentChapterId) {
-      updateFields.currentChapterId = currentChapterId;
-    } else {
-      const firstCh = await StoryChapter.findOne({ storyId: story._id }).sort({ chapterNumber: 1 }).select("_id").lean();
-      if (firstCh) updateFields.currentChapterId = firstCh._id;
-    }
+    // Merely visiting the book details screen MUST NOT create/update active chapter reading progress
+    if (activityType !== "visited") {
+      if (currentChapterId) {
+        updateFields.currentChapterId = currentChapterId;
+      }
 
-    if (typeof currentPageIdx === "number") updateFields.currentPageIdx = currentPageIdx;
+      if (typeof currentPageIdx === "number") updateFields.currentPageIdx = currentPageIdx;
+
+      if (activityType === "listening") {
+        updateFields.lastListenedAt = new Date();
+        if (typeof audioTimestamp === "number") updateFields.audioTimestamp = audioTimestamp;
+      } else {
+        updateFields.lastReadAt = new Date();
+        if (typeof scrollOffset === "number") updateFields.scrollOffset = scrollOffset;
+      }
+    }
 
     if (readerSettings && typeof readerSettings === "object") {
       if (readerSettings.theme) updateFields["readerSettings.theme"] = readerSettings.theme;
@@ -482,17 +488,9 @@ exports.syncProgress = async (req, res) => {
       if (typeof readerSettings.containerWidth === "number") updateFields["readerSettings.containerWidth"] = readerSettings.containerWidth;
     }
 
-    if (activityType === "listening") {
-      updateFields.lastListenedAt = new Date();
-      if (typeof audioTimestamp === "number") updateFields.audioTimestamp = audioTimestamp;
-    } else {
-      updateFields.lastReadAt = new Date();
-      if (typeof scrollOffset === "number") updateFields.scrollOffset = scrollOffset;
-    }
-
     const updateDoc = { $set: updateFields };
-    if (updateFields.currentChapterId) {
-      updateDoc.$addToSet = { completedChapterIds: updateFields.currentChapterId };
+    if (isChapterCompleted && currentChapterId) {
+      updateDoc.$addToSet = { completedChapterIds: currentChapterId };
     }
 
     const progress = await UserStoryProgress.findOneAndUpdate(
