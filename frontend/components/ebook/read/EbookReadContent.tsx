@@ -1291,19 +1291,63 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
     return cleanedParas.length > 0 ? cleanedParas : rawParas;
   }, [chapterDetails?.textPayload, chapterDetails?.content, chapterStub?.title, chapterStub?.chapterNumber, currentChapterIdx, story?.title, activeLang]);
 
-  const extractedImages = useMemo(() => {
+  const contentBlocks = useMemo(() => {
     const html = chapterDetails?.content;
-    if (!html) return [];
-    const imgSources: string[] = [];
-    const re = /src=["']([^"']+)["']/g;
-    let m: RegExpExecArray | null;
-    while ((m = re.exec(html)) !== null) {
-      if (m[1].includes("images/") || m[1].includes("multicamp-prod-storage") || m[1].includes("githubusercontent")) {
-        imgSources.push(m[1]);
+    if (!html) {
+      return paragraphs.map((text, paraIdx) => ({
+        type: "text" as const,
+        text,
+        paraIdx,
+      }));
+    }
+
+    const blockRegex = /<figure[^>]*>[\s\S]*?<\/figure>|<p[^>]*>[\s\S]*?<\/p>|<blockquote[^>]*>[\s\S]*?<\/blockquote>/gi;
+    const rawBlocks = [...html.matchAll(blockRegex)].map((m) => m[0]);
+    if (rawBlocks.length === 0) {
+      return paragraphs.map((text, paraIdx) => ({
+        type: "text" as const,
+        text,
+        paraIdx,
+      }));
+    }
+
+    const result: { type: "text" | "image"; text?: string; paraIdx?: number; src?: string; alt?: string }[] = [];
+    let textCounter = 0;
+
+    for (const bHtml of rawBlocks) {
+      if (bHtml.includes("<figure")) {
+        const srcMatch = bHtml.match(/src=["']([^"']+)["']/i);
+        const altMatch = bHtml.match(/alt=["']([^"']+)["']/i);
+        if (srcMatch && srcMatch[1]) {
+          result.push({
+            type: "image",
+            src: srcMatch[1],
+            alt: altMatch ? altMatch[1] : "Illustration by Sir John Tenniel",
+          });
+        }
+      } else {
+        if (textCounter < paragraphs.length) {
+          result.push({
+            type: "text",
+            text: paragraphs[textCounter],
+            paraIdx: textCounter,
+          });
+          textCounter++;
+        }
       }
     }
-    return [...new Set(imgSources)];
-  }, [chapterDetails?.content]);
+
+    while (textCounter < paragraphs.length) {
+      result.push({
+        type: "text",
+        text: paragraphs[textCounter],
+        paraIdx: textCounter,
+      });
+      textCounter++;
+    }
+
+    return result;
+  }, [chapterDetails?.content, paragraphs]);
 
   const processedPayload = useMemo(() => {
     return paragraphs.join("\n\n");
@@ -2789,7 +2833,39 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
                     const totalChars = paragraphs.reduce((sum, p) => sum + p.length, 0) || 1;
                     let currTime = 0;
 
-                    return paragraphs.map((para, idx) => {
+                    return contentBlocks.map((block, itemIdx) => {
+                      if (block.type === "image" && block.src) {
+                        return (
+                          <View key={`fig-${itemIdx}`} style={{ alignItems: "center", marginVertical: 32, width: "100%" }}>
+                            {Platform.OS === "web" ? (
+                              <img
+                                src={block.src}
+                                alt={block.alt || "Illustration by Sir John Tenniel"}
+                                style={{
+                                  maxWidth: "92%",
+                                  maxHeight: 460,
+                                  borderRadius: 14,
+                                  boxShadow: "0 8px 24px rgba(0,0,0,0.14)",
+                                  display: "block",
+                                  margin: "0 auto",
+                                }}
+                              />
+                            ) : (
+                              <Image
+                                source={{ uri: block.src }}
+                                style={{ width: "90%", height: 320, borderRadius: 14 }}
+                                resizeMode="contain"
+                              />
+                            )}
+                            <AppText weight="Medium" style={{ fontSize: 11, color: textSecondary, marginTop: 10, fontStyle: "italic", textAlign: "center", paddingHorizontal: 20 }}>
+                              {block.alt || "Illustration by Sir John Tenniel"}
+                            </AppText>
+                          </View>
+                        );
+                      }
+
+                      const idx = block.paraIdx ?? 0;
+                      const para = block.text || "";
                       const paraDur = (para.length / totalChars) * (audioDuration || 1);
                       const paraStart = currTime;
                       const paraEnd = currTime + paraDur;
@@ -2804,7 +2880,7 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
                       const isCurrentMatch = isSearchMatch && searchMatches[currentMatchIdx] === idx;
                       const showResumeMarker = !hasUserScrolledRef.current && idx === resumeParaIdx && resumeParaIdx > 0;
                       return (
-                        <View key={idx} nativeID={`para-${idx}`} style={isSearchMatch ? { backgroundColor: isCurrentMatch ? accent + "30" : accent + "12", borderRadius: 10, marginHorizontal: -6 } : undefined}>
+                        <View key={`para-${idx}`} nativeID={`para-${idx}`} style={isSearchMatch ? { backgroundColor: isCurrentMatch ? accent + "30" : accent + "12", borderRadius: 10, marginHorizontal: -6 } : undefined}>
                           {showResumeMarker && (
                             <View style={{ flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 14, marginTop: 4 }}>
                               <View style={{ flex: 1, height: 1, backgroundColor: accent + "50" }} />
@@ -2833,55 +2909,6 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
                               setHighlightModalData({ paragraphIdx: idx, text: para });
                             }}
                           />
-                          {/* Inline Hetzner S3 Illustration Rendering */}
-                          {(() => {
-                            if (!extractedImages || extractedImages.length === 0) return null;
-                            const count = extractedImages.length;
-                            let imageIdx = -1;
-
-                            if (count === 1) {
-                              if (idx === 0) imageIdx = 0;
-                            } else {
-                              const step = Math.max(1, Math.floor(paragraphs.length / count));
-                              for (let i = 0; i < count; i++) {
-                                const targetIdx = i === 0 ? 0 : i * step;
-                                if (idx === targetIdx) {
-                                  imageIdx = i;
-                                  break;
-                                }
-                              }
-                            }
-
-                            if (imageIdx < 0 || imageIdx >= extractedImages.length) return null;
-                            const imgSrc = extractedImages[imageIdx];
-                            return (
-                              <View key={`inline-img-${idx}`} style={{ alignItems: "center", marginVertical: 28, width: "100%" }}>
-                                {Platform.OS === "web" ? (
-                                  <img
-                                    src={imgSrc}
-                                    alt={`Illustration ${imageIdx + 1} by Sir John Tenniel`}
-                                    style={{
-                                      maxWidth: "92%",
-                                      maxHeight: 440,
-                                      borderRadius: 14,
-                                      boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
-                                      display: "block",
-                                      margin: "0 auto",
-                                    }}
-                                  />
-                                ) : (
-                                  <Image
-                                    source={{ uri: imgSrc }}
-                                    style={{ width: "90%", height: 300, borderRadius: 14 }}
-                                    resizeMode="contain"
-                                  />
-                                )}
-                                <AppText weight="Medium" style={{ fontSize: 11, color: textSecondary, marginTop: 8, fontStyle: "italic" }}>
-                                  Illustration {imageIdx + 1} by Sir John Tenniel
-                                </AppText>
-                              </View>
-                            );
-                          })()}
                         </View>
                       );
                     });
