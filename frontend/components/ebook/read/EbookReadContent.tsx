@@ -432,24 +432,35 @@ const ParagraphKaraokeRow = React.memo(function ParagraphKaraokeRow({
             : "rgba(0,0,0,0.02)"
           : "transparent" })}
     >
-      <AppText
-        weight={active ? "Medium" : "Regular"}
-        style={[
-          {
-            fontSize,
-            lineHeight: Math.round(fontSize * 1.68),
-            color: active ? (currentTheme.isDark ? "#F8FAFC" : textMain) : textMain,
-            letterSpacing: 0.15,
-            textAlign: textAlign as any },
-          Platform.OS === "web" && fontFamily === "serif"
-            ? ({ fontFamily: 'Georgia, Cambria, "Times New Roman", Times, serif' } as any)
-            : Platform.OS === "web" && fontFamily === "mono"
-            ? ({ fontFamily: '"Courier New", Courier, monospace' } as any)
-            : null,
-        ]}
-      >
-        {cleanText}
-      </AppText>
+      {(() => {
+        const isBridgehead = /^\s*\([A-Za-z0-9\s.,;:'"—-]{2,120}\)\s*$/.test(cleanText.trim());
+        const effectiveTextAlign = isBridgehead ? "center" : textAlign;
+        const effectiveFontSize = isBridgehead ? Math.max(13, Math.round(fontSize * 0.88)) : fontSize;
+
+        return (
+          <AppText
+            weight={active ? "Medium" : "Regular"}
+            style={[
+              {
+                fontSize: effectiveFontSize,
+                lineHeight: Math.round(effectiveFontSize * 1.68),
+                color: active ? (currentTheme.isDark ? "#F8FAFC" : textMain) : isBridgehead ? textSecondary : textMain,
+                fontStyle: isBridgehead ? "italic" : "normal",
+                opacity: isBridgehead ? 0.85 : 1,
+                letterSpacing: 0.15,
+                textAlign: effectiveTextAlign as any,
+              },
+              Platform.OS === "web" && fontFamily === "serif"
+                ? ({ fontFamily: 'Georgia, Cambria, "Times New Roman", Times, serif' } as any)
+                : Platform.OS === "web" && fontFamily === "mono"
+                ? ({ fontFamily: '"Courier New", Courier, monospace' } as any)
+                : null,
+            ]}
+          >
+            {cleanText}
+          </AppText>
+        );
+      })()}
     </Pressable>
   );
 });
