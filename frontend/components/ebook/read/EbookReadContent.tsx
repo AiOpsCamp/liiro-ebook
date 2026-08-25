@@ -1273,7 +1273,15 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
 
       let narrativePara = pClean;
       if (cleanedParas.length === 0) {
-        // Strip duplicate chapter title prefixes (e.g. "II: The Pool of Tears II The Pool of Tears")
+        // Strip leading Roman numerals (e.g. "I:", "II.", "CHAPTER 1", etc.)
+        narrativePara = narrativePara.replace(/^[IVXLCDM\d]+[:.\s-]*/i, "").trim();
+        // Strip duplicate chapter title phrases at the start of paragraph 0
+        if (chTitleClean && chTitleClean.length > 2) {
+          const escapedTitle = chTitleClean.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&");
+          const titleRegex = new RegExp(`^(${escapedTitle}\\s*)+`, "i");
+          narrativePara = narrativePara.replace(titleRegex, "").trim();
+        }
+        // Fallback strip duplicate title repeats
         narrativePara = narrativePara.replace(/^[IVXLCDM\d]+[:.\s-]+[^"“'\n]{3,60}?\s+[IVXLCDM\d]+[:.\s-]+[^"“'\n]{3,60}?\s*/i, "").trim();
       }
 
@@ -2828,17 +2836,30 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
                           {/* Inline Hetzner S3 Illustration Rendering */}
                           {(() => {
                             if (!extractedImages || extractedImages.length === 0) return null;
-                            const interval = Math.max(1, Math.floor(paragraphs.length / (extractedImages.length + 1)));
-                            const imageIdx = Math.floor((idx + 1) / interval) - 1;
-                            const shouldShowImage = (idx + 1) % interval === 0 && imageIdx >= 0 && imageIdx < extractedImages.length;
-                            if (!shouldShowImage) return null;
+                            const count = extractedImages.length;
+                            let imageIdx = -1;
+
+                            if (count === 1) {
+                              if (idx === 0) imageIdx = 0;
+                            } else {
+                              const step = Math.max(1, Math.floor(paragraphs.length / count));
+                              for (let i = 0; i < count; i++) {
+                                const targetIdx = i === 0 ? 0 : i * step;
+                                if (idx === targetIdx) {
+                                  imageIdx = i;
+                                  break;
+                                }
+                              }
+                            }
+
+                            if (imageIdx < 0 || imageIdx >= extractedImages.length) return null;
                             const imgSrc = extractedImages[imageIdx];
                             return (
                               <View key={`inline-img-${idx}`} style={{ alignItems: "center", marginVertical: 28, width: "100%" }}>
                                 {Platform.OS === "web" ? (
                                   <img
                                     src={imgSrc}
-                                    alt="Illustration by Sir John Tenniel"
+                                    alt={`Illustration ${imageIdx + 1} by Sir John Tenniel`}
                                     style={{
                                       maxWidth: "92%",
                                       maxHeight: 440,
