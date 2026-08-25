@@ -983,12 +983,23 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
 
   // Multi-Voice Audio Setup
   const availableVoices = useMemo(() => {
-    return chapterDetails?.audioVoices?.voices || [];
+    if (chapterDetails?.audioVoices?.voices?.length > 0) {
+      return chapterDetails.audioVoices.voices;
+    }
+    const voicesList = [];
+    if (chapterDetails?.audioVoices?.heart) {
+      voicesList.push({ id: "af_heart", key: "heart", name: "Heart", label: "US Female", url: chapterDetails.audioVoices.heart });
+    }
+    if (chapterDetails?.audioVoices?.adam) {
+      voicesList.push({ id: "am_adam", key: "adam", name: "Adam", label: "US Male", url: chapterDetails.audioVoices.adam });
+    }
+    return voicesList;
   }, [chapterDetails]);
 
   const activeVoiceObj = useMemo(() => {
     if (availableVoices.length === 0) return null;
-    return availableVoices.find((v: any) => v.id === selectedVoiceId || v.key === selectedVoiceId) || availableVoices[0];
+    const targetKey = selectedVoiceId || "heart";
+    return availableVoices.find((v: any) => v.key === targetKey || v.id === targetKey || v.id?.includes(targetKey) || targetKey.includes(v.key)) || availableVoices[0];
   }, [availableVoices, selectedVoiceId]);
 
   const voiceKey = activeVoiceObj?.key || selectedVoiceId || "heart";
@@ -999,19 +1010,19 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
   );
 
   const audioUrl = useMemo(() => {
-    // 0. Bitrate Quality URL lookup
+    // 1. Direct Voice URL lookup from chapterDetails.audioVoices (e.g. audioVoices.adam or audioVoices.heart)
+    const directVoiceUrl = chapterDetails?.audioVoices?.[selectedVoiceId] || chapterDetails?.audioVoices?.[voiceKey];
+    if (typeof directVoiceUrl === "string" && directVoiceUrl) return directVoiceUrl;
+
+    // 2. Voice object URL from availableVoices list (e.g. Adam's URL)
+    if (activeVoiceObj?.url) return activeVoiceObj.url;
+
+    // 3. Bitrate Quality URL lookup
     if (audioBitrate && chapterDetails?.audioBitrates?.[audioBitrate]) {
       return chapterDetails.audioBitrates[audioBitrate];
     }
 
-    // 1. Direct Voice URL lookup from chapterDetails.audioVoices (e.g. audioVoices.heart)
-    const directVoiceUrl = chapterDetails?.audioVoices?.[selectedVoiceId] || chapterDetails?.audioVoices?.[voiceKey];
-    if (typeof directVoiceUrl === "string" && directVoiceUrl) return directVoiceUrl;
-
-    // 2. Voice object URL from availableVoices list
-    if (activeVoiceObj?.url) return activeVoiceObj.url;
-
-    // 3. Fallback to chapter default audioUrl
+    // 4. Fallback to chapter default audioUrl
     const rawUrl = chapterDetails?.audioUrl || chapterStub?.audioUrl;
     if (typeof rawUrl === "string" && rawUrl) return rawUrl;
     if (rawUrl && typeof rawUrl === "object") {
@@ -1071,6 +1082,27 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
       }
     }
   }, [isPlaying, audioUrl, story, currentChapterIdx, voiceKey, audioCurrentTime, audioDuration, playbackSpeed]);
+
+  // Seamless Voice Switch Effect
+  const prevVoiceRef = useRef(selectedVoiceId);
+  useEffect(() => {
+    if (prevVoiceRef.current !== selectedVoiceId) {
+      prevVoiceRef.current = selectedVoiceId;
+      if (isPlaying && audioUrl) {
+        const audioMgr = AudioManager.getInstance();
+        const currentPos = audioCurrentTime;
+        setIsAudioLoading(true);
+        audioMgr.playAudio(
+          audioUrl,
+          () => setIsPlaying(false),
+          currentPos
+        ).then(() => {
+          setIsAudioLoading(false);
+          audioMgr.setRate(playbackSpeed);
+        });
+      }
+    }
+  }, [selectedVoiceId, isPlaying, audioUrl, audioCurrentTime, playbackSpeed]);
 
   // Audio Manager Telemetry Status Listener
   useEffect(() => {
