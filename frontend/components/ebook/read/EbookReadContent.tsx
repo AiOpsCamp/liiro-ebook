@@ -980,10 +980,10 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
 
   const activeVoiceObj = useMemo(() => {
     if (availableVoices.length === 0) return null;
-    return availableVoices.find((v) => v.id === selectedVoiceId) || availableVoices[0];
+    return availableVoices.find((v: any) => v.id === selectedVoiceId || v.key === selectedVoiceId) || availableVoices[0];
   }, [availableVoices, selectedVoiceId]);
 
-  const voiceKey = activeVoiceObj?.key || "adam";
+  const voiceKey = activeVoiceObj?.key || selectedVoiceId || "heart";
 
   const { data: streamTokenData } = useGetStreamTokenQuery(
     { slug: story.slug, chapterNumber: currentChapterIdx + 1, voice: voiceKey },
@@ -991,7 +991,14 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
   );
 
   const audioUrl = useMemo(() => {
+    // 1. Direct Voice URL lookup from chapterDetails.audioVoices (e.g. audioVoices.heart)
+    const directVoiceUrl = chapterDetails?.audioVoices?.[selectedVoiceId] || chapterDetails?.audioVoices?.[voiceKey];
+    if (typeof directVoiceUrl === "string" && directVoiceUrl) return directVoiceUrl;
+
+    // 2. Voice object URL from availableVoices list
     if (activeVoiceObj?.url) return activeVoiceObj.url;
+
+    // 3. Fallback to chapter default audioUrl
     const rawUrl = chapterDetails?.audioUrl || chapterStub?.audioUrl;
     if (typeof rawUrl === "string" && rawUrl) return rawUrl;
     if (rawUrl && typeof rawUrl === "object") {
@@ -1000,7 +1007,7 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
     }
     if (streamTokenData?.signedStreamUrl) return streamTokenData.signedStreamUrl;
     return null;
-  }, [activeVoiceObj, chapterDetails, chapterStub, activeLang, streamTokenData]);
+  }, [activeVoiceObj, chapterDetails, chapterStub, activeLang, streamTokenData, selectedVoiceId, voiceKey]);
 
   const togglePlayPause = useCallback(async () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
