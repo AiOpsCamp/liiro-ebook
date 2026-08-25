@@ -276,6 +276,8 @@ async function ingestStandardEbook(repoInput) {
         title: { en: bookTitle },
         coverImageUrl: coverCdnUrl,
         hasAudio: true,
+        isPublished: true,
+        published: true,
         contentType: "both",
         isIllustrated: hasIllustrations || totalEmbeddedIllustrations > 0,
         illustrationsCount: totalEmbeddedIllustrations,
@@ -285,8 +287,41 @@ async function ingestStandardEbook(repoInput) {
     }
   );
 
+  // 7. Post-Import Automated Validation Engine
+  const { execSync } = require("child_process");
   console.log("\n=======================================================================");
-  console.log(`🎉 UNIVERSAL INGESTION COMPLETE FOR "${bookTitle.toUpperCase()}"!`);
+  console.log(`🔍 RUNNING AUTOMATED POST-IMPORT VALIDATION FOR "${bookTitle.toUpperCase()}"...`);
+  console.log("=======================================================================");
+
+  const validatedStory = await db.collection("stories").findOne({ slug, isPublished: true });
+  if (validatedStory) {
+    console.log(`   ✅ API Story Query Check: PASSED (id: ${validatedStory._id})`);
+  } else {
+    console.error(`   ❌ API Story Query Check: FAILED (Story not queryable)`);
+  }
+
+  const dbChapters = await db.collection("storychapters").find({ storyId: story._id }).toArray();
+  if (dbChapters.length === chapterFiles.length) {
+    console.log(`   ✅ Chapters Integrity Check: PASSED (${dbChapters.length}/${chapterFiles.length} chapters)`);
+  } else {
+    console.warn(`   ⚠️ Chapters Integrity Warning: ${dbChapters.length} in DB vs ${chapterFiles.length} files`);
+  }
+
+  // S3 Cover Image HTTP Check
+  try {
+    const coverRes = execSync(`curl -s -I "${coverCdnUrl}"`).toString();
+    const statusLine = coverRes.split("\n")[0].trim();
+    if (statusLine.includes("200")) {
+      console.log(`   ✅ S3 Cover CDN Check: PASSED (${statusLine})`);
+    } else {
+      console.warn(`   ⚠️ S3 Cover CDN Warning: ${statusLine}`);
+    }
+  } catch (e) {
+    console.warn(`   ⚠️ S3 Cover CDN Check Error: ${e.message}`);
+  }
+
+  console.log("\n=======================================================================");
+  console.log(`🎉 UNIVERSAL INGESTION & VALIDATION COMPLETE FOR "${bookTitle.toUpperCase()}"!`);
   console.log(`   Total Chapters Ingested: ${chNum - 1}/${chapterFiles.length}`);
   console.log(`   Total S3 Images Uploaded: ${Object.keys(uploadedImageUrls).length}`);
   console.log(`   Total Embedded Artwork Figures: ${totalEmbeddedIllustrations}`);
