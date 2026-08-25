@@ -293,44 +293,63 @@ def generate_and_align_ebook_audio(slug):
         clean_body = clean_body_text_for_audio(raw_text, raw_title, ch_num)
         full_chapter_text = f"{spoken_header}.\n\n{clean_body}"
 
-        # Select Master Voice (default: af_heart - Female Studio Voice)
-        selected_voice_key = "heart"
-        selected_voice_id = "af_heart"
-        selected_voice_name = "Heart (US Female Studio Voice)"
-
-        if "--voice" in sys.argv:
-            idx = sys.argv.index("--voice")
-            if idx + 1 < len(sys.argv):
-                v_arg = sys.argv[idx + 1].lower()
-                if "adam" in v_arg:
-                    selected_voice_key, selected_voice_id, selected_voice_name = "adam", "am_adam", "Adam (US Male)"
-                elif "emma" in v_arg:
-                    selected_voice_key, selected_voice_id, selected_voice_name = "emma", "bf_emma", "Emma (UK Female)"
-                elif "george" in v_arg:
-                    selected_voice_key, selected_voice_id, selected_voice_name = "george", "bm_george", "George (UK Male)"
-                elif "heart" in v_arg:
-                    selected_voice_key, selected_voice_id, selected_voice_name = "heart", "af_heart", "Heart (US Female)"
-
-        master_wav_path = os.path.join(out_dir, f"chapter_{ch_num}_{selected_voice_key}.wav")
-        print(f"\n🎧 [Chapter {ch_num}/{len(chapters)}] Synthesizing Studio Voice ({selected_voice_name}) for \"{spoken_header}\"...")
-
-        samples, sr = generate_audio_for_text(kokoro, full_chapter_text, voice_id=selected_voice_id)
-        if samples is None or len(samples) == 0:
-            print(f"⚠️ Failed to generate audio for Chapter {ch_num}")
-            continue
-
-        sf.write(master_wav_path, samples, sr)
-
-        # Transcode & Upload 3 Multi-Bitrate Profiles (High 128k, Standard 64k, Low 32k)
-        bitrate_urls, local_whisper_mp3 = transcode_and_upload_multi_bitrates(s3_client, master_wav_path, slug, ch_num, out_dir)
+        # 2 Voices: 1 Female (Heart) and 1 Male (Adam)
+        voice_targets = [
+            {"id": "af_heart", "key": "heart", "name": "Heart (US Female)"},
+            {"id": "am_adam", "key": "adam", "name": "Adam (US Male)"}
+        ]
 
         audio_voices_map = {
-            "defaultVoiceId": selected_voice_key,
-            selected_voice_key: bitrate_urls["standard"],
-            "voices": [
-                {"id": selected_voice_id, "key": selected_voice_key, "name": selected_voice_name, "url": bitrate_urls["standard"]}
-            ]
+            "defaultVoiceId": "heart",
+            "voices": []
         }
+
+        # 1. Synthesize Female Master Voice (Heart) for Multi-Bitrate Transcoding
+        female_wav_path = os.path.join(out_dir, f"chapter_{ch_num}_heart.wav")
+        print(f"\n🎧 [Chapter {ch_num}/{len(chapters)}] Synthesizing Female Studio Voice (Heart) for \"{spoken_header}\"...")
+        female_samples, sr = generate_audio_for_text(kokoro, full_chapter_text, voice_id="af_heart")
+        if female_samples is None or len(female_samples) == 0:
+            print(f"⚠️ Failed to generate female audio for Chapter {ch_num}")
+            continue
+        sf.write(female_wav_path, female_samples, sr)
+
+        # Transcode & Upload 3 Multi-Bitrate Profiles for Female Voice (High 128k, Standard 64k, Low 32k)
+        bitrate_urls, local_whisper_mp3 = transcode_and_upload_multi_bitrates(s3_client, female_wav_path, slug, ch_num, out_dir)
+
+        audio_voices_map["heart"] = bitrate_urls["standard"]
+        audio_voices_map["voices"].append({
+            "id": "af_heart",
+            "key": "heart",
+            "name": "Heart (US Female)",
+            "url": bitrate_urls["standard"]
+        })
+
+        # 2. Synthesize Male Voice (Adam) and upload to S3 CDN
+        male_wav_path = os.path.join(out_dir, f"chapter_{ch_num}_adam.wav")
+        male_mp3_path = os.path.join(out_dir, f"chapter_{ch_num}_adam.mp3")
+        print(f"   👨 Synthesizing Male Studio Voice (Adam) for Chapter {ch_num}...")
+        male_samples, _ = generate_audio_for_text(kokoro, full_chapter_text, voice_id="am_adam")
+        if male_samples is not None:
+            sf.write(male_wav_path, male_samples, sr)
+            os.system(f"ffmpeg -y -i \"{male_wav_path}\" -ac 1 -b:a 64k \"{male_mp3_path}\" >/dev/null 2>&1")
+            male_s3_key = f"LangoReads-Prod/ebooks/{slug}/voices/adam/chapter_{ch_num}.mp3"
+            with open(male_mp3_path, "rb") as mf:
+                s3_client.put_object(
+                    Bucket=HETZNER_BUCKET,
+                    Key=male_s3_key,
+                    Body=mf,
+                    ACL="public-read",
+                    ContentType="audio/mpeg",
+                    CacheControl="public, max-age=31536000, immutable"
+                )
+            male_cdn_url = f"{HETZNER_CDN_BASE}/{slug}/voices/adam/chapter_{ch_num}.mp3"
+            audio_voices_map["adam"] = male_cdn_url
+            audio_voices_map["voices"].append({
+                "id": "am_adam",
+                "key": "adam",
+                "name": "Adam (US Male)",
+                "url": male_cdn_url
+            })
 
         print(f"🎯 Running OpenAI Whisper Sentence & Word Alignment for Chapter {ch_num}...")
         alignment_res = whisper_model.transcribe(local_whisper_mp3, word_timestamps=True)
