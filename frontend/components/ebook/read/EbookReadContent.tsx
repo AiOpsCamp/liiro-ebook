@@ -544,6 +544,7 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
 
   // Audio Playback State (Declared early so Whispersync effect can access state)
   const [isPlaying, setIsPlaying] = useState(false);
+  const [audioCurrentTime, setAudioCurrentTime] = useState(0);
   const [audioDuration, setAudioDuration] = useState(0);
 
   const effectiveAudioDuration = useMemo(() => {
