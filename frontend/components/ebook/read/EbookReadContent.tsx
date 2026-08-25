@@ -2453,11 +2453,14 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
                         </AppText>
                         <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
                           {availableVoices.map((v) => {
-                            const isSel = activeVoiceKey === v.key;
+                            const isSel = v.key === voiceKey || v.id === selectedVoiceId;
                             return (
                               <Pressable
-                                key={v.key}
-                                onPress={() => selectVoice(v.key)}
+                                key={v.key || v.id}
+                                onPress={() => {
+                                  setSelectedVoiceId(v.id || v.key);
+                                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                                }}
                                 style={{
                                   paddingHorizontal: 14,
                                   paddingVertical: 8,
