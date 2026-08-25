@@ -537,6 +537,11 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
   const [desktopWidth, setDesktopWidth] = useState<number>(680);
   const maxW = desktopWidth >= 1400 ? "96%" : Math.min(width, desktopWidth);
 
+  const { data: chapterDetails, isLoading } = useGetChapterContentQuery(
+    { slug: story.slug, chapterId: chapterStub?._id, lang: activeLang },
+    { skip: !chapterStub?._id }
+  );
+
   // Audio Playback State (Declared early so Whispersync effect can access state)
   const [isPlaying, setIsPlaying] = useState(false);
   const [audioDuration, setAudioDuration] = useState(0);
@@ -1003,11 +1008,6 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
       return () => window.removeEventListener("keydown", onKey);
     }
   }, []);
-
-  const { data: chapterDetails, isLoading } = useGetChapterContentQuery(
-    { slug: story.slug, chapterId: chapterStub?._id, lang: activeLang },
-    { skip: !chapterStub?._id }
-  );
 
   // Multi-Voice Audio Setup
   const availableVoices = useMemo(() => {
