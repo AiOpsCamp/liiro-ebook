@@ -94,10 +94,14 @@ app.use((req, res) => {
 
 // Global Error Handler
 app.use((err, req, res, next) => {
-  console.error("Unhandled Server Error:", err);
-  res.status(500).json({
+  const status = err.statusCode || err.status || 500;
+  if (status >= 500) {
+    console.error("Unhandled Server Error:", err);
+  }
+  res.status(status).json({
     success: false,
-    message: err.message || "Internal Server Error",
+    message: err.message || err.publicMessage || "Internal Server Error",
+    code: err.code,
   });
 });
 

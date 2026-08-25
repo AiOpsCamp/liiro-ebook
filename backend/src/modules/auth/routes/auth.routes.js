@@ -108,12 +108,12 @@ router.post("/restore-account", authLimiter, userController.restoreAccount);
    NEW Firebase-SDK-first endpoints
    Frontend: Firebase SDK -> getIdToken() -> POST /firebase
 ========================================================= */
-router.post("/firebase", authLimiter, firebaseAuthController.firebaseExchange);
-router.post("/firebase/refresh", authLimiter, firebaseAuthController.refresh);
-router.post("/firebase/logout", firebaseAuthController.logout);
+router.post("/firebase", authLimiter, asyncHandler(firebaseAuthController.firebaseExchange));
+router.post("/firebase/refresh", authLimiter, asyncHandler(firebaseAuthController.refresh));
+router.post("/firebase/logout", asyncHandler(firebaseAuthController.logout));
 
 // Use your existing authMiddleware (recommended) to avoid 2 JWT middlewares
-router.post("/firebase/logout-all", authMiddleware, firebaseAuthController.logoutAll);
-router.get("/firebase/me", authMiddleware, firebaseAuthController.me);
+router.post("/firebase/logout-all", authMiddleware, asyncHandler(firebaseAuthController.logoutAll));
+router.get("/firebase/me", authMiddleware, asyncHandler(firebaseAuthController.me));
 
 module.exports = router;
