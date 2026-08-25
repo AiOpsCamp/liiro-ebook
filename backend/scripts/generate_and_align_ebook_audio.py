@@ -73,14 +73,16 @@ def generate_audio_for_text(kokoro, full_text, voice_id="am_adam"):
                 continue
             try:
                 samples, sr = kokoro.create(segment, voice=voice_id, speed=1.0, lang="en-us")
-                audio_chunks.append(samples)
-                final_sr = sr
+                if samples is not None and getattr(samples, "size", 0) > 0:
+                    audio_chunks.append(samples)
+                    final_sr = sr
             except Exception as ex:
-                pass
+                print(f"⚠️ Kokoro segment synthesis error: {ex}")
 
-    if not audio_chunks:
+    valid_chunks = [c for c in audio_chunks if c is not None and getattr(c, "size", 0) > 0]
+    if not valid_chunks:
         return None, 24000
-    return np.concatenate(audio_chunks), final_sr
+    return np.concatenate(valid_chunks), final_sr
 
 def transcode_and_upload_multi_bitrates(s3_client, wav_path, slug, ch_num, out_dir):
     """
@@ -308,8 +310,8 @@ def generate_and_align_ebook_audio(slug):
         female_wav_path = os.path.join(out_dir, f"chapter_{ch_num}_heart.wav")
         print(f"\n🎧 [Chapter {ch_num}/{len(chapters)}] Synthesizing Female Studio Voice (Heart) for \"{spoken_header}\"...")
         female_samples, sr = generate_audio_for_text(kokoro, full_chapter_text, voice_id="af_heart")
-        if female_samples is None or len(female_samples) == 0:
-            print(f"⚠️ Failed to generate female audio for Chapter {ch_num}")
+        if female_samples is None or getattr(female_samples, "size", 0) == 0 or len(female_samples) == 0:
+            print(f"⚠️ Failed/Empty female audio generated for Chapter {ch_num}")
             continue
         sf.write(female_wav_path, female_samples, sr)
 
