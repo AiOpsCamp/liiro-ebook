@@ -2807,45 +2807,13 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
                 );
               })()}
 
-              {/* Render Paragraphs with Exercise-Style Word-by-Word Karaoke Highlighting */}
+              {/* Render Paragraphs with Exact Typography & Embedded Artwork Figures */}
               <View style={{ marginBottom: 40, minHeight: 300 }}>
-                {chapterDetails?.wordTimestamps && Array.isArray(chapterDetails.wordTimestamps) && chapterDetails.wordTimestamps.length > 0 ? (
-                  chapterDetails.wordTimestamps.map((row: any, idx: number) => {
-                    const rowStart = row.start ?? 0;
-                    const rowEnd = row.end ?? (rowStart + 5);
-                    const isActive = isPlaying && audioCurrentTime >= rowStart && audioCurrentTime <= rowEnd;
-                    const wordList = row.words || row.wordTimings || (Array.isArray(row) ? row : []);
+                {(() => {
+                  const totalChars = paragraphs.reduce((sum, p) => sum + p.length, 0) || 1;
+                  let currTime = 0;
 
-                    const isSearchMatch = searchMatches.includes(idx);
-                    const isCurrentMatch = isSearchMatch && searchMatches[currentMatchIdx] === idx;
-                    return (
-                      <View key={idx} nativeID={`para-${idx}`} style={isSearchMatch ? { backgroundColor: isCurrentMatch ? accent + "30" : accent + "12", borderRadius: 10, marginHorizontal: -6 } : undefined}>
-                        <ParagraphKaraokeRow
-                          paraText={row.text || ""}
-                          start={rowStart}
-                          end={rowEnd}
-                          wordTimings={wordList}
-                          active={isActive}
-                          currentPos={audioCurrentTime}
-                          fontSize={activeFont.fontSize}
-                          lineHeight={activeFont.lineHeight}
-                          textMain={textMain}
-                          textSecondary={textSecondary}
-                          accent={accent}
-                          currentTheme={currentTheme}
-                          textAlign={textAlign}
-                          fontFamily={fontFamily}
-                          onPressWord={audioUrl ? (sec) => seekAudio(sec) : () => setAreControlsVisible((v) => !v)}
-                        />
-                      </View>
-                    );
-                  })
-                ) : (
-                  (() => {
-                    const totalChars = paragraphs.reduce((sum, p) => sum + p.length, 0) || 1;
-                    let currTime = 0;
-
-                    return contentBlocks.map((block, itemIdx) => {
+                  return contentBlocks.map((block, itemIdx) => {
                       if (block.type === "image" && block.src) {
                         return (
                           <View key={`fig-${itemIdx}`} style={{ alignItems: "center", marginVertical: 32, width: "100%" }}>
@@ -2924,8 +2892,7 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
                         </View>
                       );
                     });
-                  })()
-                )}
+                  })()}
               </View>
 
             </Animated.View>
