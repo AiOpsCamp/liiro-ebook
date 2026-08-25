@@ -2143,8 +2143,33 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
                       / {formatTime(audioDuration)}
                     </AppText>
                     {/* Progress bar */}
-                    <View style={{ width: "80%", height: 4, borderRadius: 2, backgroundColor: "rgba(255,255,255,0.12)", marginTop: 12 }}>
-                      <View style={{ height: "100%", borderRadius: 2, backgroundColor: accent, width: `${(audioDuration ? audioCurrentTime / audioDuration : 0) * 100}%` as any }} />
+                    <View style={{ width: "80%", height: 20, justifyContent: "center", position: "relative", marginTop: 12 }}>
+                      {Platform.OS === "web" && (
+                        <input
+                          type="range"
+                          min={0}
+                          max={audioDuration || 1}
+                          step={0.1}
+                          value={audioCurrentTime || 0}
+                          onChange={(e) => {
+                            const val = parseFloat(e.target.value);
+                            if (!isNaN(val)) seekAudio(val);
+                          }}
+                          style={{
+                            position: "absolute",
+                            left: 0,
+                            top: 0,
+                            width: "100%",
+                            height: 20,
+                            opacity: 0,
+                            cursor: "pointer",
+                            zIndex: 10,
+                          }}
+                        />
+                      )}
+                      <View pointerEvents="none" style={{ width: "100%", height: 4, borderRadius: 2, backgroundColor: "rgba(255,255,255,0.12)", overflow: "hidden" }}>
+                        <View style={{ height: "100%", borderRadius: 2, backgroundColor: accent, width: `${(audioDuration ? audioCurrentTime / audioDuration : 0) * 100}%` as any }} />
+                      </View>
                     </View>
                   </View>
 
@@ -2275,7 +2300,30 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
                       }}
                     >
                       {/* Seek Bar */}
-                      <View style={{ width: "100%", marginBottom: 8 }}>
+                      <View style={{ width: "100%", marginBottom: 8, position: "relative" }}>
+                        {Platform.OS === "web" && (
+                          <input
+                            type="range"
+                            min={0}
+                            max={audioDuration || 1}
+                            step={0.1}
+                            value={audioCurrentTime || 0}
+                            onChange={(e) => {
+                              const val = parseFloat(e.target.value);
+                              if (!isNaN(val)) seekAudio(val);
+                            }}
+                            style={{
+                              position: "absolute",
+                              left: 0,
+                              top: 0,
+                              width: "100%",
+                              height: 28,
+                              opacity: 0,
+                              cursor: "pointer",
+                              zIndex: 10,
+                            }}
+                          />
+                        )}
                         <Pressable
                           onLayout={(e) => setProgressBarWidth(e.nativeEvent.layout.width)}
                           onPress={(e) => {
@@ -2287,7 +2335,7 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
                           style={{ height: 28, justifyContent: "center" }}
                           accessibilityLabel="Seek audio"
                         >
-                          <View style={{ height: 6, borderRadius: 3, backgroundColor: borderSoft, position: "relative" }}>
+                          <View pointerEvents="none" style={{ height: 6, borderRadius: 3, backgroundColor: borderSoft, position: "relative" }}>
                             <View
                               style={{
                                 position: "absolute",
@@ -3028,28 +3076,53 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
         >
           <View style={{ maxWidth: maxW, width: "100%", alignSelf: "center" }}>
             {/* Audio Progress Scrubber Line */}
-            <Pressable
-              onLayout={(e) => setMiniScrubberWidth(e.nativeEvent.layout.width)}
-              onPress={(e) => {
-                if (!audioDuration || miniScrubberWidth === 0) return;
-                const x = e.nativeEvent.locationX;
-                const ratio = Math.max(0, Math.min(1, x / miniScrubberWidth));
-                seekAudio(ratio * audioDuration);
-              }}
-              style={{ height: 16, justifyContent: "center", marginBottom: 6 }}
-              accessibilityLabel="Seek audio"
-            >
-              <View style={{ height: 4, backgroundColor: borderSoft, width: "100%", borderRadius: 2, overflow: "hidden" }}>
-                <View
+            <View style={{ width: "100%", position: "relative", marginBottom: 6 }}>
+              {Platform.OS === "web" && (
+                <input
+                  type="range"
+                  min={0}
+                  max={audioDuration || 1}
+                  step={0.1}
+                  value={audioCurrentTime || 0}
+                  onChange={(e) => {
+                    const val = parseFloat(e.target.value);
+                    if (!isNaN(val)) seekAudio(val);
+                  }}
                   style={{
-                    height: "100%",
-                    borderRadius: 2,
-                    backgroundColor: accent,
-                    width: `${audioDuration ? (audioCurrentTime / audioDuration) * 100 : 0}%`,
+                    position: "absolute",
+                    left: 0,
+                    top: 0,
+                    width: "100%",
+                    height: 16,
+                    opacity: 0,
+                    cursor: "pointer",
+                    zIndex: 10,
                   }}
                 />
-              </View>
-            </Pressable>
+              )}
+              <Pressable
+                onLayout={(e) => setMiniScrubberWidth(e.nativeEvent.layout.width)}
+                onPress={(e) => {
+                  if (!audioDuration || miniScrubberWidth === 0) return;
+                  const x = e.nativeEvent.locationX;
+                  const ratio = Math.max(0, Math.min(1, x / miniScrubberWidth));
+                  seekAudio(ratio * audioDuration);
+                }}
+                style={{ height: 16, justifyContent: "center" }}
+                accessibilityLabel="Seek audio"
+              >
+                <View pointerEvents="none" style={{ height: 4, backgroundColor: borderSoft, width: "100%", borderRadius: 2, overflow: "hidden" }}>
+                  <View
+                    style={{
+                      height: "100%",
+                      borderRadius: 2,
+                      backgroundColor: accent,
+                      width: `${audioDuration ? (audioCurrentTime / audioDuration) * 100 : 0}%`,
+                    }}
+                  />
+                </View>
+              </Pressable>
+            </View>
 
             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
               {/* Left: Playback Info */}
