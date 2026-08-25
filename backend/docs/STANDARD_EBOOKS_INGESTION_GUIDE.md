@@ -30,22 +30,53 @@ cd backend
 node scripts/ingest_standard_ebook.js lewis-carroll_through-the-looking-glass_john-tenniel --audio
 ```
 
-### 3. Standalone Multi-Bitrate Audio Generation & Alignment CLI
+### 3. Standalone Multi-Bitrate Dual-Voice Audio Generation & Alignment CLI
 ```bash
 cd backend
-# Default Female Studio Voice (af_heart)
-PYTHONUNBUFFERED=1 /Users/humayunrashid/multicamp/.venv/bin/python scripts/generate_and_align_ebook_audio.py <story-slug> --voice heart
 
-# Specific Voice Narrator Options (--voice heart | adam | emma | george)
-PYTHONUNBUFFERED=1 /Users/humayunrashid/multicamp/.venv/bin/python scripts/generate_and_align_ebook_audio.py <story-slug> --voice adam
+# Generates 2 Voices (1 Female Heart + 1 Male Adam) in 3 Qualities (High 128k, Standard 64k, Low 32k)
+PYTHONUNBUFFERED=1 /Users/humayunrashid/multicamp/.venv/bin/python scripts/generate_and_align_ebook_audio.py <story-slug>
 
-# Full Multi-Voice Mode (Generates All 4 Studio Voices)
-PYTHONUNBUFFERED=1 /Users/humayunrashid/multicamp/.venv/bin/python scripts/generate_and_align_ebook_audio.py <story-slug> --multivoice
+# Example for Through the Looking-Glass:
+PYTHONUNBUFFERED=1 /Users/humayunrashid/multicamp/.venv/bin/python scripts/generate_and_align_ebook_audio.py through-the-looking-glass
 ```
 
 ---
 
-## 📦 Batch Ingestion Workflows (e.g. 5 Books Batch)
+## 🧹 Complete Book Wipe, Fresh Re-Import & Dual-Voice Audio Recipe
+
+To completely wipe an existing book, re-import text & artwork assets, validate content diffs, and generate dual-voice studio audio across all 3 qualities:
+
+```bash
+cd backend
+
+# Step 1: Wipe existing book & chapters from MongoDB
+node -e '
+const mongoose = require("mongoose");
+const connectDB = require("./src/db/connect");
+async function wipe(slug) {
+  await connectDB();
+  const db = mongoose.connection.db;
+  const story = await db.collection("stories").findOne({ slug });
+  if (story) {
+    await db.collection("storychapters").deleteMany({ storyId: story._id });
+    await db.collection("stories").deleteOne({ _id: story._id });
+    console.log(`🗑️ Wiped ${slug} and all chapters from MongoDB`);
+  }
+  mongoose.connection.close();
+}
+wipe("through-the-looking-glass");
+'
+
+# Step 2: Fresh Automated Ingestion & Hetzner S3 Artwork Sync
+node scripts/ingest_standard_ebook.js lewis-carroll_through-the-looking-glass_john-tenniel
+
+# Step 3: Validate 100.00% Narrative Content Diff
+node scripts/validate_ebook_content_diff.js through-the-looking-glass
+
+# Step 4: Generate Dual-Voice Studio Audio (Female Heart + Male Adam) in High (128k), Standard (64k), Low (32k)
+PYTHONUNBUFFERED=1 /Users/humayunrashid/multicamp/.venv/bin/python scripts/generate_and_align_ebook_audio.py through-the-looking-glass
+```
 
 ### 🔄 Method A: 1-Command Automated Loop (Full Ingestion + Studio Audio)
 In terminal, run `ingest_standard_ebook.js` with `--audio` across an array of target repositories:
