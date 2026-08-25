@@ -162,41 +162,33 @@ module.exports = async function authMiddleware(req, res, next) {
 module.exports.optionalAuth = async function optionalAuth(req, res, next) {
   const token = extractToken(req);
   if (!token) {
-    return res.status(401).json({
-      success: false,
-      message: "Unauthorized: Authentication token is required.",
-    });
+    req.user = null;
+    return next();
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const secret = process.env.JWT_SECRET || "liiro_ebook_super_secret_jwt_key_2026";
+    const decoded = jwt.verify(token, secret);
     const user = await User.findById(decoded.id);
     if (
-      !user ||
-      user.deletedAt ||
-      user.accountStatus === "deleted" ||
-      user.isSuspended ||
-      user.accountStatus === "suspended"
+      user &&
+      !user.deletedAt &&
+      user.accountStatus !== "deleted" &&
+      !user.isSuspended &&
+      user.accountStatus !== "suspended"
     ) {
-      return res.status(401).json({
-        success: false,
-        message: "Unauthorized: Account is suspended or inactive.",
-      });
+      req.user = user;
+      req.body = req.body || {};
+      req.body.userId = user._id;
+      req.body.role = user.role;
+      req.body.emailVerified = !!user.emailVerified;
+      req.isAdmin = user.role === "admin";
+      req.isModerator = user.role === "moderator";
+    } else {
+      req.user = null;
     }
-
-    req.user = user;
-    req.body = req.body || {};
-    req.body.userId = user._id;
-    req.body.role = user.role;
-    req.body.emailVerified = !!user.emailVerified;
-    req.isAdmin = user.role === "admin";
-    req.isModerator = user.role === "moderator";
-
-    next();
-  } catch (error) {
-    return res.status(401).json({
-      success: false,
-      message: "Unauthorized: Invalid or expired authentication token.",
-    });
+  } catch (_) {
+    req.user = null;
   }
+  next();
 };

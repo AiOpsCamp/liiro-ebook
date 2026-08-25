@@ -2,7 +2,7 @@
 
 const mongoose = require("mongoose");
 
-const DEFAULT_MONGO_URL = "mongodb://127.0.0.1:27017/liiro_prod";
+const DEFAULT_MONGO_URL = "mongodb://127.0.0.1:27017/langoreads";
 let isConnected = false;
 
 async function connectDB(url) {
