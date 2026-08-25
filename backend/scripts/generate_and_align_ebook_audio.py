@@ -156,15 +156,33 @@ def generate_and_align_ebook_audio(slug):
     download_if_missing(MODEL_URL, MODEL_PATH)
     download_if_missing(VOICES_URL, VOICES_PATH)
 
-    print("🎙️ Initializing Kokoro v1.0 ONNX Engine...")
-    kokoro = Kokoro(MODEL_PATH, VOICES_PATH)
+def roman_num(num):
+    val = [10, 9, 5, 4, 1]
+    syb = ["X", "IX", "V", "IV", "I"]
+    res = ""
+    i = 0
+    while num > 0:
+        for _ in range(num // val[i]):
+            res += syb[i]
+            num -= val[i]
+        i += 1
+    return res
 
-import re
-import html
+def convert_roman_title_to_spoken(title, chapter_num):
+    m = re.match(r"^(?:CHAPTER\s+)?(?:[IVXLCDM]+\b|\d+)\s*[:\.]?\s*(.*)$", title, flags=re.IGNORECASE)
+    if m:
+        sub_title = m.group(1).strip()
+        if sub_title:
+            return f"Chapter {chapter_num}. {sub_title}"
+        return f"Chapter {chapter_num}"
+    return f"Chapter {chapter_num}. {title}"
 
-def clean_text_for_audio(raw_text, title=""):
+def tokenize_words(s):
+    return re.findall(r"\b\w+\b", s.replace("-", " "))
+
+def clean_body_text_for_audio(raw_text, title, chapter_num):
     if not raw_text:
-        return f"{title}.\n\n" if title else ""
+        return ""
 
     text = str(raw_text)
 
@@ -193,19 +211,40 @@ def clean_text_for_audio(raw_text, title=""):
     text = re.sub(r'\s+', ' ', text).strip()
 
     # 7. Deduplicate Chapter Title at start of body text
-    if title:
-        clean_title_words = [w.lower() for w in re.findall(r'\b\w+\b', title)]
-        clean_text_words = text.split()
+    title_no_num = re.sub(r"^[IVXLCDM\d]+\s*[:\.]?\s*", "", title, flags=re.IGNORECASE).strip()
+    r_num = roman_num(chapter_num)
 
-        if clean_title_words and len(clean_text_words) >= len(clean_title_words):
-            match_count = 0
-            for tw, dw in zip(clean_title_words, clean_text_words[:len(clean_title_words)]):
-                if tw == re.sub(r'[^\w]', '', dw).lower():
-                    match_count += 1
-            if match_count >= max(1, len(clean_title_words) - 1):
-                text = ' '.join(clean_text_words[len(clean_title_words):]).lstrip(' .,:;-\n\t')
+    variations = [
+        f"{r_num} {title_no_num}",
+        title,
+        title_no_num,
+        f"CHAPTER {chapter_num}",
+        f"CHAPTER {r_num}"
+    ]
 
-    return f"{title}.\n\n{text}" if title else text
+    for var in variations:
+        var_tokens = tokenize_words(var)
+        if not var_tokens:
+            continue
+        text_tokens = tokenize_words(text)
+        if len(text_tokens) >= len(var_tokens):
+            match_cnt = 0
+            for tw, dw in zip(var_tokens, text_tokens[:len(var_tokens)]):
+                if tw.lower() == dw.lower():
+                    match_cnt += 1
+            if match_cnt >= max(1, len(var_tokens) - 1):
+                orig_words = text.split()
+                consumed = 0
+                tokens_count = 0
+                for w in orig_words:
+                    w_toks = tokenize_words(w)
+                    tokens_count += len(w_toks)
+                    consumed += 1
+                    if tokens_count >= len(var_tokens):
+                        break
+                text = " ".join(orig_words[consumed:]).lstrip(" .,:;-\n\t")
+
+    return text
 
 def generate_and_align_ebook_audio(slug):
     client = get_mongo_client()
@@ -250,8 +289,11 @@ def generate_and_align_ebook_audio(slug):
         if isinstance(raw_title, dict):
             raw_title = raw_title.get("en", f"Chapter {ch_num}")
 
-        full_chapter_text = clean_text_for_audio(raw_text, raw_title)
-        print(f"\n🎧 [Chapter {ch_num}/{len(chapters)}] Synthesizing Audio for \"{raw_title}\"...")
+        spoken_header = convert_roman_title_to_spoken(raw_title, ch_num)
+        clean_body = clean_body_text_for_audio(raw_text, raw_title, ch_num)
+        full_chapter_text = f"{spoken_header}.\n\n{clean_body}"
+
+        print(f"\n🎧 [Chapter {ch_num}/{len(chapters)}] Synthesizing Audio for \"{spoken_header}\"...")
 
         wav_path = os.path.join(out_dir, f"chapter_{ch_num}.wav")
 
