@@ -16,6 +16,7 @@ const AdminFlagsSchema = require("./schemas/AdminFlags.schema");
 const TrialUsageSchema = require("./schemas/TrialUsage.schema");
 const PushTokenSchema = require("./schemas/PushToken.schema");
 require("./auth/RefreshToken.model");
+try { require("./RevenueCatAccount.model"); } catch (_) {}
 
 // ✅ Plugins (you created these)
 const userActivityPlugin = require("./plugins/userActivity.plugin");
