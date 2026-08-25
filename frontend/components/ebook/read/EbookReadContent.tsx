@@ -543,7 +543,13 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
   const [isAudioLoading, setIsAudioLoading] = useState(false);
   const [bookmarkedChapters, setBookmarkedChapters] = useState<number[]>([]);
   const [selectedVoiceId, setSelectedVoiceId] = useState<string>(activeVoiceParam);
+  const [audioBitrate, setAudioBitrate] = useState<"high" | "standard" | "low">("high");
   const [isVoiceSheetOpen, setIsVoiceSheetOpen] = useState(false);
+
+  const changeBitrate = useCallback((quality: "high" | "standard" | "low") => {
+    setAudioBitrate(quality);
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+  }, []);
   const [selectedText, setSelectedText] = useState<string | null>(null);
   const [isSoundscapeModalOpen, setIsSoundscapeModalOpen] = useState(false);
 
@@ -991,6 +997,11 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
   );
 
   const audioUrl = useMemo(() => {
+    // 0. Bitrate Quality URL lookup
+    if (audioBitrate && chapterDetails?.audioBitrates?.[audioBitrate]) {
+      return chapterDetails.audioBitrates[audioBitrate];
+    }
+
     // 1. Direct Voice URL lookup from chapterDetails.audioVoices (e.g. audioVoices.heart)
     const directVoiceUrl = chapterDetails?.audioVoices?.[selectedVoiceId] || chapterDetails?.audioVoices?.[voiceKey];
     if (typeof directVoiceUrl === "string" && directVoiceUrl) return directVoiceUrl;
@@ -1007,7 +1018,7 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
     }
     if (streamTokenData?.signedStreamUrl) return streamTokenData.signedStreamUrl;
     return null;
-  }, [activeVoiceObj, chapterDetails, chapterStub, activeLang, streamTokenData, selectedVoiceId, voiceKey]);
+  }, [activeVoiceObj, chapterDetails, chapterStub, activeLang, streamTokenData, selectedVoiceId, voiceKey, audioBitrate]);
 
   const togglePlayPause = useCallback(async () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
