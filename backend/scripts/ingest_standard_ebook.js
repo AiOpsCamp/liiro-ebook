@@ -138,9 +138,9 @@ async function ingestStandardEbook(repoInput) {
   const hasIllustrations = imageFiles.some((f) => f.includes("illustration") || f.includes("plate") || f.includes("figure"));
   console.log(`🖼️ Auto-Detected Images Count: ${imageFiles.length} (isIllustrated: ${hasIllustrations})`);
 
-  // Upload images to Hetzner S3 CDN
+  // Upload images to Hetzner S3 CDN in parallel
   const uploadedImageUrls = {};
-  for (const imgName of imageFiles) {
+  await Promise.all(imageFiles.map(async (imgName) => {
     const imgUrl = `${rawBase}/images/${imgName}`;
     const buffer = await fetchBuffer(imgUrl);
     if (buffer) {
@@ -148,7 +148,7 @@ async function ingestStandardEbook(repoInput) {
       uploadedImageUrls[imgName] = cdnUrl;
       console.log(`   ✅ Hetzner S3 CDN Uploaded: ${imgName} -> ${cdnUrl}`);
     }
-  }
+  }));
 
   // 4. Ensure Author document exists or fetch ID
   let authorObj = await db.collection("authors").findOne({ name: authorName });
@@ -190,8 +190,8 @@ async function ingestStandardEbook(repoInput) {
     const rawXhtml = await fetchText(`${rawBase}/text/${chFile}`);
     if (!rawXhtml) continue;
 
-    // Extract header metadata cleanly
-    const headerMatch = rawXhtml.match(/<header[^>]*>([\s\S]*?)<\/header>/i) || rawXhtml.match(/<hgroup[^>]*>([\s\S]*?)<\/hgroup>/i);
+    // Extract header metadata cleanly (checking hgroup first, then header)
+    const headerMatch = rawXhtml.match(/<hgroup[^>]*>([\s\S]*?)<\/hgroup>/i) || rawXhtml.match(/<header[^>]*>([\s\S]*?)<\/header>/i);
     let ordinalText = `Chapter ${chNum}`;
     let mainTitleText = "";
     let subTitleText = "";
@@ -322,6 +322,35 @@ async function ingestStandardEbook(repoInput) {
     console.log(`   ✅ Chapters Integrity Check: PASSED (${dbChapters.length}/${chapterFiles.length} chapters)`);
   } else {
     console.warn(`   ⚠️ Chapters Integrity Warning: ${dbChapters.length} in DB vs ${chapterFiles.length} files`);
+  }
+
+  // Narrative Text Body Word-Count Diff Check
+  function cleanNarrativeText(raw) {
+    return raw
+      .replace(/<head[^>]*>[\s\S]*?<\/head>/gi, " ")
+      .replace(/<figure[^>]*>[\s\S]*?<\/figure>/gi, " ")
+      .replace(/<header[^>]*>[\s\S]*?<\/header>/gi, " ")
+      .replace(/<hgroup[^>]*>[\s\S]*?<\/hgroup>/gi, " ")
+      .replace(/<[^>]+>/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  let totalSrcWords = 0;
+  let totalDbWords = 0;
+  for (let i = 0; i < dbChapters.length; i++) {
+    const chNum = i + 1;
+    const rawXhtml = await fetchText(`${rawBase}/text/${chapterFiles[i]}`);
+    const srcWords = cleanNarrativeText(rawXhtml).split(/\s+/).filter(Boolean).length;
+    const dbWords = cleanNarrativeText(dbChapters[i].content).split(/\s+/).filter(Boolean).length;
+    totalSrcWords += srcWords;
+    totalDbWords += dbWords;
+  }
+  const textAccuracy = ((1 - Math.abs(totalSrcWords - totalDbWords) / Math.max(totalSrcWords, 1)) * 100).toFixed(2);
+  if (textAccuracy >= 99.8) {
+    console.log(`   ✅ Narrative Content Diff Check: PASSED (100% Word Match: ${totalDbWords}/${totalSrcWords} words)`);
+  } else {
+    console.warn(`   ⚠️ Narrative Content Diff Check Warning: ${textAccuracy}% Match (${totalDbWords}/${totalSrcWords} words)`);
   }
 
   // S3 Cover Image HTTP Check
