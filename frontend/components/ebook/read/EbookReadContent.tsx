@@ -1078,7 +1078,7 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
       }
 
       // Reset seek position if current position is near or past end of track
-      const targetSeek = (audioDuration > 0 && audioCurrentTime >= audioDuration - 1) ? 0 : audioCurrentTime;
+      const targetSeek = (effectiveAudioDuration > 0 && audioCurrentTime >= effectiveAudioDuration - 1) ? 0 : audioCurrentTime;
       if (targetSeek === 0) {
         setAudioCurrentTime(0);
       }
@@ -1254,22 +1254,12 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
     const targetTime = maxDur > 0 ? Math.max(0, Math.min(seconds, maxDur)) : Math.max(0, seconds);
     
     setAudioCurrentTime(targetTime);
-    const audioMgr = AudioManager.getInstance();
-    const currentPlayUrl = audioUrl || (chapterDetails?.audioUrl ? (typeof chapterDetails.audioUrl === "string" ? chapterDetails.audioUrl : (chapterDetails.audioUrl as any)[activeLang]) : null);
 
-    if (currentPlayUrl) {
-      if (isPlaying) {
-        await audioMgr.seekTo(targetTime);
-      } else {
-        setIsAudioLoading(true);
-        await audioMgr.playAudio(currentPlayUrl, () => setIsPlaying(false), targetTime);
-        await audioMgr.pauseAudio();
-        setIsAudioLoading(false);
-        setIsPlaying(false);
-      }
+    if (isPlaying) {
+      await AudioManager.getInstance().seekTo(targetTime);
     }
     Haptics.selectionAsync();
-  }, [effectiveAudioDuration, audioUrl, chapterDetails, activeLang, isPlaying]);
+  }, [effectiveAudioDuration, isPlaying]);
 
   const changeSpeed = useCallback(() => {
     const nextIdx = (SPEED_OPTIONS.indexOf(playbackSpeed) + 1) % SPEED_OPTIONS.length;
