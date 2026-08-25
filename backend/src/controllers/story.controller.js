@@ -252,7 +252,7 @@ exports.getStoryDetails = async (req, res) => {
 
     let existingChapters = await StoryChapter.find({ storyId: story._id })
       .sort({ chapterNumber: 1, chapterIndex: 1 })
-      .select("_id chapterNumber chapterIndex title durationSeconds audioUrl audioVoices content textPayload")
+      .select("_id chapterNumber chapterIndex title durationSeconds audioUrl audioBitrates audioVoices content textPayload")
       .lean();
 
     if (
@@ -269,7 +269,7 @@ exports.getStoryDetails = async (req, res) => {
       if (fresh && fresh.length > 0) {
         existingChapters = await StoryChapter.find({ storyId: story._id })
           .sort({ chapterNumber: 1, chapterIndex: 1 })
-          .select("_id chapterNumber chapterIndex title durationSeconds audioUrl audioVoices content textPayload")
+          .select("_id chapterNumber chapterIndex title durationSeconds audioUrl audioBitrates audioVoices content textPayload")
       }
     }
   const storyTags = Array.isArray(story.tags) ? story.tags : [];
@@ -316,6 +316,7 @@ exports.getStoryDetails = async (req, res) => {
     title: localizeMapField(ch.title, lang, `Chapter ${ch.chapterNumber || ch.chapterIndex || 1}`),
     durationSeconds: typeof ch.durationSeconds === "number" ? ch.durationSeconds : localizeMapField(ch.durationSeconds, lang, 0),
     audioUrl: typeof ch.audioUrl === "string" ? ch.audioUrl : localizeMapField(ch.audioUrl, lang, null),
+    audioBitrates: ch.audioBitrates || null,
     audioVoices: ch.audioVoices || null,
   }));
 
