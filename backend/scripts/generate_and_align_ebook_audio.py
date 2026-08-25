@@ -293,62 +293,44 @@ def generate_and_align_ebook_audio(slug):
         clean_body = clean_body_text_for_audio(raw_text, raw_title, ch_num)
         full_chapter_text = f"{spoken_header}.\n\n{clean_body}"
 
-        # Multi-Voice Audio Generation (Adam, Heart, Emma, George)
-        multi_voice_flag = "--multivoice" in sys.argv or os.getenv("GENERATE_MULTI_VOICE") == "true"
-        voice_targets = [
-            {"id": "am_adam", "key": "adam", "name": "Adam (US Male)"},
-            {"id": "af_heart", "key": "heart", "name": "Heart (US Female)"},
-            {"id": "bf_emma", "key": "emma", "name": "Emma (UK Female)"},
-            {"id": "bm_george", "key": "george", "name": "George (UK Male)"}
-        ] if multi_voice_flag else [
-            {"id": "am_adam", "key": "adam", "name": "Adam (US Male)"}
-        ]
+        # Select Master Voice (default: af_heart - Female Studio Voice)
+        selected_voice_key = "heart"
+        selected_voice_id = "af_heart"
+        selected_voice_name = "Heart (US Female Studio Voice)"
 
-        audio_voices_map = {
-            "defaultVoiceId": "adam",
-            "voices": []
-        }
+        if "--voice" in sys.argv:
+            idx = sys.argv.index("--voice")
+            if idx + 1 < len(sys.argv):
+                v_arg = sys.argv[idx + 1].lower()
+                if "adam" in v_arg:
+                    selected_voice_key, selected_voice_id, selected_voice_name = "adam", "am_adam", "Adam (US Male)"
+                elif "emma" in v_arg:
+                    selected_voice_key, selected_voice_id, selected_voice_name = "emma", "bf_emma", "Emma (UK Female)"
+                elif "george" in v_arg:
+                    selected_voice_key, selected_voice_id, selected_voice_name = "george", "bm_george", "George (UK Male)"
+                elif "heart" in v_arg:
+                    selected_voice_key, selected_voice_id, selected_voice_name = "heart", "af_heart", "Heart (US Female)"
 
-        for v in voice_targets:
-            v_key = v["key"]
-            v_id = v["id"]
-            v_wav = os.path.join(out_dir, f"chapter_{ch_num}_{v_key}.wav")
-            v_mp3 = os.path.join(out_dir, f"chapter_{ch_num}_{v_key}.mp3")
+        master_wav_path = os.path.join(out_dir, f"chapter_{ch_num}_{selected_voice_key}.wav")
+        print(f"\n🎧 [Chapter {ch_num}/{len(chapters)}] Synthesizing Studio Voice ({selected_voice_name}) for \"{spoken_header}\"...")
 
-            v_samples, v_sr = generate_audio_for_text(kokoro, full_chapter_text, voice_id=v_id)
-            if v_samples is not None:
-                sf.write(v_wav, v_samples, v_sr)
-                os.system(f"ffmpeg -y -i \"{v_wav}\" -ac 1 -b:a 64k \"{v_mp3}\" >/dev/null 2>&1")
+        samples, sr = generate_audio_for_text(kokoro, full_chapter_text, voice_id=selected_voice_id)
+        if samples is None or len(samples) == 0:
+            print(f"⚠️ Failed to generate audio for Chapter {ch_num}")
+            continue
 
-                v_s3_key = f"LangoReads-Prod/ebooks/{slug}/voices/{v_key}/chapter_{ch_num}.mp3"
-                with open(v_mp3, "rb") as vf:
-                    s3_client.put_object(
-                        Bucket=HETZNER_BUCKET,
-                        Key=v_s3_key,
-                        Body=vf,
-                        ACL="public-read",
-                        ContentType="audio/mpeg",
-                        CacheControl="public, max-age=31536000, immutable"
-                    )
-
-                v_cdn_url = f"{HETZNER_CDN_BASE}/{slug}/voices/{v_key}/chapter_{ch_num}.mp3"
-                audio_voices_map[v_key] = v_cdn_url
-                audio_voices_map["voices"].append({
-                    "id": v_id,
-                    "key": v_key,
-                    "name": v["name"],
-                    "url": v_cdn_url
-                })
-
-        # Default master audio for multi-bitrate transcoding
-        master_wav_path = os.path.join(out_dir, f"chapter_{ch_num}_adam.wav")
-        if not os.path.exists(master_wav_path):
-            samples, sr = generate_audio_for_text(kokoro, full_chapter_text, voice_id="am_adam")
-            if samples is not None:
-                sf.write(master_wav_path, samples, sr)
+        sf.write(master_wav_path, samples, sr)
 
         # Transcode & Upload 3 Multi-Bitrate Profiles (High 128k, Standard 64k, Low 32k)
         bitrate_urls, local_whisper_mp3 = transcode_and_upload_multi_bitrates(s3_client, master_wav_path, slug, ch_num, out_dir)
+
+        audio_voices_map = {
+            "defaultVoiceId": selected_voice_key,
+            selected_voice_key: bitrate_urls["standard"],
+            "voices": [
+                {"id": selected_voice_id, "key": selected_voice_key, "name": selected_voice_name, "url": bitrate_urls["standard"]}
+            ]
+        }
 
         print(f"🎯 Running OpenAI Whisper Sentence & Word Alignment for Chapter {ch_num}...")
         alignment_res = whisper_model.transcribe(local_whisper_mp3, word_timestamps=True)
