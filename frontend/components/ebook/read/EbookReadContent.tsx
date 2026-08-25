@@ -61,6 +61,7 @@ import {
   RotateCcw,
   RotateCw,
   Volume2,
+  VolumeX,
   Headphones,
   Sparkles,
   Highlighter,
