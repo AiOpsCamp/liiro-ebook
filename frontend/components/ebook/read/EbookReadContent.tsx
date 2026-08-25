@@ -1301,7 +1301,7 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
       }));
     }
 
-    const tagRegex = /<figure[^>]*>[\s\S]*?<\/figure>|<p[^>]*>[\s\S]*?<\/p>|<blockquote[^>]*>[\s\S]*?<\/blockquote>/gi;
+    const tagRegex = /<figure[^>]*>[\s\S]*?<\/figure>|<p[^>]*>[\s\S]*?<\/p>/gi;
     const rawElements = [...html.matchAll(tagRegex)].map((m) => m[0]);
     if (rawElements.length === 0) {
       return paragraphs.map((text, paraIdx) => ({
