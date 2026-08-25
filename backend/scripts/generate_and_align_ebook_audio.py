@@ -2,6 +2,7 @@ import os
 import sys
 import json
 import urllib.request
+from datetime import datetime, timezone
 import soundfile as sf
 import numpy as np
 import boto3
@@ -29,8 +30,8 @@ HETZNER_BUCKET = "multicamp-prod-storage"
 HETZNER_ENDPOINT = "https://nbg1.your-objectstorage.com"
 HETZNER_CDN_BASE = "https://multicamp-prod-storage.nbg1.your-objectstorage.com/LangoReads-Prod/ebooks"
 
-AWS_KEY = os.getenv("HETZNER_ACCESS_KEY_ID", "L74Q44YWRJ48H1Q2OQW0")
-AWS_SECRET = os.getenv("HETZNER_SECRET_ACCESS_KEY", "W2S9KevEsk1gB7L0y+vL7jVb6FqA5aL1nC7xP9qZ")
+AWS_KEY = os.getenv("HETZNER_ACCESS_KEY_ID", os.getenv("HETZNER_S3_KEY", "KVFSGG7GLKG95GYEJOE3"))
+AWS_SECRET = os.getenv("HETZNER_SECRET_ACCESS_KEY", os.getenv("HETZNER_S3_SECRET", "DsaLlvMswIAzVx93FjkvaUyfsqUrzatR8kF1SrGK"))
 
 MODEL_URL = "https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/kokoro-v1.0.onnx"
 VOICES_URL = "https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/voices-v1.0.bin"
@@ -213,7 +214,7 @@ def generate_and_align_ebook_audio(slug):
                     "wordTimestamps.en": exercise_sentences,
                     "timestamps": schema_timestamps,
                     "durationSeconds.en": duration_sec,
-                    "updatedAt": pymongo.datetime.datetime.utcnow()
+                    "updatedAt": datetime.now(timezone.utc)
                 }
             }
         )
@@ -221,7 +222,7 @@ def generate_and_align_ebook_audio(slug):
 
     db["stories"].update_one(
         {"_id": story["_id"]},
-        {"$set": {"hasAudio": True, "updatedAt": pymongo.datetime.datetime.utcnow()}}
+        {"$set": {"hasAudio": True, "updatedAt": datetime.now(timezone.utc)}}
     )
 
     print("\n=======================================================================")
