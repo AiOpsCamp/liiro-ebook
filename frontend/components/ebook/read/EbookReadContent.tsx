@@ -1330,7 +1330,8 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
         if (!cleanTextStr) continue;
 
         if (paraCounter === 0) {
-          cleanTextStr = cleanTextStr.replace(/^[IVXLCDM\d]+[:.\s-]*/i, "").trim();
+          cleanTextStr = cleanTextStr.replace(/^(CHAPTER|BOOK|STAVE)\s+[0-9IVXLCDM]+\b[.\s:-]*/i, "").trim();
+          cleanTextStr = cleanTextStr.replace(/^[IVXLCDM]+\s*[:.-]+\s*/i, "").trim();
           const chTitleClean = (getLocalizedText(chapterStub?.title, "", activeLang) || "").toLowerCase().trim();
           if (chTitleClean && chTitleClean.length > 2) {
             const escapedTitle = chTitleClean.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&");
