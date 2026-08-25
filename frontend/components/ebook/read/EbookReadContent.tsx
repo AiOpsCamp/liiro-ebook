@@ -1301,9 +1301,9 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
       }));
     }
 
-    const blockRegex = /<figure[^>]*>[\s\S]*?<\/figure>|<p[^>]*>[\s\S]*?<\/p>|<blockquote[^>]*>[\s\S]*?<\/blockquote>/gi;
-    const rawBlocks = [...html.matchAll(blockRegex)].map((m) => m[0]);
-    if (rawBlocks.length === 0) {
+    const tagRegex = /<figure[^>]*>[\s\S]*?<\/figure>|<p[^>]*>[\s\S]*?<\/p>|<blockquote[^>]*>[\s\S]*?<\/blockquote>/gi;
+    const rawElements = [...html.matchAll(tagRegex)].map((m) => m[0]);
+    if (rawElements.length === 0) {
       return paragraphs.map((text, paraIdx) => ({
         type: "text" as const,
         text,
@@ -1312,12 +1312,12 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
     }
 
     const result: { type: "text" | "image"; text?: string; paraIdx?: number; src?: string; alt?: string }[] = [];
-    let textCounter = 0;
+    let paraCounter = 0;
 
-    for (const bHtml of rawBlocks) {
-      if (bHtml.includes("<figure")) {
-        const srcMatch = bHtml.match(/src=["']([^"']+)["']/i);
-        const altMatch = bHtml.match(/alt=["']([^"']+)["']/i);
+    for (const elemHtml of rawElements) {
+      if (elemHtml.toLowerCase().includes("<figure")) {
+        const srcMatch = elemHtml.match(/src=["']([^"']+)["']/i);
+        const altMatch = elemHtml.match(/alt=["']([^"']+)["']/i);
         if (srcMatch && srcMatch[1]) {
           result.push({
             type: "image",
@@ -1326,28 +1326,30 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
           });
         }
       } else {
-        if (textCounter < paragraphs.length) {
-          result.push({
-            type: "text",
-            text: paragraphs[textCounter],
-            paraIdx: textCounter,
-          });
-          textCounter++;
+        let cleanTextStr = elemHtml.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+        if (!cleanTextStr) continue;
+
+        if (paraCounter === 0) {
+          cleanTextStr = cleanTextStr.replace(/^[IVXLCDM\d]+[:.\s-]*/i, "").trim();
+          const chTitleClean = (getLocalizedText(chapterStub?.title, "", activeLang) || "").toLowerCase().trim();
+          if (chTitleClean && chTitleClean.length > 2) {
+            const escapedTitle = chTitleClean.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&");
+            const titleRegex = new RegExp(`^(${escapedTitle}\\s*)+`, "i");
+            cleanTextStr = cleanTextStr.replace(titleRegex, "").trim();
+          }
         }
+
+        result.push({
+          type: "text",
+          text: cleanTextStr,
+          paraIdx: paraCounter,
+        });
+        paraCounter++;
       }
     }
 
-    while (textCounter < paragraphs.length) {
-      result.push({
-        type: "text",
-        text: paragraphs[textCounter],
-        paraIdx: textCounter,
-      });
-      textCounter++;
-    }
-
     return result;
-  }, [chapterDetails?.content, paragraphs]);
+  }, [chapterDetails?.content, chapterStub?.title, activeLang, paragraphs]);
 
   const processedPayload = useMemo(() => {
     return paragraphs.join("\n\n");
