@@ -2158,596 +2158,504 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
               >
                 <Animated.View
                   entering={FadeInDown.duration(420)}
-                  style={{ width: "100%", maxWidth: 540, alignSelf: "center", alignItems: "center", paddingHorizontal: 24 }}
+                  style={{
+                    width: "100%",
+                    maxWidth: width >= 900 ? 1140 : 540,
+                    alignSelf: "center",
+                    paddingHorizontal: width >= 900 ? 32 : 16,
+                    flexDirection: width >= 900 ? "row" : "column",
+                    gap: width >= 900 ? 36 : 20,
+                    alignItems: width >= 900 ? "flex-start" : "center",
+                  }}
                 >
-                  {/* ── Cover Art ── */}
-                  <Animated.View
-                    style={[
-                      {
-                        width: coverW,
-                        height: coverH,
-                        borderRadius: 20,
-                        overflow: "hidden",
-                        marginBottom: 28,
-                        marginTop: 8,
-                        borderWidth: 1.5,
-                        borderColor: accent + "50",
-                        ...shadow },
-                      coverPulseStyle,
-                    ]}
-                  >
-                    <Image
-                      source={{ uri: story.coverImageUrl || "" }}
-                      style={{ width: "100%", height: "100%" }}
-                      resizeMode="cover"
-                    />
-                    {/* Dark scrim overlay for equalizer visibility */}
-                    <View
-                      style={{
-                        position: "absolute",
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        height: 60,
-                        backgroundColor: "rgba(0,0,0,0.45)" }}
-                    />
-                    {/* Equalizer bars — always rendered, animate when playing */}
-                    <View
-                      style={{
-                        position: "absolute",
-                        bottom: 12,
-                        left: 0,
-                        right: 0,
-                        flexDirection: "row",
-                        alignItems: "flex-end",
-                        justifyContent: "center",
-                        gap: 4 }}
+                  {/* ── LEFT COLUMN: COVER & PRIMARY AUDIO CONTROLS ── */}
+                  <View style={{ flex: 1, width: "100%", maxWidth: width >= 900 ? 460 : "100%", alignItems: "center" }}>
+                    {/* Cover Art with Pulsing Equalizer */}
+                    <Animated.View
+                      style={[
+                        {
+                          width: width >= 900 ? 280 : coverW,
+                          height: width >= 900 ? 280 : coverH,
+                          borderRadius: 24,
+                          overflow: "hidden",
+                          marginBottom: 20,
+                          borderWidth: 1.5,
+                          borderColor: accent + "50",
+                          ...shadow,
+                        },
+                        coverPulseStyle,
+                      ]}
                     >
-                      <CoverEqualizerBar barAnim={eq1} maxHeight={20} />
-                      <CoverEqualizerBar barAnim={eq2} maxHeight={32} />
-                      <CoverEqualizerBar barAnim={eq3} maxHeight={24} />
-                      <CoverEqualizerBar barAnim={eq4} maxHeight={36} />
-                      <CoverEqualizerBar barAnim={eq5} maxHeight={20} />
-                    </View>
-                  </Animated.View>
+                      <Image
+                        source={{ uri: story.coverImageUrl || "" }}
+                        style={{ width: "100%", height: "100%" }}
+                        resizeMode="cover"
+                      />
+                      <View style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 60, backgroundColor: "rgba(0,0,0,0.45)" }} />
+                      <View style={{ position: "absolute", bottom: 12, left: 0, right: 0, flexDirection: "row", alignItems: "flex-end", justifyContent: "center", gap: 4 }}>
+                        <CoverEqualizerBar barAnim={eq1} maxHeight={20} />
+                        <CoverEqualizerBar barAnim={eq2} maxHeight={32} />
+                        <CoverEqualizerBar barAnim={eq3} maxHeight={24} />
+                        <CoverEqualizerBar barAnim={eq4} maxHeight={36} />
+                        <CoverEqualizerBar barAnim={eq5} maxHeight={20} />
+                      </View>
+                    </Animated.View>
 
-                  {/* ── Story Title & Chapter Label ── */}
-                  <AppText
-                    weight="Bold"
-                    numberOfLines={2}
-                    style={{ fontSize: 22, letterSpacing: -0.4, color: textMain, textAlign: "center", marginBottom: 4 }}
-                  >
-                    {getLocalizedText(story.title, "", activeLang)}
-                  </AppText>
-                  <AppText
-                    weight="Medium"
-                    style={{ fontSize: 13, color: accent, textAlign: "center", marginBottom: 4 }}
-                  >
-                    Chapter {currentChapterIdx + 1} of {totalChapters}
-                  </AppText>
-                  <AppText
-                    weight="SemiBold"
-                    numberOfLines={1}
-                    style={{ fontSize: 15, color: textSecondary, textAlign: "center", marginBottom: 16 }}
-                  >
-                    {getLocalizedText(chapterStub?.title, "", activeLang)}
-                  </AppText>
-
-                  {/* ── Live Karaoke Card ── */}
-                  <View
-                    style={{
-                      width: "100%",
-                      borderRadius: 16,
-                      padding: 20,
-                      backgroundColor: currentTheme.isDark ? "rgba(255,255,255,0.05)" : surfaceCard,
-                      borderWidth: 1.5,
-                      borderColor: accent + "30",
-                      marginBottom: 20,
-                      alignItems: "center" }}
-                  >
-                    <View style={{ flexDirection: "row", alignItems: "center", gap: 6, marginBottom: 10 }}>
-                      <Sparkles size={14} color={accent} />
-                      <AppText weight="Bold" style={{ fontSize: 11, color: accent, letterSpacing: 0.8 }}>
-                        LIVE NARRATION
-                      </AppText>
-                    </View>
-                    <AppText
-                      weight="Medium"
-                      style={{
-                        fontSize: 15,
-                        lineHeight: 26,
-                        color: textMain,
-                        textAlign: "center",
-                        fontStyle: "italic" }}
-                    >
-                      "{liveText}..."
+                    {/* Story Title & Chapter Label */}
+                    <AppText weight="Bold" numberOfLines={2} style={{ fontSize: 22, letterSpacing: -0.4, color: textMain, textAlign: "center", marginBottom: 4 }}>
+                      {getLocalizedText(story.title, "", activeLang)}
                     </AppText>
-                  </View>
+                    <AppText weight="Medium" style={{ fontSize: 13, color: accent, textAlign: "center", marginBottom: 4 }}>
+                      Chapter {currentChapterIdx + 1} of {totalChapters}
+                    </AppText>
+                    <AppText weight="SemiBold" numberOfLines={1} style={{ fontSize: 14, color: textSecondary, textAlign: "center", marginBottom: 20 }}>
+                      {getLocalizedText(chapterStub?.title, "", activeLang)}
+                    </AppText>
 
-                  {/* ── Seek Bar ── */}
-                  <View style={{ width: "100%", marginBottom: 4 }}>
-                    <Pressable
-                      onLayout={(e) => setProgressBarWidth(e.nativeEvent.layout.width)}
-                      onPress={(e) => {
-                        if (!audioDuration || progressBarWidth === 0) return;
-                        const x = e.nativeEvent.locationX;
-                        const ratio = Math.max(0, Math.min(1, x / progressBarWidth));
-                        seekAudio(ratio * audioDuration);
+                    {/* Primary Audio Control Panel Card */}
+                    <View
+                      style={{
+                        width: "100%",
+                        borderRadius: 24,
+                        padding: 20,
+                        backgroundColor: currentTheme.isDark ? "rgba(255,255,255,0.04)" : surfaceCard,
+                        borderWidth: 1,
+                        borderColor: borderSoft,
+                        alignItems: "center",
                       }}
-                      style={{ height: 28, justifyContent: "center" }}
-                      accessibilityLabel="Seek audio"
                     >
-                      <View style={{ height: 5, borderRadius: 3, backgroundColor: borderSoft, position: "relative" }}>
-                        {/* Fill */}
-                        <View
-                          style={{
-                            position: "absolute",
-                            left: 0,
-                            top: 0,
-                            bottom: 0,
-                            borderRadius: 3,
-                            backgroundColor: accent,
-                            width: `${progress * 100}%` as any }}
-                        />
-                        {/* Thumb dot */}
-                        <View
-                          style={{
-                            position: "absolute",
-                            top: -5.5,
-                            left: `${progress * 100}%` as any,
-                            marginLeft: -8,
-                            width: 16,
-                            height: 16,
-                            borderRadius: 8,
-                            backgroundColor: accent,
-                            shadowColor: accent,
-                            shadowOffset: { width: 0, height: 2 },
-                            shadowOpacity: 0.5,
-                            shadowRadius: 4 }}
-                        />
+                      {/* Seek Bar */}
+                      <View style={{ width: "100%", marginBottom: 8 }}>
+                        <Pressable
+                          onLayout={(e) => setProgressBarWidth(e.nativeEvent.layout.width)}
+                          onPress={(e) => {
+                            if (!audioDuration || progressBarWidth === 0) return;
+                            const x = e.nativeEvent.locationX;
+                            const ratio = Math.max(0, Math.min(1, x / progressBarWidth));
+                            seekAudio(ratio * audioDuration);
+                          }}
+                          style={{ height: 28, justifyContent: "center" }}
+                          accessibilityLabel="Seek audio"
+                        >
+                          <View style={{ height: 6, borderRadius: 3, backgroundColor: borderSoft, position: "relative" }}>
+                            <View
+                              style={{
+                                position: "absolute",
+                                left: 0,
+                                top: 0,
+                                bottom: 0,
+                                borderRadius: 3,
+                                backgroundColor: accent,
+                                width: `${progress * 100}%` as any,
+                              }}
+                            />
+                            <View
+                              style={{
+                                position: "absolute",
+                                top: -5,
+                                left: `${progress * 100}%` as any,
+                                marginLeft: -8,
+                                width: 16,
+                                height: 16,
+                                borderRadius: 8,
+                                backgroundColor: accent,
+                                shadowColor: accent,
+                                shadowOffset: { width: 0, height: 2 },
+                                shadowOpacity: 0.5,
+                                shadowRadius: 4,
+                              }}
+                            />
+                          </View>
+                        </Pressable>
+                        <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 4 }}>
+                          <AppText style={{ fontSize: 12, color: textSecondary, fontWeight: "600" }}>
+                            {formatTime(audioCurrentTime)}
+                          </AppText>
+                          <AppText style={{ fontSize: 12, color: textSecondary, fontWeight: "600" }}>
+                            {formatTime(audioDuration)}
+                          </AppText>
+                        </View>
                       </View>
-                    </Pressable>
-                    <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 6 }}>
-                      <AppText style={{ fontSize: 12, color: textSecondary, fontWeight: "600" }}>
-                        {formatTime(audioCurrentTime)}
-                      </AppText>
-                      <AppText style={{ fontSize: 12, color: textSecondary, fontWeight: "600" }}>
-                        {formatTime(audioDuration)}
-                      </AppText>
+
+                      {/* Playback Controls Row */}
+                      <View style={{ flexDirection: "row", justifyContent: "space-between", width: "100%", alignItems: "center", marginTop: 8, marginBottom: 12 }}>
+                        <Pressable
+                          onPress={handlePrevChapter}
+                          disabled={currentChapterIdx === 0}
+                          style={({ pressed }) => ({
+                            width: 44,
+                            height: 44,
+                            borderRadius: 22,
+                            alignItems: "center",
+                            justifyContent: "center",
+                            backgroundColor: currentTheme.isDark ? "rgba(255,255,255,0.06)" : "#F1F5F9",
+                            opacity: currentChapterIdx === 0 ? 0.3 : pressed ? 0.7 : 1,
+                          })}
+                          accessibilityLabel="Previous chapter"
+                        >
+                          <SkipBack size={20} color={textMain} />
+                        </Pressable>
+
+                        <Pressable
+                          onPress={() => seekAudio(audioCurrentTime - skipInterval)}
+                          style={({ pressed }) => ({
+                            width: 52,
+                            height: 52,
+                            borderRadius: 26,
+                            alignItems: "center",
+                            justifyContent: "center",
+                            backgroundColor: currentTheme.isDark ? "rgba(255,255,255,0.06)" : "#F1F5F9",
+                            opacity: pressed ? 0.7 : 1,
+                          })}
+                          accessibilityLabel={`Rewind ${skipInterval} seconds`}
+                        >
+                          <View style={{ alignItems: "center" }}>
+                            <RotateCcw size={18} color={textMain} />
+                            <AppText style={{ fontSize: 9, color: textSecondary, fontWeight: "700" }}>{skipInterval}s</AppText>
+                          </View>
+                        </Pressable>
+
+                        <Pressable
+                          onPress={togglePlayPause}
+                          style={({ pressed }) => ({
+                            width: 72,
+                            height: 72,
+                            borderRadius: 36,
+                            alignItems: "center",
+                            justifyContent: "center",
+                            backgroundColor: accent,
+                            opacity: pressed ? 0.88 : 1,
+                            shadowColor: accent,
+                            shadowOffset: { width: 0, height: 6 },
+                            shadowOpacity: 0.4,
+                            shadowRadius: 12,
+                          })}
+                          accessibilityLabel={isPlaying ? "Pause" : "Play"}
+                        >
+                          {isAudioLoading ? (
+                            <ActivityIndicator size="small" color="#FFFFFF" />
+                          ) : isPlaying ? (
+                            <Pause size={30} color="#FFFFFF" />
+                          ) : (
+                            <Play size={30} color="#FFFFFF" style={{ marginLeft: 4 }} />
+                          )}
+                        </Pressable>
+
+                        <Pressable
+                          onPress={() => seekAudio(audioCurrentTime + skipInterval)}
+                          style={({ pressed }) => ({
+                            width: 52,
+                            height: 52,
+                            borderRadius: 26,
+                            alignItems: "center",
+                            justifyContent: "center",
+                            backgroundColor: currentTheme.isDark ? "rgba(255,255,255,0.06)" : "#F1F5F9",
+                            opacity: pressed ? 0.7 : 1,
+                          })}
+                          accessibilityLabel={`Forward ${skipInterval} seconds`}
+                        >
+                          <View style={{ alignItems: "center" }}>
+                            <RotateCw size={18} color={textMain} />
+                            <AppText style={{ fontSize: 9, color: textSecondary, fontWeight: "700" }}>{skipInterval}s</AppText>
+                          </View>
+                        </Pressable>
+
+                        <Pressable
+                          onPress={handleNextChapter}
+                          disabled={currentChapterIdx === totalChapters - 1}
+                          style={({ pressed }) => ({
+                            width: 44,
+                            height: 44,
+                            borderRadius: 22,
+                            alignItems: "center",
+                            justifyContent: "center",
+                            backgroundColor: currentTheme.isDark ? "rgba(255,255,255,0.06)" : "#F1F5F9",
+                            opacity: currentChapterIdx === totalChapters - 1 ? 0.3 : pressed ? 0.7 : 1,
+                          })}
+                          accessibilityLabel="Next chapter"
+                        >
+                          <SkipForward size={20} color={textMain} />
+                        </Pressable>
+                      </View>
+
+                      {/* Interactive Volume Control */}
+                      <View style={{ width: "100%", flexDirection: "row", alignItems: "center", gap: 12, marginTop: 12, paddingHorizontal: 4 }}>
+                        <Pressable
+                          onPress={() => {
+                            const newVol = audioVolume === 0 ? 1 : 0;
+                            setAudioVolume(newVol);
+                            if (audioElementRef.current) audioElementRef.current.volume = newVol;
+                          }}
+                        >
+                          {audioVolume === 0 ? <VolumeX size={18} color={textSecondary} /> : <Volume2 size={18} color={accent} />}
+                        </Pressable>
+                        {Platform.OS === "web" ? (
+                          <input
+                            type="range"
+                            min="0"
+                            max="1"
+                            step="0.05"
+                            value={audioVolume}
+                            onChange={(e) => {
+                              const v = parseFloat(e.target.value);
+                              setAudioVolume(v);
+                              if (audioElementRef.current) audioElementRef.current.volume = v;
+                            }}
+                            style={{ flex: 1, accentColor: accent, cursor: "pointer" }}
+                          />
+                        ) : (
+                          <View style={{ flex: 1, height: 5, borderRadius: 3, backgroundColor: borderSoft, position: "relative" }}>
+                            <View style={{ position: "absolute", left: 0, top: 0, bottom: 0, borderRadius: 3, backgroundColor: accent, width: `${audioVolume * 100}%` as any }} />
+                          </View>
+                        )}
+                        <AppText weight="Bold" style={{ fontSize: 11, color: textSecondary, width: 36, textAlign: "right" }}>
+                          {Math.round(audioVolume * 100)}%
+                        </AppText>
+                      </View>
                     </View>
                   </View>
 
-                  {/* ── Playback Controls Row ── */}
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      justifyContent: "space-between",
-                      width: "100%",
-                      alignItems: "center",
-                      marginTop: 16,
-                      marginBottom: 20 }}
-                  >
-                    {/* Prev Chapter */}
-                    <Pressable
-                      onPress={handlePrevChapter}
-                      disabled={currentChapterIdx === 0}
-                      style={({ pressed }) => ({
-                        width: 44,
-                        height: 44,
-                        borderRadius: 22,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        backgroundColor: surfaceCard,
-                        opacity: currentChapterIdx === 0 ? 0.3 : pressed ? 0.7 : 1 })}
-                      accessibilityLabel="Previous chapter"
+                  {/* ── RIGHT COLUMN: WHISPERSYNC KARAOKE & AUDIO SETTINGS ── */}
+                  <View style={{ flex: width >= 900 ? 1.2 : 1, width: "100%", maxWidth: width >= 900 ? 580 : "100%" }}>
+                    {/* Live Whispersync Karaoke Box */}
+                    <View
+                      style={{
+                        width: "100%",
+                        borderRadius: 24,
+                        padding: 24,
+                        backgroundColor: currentTheme.isDark ? "rgba(255,255,255,0.05)" : surfaceCard,
+                        borderWidth: 1.5,
+                        borderColor: accent + "35",
+                        marginBottom: 20,
+                      }}
                     >
-                      <SkipBack size={22} color={textMain} />
-                    </Pressable>
-
-                    {/* Rewind */}
-                    <Pressable
-                      onPress={() => seekAudio(audioCurrentTime - skipInterval)}
-                      style={({ pressed }) => ({
-                        width: 54,
-                        height: 54,
-                        borderRadius: 27,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        backgroundColor: surfaceCard,
-                        opacity: pressed ? 0.7 : 1 })}
-                      accessibilityLabel={`Rewind ${skipInterval} seconds`}
-                    >
-                      <View style={{ flexDirection: "column", alignItems: "center", gap: 2 }}>
-                        <RotateCcw size={20} color={textMain} />
-                        <AppText style={{ fontSize: 9, color: textSecondary, fontWeight: "700" }}>{skipInterval}s</AppText>
+                      <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
+                        <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+                          <Sparkles size={16} color={accent} />
+                          <AppText weight="Bold" style={{ fontSize: 12, color: accent, letterSpacing: 0.8 }}>
+                            WHISPERSYNC LIVE NARRATION
+                          </AppText>
+                        </View>
+                        <AppText weight="SemiBold" style={{ fontSize: 11, color: textSecondary }}>
+                          Karaoke Sync
+                        </AppText>
                       </View>
-                    </Pressable>
-
-                    {/* Play / Pause */}
-                    <Pressable
-                      onPress={togglePlayPause}
-                      style={({ pressed }) => ({
-                        width: 80,
-                        height: 80,
-                        borderRadius: 40,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        backgroundColor: accent,
-                        opacity: pressed ? 0.88 : 1,
-                        shadowColor: accent,
-                        shadowOffset: { width: 0, height: 6 },
-                        shadowOpacity: 0.45,
-                        shadowRadius: 14 })}
-                      accessibilityLabel={isPlaying ? "Pause" : "Play"}
-                    >
-                      {isAudioLoading ? (
-                        <ActivityIndicator size="small" color="#FFFFFF" />
-                      ) : isPlaying ? (
-                        <Pause size={32} color="#FFFFFF" />
-                      ) : (
-                        <Play size={32} color="#FFFFFF" style={{ marginLeft: 4 }} />
-                      )}
-                    </Pressable>
-
-                    {/* Forward */}
-                    <Pressable
-                      onPress={() => seekAudio(audioCurrentTime + skipInterval)}
-                      style={({ pressed }) => ({
-                        width: 54,
-                        height: 54,
-                        borderRadius: 27,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        backgroundColor: surfaceCard,
-                        opacity: pressed ? 0.7 : 1 })}
-                      accessibilityLabel={`Forward ${skipInterval} seconds`}
-                    >
-                      <View style={{ flexDirection: "column", alignItems: "center", gap: 2 }}>
-                        <RotateCw size={20} color={textMain} />
-                        <AppText style={{ fontSize: 9, color: textSecondary, fontWeight: "700" }}>{skipInterval}s</AppText>
-                      </View>
-                    </Pressable>
-
-                    {/* Next Chapter */}
-                    <Pressable
-                      onPress={handleNextChapter}
-                      disabled={currentChapterIdx === totalChapters - 1}
-                      style={({ pressed }) => ({
-                        width: 44,
-                        height: 44,
-                        borderRadius: 22,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        backgroundColor: surfaceCard,
-                        opacity: currentChapterIdx === totalChapters - 1 ? 0.3 : pressed ? 0.7 : 1 })}
-                      accessibilityLabel="Next chapter"
-                    >
-                      <SkipForward size={22} color={textMain} />
-                    </Pressable>
-                  </View>
-
-                  {/* ── Control Pills (Centered Wrap) ── */}
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      flexWrap: "wrap",
-                      justifyContent: "center",
-                      gap: 10,
-                      marginTop: 4,
-                      width: "100%" }}
-                  >
-                    {/* Speed */}
-                    <Pressable
-                      onPress={changeSpeed}
-                      style={({ pressed }) => ({
-                        paddingHorizontal: 16,
-                        paddingVertical: 9,
-                        borderRadius: 100,
-                        backgroundColor: surfaceCard,
-                        borderWidth: 1,
-                        borderColor: borderSoft,
-                        opacity: pressed ? 0.7 : 1 })}
-                      accessibilityLabel="Change playback speed"
-                    >
-                      <AppText weight="Bold" style={{ fontSize: 13, color: accent }}>
-                        {playbackSpeed}× Speed
+                      <AppText weight="Medium" style={{ fontSize: 16, lineHeight: 28, color: textMain, fontStyle: "italic" }}>
+                        "{liveText || "Listening..."}"
                       </AppText>
-                    </Pressable>
+                    </View>
 
-                    {/* Chapter List */}
-                    <Pressable
-                      onPress={() => setIsChapterSheetOpen(true)}
-                      style={({ pressed }) => ({
-                        flexDirection: "row",
-                        alignItems: "center",
-                        gap: 6,
-                        paddingHorizontal: 16,
-                        paddingVertical: 9,
-                        borderRadius: 100,
-                        backgroundColor: surfaceCard,
-                        borderWidth: 1,
-                        borderColor: borderSoft,
-                        opacity: pressed ? 0.7 : 1 })}
-                      accessibilityLabel="Open chapter list"
-                    >
-                      <List size={14} color={textMain} />
-                      <AppText weight="Medium" style={{ fontSize: 13, color: textMain }}>
-                        Chapters ({currentChapterIdx + 1}/{totalChapters})
-                      </AppText>
-                    </Pressable>
-
-                    {/* Voice Selector */}
+                    {/* Studio Voice Switcher */}
                     {availableVoices.length > 0 && (
+                      <View style={{ width: "100%", borderRadius: 20, padding: 18, backgroundColor: currentTheme.isDark ? "rgba(255,255,255,0.04)" : surfaceCard, borderWidth: 1, borderColor: borderSoft, marginBottom: 16 }}>
+                        <AppText weight="Bold" style={{ fontSize: 13, color: textMain, marginBottom: 10 }}>
+                          🎙️ Studio Narrator Voice
+                        </AppText>
+                        <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
+                          {availableVoices.map((v) => {
+                            const isSel = activeVoiceKey === v.key;
+                            return (
+                              <Pressable
+                                key={v.key}
+                                onPress={() => selectVoice(v.key)}
+                                style={{
+                                  paddingHorizontal: 14,
+                                  paddingVertical: 8,
+                                  borderRadius: 100,
+                                  backgroundColor: isSel ? accent : currentTheme.isDark ? "rgba(255,255,255,0.06)" : "#F1F5F9",
+                                  borderWidth: 1,
+                                  borderColor: isSel ? accent : borderSoft,
+                                }}
+                              >
+                                <AppText weight="Bold" style={{ fontSize: 12, color: isSel ? "#FFFFFF" : textMain }}>
+                                  {v.name} ({v.label})
+                                </AppText>
+                              </Pressable>
+                            );
+                          })}
+                        </View>
+                      </View>
+                    )}
+
+                    {/* Streaming Quality Selector */}
+                    <View style={{ width: "100%", borderRadius: 20, padding: 18, backgroundColor: currentTheme.isDark ? "rgba(255,255,255,0.04)" : surfaceCard, borderWidth: 1, borderColor: borderSoft, marginBottom: 20 }}>
+                      <AppText weight="Bold" style={{ fontSize: 13, color: textMain, marginBottom: 10 }}>
+                        📶 Streaming Quality
+                      </AppText>
+                      <View style={{ flexDirection: "row", gap: 8 }}>
+                        {[
+                          { key: "high", label: "High (128k)", icon: "🎧" },
+                          { key: "standard", label: "Standard (64k)", icon: "📱" },
+                          { key: "low", label: "Low Data (32k)", icon: "⚡" },
+                        ].map((q) => {
+                          const isSel = audioBitrate === q.key;
+                          return (
+                            <Pressable
+                              key={q.key}
+                              onPress={() => changeBitrate(q.key as any)}
+                              style={{
+                                flex: 1,
+                                paddingVertical: 10,
+                                borderRadius: 12,
+                                backgroundColor: isSel ? accent : currentTheme.isDark ? "rgba(255,255,255,0.06)" : "#F1F5F9",
+                                alignItems: "center",
+                              }}
+                            >
+                              <AppText weight="Bold" style={{ fontSize: 11, color: isSel ? "#FFFFFF" : textMain }}>
+                                {q.icon} {q.label}
+                              </AppText>
+                            </Pressable>
+                          );
+                        })}
+                      </View>
+                    </View>
+
+                    {/* Quick Settings Action Pills */}
+                    <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10, width: "100%" }}>
+                      {/* Speed Pill */}
                       <Pressable
-                        onPress={() => setIsVoiceSheetOpen(true)}
+                        onPress={changeSpeed}
                         style={({ pressed }) => ({
                           paddingHorizontal: 16,
-                          paddingVertical: 9,
+                          paddingVertical: 10,
                           borderRadius: 100,
                           backgroundColor: surfaceCard,
                           borderWidth: 1,
                           borderColor: borderSoft,
-                          opacity: pressed ? 0.7 : 1 })}
-                        accessibilityLabel="Select Narrator Voice"
+                          opacity: pressed ? 0.7 : 1,
+                        })}
+                        accessibilityLabel="Change playback speed"
                       >
                         <AppText weight="Bold" style={{ fontSize: 13, color: accent }}>
-                          🎙️ Voice
+                          {playbackSpeed}× Speed
                         </AppText>
                       </Pressable>
-                    )}
 
-                    {/* Ambient Music */}
-                    <Pressable
-                      onPress={() => setIsAmbientSheetOpen(true)}
-                      style={({ pressed }) => ({
-                        paddingHorizontal: 16,
-                        paddingVertical: 9,
-                        borderRadius: 100,
-                        backgroundColor: surfaceCard,
-                        borderWidth: 1,
-                        borderColor: borderSoft,
-                        opacity: pressed ? 0.7 : 1 })}
-                      accessibilityLabel="Select Ambient Music"
-                    >
-                      <AppText weight="Bold" style={{ fontSize: 13, color: selectedAmbientId === "off" ? textSecondary : accent }}>
-                        🎵 {activeAmbientTrack.name}
-                      </AppText>
-                    </Pressable>
-
-                    {/* Vibe Selector */}
-                    <Pressable
-                      onPress={() => setIsVibeSheetOpen(true)}
-                      style={({ pressed }) => ({
-                        paddingHorizontal: 16,
-                        paddingVertical: 9,
-                        borderRadius: 100,
-                        backgroundColor: selectedVibeId ? accent + "25" : surfaceCard,
-                        borderWidth: 1.5,
-                        borderColor: selectedVibeId ? accent : borderSoft,
-                        opacity: pressed ? 0.7 : 1 })}
-                      accessibilityLabel="Select Reading Vibe"
-                    >
-                      <AppText weight="Bold" style={{ fontSize: 13, color: selectedVibeId ? accent : textMain }}>
-                        ✨ Vibe
-                      </AppText>
-                    </Pressable>
-
-                    {/* Slideshow Toggle */}
-                    <Pressable
-                      onPress={() => {
-                        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-                        setIsSlideshowMode((prev) => !prev);
-                      }}
-                      style={({ pressed }) => ({
-                        paddingHorizontal: 16,
-                        paddingVertical: 9,
-                        borderRadius: 100,
-                        backgroundColor: isSlideshowMode ? accent : surfaceCard,
-                        borderWidth: 1,
-                        borderColor: isSlideshowMode ? accent : borderSoft,
-                        opacity: pressed ? 0.7 : 1 })}
-                      accessibilityLabel="Toggle Ambient Visual Slideshow Mode"
-                    >
-                      <AppText weight="Bold" style={{ fontSize: 13, color: isSlideshowMode ? "#FFFFFF" : textMain }}>
-                        🖼️ Slideshow {isSlideshowMode ? "ON" : "OFF"}
-                      </AppText>
-                    </Pressable>
-                  </View>
-
-                  {/* ── Sleep Timer ── */}
-                  {(() => {
-                    const SLEEP_OPTIONS = [null, 15, 30, 45, 60, "chapter"] as const;
-                    const isActive = sleepTimerEnd !== null || sleepOnChapterEnd;
-                    const remainingMs = sleepTimerEnd ? Math.max(0, sleepTimerEnd - Date.now()) : null;
-                    const remainingMin = remainingMs !== null ? Math.ceil(remainingMs / 60000) : null;
-                    let label = "💤 Sleep Timer";
-                    if (sleepOnChapterEnd) label = "💤 End of chapter";
-                    else if (sleepTimerEnd && remainingMin !== null) label = `💤 ${remainingMin}m left`;
-                    return (
+                      {/* Chapter List Pill */}
                       <Pressable
-                        onPress={() => {
-                          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-                          // Determine current slot
-                          let currIdx = 0;
-                          if (sleepOnChapterEnd) currIdx = SLEEP_OPTIONS.indexOf("chapter");
-                          else if (sleepTimerEnd) {
-                            const mins = Math.round((sleepTimerEnd - Date.now()) / 60000);
-                            const found = SLEEP_OPTIONS.findIndex(o => o === mins);
-                            currIdx = found !== -1 ? found : 1;
-                          }
-                          const next = SLEEP_OPTIONS[(currIdx + 1) % SLEEP_OPTIONS.length];
-                          if (next === null) { setSleepTimerEnd(null); setSleepOnChapterEnd(false); }
-                          else if (next === "chapter") { setSleepTimerEnd(null); setSleepOnChapterEnd(true); }
-                          else { setSleepOnChapterEnd(false); setSleepTimerEnd(Date.now() + (next as number) * 60000); }
-                        }}
+                        onPress={() => setIsChapterSheetOpen(true)}
                         style={({ pressed }) => ({
+                          flexDirection: "row",
+                          alignItems: "center",
+                          gap: 6,
                           paddingHorizontal: 16,
-                          paddingVertical: 9,
+                          paddingVertical: 10,
                           borderRadius: 100,
-                          backgroundColor: isActive ? accent + "25" : surfaceCard,
-                          borderWidth: 1.5,
-                          borderColor: isActive ? accent : borderSoft,
-                          opacity: pressed ? 0.7 : 1 })}
-                        accessibilityLabel="Sleep Timer"
+                          backgroundColor: surfaceCard,
+                          borderWidth: 1,
+                          borderColor: borderSoft,
+                          opacity: pressed ? 0.7 : 1,
+                        })}
+                        accessibilityLabel="Open chapter list"
                       >
-                        <AppText weight="Bold" style={{ fontSize: 13, color: isActive ? accent : textSecondary }}>
-                          {label}
+                        <List size={14} color={textMain} />
+                        <AppText weight="Medium" style={{ fontSize: 13, color: textMain }}>
+                          Chapters ({currentChapterIdx + 1}/{totalChapters})
                         </AppText>
                       </Pressable>
-                    );
-                  })()}
 
-                  {/* ── Narration Volume ── */}
-                  <View style={{ width: "100%", paddingHorizontal: 4, marginTop: 8 }}>
-                    <AppText weight="Medium" style={{ fontSize: 11, color: textSecondary, marginBottom: 6, textAlign: "center" }}>
-                      Narration Volume ({Math.round(audioVolume * 100)}%)
-                    </AppText>
-                    <View style={{ flexDirection: "row", gap: 8 }}>
-                      {[0.25, 0.5, 0.75, 1.0].map((vol) => {
-                        const isSel = Math.abs(audioVolume - vol) < 0.15;
+                      {/* Sleep Timer Pill */}
+                      {(() => {
+                        const SLEEP_OPTIONS = [null, 15, 30, 45, 60, "chapter"] as const;
+                        const isActive = sleepTimerEnd !== null || sleepOnChapterEnd;
+                        const remainingMs = sleepTimerEnd ? Math.max(0, sleepTimerEnd - Date.now()) : null;
+                        const remainingMin = remainingMs !== null ? Math.ceil(remainingMs / 60000) : null;
+                        let label = "💤 Sleep Timer";
+                        if (sleepOnChapterEnd) label = "💤 End of chapter";
+                        else if (sleepTimerEnd && remainingMin !== null) label = `💤 ${remainingMin}m left`;
                         return (
                           <Pressable
-                            key={vol}
                             onPress={() => {
                               Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-                              setAudioVolume(vol);
-                              if (audioElementRef.current) audioElementRef.current.volume = vol;
+                              let currIdx = 0;
+                              if (sleepOnChapterEnd) currIdx = SLEEP_OPTIONS.indexOf("chapter");
+                              else if (sleepTimerEnd) {
+                                const mins = Math.round((sleepTimerEnd - Date.now()) / 60000);
+                                const found = SLEEP_OPTIONS.findIndex((o) => o === mins);
+                                currIdx = found !== -1 ? found : 1;
+                              }
+                              const next = SLEEP_OPTIONS[(currIdx + 1) % SLEEP_OPTIONS.length];
+                              if (next === null) {
+                                setSleepTimerEnd(null);
+                                setSleepOnChapterEnd(false);
+                              } else if (next === "chapter") {
+                                setSleepTimerEnd(null);
+                                setSleepOnChapterEnd(true);
+                              } else {
+                                setSleepOnChapterEnd(false);
+                                setSleepTimerEnd(Date.now() + (next as number) * 60000);
+                              }
                             }}
-                            style={{
-                              flex: 1,
-                              paddingVertical: 8,
-                              borderRadius: 10,
-                              backgroundColor: isSel ? accent : currentTheme.isDark ? "rgba(255,255,255,0.06)" : "#F1F5F9",
-                              alignItems: "center" }}
+                            style={({ pressed }) => ({
+                              paddingHorizontal: 16,
+                              paddingVertical: 10,
+                              borderRadius: 100,
+                              backgroundColor: isActive ? accent + "25" : surfaceCard,
+                              borderWidth: 1.5,
+                              borderColor: isActive ? accent : borderSoft,
+                              opacity: pressed ? 0.7 : 1,
+                            })}
+                            accessibilityLabel="Sleep Timer"
                           >
-                            <AppText weight="Bold" style={{ fontSize: 12, color: isSel ? "#FFFFFF" : textMain }}>
-                              {Math.round(vol * 100)}%
+                            <AppText weight="Bold" style={{ fontSize: 13, color: isActive ? accent : textSecondary }}>
+                              {label}
                             </AppText>
                           </Pressable>
                         );
-                      })}
-                    </View>
-                  </View>
+                      })()}
 
-                  {/* ── Skip Interval ── */}
-                  <View style={{ width: "100%", paddingHorizontal: 4, marginTop: 12 }}>
-                    <AppText weight="Medium" style={{ fontSize: 11, color: textSecondary, marginBottom: 6, textAlign: "center" }}>
-                      Skip Interval
-                    </AppText>
-                    <View style={{ flexDirection: "row", gap: 6 }}>
-                      {SKIP_INTERVAL_OPTIONS.map((secs) => {
-                        const isSel = skipInterval === secs;
-                        return (
-                          <Pressable
-                            key={secs}
-                            onPress={() => { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); setSkipInterval(secs); }}
-                            style={{
-                              flex: 1,
-                              paddingVertical: 8,
-                              borderRadius: 10,
-                              backgroundColor: isSel ? accent : currentTheme.isDark ? "rgba(255,255,255,0.06)" : "#F1F5F9",
-                              alignItems: "center" }}
-                          >
-                            <AppText weight="Bold" style={{ fontSize: 11, color: isSel ? "#FFFFFF" : textMain }}>
-                              {secs}s
-                            </AppText>
-                          </Pressable>
-                        );
-                      })}
-                    </View>
-                  </View>
-
-                  {/* ── Speed Fine-Tune ── */}
-                  <View style={{ width: "100%", paddingHorizontal: 4, marginTop: 12 }}>
-                    <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
-                      <AppText weight="Medium" style={{ fontSize: 11, color: textSecondary }}>Playback Speed</AppText>
-                      <AppText weight="Bold" style={{ fontSize: 13, color: accent }}>{playbackSpeed}×</AppText>
-                    </View>
-                    <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+                      {/* Car Mode Pill */}
                       <Pressable
                         onPress={() => {
-                          const idx = SPEED_OPTIONS.indexOf(playbackSpeed);
-                          if (idx > 0) {
-                            const s = SPEED_OPTIONS[idx - 1];
-                            setPlaybackSpeed(s);
-                            if (audioElementRef.current) audioElementRef.current.playbackRate = s;
-                            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-                          }
+                          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+                          setIsCarMode(true);
                         }}
-                        style={{
-                          width: 40, height: 40, borderRadius: 20, alignItems: "center", justifyContent: "center",
-                          backgroundColor: currentTheme.isDark ? "rgba(255,255,255,0.06)" : "#F1F5F9",
-                          opacity: playbackSpeed <= SPEED_OPTIONS[0] ? 0.3 : 1 }}
+                        style={({ pressed }) => ({
+                          flexDirection: "row",
+                          alignItems: "center",
+                          gap: 6,
+                          paddingHorizontal: 16,
+                          paddingVertical: 10,
+                          borderRadius: 100,
+                          backgroundColor: surfaceCard,
+                          borderWidth: 1,
+                          borderColor: borderSoft,
+                          opacity: pressed ? 0.7 : 1,
+                        })}
+                        accessibilityLabel="Enter car mode"
                       >
-                        <AppText weight="Bold" style={{ fontSize: 20, color: textMain }}>−</AppText>
+                        <AppText style={{ fontSize: 14 }}>🚗</AppText>
+                        <AppText weight="SemiBold" style={{ fontSize: 13, color: textSecondary }}>
+                          Car Mode
+                        </AppText>
                       </Pressable>
-                      <View style={{ flex: 1, alignItems: "center" }}>
-                        <View style={{ flexDirection: "row", gap: 3 }}>
-                          {SPEED_OPTIONS.map((s) => (
-                            <Pressable
-                              key={s}
-                              onPress={() => { setPlaybackSpeed(s); if (audioElementRef.current) audioElementRef.current.playbackRate = s; Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); }}
-                              style={{ width: 6, height: 6, borderRadius: 3, backgroundColor: s === playbackSpeed ? accent : borderSoft }}
-                            />
-                          ))}
-                        </View>
-                      </View>
-                      <Pressable
-                        onPress={() => {
-                          const idx = SPEED_OPTIONS.indexOf(playbackSpeed);
-                          if (idx < SPEED_OPTIONS.length - 1) {
-                            const s = SPEED_OPTIONS[idx + 1];
-                            setPlaybackSpeed(s);
-                            if (audioElementRef.current) audioElementRef.current.playbackRate = s;
-                            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-                          }
-                        }}
-                        style={{
-                          width: 40, height: 40, borderRadius: 20, alignItems: "center", justifyContent: "center",
-                          backgroundColor: currentTheme.isDark ? "rgba(255,255,255,0.06)" : "#F1F5F9",
-                          opacity: playbackSpeed >= SPEED_OPTIONS[SPEED_OPTIONS.length - 1] ? 0.3 : 1 }}
-                      >
-                        <AppText weight="Bold" style={{ fontSize: 20, color: textMain }}>+</AppText>
-                      </Pressable>
+
+                      {/* Ebook Mode Switcher Pill */}
+                      {story.contentType === "both" && (
+                        <Pressable
+                          onPress={() => handleSelectReadingMode("scroll")}
+                          style={({ pressed }) => ({
+                            flexDirection: "row",
+                            alignItems: "center",
+                            gap: 6,
+                            paddingHorizontal: 16,
+                            paddingVertical: 10,
+                            borderRadius: 100,
+                            backgroundColor: surfaceCard,
+                            borderWidth: 1.5,
+                            borderColor: borderSoft,
+                            opacity: pressed ? 0.7 : 1,
+                          })}
+                          accessibilityLabel="Switch to ebook reading mode"
+                        >
+                          <BookOpen size={14} color={textSecondary} />
+                          <AppText weight="SemiBold" style={{ fontSize: 13, color: textSecondary }}>
+                            Read as Ebook
+                          </AppText>
+                        </Pressable>
+                      )}
                     </View>
                   </View>
-
-                  {/* ── Car Mode Toggle ── */}
-                  <Pressable
-                    onPress={() => { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium); setIsCarMode(true); }}
-                    style={({ pressed }) => ({
-                      flexDirection: "row", alignItems: "center", gap: 8, marginTop: 16,
-                      paddingHorizontal: 22, paddingVertical: 11, borderRadius: 100,
-                      borderWidth: 1.5, borderColor: borderSoft, opacity: pressed ? 0.7 : 1 })}
-                    accessibilityLabel="Enter car mode"
-                  >
-                    <AppText style={{ fontSize: 16 }}>🚗</AppText>
-                    <AppText weight="SemiBold" style={{ fontSize: 13, color: textSecondary }}>Car Mode</AppText>
-                  </Pressable>
-
-                  {/* ── Switch to Ebook (only for "both") ── */}
-                  {story.contentType === "both" && (
-                    <Pressable
-                      onPress={() => handleSelectReadingMode("scroll")}
-                      style={({ pressed }) => ({
-                        flexDirection: "row",
-                        alignItems: "center",
-                        gap: 8,
-                        marginTop: 24,
-                        paddingHorizontal: 22,
-                        paddingVertical: 11,
-                        borderRadius: 100,
-                        borderWidth: 1.5,
-                        borderColor: borderSoft,
-                        opacity: pressed ? 0.7 : 1 })}
-                      accessibilityLabel="Switch to ebook reading mode"
-                    >
-                      <BookOpen size={15} color={textSecondary} />
-                      <AppText weight="SemiBold" style={{ fontSize: 13, color: textSecondary }}>
-                        Read as Ebook
-                      </AppText>
-                    </Pressable>
-                  )}
                 </Animated.View>
               </ScrollView>
             );
