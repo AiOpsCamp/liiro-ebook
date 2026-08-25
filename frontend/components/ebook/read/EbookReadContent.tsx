@@ -3381,108 +3381,94 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
           </View>
 
           {/* 1. Reading Layout Mode Selector */}
-          <View style={{ marginBottom: 24 }}>
-            <AppText weight="Medium" className="text-[11px] uppercase tracking-widest text-center" style={{ color: textSecondary, marginBottom: 12 }}>
-              Reading Mode
+          <View style={{ marginBottom: 22 }}>
+            <AppText weight="Bold" style={{ fontSize: 11, color: textSecondary, textTransform: "uppercase", letterSpacing: 1, textAlign: "center", marginBottom: 12 }}>
+              Reading Layout Mode
             </AppText>
             {story.contentType === "audiobook" ? (
-              <View
- className="rounded-[20px] border"
- style={{ borderColor: accent + "40", backgroundColor: accent + "15", flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, paddingVertical: 12 }}
- >
-                <Headphones size={14} color={accent} />
-                <AppText weight="SemiBold" className="text-xs" style={{ color: accent }}>
-                  Audio Only
-                </AppText>
+              <View style={{ borderRadius: 16, borderWidth: 1, borderColor: accent + "40", backgroundColor: accent + "15", flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 8, paddingVertical: 12 }}>
+                <Headphones size={15} color={accent} />
+                <AppText weight="SemiBold" style={{ fontSize: 13, color: accent }}>Audio Only</AppText>
               </View>
             ) : (
-              <View className="border rounded-[20px]" style={{ borderColor: borderSoft, flexDirection: 'row', alignItems: 'center', padding: 4, gap: 4 }}>
-                <Pressable
-                  onPress={() => handleSelectReadingMode("scroll")}
-                  className="flex-1 py-2.5 flex-row items-center justify-center rounded-2xl"
-                  style={{
-                    backgroundColor: readingMode === "scroll" ? accent : "transparent" }}
-                >
-                  <Scroll size={14} color={readingMode === "scroll" ? "#FFFFFF" : textSecondary} style={{ marginRight: 4 }} />
-                  <AppText weight="SemiBold" className="text-xs" style={{ color: readingMode === "scroll" ? "#FFFFFF" : textSecondary }}>
-                    Text + Audio
-                  </AppText>
-                </Pressable>
-
-                <Pressable
-                  onPress={() => handleSelectReadingMode("audiobook")}
-                  className="flex-1 py-2.5 flex-row items-center justify-center rounded-2xl"
-                  style={{
-                    backgroundColor: readingMode === "audiobook" ? accent : "transparent" }}
-                >
-                  <Headphones size={14} color={readingMode === "audiobook" ? "#FFFFFF" : textSecondary} style={{ marginRight: 4 }} />
-                  <AppText weight="SemiBold" className="text-xs" style={{ color: readingMode === "audiobook" ? "#FFFFFF" : textSecondary }}>
-                    Audiobook
-                  </AppText>
-                </Pressable>
-
-                <Pressable
-                  onPress={() => handleSelectReadingMode("paginate")}
-                  className="flex-1 py-2.5 flex-row items-center justify-center rounded-2xl"
-                  style={{
-                    backgroundColor: readingMode === "paginate" ? accent : "transparent" }}
-                >
-                  <BookOpen size={14} color={readingMode === "paginate" ? "#FFFFFF" : textSecondary} style={{ marginRight: 4 }} />
-                  <AppText weight="SemiBold" className="text-xs" style={{ color: readingMode === "paginate" ? "#FFFFFF" : textSecondary }}>
-                    Page Cards
-                  </AppText>
-                </Pressable>
+              <View style={{ borderRadius: 16, borderWidth: 1, borderColor: borderSoft, flexDirection: "row", alignItems: "center", padding: 4, gap: 4, backgroundColor: currentTheme.isDark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.02)" }}>
+                {[
+                  { key: "scroll", label: "Text + Audio", icon: Scroll },
+                  { key: "audiobook", label: "Audiobook", icon: Headphones },
+                  { key: "paginate", label: "Page Cards", icon: BookOpen },
+                ].map(({ key, label, icon: IconComponent }) => {
+                  const isSel = readingMode === key;
+                  return (
+                    <Pressable
+                      key={key}
+                      onPress={() => handleSelectReadingMode(key as any)}
+                      style={({ pressed }) => ({
+                        flex: 1,
+                        paddingVertical: 10,
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: 6,
+                        borderRadius: 12,
+                        backgroundColor: isSel ? accent : "transparent",
+                        opacity: pressed ? 0.8 : 1,
+                      })}
+                    >
+                      <IconComponent size={14} color={isSel ? "#FFFFFF" : textSecondary} />
+                      <AppText weight="SemiBold" style={{ fontSize: 12, color: isSel ? "#FFFFFF" : textSecondary }}>
+                        {label}
+                      </AppText>
+                    </Pressable>
+                  );
+                })}
               </View>
             )}
           </View>
 
-          {/* 2. Text Alignment (Microsoft Word Style) */}
-          <View style={{ marginBottom: 24 }}>
-            <AppText weight="Medium" className="text-[11px] uppercase tracking-widest text-center" style={{ color: textSecondary, marginBottom: 12 }}>
+          {/* 2. Text Alignment */}
+          <View style={{ marginBottom: 22 }}>
+            <AppText weight="Bold" style={{ fontSize: 11, color: textSecondary, textTransform: "uppercase", letterSpacing: 1, textAlign: "center", marginBottom: 12 }}>
               Text Alignment
             </AppText>
-            <View className="border rounded-[20px]" style={{ borderColor: borderSoft, flexDirection: 'row', alignItems: 'center', padding: 4, gap: 4 }}>
-              <Pressable
-                onPress={() => handleUpdateReaderSettings({ textAlign: "left" })}
-                className="flex-1 py-2.5 flex-row items-center justify-center rounded-2xl gap-1.5"
-                style={{ backgroundColor: textAlign === "left" ? accent : "transparent" }}
-              >
-                <AlignLeft size={14} color={textAlign === "left" ? "#FFFFFF" : textSecondary} />
-                <AppText weight="SemiBold" className="text-xs" style={{ color: textAlign === "left" ? "#FFFFFF" : textSecondary }}>
-                  Left
-                </AppText>
-              </Pressable>
-
-              <Pressable
-                onPress={() => handleUpdateReaderSettings({ textAlign: "justify" })}
-                className="flex-1 py-2.5 flex-row items-center justify-center rounded-2xl gap-1.5"
-                style={{ backgroundColor: textAlign === "justify" ? accent : "transparent" }}
-              >
-                <AlignJustify size={14} color={textAlign === "justify" ? "#FFFFFF" : textSecondary} />
-                <AppText weight="SemiBold" className="text-xs" style={{ color: textAlign === "justify" ? "#FFFFFF" : textSecondary }}>
-                  Justify
-                </AppText>
-              </Pressable>
-
-              <Pressable
-                onPress={() => handleUpdateReaderSettings({ textAlign: "center" })}
-                className="flex-1 py-2.5 flex-row items-center justify-center rounded-2xl gap-1.5"
-                style={{ backgroundColor: textAlign === "center" ? accent : "transparent" }}
-              >
-                <AlignCenter size={14} color={textAlign === "center" ? "#FFFFFF" : textSecondary} />
-                <AppText weight="SemiBold" className="text-xs" style={{ color: textAlign === "center" ? "#FFFFFF" : textSecondary }}>
-                  Center
-                </AppText>
-              </Pressable>
+            <View style={{ borderRadius: 16, borderWidth: 1, borderColor: borderSoft, flexDirection: "row", alignItems: "center", padding: 4, gap: 4, backgroundColor: currentTheme.isDark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.02)" }}>
+              {[
+                { key: "left", label: "Left", icon: AlignLeft },
+                { key: "justify", label: "Justify", icon: AlignJustify },
+                { key: "center", label: "Center", icon: AlignCenter },
+              ].map(({ key, label, icon: IconComponent }) => {
+                const isSel = textAlign === key;
+                return (
+                  <Pressable
+                    key={key}
+                    onPress={() => handleUpdateReaderSettings({ textAlign: key as any })}
+                    style={({ pressed }) => ({
+                      flex: 1,
+                      paddingVertical: 10,
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: 6,
+                      borderRadius: 12,
+                      backgroundColor: isSel ? accent : "transparent",
+                      opacity: pressed ? 0.8 : 1,
+                    })}
+                  >
+                    <IconComponent size={14} color={isSel ? "#FFFFFF" : textSecondary} />
+                    <AppText weight="SemiBold" style={{ fontSize: 12, color: isSel ? "#FFFFFF" : textSecondary }}>
+                      {label}
+                    </AppText>
+                  </Pressable>
+                );
+              })}
             </View>
           </View>
 
-          {/* 3. Desktop Column View Width */}
-          <View style={{ marginBottom: 24 }}>
-            <AppText weight="Medium" className="text-[11px] uppercase tracking-widest text-center" style={{ color: textSecondary, marginBottom: 12 }}>
+          {/* 3. Desktop Column Width */}
+          <View style={{ marginBottom: 22 }}>
+            <AppText weight="Bold" style={{ fontSize: 11, color: textSecondary, textTransform: "uppercase", letterSpacing: 1, textAlign: "center", marginBottom: 12 }}>
               Desktop Column Width
             </AppText>
-            <View className="border rounded-[20px]" style={{ borderColor: borderSoft, flexDirection: 'row', alignItems: 'center', padding: 4, gap: 4, flexWrap: 'wrap' }}>
+            <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8, justifyContent: "center" }}>
               {[
                 { label: "540px", val: 540 },
                 { label: "680px", val: 680 },
@@ -3495,10 +3481,17 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
                   <Pressable
                     key={val}
                     onPress={() => handleUpdateReaderSettings({ containerWidth: val })}
-                    className="flex-1 py-2 px-1 items-center justify-center rounded-2xl min-w-[62px]"
-                    style={{ backgroundColor: isSel ? accent : "transparent" }}
+                    style={({ pressed }) => ({
+                      paddingHorizontal: 14,
+                      paddingVertical: 8,
+                      borderRadius: 100,
+                      backgroundColor: isSel ? accent : currentTheme.isDark ? "rgba(255,255,255,0.06)" : "#F1F5F9",
+                      borderWidth: 1,
+                      borderColor: isSel ? accent : borderSoft,
+                      opacity: pressed ? 0.8 : 1,
+                    })}
                   >
-                    <AppText weight={isSel ? "Bold" : "Medium"} className="text-xs text-center" style={{ color: isSel ? "#FFFFFF" : textSecondary }}>
+                    <AppText weight={isSel ? "Bold" : "Medium"} style={{ fontSize: 12, color: isSel ? "#FFFFFF" : textSecondary }}>
                       {label}
                     </AppText>
                   </Pressable>
@@ -3508,11 +3501,11 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
           </View>
 
           {/* 4. Font Style (Family) */}
-          <View style={{ marginBottom: 24 }}>
-            <AppText weight="Medium" className="text-[11px] uppercase tracking-widest text-center" style={{ color: textSecondary, marginBottom: 12 }}>
+          <View style={{ marginBottom: 22 }}>
+            <AppText weight="Bold" style={{ fontSize: 11, color: textSecondary, textTransform: "uppercase", letterSpacing: 1, textAlign: "center", marginBottom: 12 }}>
               Font Style
             </AppText>
-            <View className="border rounded-[20px]" style={{ borderColor: borderSoft, flexDirection: 'row', alignItems: 'center', padding: 4, gap: 4 }}>
+            <View style={{ borderRadius: 16, borderWidth: 1, borderColor: borderSoft, flexDirection: "row", alignItems: "center", padding: 4, gap: 4, backgroundColor: currentTheme.isDark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.02)" }}>
               {[
                 { label: "Sans", val: "sans" },
                 { label: "Serif (Book)", val: "serif" },
@@ -3523,10 +3516,17 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
                   <Pressable
                     key={val}
                     onPress={() => handleUpdateReaderSettings({ fontFamily: val as any })}
-                    className="flex-1 py-2.5 items-center justify-center rounded-2xl"
-                    style={{ backgroundColor: isSel ? accent : "transparent" }}
+                    style={({ pressed }) => ({
+                      flex: 1,
+                      paddingVertical: 10,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      borderRadius: 12,
+                      backgroundColor: isSel ? accent : "transparent",
+                      opacity: pressed ? 0.8 : 1,
+                    })}
                   >
-                    <AppText weight={isSel ? "Bold" : "Medium"} className="text-xs" style={{ color: isSel ? "#FFFFFF" : textSecondary }}>
+                    <AppText weight={isSel ? "Bold" : "Medium"} style={{ fontSize: 12, color: isSel ? "#FFFFFF" : textSecondary }}>
                       {label}
                     </AppText>
                   </Pressable>
@@ -3536,11 +3536,11 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
           </View>
 
           {/* 5. Font Size */}
-          <View style={{ marginBottom: 24 }}>
-            <AppText weight="Medium" className="text-[11px] uppercase tracking-widest text-center" style={{ color: textSecondary, marginBottom: 12 }}>
+          <View style={{ marginBottom: 22 }}>
+            <AppText weight="Bold" style={{ fontSize: 11, color: textSecondary, textTransform: "uppercase", letterSpacing: 1, textAlign: "center", marginBottom: 12 }}>
               Font Size ({fontSizeValue}px)
             </AppText>
-            <View className="border rounded-[20px]" style={{ borderColor: borderSoft, flexDirection: 'row', alignItems: 'center', overflow: 'hidden' }}>
+            <View style={{ borderRadius: 16, borderWidth: 1, borderColor: borderSoft, flexDirection: "row", alignItems: "center", overflow: "hidden", backgroundColor: currentTheme.isDark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.02)" }}>
               {[15, 18, 21, 24].map((size, index) => {
                 const isSelected = fontSizeValue === size;
                 const isLast = index === 3;
@@ -3548,17 +3548,20 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
                   <Pressable
                     key={size}
                     onPress={() => handleUpdateReaderSettings({ fontSize: size })}
-                    className="flex-1 py-3 items-center justify-center border-r"
-                    style={{
-                      backgroundColor: isSelected ? (currentTheme.isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.05)") : "transparent",
+                    style={({ pressed }) => ({
+                      flex: 1,
+                      paddingVertical: 12,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      backgroundColor: isSelected ? accent : "transparent",
                       borderRightWidth: isLast ? 0 : 1,
-                      borderRightColor: borderSoft }}
+                      borderRightColor: borderSoft,
+                      opacity: pressed ? 0.8 : 1,
+                    })}
                   >
                     <AppText
                       weight={isSelected ? "Bold" : "Medium"}
-                      style={{
-                        fontSize: size,
-                        color: isSelected ? textMain : textSecondary }}
+                      style={{ fontSize: size, color: isSelected ? "#FFFFFF" : textSecondary }}
                     >
                       A
                     </AppText>
@@ -3568,12 +3571,12 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
             </View>
           </View>
 
-          {/* 6. Themes */}
-          <View style={{ marginBottom: 8 }}>
-            <AppText weight="Medium" className="text-[11px] uppercase tracking-widest text-center" style={{ color: textSecondary, marginBottom: 12 }}>
+          {/* 6. Reading Themes Grid */}
+          <View style={{ marginBottom: 12 }}>
+            <AppText weight="Bold" style={{ fontSize: 11, color: textSecondary, textTransform: "uppercase", letterSpacing: 1, textAlign: "center", marginBottom: 12 }}>
               Reading Theme
             </AppText>
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
+            <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
               {(Object.keys(READING_THEMES) as ReadingThemeKey[]).map((key) => {
                 const theme = READING_THEMES[key];
                 const isSelected = themeKey === key;
@@ -3581,17 +3584,29 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
                   <Pressable
                     key={key}
                     onPress={() => handleUpdateReaderSettings({ theme: key })}
-                    className="flex-1 py-3 rounded-2xl items-center justify-center border"
-                    style={{
+                    style={({ pressed }) => ({
+                      width: "23%",
+                      minWidth: 84,
+                      paddingVertical: 10,
+                      paddingHorizontal: 6,
+                      borderRadius: 14,
+                      alignItems: "center",
+                      justifyContent: "center",
                       backgroundColor: theme.bg,
-                      borderColor: isSelected ? accent : borderSoft,
-                      borderWidth: isSelected ? 2 : 1 }}
+                      borderColor: isSelected ? accent : theme.borderSoft || borderSoft,
+                      borderWidth: isSelected ? 2 : 1,
+                      shadowColor: isSelected ? accent : "#000",
+                      shadowOffset: { width: 0, height: 2 },
+                      shadowOpacity: isSelected ? 0.3 : 0.05,
+                      shadowRadius: 4,
+                      opacity: pressed ? 0.8 : 1,
+                    })}
                   >
-                    <AppText weight="Bold" className="text-xs mb-0.5" style={{ color: theme.textMain }}>
+                    <AppText weight="Bold" style={{ fontSize: 13, color: theme.textMain, marginBottom: 2 }}>
                       Aa
                     </AppText>
-                    <AppText className="text-[10px]" style={{ color: theme.textSecondary }}>
-                      {theme.name.split(" ")[1]}
+                    <AppText weight="Medium" numberOfLines={1} style={{ fontSize: 10, color: theme.textSecondary, textAlign: "center" }}>
+                      {theme.name.split(" ")[0]}
                     </AppText>
                   </Pressable>
                 );
