@@ -69,10 +69,8 @@ export default function EbookReadScreen() {
     { skip: !slug }
   );
 
-  const bgColor = isDark ? "#0F172A" : "#FAFBFD";
-
   return (
-    <View style={{ flex: 1, width: "100%", height: "100%", backgroundColor: bgColor }}>
+    <View style={{ flex: 1, width: "100%", height: "100%", backgroundColor: isDark ? "#0F172A" : "#FAFBFD" }}>
       <Stack.Screen
         options={{
           headerShown: false,

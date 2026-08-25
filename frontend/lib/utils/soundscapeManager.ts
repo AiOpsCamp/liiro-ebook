@@ -15,7 +15,7 @@ export const SOUNDSCAPE_TRACKS: SoundscapeTrack[] = [
     name: "Rain on Windowpane",
     emoji: "🌧️",
     icon: "CloudRain",
-    url: "https://multicamp-prod-storage.nbg1.your-objectstorage.com/Liiro-Ebook-Prod/ambient/rain_windowpane.mp3",
+    url: "https://multicamp-prod-storage.nbg1.your-objectstorage.com/LangoReads-Prod/ambient/rain_windowpane.mp3",
     description: "Gentle raindrops falling against a glass windowpane.",
   },
   {
@@ -23,7 +23,7 @@ export const SOUNDSCAPE_TRACKS: SoundscapeTrack[] = [
     name: "Cozy Fireplace Crackle",
     emoji: "🔥",
     icon: "Flame",
-    url: "https://multicamp-prod-storage.nbg1.your-objectstorage.com/Liiro-Ebook-Prod/ambient/fireplace_crackle.mp3",
+    url: "https://multicamp-prod-storage.nbg1.your-objectstorage.com/LangoReads-Prod/ambient/fireplace_crackle.mp3",
     description: "Warm hearth crackling embers in a quiet reading room.",
   },
   {
@@ -31,7 +31,7 @@ export const SOUNDSCAPE_TRACKS: SoundscapeTrack[] = [
     name: "Mystic Forest Wind",
     emoji: "🌲",
     icon: "Trees",
-    url: "https://multicamp-prod-storage.nbg1.your-objectstorage.com/Liiro-Ebook-Prod/ambient/mystic_forest.mp3",
+    url: "https://multicamp-prod-storage.nbg1.your-objectstorage.com/LangoReads-Prod/ambient/mystic_forest.mp3",
     description: "Rustling pine leaves and soft mountain breezes.",
   },
   {
@@ -39,7 +39,7 @@ export const SOUNDSCAPE_TRACKS: SoundscapeTrack[] = [
     name: "Quiet Coffee Shop",
     emoji: "☕",
     icon: "Coffee",
-    url: "https://multicamp-prod-storage.nbg1.your-objectstorage.com/Liiro-Ebook-Prod/ambient/coffee_shop.mp3",
+    url: "https://multicamp-prod-storage.nbg1.your-objectstorage.com/LangoReads-Prod/ambient/coffee_shop.mp3",
     description: "Distanced cafe chatter and warm ceramic cup sounds.",
   },
   {
@@ -47,7 +47,7 @@ export const SOUNDSCAPE_TRACKS: SoundscapeTrack[] = [
     name: "Victorian Gothic Library",
     emoji: "🏰",
     icon: "Castle",
-    url: "https://multicamp-prod-storage.nbg1.your-objectstorage.com/Liiro-Ebook-Prod/ambient/gothic_library.mp3",
+    url: "https://multicamp-prod-storage.nbg1.your-objectstorage.com/LangoReads-Prod/ambient/gothic_library.mp3",
     description: "Old clock pendulum ticking in a grand silent library.",
   },
 ];

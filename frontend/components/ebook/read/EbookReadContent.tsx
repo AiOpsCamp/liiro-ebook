@@ -10,7 +10,7 @@ import {
   TextInput,
   Modal,
   Platform } from "react-native";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -81,7 +81,7 @@ import {
 
 import { AppText } from "@/components/ui/AppText";
 import ResponsiveSheet from "@/components/ui/shared/ResponsiveSheet";
-import { selectIsDark } from "@/redux/features/themeSlice";
+import { selectIsDark, setReaderTheme, setThemeMode } from "@/redux/features/themeSlice";
 import {
   useGetChapterContentQuery,
   useGetStreamTokenQuery,
@@ -499,6 +499,7 @@ const HIGHLIGHT_COLORS = [
 
 const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio = false }) => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const insets = useSafeAreaInsets();
   const globalIsDark = useSelector(selectIsDark);
   const { width, height } = useWindowDimensions();
@@ -1436,8 +1437,13 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
   const handleSelectTheme = useCallback((theme: ReadingThemeKey) => {
     setThemeKey(theme);
     AsyncStorage.setItem(STORAGE_KEY_THEME, theme).catch(console.error);
+    const targetTheme = READING_THEMES[theme];
+    if (targetTheme) {
+      dispatch(setReaderTheme(theme as any));
+      dispatch(setThemeMode(targetTheme.isDark ? "dark" : "light"));
+    }
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-  }, []);
+  }, [dispatch]);
 
   const handleSelectReadingMode = useCallback((mode: ReadingMode) => {
     setReadingMode(mode);
