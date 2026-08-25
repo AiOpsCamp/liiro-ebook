@@ -1,6 +1,8 @@
 import os
 import sys
 import json
+import re
+import html
 import urllib.request
 from datetime import datetime, timezone
 import soundfile as sf
@@ -157,6 +159,80 @@ def generate_and_align_ebook_audio(slug):
     print("🎙️ Initializing Kokoro v1.0 ONNX Engine...")
     kokoro = Kokoro(MODEL_PATH, VOICES_PATH)
 
+import re
+import html
+
+def clean_text_for_audio(raw_text, title=""):
+    if not raw_text:
+        return f"{title}.\n\n" if title else ""
+
+    text = str(raw_text)
+
+    # 1. Unescape HTML Entities
+    text = html.unescape(text)
+
+    # 2. Strip HTML/XML tags (<figure>, <img>, <figcaption>, <header>, <hgroup>, etc.)
+    text = re.sub(r'<figure[^>]*>[\s\S]*?<\/figure>', ' ', text, flags=re.IGNORECASE)
+    text = re.sub(r'<header[^>]*>[\s\S]*?<\/header>', ' ', text, flags=re.IGNORECASE)
+    text = re.sub(r'<hgroup[^>]*>[\s\S]*?<\/hgroup>', ' ', text, flags=re.IGNORECASE)
+    text = re.sub(r'<figcaption[^>]*>[\s\S]*?<\/figcaption>', ' ', text, flags=re.IGNORECASE)
+    text = re.sub(r'<[^>]+>', ' ', text)
+
+    # 3. Strip Image/Figure placeholders ([IMAGE: ...], [FIGURE: ...])
+    text = re.sub(r'\[(IMAGE|FIGURE|CAPTION)[^\]]*\]', ' ', text, flags=re.IGNORECASE)
+
+    # 4. Strip section dividers (* * *, ***, •••, ---, ===)
+    text = re.sub(r'(\s*[\*\-\•\=\_]\s*){3,}', ' ', text)
+
+    # 5. Clean up em-dashes and special unpronounceable characters
+    text = text.replace('—', ', ').replace('–', ', ')
+    text = re.sub(r'[\uFFFD\u200B\u200C\u200D\uFEFF]', '', text)
+    text = re.sub(r'\[\d+\]', '', text)
+
+    # 6. Normalize Whitespace
+    text = re.sub(r'\s+', ' ', text).strip()
+
+    # 7. Deduplicate Chapter Title at start of body text
+    if title:
+        clean_title_words = [w.lower() for w in re.findall(r'\b\w+\b', title)]
+        clean_text_words = text.split()
+
+        if clean_title_words and len(clean_text_words) >= len(clean_title_words):
+            match_count = 0
+            for tw, dw in zip(clean_title_words, clean_text_words[:len(clean_title_words)]):
+                if tw == re.sub(r'[^\w]', '', dw).lower():
+                    match_count += 1
+            if match_count >= max(1, len(clean_title_words) - 1):
+                text = ' '.join(clean_text_words[len(clean_title_words):]).lstrip(' .,:;-\n\t')
+
+    return f"{title}.\n\n{text}" if title else text
+
+def generate_and_align_ebook_audio(slug):
+    client = get_mongo_client()
+    db = client["liiro_prod"]
+
+    story = db["stories"].find_one({"slug": slug})
+    if not story:
+        print(f"❌ Story not found in MongoDB: {slug}")
+        sys.exit(1)
+
+    story_title = story.get("title", {})
+    if isinstance(story_title, dict):
+        story_title = story_title.get("en", slug)
+
+    chapters = list(db["storychapters"].find({"storyId": story["_id"]}).sort("chapterNumber", 1))
+    print("=======================================================================")
+    print(f"🎙️ ENTERPRISE MULTI-BITRATE AUDIO GENERATION & WHISPER ALIGNMENT")
+    print(f"   Book: \"{story_title}\" ({slug})")
+    print(f"   Total Chapters to Process: {len(chapters)}")
+    print("=======================================================================")
+
+    download_if_missing(MODEL_URL, MODEL_PATH)
+    download_if_missing(VOICES_URL, VOICES_PATH)
+
+    print("🎙️ Initializing Kokoro v1.0 ONNX Engine...")
+    kokoro = Kokoro(MODEL_PATH, VOICES_PATH)
+
     print("🤖 Loading OpenAI Whisper Forced Alignment Model (tiny.en)...")
     whisper_model = whisper.load_model("tiny.en")
 
@@ -174,8 +250,8 @@ def generate_and_align_ebook_audio(slug):
         if isinstance(raw_title, dict):
             raw_title = raw_title.get("en", f"Chapter {ch_num}")
 
-        full_chapter_text = f"{raw_title}.\n\n" + raw_text.strip()
-        print(f"\n🎧 [Chapter {ch_num}/{len(chapters)}] Synthesizing Multi-Bitrate Audio for \"{raw_title}\"...")
+        full_chapter_text = clean_text_for_audio(raw_text, raw_title)
+        print(f"\n🎧 [Chapter {ch_num}/{len(chapters)}] Synthesizing Audio for \"{raw_title}\"...")
 
         wav_path = os.path.join(out_dir, f"chapter_{ch_num}.wav")
 
