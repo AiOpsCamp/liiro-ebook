@@ -366,6 +366,20 @@ async function ingestStandardEbook(repoInput) {
     console.warn(`   ⚠️ S3 Cover CDN Check Error: ${e.message}`);
   }
 
+  // 8. Optional Automated Audio Generation Pipeline (--audio flag)
+  if (process.argv.includes("--audio") || process.env.GENERATE_AUDIO === "true") {
+    console.log("\n=======================================================================");
+    console.log(`🎙️ TRIGGERING KOKORO TTS & OPENAI WHISPER AUDIO PIPELINE FOR "${slug}"...`);
+    console.log("=======================================================================");
+    try {
+      const pyPath = "/Users/humayunrashid/multicamp/.venv/bin/python";
+      const scriptPath = path.join(__dirname, "generate_and_align_ebook_audio.py");
+      execSync(`"${pyPath}" "${scriptPath}" "${slug}"`, { stdio: "inherit" });
+    } catch (e) {
+      console.error(`❌ Audio Generation Pipeline Error: ${e.message}`);
+    }
+  }
+
   console.log("\n=======================================================================");
   console.log(`🎉 UNIVERSAL INGESTION & VALIDATION COMPLETE FOR "${bookTitle.toUpperCase()}"!`);
   console.log(`   Total Chapters Ingested: ${chNum - 1}/${chapterFiles.length}`);
