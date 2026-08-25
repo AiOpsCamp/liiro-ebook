@@ -1283,6 +1283,20 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
     return cleanedParas.length > 0 ? cleanedParas : rawParas;
   }, [chapterDetails?.textPayload, chapterDetails?.content, chapterStub?.title, chapterStub?.chapterNumber, currentChapterIdx, story?.title, activeLang]);
 
+  const extractedImages = useMemo(() => {
+    const html = chapterDetails?.content;
+    if (!html) return [];
+    const imgSources: string[] = [];
+    const re = /src=["']([^"']+)["']/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(html)) !== null) {
+      if (m[1].includes("images/") || m[1].includes("multicamp-prod-storage") || m[1].includes("githubusercontent")) {
+        imgSources.push(m[1]);
+      }
+    }
+    return [...new Set(imgSources)];
+  }, [chapterDetails?.content]);
+
   const processedPayload = useMemo(() => {
     return paragraphs.join("\n\n");
   }, [paragraphs]);
@@ -2811,6 +2825,42 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
                               setHighlightModalData({ paragraphIdx: idx, text: para });
                             }}
                           />
+                          {/* Inline Hetzner S3 Illustration Rendering */}
+                          {(() => {
+                            if (!extractedImages || extractedImages.length === 0) return null;
+                            const interval = Math.max(1, Math.floor(paragraphs.length / (extractedImages.length + 1)));
+                            const imageIdx = Math.floor((idx + 1) / interval) - 1;
+                            const shouldShowImage = (idx + 1) % interval === 0 && imageIdx >= 0 && imageIdx < extractedImages.length;
+                            if (!shouldShowImage) return null;
+                            const imgSrc = extractedImages[imageIdx];
+                            return (
+                              <View key={`inline-img-${idx}`} style={{ alignItems: "center", marginVertical: 28, width: "100%" }}>
+                                {Platform.OS === "web" ? (
+                                  <img
+                                    src={imgSrc}
+                                    alt="Illustration by Sir John Tenniel"
+                                    style={{
+                                      maxWidth: "92%",
+                                      maxHeight: 440,
+                                      borderRadius: 14,
+                                      boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
+                                      display: "block",
+                                      margin: "0 auto",
+                                    }}
+                                  />
+                                ) : (
+                                  <Image
+                                    source={{ uri: imgSrc }}
+                                    style={{ width: "90%", height: 300, borderRadius: 14 }}
+                                    resizeMode="contain"
+                                  />
+                                )}
+                                <AppText weight="Medium" style={{ fontSize: 11, color: textSecondary, marginTop: 8, fontStyle: "italic" }}>
+                                  Illustration {imageIdx + 1} by Sir John Tenniel
+                                </AppText>
+                              </View>
+                            );
+                          })()}
                         </View>
                       );
                     });
