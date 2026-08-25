@@ -539,8 +539,36 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
 
   // Audio Playback State (Declared early so Whispersync effect can access state)
   const [isPlaying, setIsPlaying] = useState(false);
-  const [audioCurrentTime, setAudioCurrentTime] = useState(0);
   const [audioDuration, setAudioDuration] = useState(0);
+
+  const effectiveAudioDuration = useMemo(() => {
+    if (audioDuration > 0) return audioDuration;
+    if (chapterDetails?.durationSeconds) {
+      if (typeof chapterDetails.durationSeconds === "number" && chapterDetails.durationSeconds > 0) {
+        return chapterDetails.durationSeconds;
+      }
+      if (typeof chapterDetails.durationSeconds === "object") {
+        const val = (chapterDetails.durationSeconds as any)[activeLang] || Object.values(chapterDetails.durationSeconds)[0];
+        if (typeof val === "number" && val > 0) return val;
+      }
+    }
+    if (chapterDetails?.timestamps && chapterDetails.timestamps.length > 0) {
+      const last = chapterDetails.timestamps[chapterDetails.timestamps.length - 1];
+      if (last?.endSec && typeof last.endSec === "number" && last.endSec > 0) {
+        return last.endSec;
+      }
+    }
+    if (chapterStub?.durationSeconds) {
+      if (typeof chapterStub.durationSeconds === "number" && chapterStub.durationSeconds > 0) {
+        return chapterStub.durationSeconds;
+      }
+      if (typeof chapterStub.durationSeconds === "object") {
+        const val = (chapterStub.durationSeconds as any)[activeLang] || Object.values(chapterStub.durationSeconds)[0];
+        if (typeof val === "number" && val > 0) return val;
+      }
+    }
+    return 0;
+  }, [audioDuration, chapterDetails, chapterStub, activeLang]);
   const [playbackSpeed, setPlaybackSpeed] = useState(1.0);
   const [isAudioLoading, setIsAudioLoading] = useState(false);
   const [bookmarkedChapters, setBookmarkedChapters] = useState<number[]>([]);
@@ -1221,13 +1249,26 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
 
   const seekAudio = useCallback(async (seconds: number) => {
     if (typeof seconds !== "number" || isNaN(seconds) || !isFinite(seconds)) return;
-    const maxDur = typeof audioDuration === "number" && isFinite(audioDuration) && audioDuration > 0 ? audioDuration : 0;
+    const maxDur = effectiveAudioDuration > 0 ? effectiveAudioDuration : 0;
     const targetTime = maxDur > 0 ? Math.max(0, Math.min(seconds, maxDur)) : Math.max(0, seconds);
     
     setAudioCurrentTime(targetTime);
-    await AudioManager.getInstance().seekTo(targetTime);
+    const audioMgr = AudioManager.getInstance();
+    const currentPlayUrl = audioUrl || (chapterDetails?.audioUrl ? (typeof chapterDetails.audioUrl === "string" ? chapterDetails.audioUrl : (chapterDetails.audioUrl as any)[activeLang]) : null);
+
+    if (currentPlayUrl) {
+      if (isPlaying) {
+        await audioMgr.seekTo(targetTime);
+      } else {
+        setIsAudioLoading(true);
+        await audioMgr.playAudio(currentPlayUrl, () => setIsPlaying(false), targetTime);
+        await audioMgr.pauseAudio();
+        setIsAudioLoading(false);
+        setIsPlaying(false);
+      }
+    }
     Haptics.selectionAsync();
-  }, [audioDuration]);
+  }, [effectiveAudioDuration, audioUrl, chapterDetails, activeLang, isPlaying]);
 
   const changeSpeed = useCallback(() => {
     const nextIdx = (SPEED_OPTIONS.indexOf(playbackSpeed) + 1) % SPEED_OPTIONS.length;
@@ -2101,7 +2142,7 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
           (() => {
             const coverW = Math.min(width - 48, 280);
             const coverH = coverW * 1.33;
-            const progress = audioDuration ? audioCurrentTime / audioDuration : 0;
+            const progress = effectiveAudioDuration ? audioCurrentTime / effectiveAudioDuration : 0;
             const shadow = {
               shadowColor: accent,
               shadowOffset: { width: 0, height: 16 },
@@ -2140,7 +2181,7 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
                       {formatTime(audioCurrentTime)}
                     </AppText>
                     <AppText weight="Regular" style={{ fontSize: 14, color: "rgba(255,255,255,0.35)" }}>
-                      / {formatTime(audioDuration)}
+                      / {formatTime(effectiveAudioDuration)}
                     </AppText>
                     {/* Progress bar */}
                     <View style={{ width: "80%", height: 20, justifyContent: "center", position: "relative", marginTop: 12 }}>
@@ -2148,7 +2189,7 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
                         <input
                           type="range"
                           min={0}
-                          max={audioDuration || 1}
+                          max={effectiveAudioDuration || 1}
                           step={0.1}
                           value={audioCurrentTime || 0}
                           onChange={(e) => {
@@ -2168,7 +2209,7 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
                         />
                       )}
                       <View pointerEvents="none" style={{ width: "100%", height: 4, borderRadius: 2, backgroundColor: "rgba(255,255,255,0.12)", overflow: "hidden" }}>
-                        <View style={{ height: "100%", borderRadius: 2, backgroundColor: accent, width: `${(audioDuration ? audioCurrentTime / audioDuration : 0) * 100}%` as any }} />
+                        <View style={{ height: "100%", borderRadius: 2, backgroundColor: accent, width: `${(effectiveAudioDuration ? audioCurrentTime / effectiveAudioDuration : 0) * 100}%` as any }} />
                       </View>
                     </View>
                   </View>
@@ -2305,7 +2346,7 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
                           <input
                             type="range"
                             min={0}
-                            max={audioDuration || 1}
+                            max={effectiveAudioDuration || 1}
                             step={0.1}
                             value={audioCurrentTime || 0}
                             onChange={(e) => {
@@ -2327,10 +2368,10 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
                         <Pressable
                           onLayout={(e) => setProgressBarWidth(e.nativeEvent.layout.width)}
                           onPress={(e) => {
-                            if (!audioDuration || progressBarWidth === 0) return;
+                            if (!effectiveAudioDuration || progressBarWidth === 0) return;
                             const x = e.nativeEvent.locationX;
                             const ratio = Math.max(0, Math.min(1, x / progressBarWidth));
-                            seekAudio(ratio * audioDuration);
+                            seekAudio(ratio * effectiveAudioDuration);
                           }}
                           style={{ height: 28, justifyContent: "center" }}
                           accessibilityLabel="Seek audio"
@@ -2370,7 +2411,7 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
                             {formatTime(audioCurrentTime)}
                           </AppText>
                           <AppText style={{ fontSize: 12, color: textSecondary, fontWeight: "600" }}>
-                            {formatTime(audioDuration)}
+                            {formatTime(effectiveAudioDuration)}
                           </AppText>
                         </View>
                       </View>
@@ -3081,7 +3122,7 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
                 <input
                   type="range"
                   min={0}
-                  max={audioDuration || 1}
+                  max={effectiveAudioDuration || 1}
                   step={0.1}
                   value={audioCurrentTime || 0}
                   onChange={(e) => {
@@ -3103,10 +3144,10 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
               <Pressable
                 onLayout={(e) => setMiniScrubberWidth(e.nativeEvent.layout.width)}
                 onPress={(e) => {
-                  if (!audioDuration || miniScrubberWidth === 0) return;
+                  if (!effectiveAudioDuration || miniScrubberWidth === 0) return;
                   const x = e.nativeEvent.locationX;
                   const ratio = Math.max(0, Math.min(1, x / miniScrubberWidth));
-                  seekAudio(ratio * audioDuration);
+                  seekAudio(ratio * effectiveAudioDuration);
                 }}
                 style={{ height: 16, justifyContent: "center" }}
                 accessibilityLabel="Seek audio"
@@ -3117,7 +3158,7 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
                       height: "100%",
                       borderRadius: 2,
                       backgroundColor: accent,
-                      width: `${audioDuration ? (audioCurrentTime / audioDuration) * 100 : 0}%`,
+                      width: `${effectiveAudioDuration ? (audioCurrentTime / effectiveAudioDuration) * 100 : 0}%`,
                     }}
                   />
                 </View>
@@ -3135,7 +3176,7 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
                     {displayHeaderSubtitle}
                   </AppText>
                   <AppText style={{ fontSize: 11, color: textSecondary }}>
-                    {formatTime(audioCurrentTime)} / {formatTime(audioDuration)}
+                    {formatTime(audioCurrentTime)} / {formatTime(effectiveAudioDuration)}
                   </AppText>
                 </View>
               </View>
