@@ -7,7 +7,9 @@ The pipeline automatically handles:
 - **Auto-Detection of Artwork & Illustrations**: Scans `content.opf` for embedded `<figure>` vector/raster images (`.svg`, `.png`, `.jpg`).
 - **Parallel S3 CDN Asset Sync**: Uploads cover art, vector illustrations, and audio files to Hetzner Object Storage (`LangoReads-Prod/ebooks/<slug>/...`) in parallel with `public-read` permissions.
 - **Hgroup & Header Metadata Parser**: Prioritizes `<hgroup>` outer tags over body poem `<header>` blocks to extract exact chapter titles (`I: Looking-Glass House`, `Down the Rabbit-Hole`).
-- **Studio Kokoro TTS Audio Generation**: Synthesizes studio-grade MP3 audio using Kokoro ONNX v1.0 engine (`kokoro-v1.0.onnx` / `am_adam` voice).
+- **Spoken Roman Numeral Converter**: Converts Roman numeral headers (`I: Looking-Glass House`) into natural spoken English (`Chapter 1. Looking-Glass House`).
+- **Audio Text Sanitizer & Deduplicator**: Strips image tags, figure captions, HTML entities, footnote markers, and duplicate chapter title prefixes so narrative text is spoken cleanly without title repetitions.
+- **Neural Studio Voice Selection**: Supports 4 studio voices (`af_heart` female voice default, `am_adam` male voice, `bf_emma` UK female, `bm_george` UK male).
 - **Multi-Bitrate Transcoding Profiles**: Encodes 3 separate audio qualities per chapter (`high` 128k stereo, `standard` 64k mono, `low` 32k mono) with immutable S3 headers.
 - **OpenAI Whisper Forced Alignment**: Transcribes audio to generate sentence and word-level millisecond start/end timestamps (`word_timestamps=True`).
 - **4-Layer Automated Post-Import Validation**: Automatically validates API query availability, chapter count integrity, 100.00% word-for-word narrative text body diff checks, and S3 CDN HTTP status.
@@ -31,10 +33,14 @@ node scripts/ingest_standard_ebook.js lewis-carroll_through-the-looking-glass_jo
 ### 3. Standalone Multi-Bitrate Audio Generation & Alignment CLI
 ```bash
 cd backend
-PYTHONUNBUFFERED=1 /Users/humayunrashid/multicamp/.venv/bin/python scripts/generate_and_align_ebook_audio.py <story-slug>
+# Default Female Studio Voice (af_heart)
+PYTHONUNBUFFERED=1 /Users/humayunrashid/multicamp/.venv/bin/python scripts/generate_and_align_ebook_audio.py <story-slug> --voice heart
 
-# Example:
-PYTHONUNBUFFERED=1 /Users/humayunrashid/multicamp/.venv/bin/python scripts/generate_and_align_ebook_audio.py through-the-looking-glass
+# Specific Voice Narrator Options (--voice heart | adam | emma | george)
+PYTHONUNBUFFERED=1 /Users/humayunrashid/multicamp/.venv/bin/python scripts/generate_and_align_ebook_audio.py <story-slug> --voice adam
+
+# Full Multi-Voice Mode (Generates All 4 Studio Voices)
+PYTHONUNBUFFERED=1 /Users/humayunrashid/multicamp/.venv/bin/python scripts/generate_and_align_ebook_audio.py <story-slug> --multivoice
 ```
 
 ---
