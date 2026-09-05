@@ -49,14 +49,28 @@ The Liiro API Backend is structured as a high-performance RESTful microservice b
 - **Port Allocation**: TCP Port `5012` (default backend port).
 
 ### Execution Commands
+
 ```bash
 cd /Users/humayunrashid/multicamp/liiro-ebook/backend
+
+# 1. Official Supertest + Node Test Runner CI Suite (Used in GitHub Actions)
+npm test
+
+# 2. Comprehensive 30-Scenario Live Microservice Smoke Suite
 node tests/smoke_api_suite.js
 ```
 
 ---
 
-## 3. Test Coverage Matrix
+## 3. Supertest CI Integration Test Suite (`tests/api_integration_suite.test.js`)
+
+Used in GitHub Actions CI/CD to gate PRs and releases:
+- **Suite 1: System Health & APM Metrics Endpoint** (`GET /health`): Validates database latency, uptime, memory, and service name.
+- **Suite 2: Stories Catalog & Whispersync Endpoints** (`GET /api/v1/stories`, `GET /api/v1/stories/slug/:slug`): Validates story payload, pagination, and whispersync models.
+- **Suite 3: OPDS 2.0 Catalog & Publications Feed** (`GET /opds/v2/catalog`): Validates OPDS 2.0 JSON schema compatibility.
+- **Suite 4: Auth Lifecycle & GDPR Account Deletion** (`POST /api/v1/auth/register`, `POST /api/v1/auth/login`, `DELETE /api/v1/auth/account`): Validates registration, token issuance, and full GDPR cascade erasure across 8 MongoDB collections.
+- **Suite 5: Security: Rejection of Invalid Tokens & Unauthorized Requests**: Validates 401 Unauthorized handling when bad tokens are supplied.
+- **Suite 6: Billing Quota Enforcement**: Validates HTTP 402 Payment Required response when monthly 20h limit is exceeded.
 
 The suite covers **30 distinct operational scenarios** across 10 controllers:
 

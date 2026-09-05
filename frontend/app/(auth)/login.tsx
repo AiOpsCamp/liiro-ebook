@@ -30,6 +30,9 @@ import {
   XCircle,
   HelpCircle,
   BookOpen,
+  Headphones,
+  Languages,
+  Download,
   X,
 } from "lucide-react-native";
 import { GoogleAuthProvider, OAuthProvider, signInWithCredential } from "firebase/auth";
@@ -54,12 +57,33 @@ import { useLoginMutation, useFirebaseExchangeMutation, useGoogleAuthMutation } 
 import { getFriendlyErrorMessage } from "@/lib/auth-validation";
 import themeColors from "@/constants/theme-colors.json";
 import { getAuthTheme } from "@/config/auth-theme";
-import { AppColors } from "@/constants/Colors";
 import { AuthBackground } from "@/components/auth/AuthBackground";
 
 import GoogleAuthService from "@/services/google-auth.service";
 
 const V = getAuthTheme();
+
+/* ──────────────────────────────────────────────────────────────
+   Type system — three loaded brand fonts, used deliberately so
+   rendering is identical on iOS / Android / Web (no silent
+   fallback to whatever the platform's default happens to be):
+     • PlayfairDisplay-Bold  → display headlines (editorial voice)
+     • Lora                  → reading copy, CTAs, links, footer
+     • JetBrainsMono         → eyebrows, field labels, input values
+   ────────────────────────────────────────────────────────────── */
+const FONT_DISPLAY = "PlayfairDisplay-Bold";
+const FONT_SERIF = "Lora";
+const FONT_SERIF_SEMIBOLD = "Lora-SemiBold";
+const FONT_SERIF_BOLD = "Lora-Bold";
+const FONT_SERIF_ITALIC = "Lora-Italic";
+const FONT_MONO = "JetBrainsMono";
+const FONT_MONO_SEMIBOLD = "JetBrainsMono-SemiBold";
+
+// AppColors.green500 (#22C55E) and themeColors.warning (#F59E0B) sit at ~2.2:1
+// against white/mint — well under WCAG AA. These are darkened, local-only
+// substitutes used for the two small inline status hints below.
+const SUCCESS_TEXT = "#15803D";
+const WARNING_TEXT = "#B45309";
 
 // Safe hex-to-rgba converter to prevent React Native Android blank white card rendering bugs
 const toRgba = (hex: string, alpha: number) => {
@@ -89,7 +113,7 @@ function isIosWeb(): boolean {
 }
 
 /* ──────────────────────────────────────────────────────────────
-   Apple SVG Loader
+   Bundled social icons (no third-party image hotlinking)
    ────────────────────────────────────────────────────────────── */
 const rawAppleAsset = require("../../assets/images/apple.svg");
 let APPLE_SVG_URI = "";
@@ -101,22 +125,44 @@ if (typeof rawAppleAsset === "string") {
   APPLE_SVG_URI = (ExpoImage as any).resolveAssetSource(rawAppleAsset).uri;
 }
 
+const rawGoogleAsset = require("../../assets/images/google.svg");
+let GOOGLE_SVG_URI = "";
+if (typeof rawGoogleAsset === "string") {
+  GOOGLE_SVG_URI = rawGoogleAsset;
+} else if (rawGoogleAsset && rawGoogleAsset.uri) {
+  GOOGLE_SVG_URI = rawGoogleAsset.uri;
+} else if (typeof (ExpoImage as any).resolveAssetSource === "function") {
+  GOOGLE_SVG_URI = (ExpoImage as any).resolveAssetSource(rawGoogleAsset).uri;
+}
+
 const AppleIcon = memo(function AppleIcon() {
   return (
     <SvgUri
       uri={APPLE_SVG_URI}
-      width={18}
-      height={18}
+      width={19}
+      height={19}
       fill={V.textPrimary}
     />
   );
 });
 
+// Bundled, full-color "G" mark — replaces the previous flaticon.com hotlink
+// (a production liability: third-party dependency, no offline guarantee).
+const GoogleIcon = memo(function GoogleIcon() {
+  return <SvgUri uri={GOOGLE_SVG_URI} width={19} height={19} />;
+});
+
 /* ──────────────────────────────────────────────────────────────
    UI Components
    ────────────────────────────────────────────────────────────── */
-const Wordmark = memo(function Wordmark() {
+const Wordmark = memo(function Wordmark({ tone = "dark" }: { tone?: "dark" | "light" }) {
   const router = useRouter();
+  const isLight = tone === "light";
+  const textColor = isLight ? "#FFFFFF" : V.textPrimary;
+  const badgeBg = isLight ? "rgba(255,255,255,0.14)" : "rgba(14, 165, 233, 0.15)";
+  const badgeBorder = isLight ? "rgba(255,255,255,0.32)" : "rgba(14, 165, 233, 0.3)";
+  const badgeText = isLight ? "rgba(255,255,255,0.85)" : "#0EA5E9";
+
   return (
     <Pressable
       onPress={() => router.push("/")}
@@ -127,6 +173,7 @@ const Wordmark = memo(function Wordmark() {
         opacity: pressed ? 0.8 : 1,
       })}
       accessibilityLabel="Liiro Ebook Home"
+      hitSlop={8}
     >
       <LinearGradient
         colors={["#0EA5E9", "#6366F1"]}
@@ -144,7 +191,7 @@ const Wordmark = memo(function Wordmark() {
       </LinearGradient>
 
       <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
-        <Text weight="Bold" style={{ fontSize: 26, color: V.textPrimary, letterSpacing: -0.6 }}>
+        <Text weight="Bold" style={{ fontFamily: FONT_DISPLAY, fontSize: 25, color: textColor, letterSpacing: -0.4 }}>
           Liiro
         </Text>
         <View
@@ -152,12 +199,12 @@ const Wordmark = memo(function Wordmark() {
             paddingHorizontal: 7,
             paddingVertical: 2,
             borderRadius: 6,
-            backgroundColor: "rgba(14, 165, 233, 0.15)",
+            backgroundColor: badgeBg,
             borderWidth: 1,
-            borderColor: "rgba(14, 165, 233, 0.3)",
+            borderColor: badgeBorder,
           }}
         >
-          <Text weight="Bold" style={{ fontSize: 10, color: "#0EA5E9", letterSpacing: 0.5 }}>
+          <Text weight="Bold" style={{ fontFamily: FONT_MONO_SEMIBOLD, fontSize: 10, color: badgeText, letterSpacing: 0.5 }}>
             EBOOK
           </Text>
         </View>
@@ -166,7 +213,9 @@ const Wordmark = memo(function Wordmark() {
   );
 });
 
-// Tactile Architectural Input — ZERO SHADOWS, flush modern minimalism (Linear/Stripe style)
+// Tactile Architectural Input — flush modern minimalism with a real (visible,
+// AA-contrast) border, a mono field label, and monospaced input text for
+// maximum character legibility in email/password fields.
 const TactileInput = ({
   value,
   onChangeText,
@@ -195,13 +244,15 @@ const TactileInput = ({
 
   return (
     <View style={{ marginBottom: 18, width: "100%" }}>
-      <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 7 }}>
+      <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
         <Text
           weight="SemiBold"
           style={{
-            fontSize: 13,
-            color: isFocused ? V.accent : V.textPrimary,
-            letterSpacing: 0.2,
+            fontFamily: FONT_MONO_SEMIBOLD,
+            fontSize: 11.5,
+            color: isFocused ? V.accentText || V.accentDark : V.textSecondary,
+            letterSpacing: 1.1,
+            textTransform: "uppercase",
           }}
         >
           {label}
@@ -214,12 +265,12 @@ const TactileInput = ({
           flexDirection: "row",
           alignItems: "center",
           height: 54,
-          borderRadius: 28,
+          borderRadius: 16,
           paddingHorizontal: 16,
           width: "100%",
           borderWidth: isFocused ? 1.5 : 1,
-          borderColor: isFocused ? V.accent : toRgba(V.textPrimary, 0.12),
-          backgroundColor: isFocused ? V.card : toRgba(V.textPrimary, 0.025),
+          borderColor: isFocused ? V.accentDark : V.inputBorder,
+          backgroundColor: isFocused ? V.inputBgFocus : V.inputBg,
           shadowColor: "transparent",
           shadowOffset: { width: 0, height: 0 },
           shadowOpacity: 0,
@@ -234,7 +285,8 @@ const TactileInput = ({
             {
               flex: 1,
               height: "100%",
-              fontSize: 15.5,
+              fontFamily: FONT_MONO,
+              fontSize: 15,
               color: V.textPrimary,
               paddingVertical: 0,
             },
@@ -251,7 +303,7 @@ const TactileInput = ({
           autoFocus={autoFocus}
           onFocus={handleFocus}
           onBlur={handleBlur}
-          selectionColor={V.accent}
+          selectionColor={V.accentDark}
         />
 
         {isPasswordToggle && (
@@ -260,8 +312,10 @@ const TactileInput = ({
               triggerHaptic(Haptics.ImpactFeedbackStyle.Light);
               onTogglePassword();
             }}
-            style={{ paddingVertical: 10, paddingLeft: 12, marginRight: -6 }}
-            hitSlop={10}
+            style={{ paddingVertical: 10, paddingHorizontal: 6, marginRight: -6 }}
+            hitSlop={12}
+            accessibilityLabel={showPassword ? "Hide password" : "Show password"}
+            accessibilityRole="button"
           >
             {showPassword ? (
               <EyeOff size={19} color={V.textSecondary} />
@@ -275,8 +329,8 @@ const TactileInput = ({
   );
 };
 
-// Tactile Executive Social Button — High-contrast human minimalism (ZERO SHADOWS!)
-const TactileSocialButton = ({ title, imageSource, leftIcon, onPress, disabled }: any) => {
+// Tactile Executive Social Button — high-contrast, zero-shadow minimalism.
+const TactileSocialButton = ({ title, leftIcon, onPress, disabled }: any) => {
   const scale = useSharedValue(1);
 
   const animatedStyle = useAnimatedStyle(() => ({
@@ -303,10 +357,10 @@ const TactileSocialButton = ({ title, imageSource, leftIcon, onPress, disabled }
           animatedStyle,
           {
             height: 54,
-            borderRadius: 28,
-            backgroundColor: toRgba(V.textPrimary, 0.02),
+            borderRadius: 16,
+            backgroundColor: V.socialBtnBg,
             borderWidth: 1,
-            borderColor: toRgba(V.textPrimary, 0.12),
+            borderColor: V.socialBtnBorder,
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "center",
@@ -320,24 +374,153 @@ const TactileSocialButton = ({ title, imageSource, leftIcon, onPress, disabled }
           } as any,
         ] as any}
       >
-        {leftIcon ? (
-          <View style={{ marginRight: 12 }}>{leftIcon}</View>
-        ) : imageSource ? (
-          <ExpoImage
-            source={{ uri: imageSource }}
-            style={{ width: 20, height: 20, marginRight: 12 }}
-            contentFit="contain"
-            cachePolicy="memory-disk"
-            transition={200}
-          />
-        ) : null}
-        <Text weight="SemiBold" style={{ color: V.textPrimary, fontSize: 15.5 }}>
+        {leftIcon ? <View style={{ marginRight: 12 }}>{leftIcon}</View> : null}
+        <Text weight="SemiBold" style={{ fontFamily: FONT_SERIF_SEMIBOLD, color: V.textPrimary, fontSize: 15.5 }}>
           {title}
         </Text>
       </Animated.View>
     </Pressable>
   );
 };
+
+// Editorial stat chip used inside the desktop brand panel.
+const BrandStat = ({ icon, value, label }: { icon: React.ReactNode; value: string; label: string }) => (
+  <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
+    <View
+      style={{
+        width: 38,
+        height: 38,
+        borderRadius: 12,
+        backgroundColor: "rgba(255,255,255,0.12)",
+        borderWidth: 1,
+        borderColor: "rgba(255,255,255,0.18)",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      {icon}
+    </View>
+    <View>
+      <Text style={{ fontFamily: FONT_SERIF_BOLD, fontSize: 15.5, color: "#FFFFFF", lineHeight: 19 }}>{value}</Text>
+      <Text
+        style={{
+          fontFamily: FONT_MONO,
+          fontSize: 10.5,
+          color: "rgba(255,255,255,0.68)",
+          letterSpacing: 0.8,
+          textTransform: "uppercase",
+          marginTop: 1,
+        }}
+      >
+        {label}
+      </Text>
+    </View>
+  </View>
+);
+
+// Desktop-only editorial brand panel — replaces the empty gradient dead-zone
+// that used to sit beside the form above ~900px with real visual storytelling.
+const BrandPanel = memo(function BrandPanel() {
+  const insets = useSafeAreaInsets();
+  return (
+    <View style={{ flex: 0.86, minWidth: 420, overflow: "hidden" }}>
+      <LinearGradient
+        colors={[V.accentDeep || V.accentDark, "#04241B"]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={{ flex: 1 }}
+      >
+        {/* Ambient decorative glyph — pure typography, no image asset needed */}
+        <Text
+          style={{
+            position: "absolute",
+            top: -40,
+            right: 8,
+            fontFamily: FONT_DISPLAY,
+            fontSize: 320,
+            lineHeight: 320,
+            color: "rgba(255,255,255,0.05)",
+          }}
+        >
+          “
+        </Text>
+
+        <View
+          style={{
+            flex: 1,
+            paddingHorizontal: 56,
+            paddingTop: Math.max(insets.top + 16, 40),
+            paddingBottom: Math.max(insets.bottom + 16, 40),
+            justifyContent: "space-between",
+          }}
+        >
+          <Wordmark tone="light" />
+
+          <View style={{ maxWidth: 480 }}>
+            <Text
+              style={{
+                fontFamily: FONT_MONO_SEMIBOLD,
+                fontSize: 12,
+                color: "rgba(255,255,255,0.62)",
+                letterSpacing: 2,
+                textTransform: "uppercase",
+                marginBottom: 18,
+              }}
+            >
+              For readers who listen
+            </Text>
+            <Text
+              style={{
+                fontFamily: FONT_DISPLAY,
+                fontSize: 46,
+                lineHeight: 52,
+                color: "#FFFFFF",
+                letterSpacing: -0.6,
+                marginBottom: 20,
+              }}
+            >
+              Every classic,{"\n"}read aloud.
+            </Text>
+            <Text
+              style={{
+                fontFamily: FONT_SERIF,
+                fontSize: 16.5,
+                lineHeight: 26,
+                color: "rgba(255,255,255,0.78)",
+                marginBottom: 40,
+              }}
+            >
+              1,400+ public-domain classics narrated with whispersynced,
+              word-for-word highlighting — synced across every device, in the
+              language you're learning.
+            </Text>
+
+            <View style={{ flexDirection: "row", gap: 32 }}>
+              <BrandStat icon={<Headphones size={17} color="#FFFFFF" strokeWidth={2} />} value="1,400+" label="Classics" />
+              <BrandStat icon={<Languages size={17} color="#FFFFFF" strokeWidth={2} />} value="Multi" label="Language sync" />
+              <BrandStat icon={<Download size={17} color="#FFFFFF" strokeWidth={2} />} value="Offline" label="Ready" />
+            </View>
+          </View>
+
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 10,
+              paddingTop: 24,
+              borderTopWidth: 1,
+              borderTopColor: "rgba(255,255,255,0.14)",
+            }}
+          >
+            <Text style={{ fontFamily: FONT_SERIF_ITALIC, fontSize: 14, color: "rgba(255,255,255,0.6)" }}>
+              Free classics. No ads. Ever.
+            </Text>
+          </View>
+        </View>
+      </LinearGradient>
+    </View>
+  );
+});
 
 /* ──────────────────────────────────────────────────────────────
    Main Screen Component
@@ -360,6 +543,8 @@ export default function LoginScreen() {
   const topPadding = useMemo(() => {
     return Math.max(insets.top + 16, isWeb ? 40 : 28);
   }, [insets.top, isWeb]);
+
+  const formMaxWidth = isLargeDesktop ? 480 : isTablet ? 520 : 460;
 
   // Form states
   const [email, setEmail] = useState("");
@@ -559,7 +744,8 @@ export default function LoginScreen() {
     }
   }, [anyLoading, exchangeFirebaseIdToken, showAlert]);
 
-  // Executive Top Navigation — ZERO SHADOWS, high-visibility tactile capsule
+  // Full top row (wordmark + create-account pill) — used whenever there's no
+  // dedicated brand panel to carry the logo (mobile / tablet / single column).
   const topNavigationRow = (
     <View
       style={{
@@ -578,35 +764,82 @@ export default function LoginScreen() {
           router.push("/register");
         }}
         style={({ pressed }) => ({
-          backgroundColor: toRgba(V.accent, 0.12),
+          backgroundColor: toRgba(V.accentDark, 0.1),
           paddingHorizontal: 20,
           height: 44,
           justifyContent: "center",
           borderRadius: 22,
           borderWidth: 1.5,
-          borderColor: V.accent,
+          borderColor: V.accentDark,
           opacity: pressed ? 0.8 : 1,
           transform: [{ scale: pressed ? 0.97 : 1 }],
         })}
       >
         <View style={{ flexDirection: "row", alignItems: "center", flexWrap: "nowrap" }}>
-          <Text weight="Bold" style={{ fontSize: 14.5, color: V.accent, marginRight: 8 }} numberOfLines={1}>
+          <Text weight="Bold" style={{ fontFamily: FONT_SERIF_BOLD, fontSize: 14.5, color: V.accentText || V.accentDark, marginRight: 8 }} numberOfLines={1}>
             Create account
           </Text>
-          <ArrowRight size={16} color={V.accent} strokeWidth={2.6} />
+          <ArrowRight size={16} color={V.accentText || V.accentDark} strokeWidth={2.6} />
         </View>
       </Pressable>
     </View>
   );
 
-  // Pure Editorial Heading — Human, mature, Scandinavian minimal confidence
+  // Slim top row used inside the desktop split-screen form panel — the brand
+  // panel already carries the wordmark, so this is just the account switch.
+  const desktopTopRow = (
+    <View style={{ flexDirection: "row", justifyContent: "flex-end", width: "100%", marginBottom: 28 }}>
+      <Pressable
+        onPress={() => {
+          triggerHaptic(Haptics.ImpactFeedbackStyle.Light);
+          router.push("/register");
+        }}
+        style={({ pressed }) => ({
+          paddingHorizontal: 20,
+          height: 44,
+          justifyContent: "center",
+          borderRadius: 22,
+          borderWidth: 1.5,
+          borderColor: V.accentDark,
+          backgroundColor: toRgba(V.accentDark, 0.1),
+          opacity: pressed ? 0.8 : 1,
+          transform: [{ scale: pressed ? 0.97 : 1 }],
+        })}
+      >
+        <View style={{ flexDirection: "row", alignItems: "center", flexWrap: "nowrap" }}>
+          <Text weight="Bold" style={{ fontFamily: FONT_SERIF_BOLD, fontSize: 14.5, color: V.accentText || V.accentDark, marginRight: 8 }} numberOfLines={1}>
+            Create account
+          </Text>
+          <ArrowRight size={16} color={V.accentText || V.accentDark} strokeWidth={2.6} />
+        </View>
+      </Pressable>
+    </View>
+  );
+
+  // Editorial heading — a real display serif (PlayfairDisplay, bundled and
+  // loaded in app/_layout.tsx) instead of AppText's default "Raleway-*"
+  // family, which isn't loaded anywhere and silently falls back to whatever
+  // font each platform/browser happens to default to (inconsistent look
+  // across iOS / Android / Web).
   const headerSection = (
     <View style={{ marginBottom: 32 }}>
-      <Text weight="Bold" style={{ fontSize: 32, color: V.textPrimary, letterSpacing: -0.8, lineHeight: 38 }}>
+      <Text
+        style={{
+          fontFamily: FONT_MONO_SEMIBOLD,
+          fontSize: 11.5,
+          color: V.accentText || V.accentDark,
+          letterSpacing: 1.4,
+          textTransform: "uppercase",
+          marginBottom: 10,
+        }}
+      >
+        Sign in
+      </Text>
+      <Text style={{ fontFamily: FONT_DISPLAY, fontSize: 34, color: V.textPrimary, letterSpacing: -0.6, lineHeight: 40 }}>
         Welcome back.
       </Text>
-      <Text weight="Regular" style={{ fontSize: 15.5, color: V.textSecondary, marginTop: 6, lineHeight: 24 }}>
-        Sign in to explore 864+ classic audiobooks, multi-language alignment, and sync your reading progress.
+      <Text style={{ fontFamily: FONT_SERIF, fontSize: 15.5, color: V.textSecondary, marginTop: 8, lineHeight: 24 }}>
+        Sign in to explore 1,400+ classic books, multi-language alignment, and sync your reading progress.
       </Text>
     </View>
   );
@@ -625,11 +858,11 @@ export default function LoginScreen() {
           email.trim().length > 3 ? (
             /\S+@\S+\.\S+/.test(email) ? (
               <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <CheckCircle2 size={14} color={AppColors.green500} style={{ marginRight: 4 }} strokeWidth={2.2} />
-                <Text weight="Medium" style={{ fontSize: 12, color: AppColors.green500 }}>Valid</Text>
+                <CheckCircle2 size={14} color={SUCCESS_TEXT} style={{ marginRight: 4 }} strokeWidth={2.2} />
+                <Text weight="Medium" style={{ fontFamily: FONT_MONO, fontSize: 11, color: SUCCESS_TEXT }}>VALID</Text>
               </View>
             ) : (
-              <Text weight="Medium" style={{ fontSize: 12, color: themeColors["warning"] }}>Check email</Text>
+              <Text weight="Medium" style={{ fontFamily: FONT_MONO, fontSize: 11, color: WARNING_TEXT }}>CHECK EMAIL</Text>
             )
           ) : null
         }
@@ -657,29 +890,33 @@ export default function LoginScreen() {
           }}
           disabled={anyLoading}
           hitSlop={10}
-          style={{ paddingVertical: 4 }}
+          style={{ paddingVertical: 8, minHeight: 44, justifyContent: "center" }}
         >
-          <Text weight="SemiBold" style={{ color: V.accent, fontSize: 13.5 }}>
+          <Text weight="SemiBold" style={{ fontFamily: FONT_SERIF_SEMIBOLD, color: V.accentText || V.accentDark, fontSize: 13.5 }}>
             Forgot password?
           </Text>
         </Pressable>
       </View>
 
-      {/* Tactile Executive CTA Button (ZERO SHADOWS, centered text and icon!) */}
+      {/* Tactile Executive CTA Button */}
       <Pressable
         onPress={handleEmailLogin}
         disabled={anyLoading}
         style={({ pressed }) => ({
           width: "100%",
           height: 56,
-          borderRadius: 28,
+          borderRadius: 16,
           overflow: "hidden",
           opacity: anyLoading ? 0.8 : pressed ? 0.92 : 1,
           transform: [{ scale: pressed ? 0.99 : 1 }],
         })}
       >
         <LinearGradient
-          colors={loginLoader || exchangeLoader ? [themeColors["gray-500"], themeColors["gray-600"]] : [V.accent, V.accentDark]}
+          colors={
+            loginLoader || exchangeLoader
+              ? [themeColors["gray-500"], themeColors["gray-600"]]
+              : [V.accentText || V.accentDark, V.accentDeep || V.accentDark]
+          }
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           style={{
@@ -687,19 +924,19 @@ export default function LoginScreen() {
             alignItems: "center",
             justifyContent: "center",
             flexDirection: "row",
-            borderRadius: 28,
+            borderRadius: 16,
           }}
         >
           {loginLoader || exchangeLoader ? (
             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
               <ActivityIndicator color={V.textOnAccent} size="small" style={{ marginRight: 10 }} />
-              <Text weight="SemiBold" style={{ color: V.textOnAccent, fontSize: 16 }}>
+              <Text weight="SemiBold" style={{ fontFamily: FONT_SERIF_SEMIBOLD, color: V.textOnAccent, fontSize: 16 }}>
                 Signing in...
               </Text>
             </View>
           ) : (
             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
-              <Text weight="SemiBold" style={{ color: V.textOnAccent, fontSize: 16 }}>
+              <Text weight="SemiBold" style={{ fontFamily: FONT_SERIF_SEMIBOLD, color: V.textOnAccent, fontSize: 16.5 }}>
                 Sign In
               </Text>
               <ArrowRight size={18} color={V.textOnAccent} style={{ marginLeft: 8 }} strokeWidth={2.5} />
@@ -714,8 +951,18 @@ export default function LoginScreen() {
     <View style={{ marginTop: 28 }}>
       <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 22, paddingHorizontal: 4 }}>
         <View style={{ flex: 1, height: 1, backgroundColor: V.dividerColor }} />
-        <Text weight="Medium" style={{ fontSize: 12, color: V.textMuted, marginHorizontal: 16 }}>
-          or continue with
+        <Text
+          weight="Medium"
+          style={{
+            fontFamily: FONT_MONO,
+            fontSize: 10.5,
+            color: V.textSecondary,
+            letterSpacing: 1.2,
+            textTransform: "uppercase",
+            marginHorizontal: 16,
+          }}
+        >
+          Or continue with
         </Text>
         <View style={{ flex: 1, height: 1, backgroundColor: V.dividerColor }} />
       </View>
@@ -723,18 +970,18 @@ export default function LoginScreen() {
       <View style={{ gap: 12 }}>
         <TactileSocialButton
           title={googlePopupLoading ? "Signing in..." : "Continue with Google"}
-          imageSource="https://cdn-icons-png.flaticon.com/512/2991/2991148.png"
+          leftIcon={<GoogleIcon />}
           onPress={handleGoogleLogin}
           disabled={anyLoading}
         />
 
         {/* Sign in with Apple for native iOS */}
         {Platform.OS === "ios" && appleAvailableNative ? (
-          <View style={{ overflow: "hidden", borderRadius: 28, opacity: anyLoading ? 0.6 : 1 }}>
+          <View style={{ overflow: "hidden", borderRadius: 16, opacity: anyLoading ? 0.6 : 1 }}>
             <AppleAuthentication.AppleAuthenticationButton
               buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
               buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.WHITE_OUTLINE}
-              cornerRadius={28}
+              cornerRadius={16}
               style={{ height: 56, width: "100%" }}
               onPress={handleAppleLogin}
             />
@@ -758,7 +1005,7 @@ export default function LoginScreen() {
     <View style={{ marginTop: 36, alignItems: "center", justifyContent: "center", gap: 16 }}>
       {/* High-visibility bottom account switch */}
       <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", flexWrap: "wrap" }}>
-        <Text weight="Regular" style={{ fontSize: 15, color: V.textSecondary }}>
+        <Text style={{ fontFamily: FONT_SERIF, fontSize: 15, color: V.textSecondary }}>
           Don't have an account?{" "}
         </Text>
         <Pressable
@@ -767,8 +1014,9 @@ export default function LoginScreen() {
             router.push("/register");
           }}
           hitSlop={10}
+          style={{ minHeight: 44, justifyContent: "center" }}
         >
-          <Text weight="Bold" style={{ color: V.accent, fontSize: 15, textDecorationLine: "underline" }}>
+          <Text weight="Bold" style={{ fontFamily: FONT_SERIF_BOLD, color: V.accentText || V.accentDark, fontSize: 15, textDecorationLine: "underline" }}>
             Create account
           </Text>
         </Pressable>
@@ -782,48 +1030,81 @@ export default function LoginScreen() {
         }}
         style={({ pressed }) => ({
           paddingVertical: 6,
+          minHeight: 44,
+          justifyContent: "center",
           opacity: pressed ? 0.7 : 1,
         })}
       >
         <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
           <HelpCircle size={15} color={V.textSecondary} style={{ marginRight: 6 }} />
-          <Text weight="Regular" style={{ fontSize: 14, color: V.textSecondary }}>
-            Need assistance? <Text weight="SemiBold" style={{ color: V.accent }}>Help & Support</Text>
+          <Text style={{ fontFamily: FONT_SERIF, fontSize: 14, color: V.textSecondary }}>
+            Need assistance?{" "}
+            <Text style={{ fontFamily: FONT_SERIF_SEMIBOLD, color: V.accentText || V.accentDark }}>Help & Support</Text>
           </Text>
         </View>
       </Pressable>
     </View>
   );
 
+  const formColumn = (
+    <View style={{ width: "100%", maxWidth: formMaxWidth, alignSelf: "center" }}>
+      {isLargeDesktop ? desktopTopRow : topNavigationRow}
+      {headerSection}
+      {formSection}
+      {socialSection}
+      {footerSection}
+    </View>
+  );
+
   return (
     <View style={{ flex: 1, backgroundColor: V.bg }}>
       <StatusBar style="dark" />
-      <AuthBackground />
 
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{ flex: 1 }}
       >
-        <ScrollView
-          contentContainerStyle={{
-            flexGrow: 1,
-            justifyContent: "center",
-            paddingHorizontal: horizontalPadding,
-            paddingTop: topPadding,
-            paddingBottom: insets.bottom + 36,
-          }}
-          keyboardShouldPersistTaps="handled"
-          showsVerticalScrollIndicator={false}
-        >
-          {/* Centered Single-Column Layout for All Screen Sizes (Web, Tablet, Mobile) */}
-          <View style={{ width: "100%", maxWidth: 460, alignSelf: "center" }}>
-            {topNavigationRow}
-            {headerSection}
-            {formSection}
-            {socialSection}
-            {footerSection}
+        {isLargeDesktop ? (
+          // Editorial split-screen for wide viewports: a brand/value-prop
+          // panel on the left, the form on the right — instead of stretching
+          // the same 460px column across a sea of empty gradient.
+          <View style={{ flex: 1, flexDirection: "row" }}>
+            <BrandPanel />
+            <View style={{ flex: 1 }}>
+              <AuthBackground />
+              <ScrollView
+                contentContainerStyle={{
+                  flexGrow: 1,
+                  justifyContent: "center",
+                  paddingHorizontal: horizontalPadding,
+                  paddingTop: topPadding,
+                  paddingBottom: insets.bottom + 36,
+                }}
+                keyboardShouldPersistTaps="handled"
+                showsVerticalScrollIndicator={false}
+              >
+                {formColumn}
+              </ScrollView>
+            </View>
           </View>
-        </ScrollView>
+        ) : (
+          <View style={{ flex: 1 }}>
+            <AuthBackground />
+            <ScrollView
+              contentContainerStyle={{
+                flexGrow: 1,
+                justifyContent: "center",
+                paddingHorizontal: horizontalPadding,
+                paddingTop: topPadding,
+                paddingBottom: insets.bottom + 36,
+              }}
+              keyboardShouldPersistTaps="handled"
+              showsVerticalScrollIndicator={false}
+            >
+              {formColumn}
+            </ScrollView>
+          </View>
+        )}
       </KeyboardAvoidingView>
 
       <ModernAlert
@@ -872,9 +1153,9 @@ const ModernAlert = memo(function ModernAlert({
   }));
 
   const config = {
-    success: { icon: CheckCircle2, color: AppColors.green500, bg: "rgba(34,197,94,0.14)" },
+    success: { icon: CheckCircle2, color: SUCCESS_TEXT, bg: "rgba(21,128,61,0.12)" },
     error: { icon: XCircle, color: themeColors["error"], bg: "rgba(239,68,68,0.14)" },
-    warning: { icon: AlertCircle, color: themeColors["warning"], bg: "rgba(245,158,11,0.14)" },
+    warning: { icon: AlertCircle, color: WARNING_TEXT, bg: "rgba(180,83,9,0.12)" },
   }[type];
 
   const Icon = config.icon;
@@ -896,7 +1177,7 @@ const ModernAlert = memo(function ModernAlert({
             },
           ]}
         >
-          <Pressable onPress={onClose} style={{ position: "absolute", right: 16, top: 16, padding: 8 }}>
+          <Pressable onPress={onClose} style={{ position: "absolute", right: 12, top: 12, padding: 10 }} hitSlop={8}>
             <X size={18} color={V.textMuted} />
           </Pressable>
 
@@ -914,11 +1195,11 @@ const ModernAlert = memo(function ModernAlert({
             <Icon size={26} color={config.color} strokeWidth={2} />
           </View>
 
-          <Text weight="Bold" style={{ fontSize: 20, marginBottom: 8, textAlign: "center", color: V.textPrimary }}>
+          <Text style={{ fontFamily: FONT_DISPLAY, fontSize: 20, marginBottom: 8, textAlign: "center", color: V.textPrimary }}>
             {title}
           </Text>
 
-          <Text weight="Regular" style={{ fontSize: 14.5, textAlign: "center", lineHeight: 22, marginBottom: 24, color: V.textSecondary }}>
+          <Text style={{ fontFamily: FONT_SERIF, fontSize: 14.5, textAlign: "center", lineHeight: 22, marginBottom: 24, color: V.textSecondary }}>
             {message}
           </Text>
 
@@ -927,6 +1208,7 @@ const ModernAlert = memo(function ModernAlert({
             style={({ pressed }) => ({
               width: "100%",
               paddingVertical: 13,
+              minHeight: 44,
               borderRadius: 14,
               alignItems: "center",
               justifyContent: "center",
@@ -934,7 +1216,7 @@ const ModernAlert = memo(function ModernAlert({
               opacity: pressed ? 0.85 : 1,
             })}
           >
-            <Text weight="SemiBold" style={{ color: V.textPrimary, fontSize: 15 }}>Okay, Got it</Text>
+            <Text weight="SemiBold" style={{ fontFamily: FONT_SERIF_SEMIBOLD, color: V.textPrimary, fontSize: 15 }}>Okay, Got it</Text>
           </Pressable>
         </Animated.View>
       </View>

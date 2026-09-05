@@ -1,0 +1,10 @@
+[
+  {
+    "slug": "blind-corner",
+    "title": "Blind Corner",
+    "series": "Richard Chandos Series",
+    "reason": "Fix 192‒ date normalization in Chapter 1",
+    "voice": "michael",
+    "status": "QUEUED_FOR_REGEN"
+  }
+]

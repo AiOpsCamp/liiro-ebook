@@ -1,0 +1,1045 @@
+[
+  {
+    "id": 2388,
+    "title": "The Art of War",
+    "author": "Sun Tzu",
+    "genre": "Strategy & Philosophy",
+    "words": 11000
+  },
+  {
+    "id": 2680,
+    "title": "The Prophet",
+    "author": "Kahlil Gibran",
+    "genre": "Poetic Philosophy",
+    "words": 13500
+  },
+  {
+    "id": 216,
+    "title": "Tao Te Ching",
+    "author": "Laozi",
+    "genre": "Eastern Philosophy",
+    "words": 9500
+  },
+  {
+    "id": 3526,
+    "title": "The Dhammapada",
+    "author": "Anonymous",
+    "genre": "Spiritual & Philosophy",
+    "words": 14000
+  },
+  {
+    "id": 1944,
+    "title": "The Book of Five Rings",
+    "author": "Miyamoto Musashi",
+    "genre": "Martial Arts & Strategy",
+    "words": 15000
+  },
+  {
+    "id": 2529,
+    "title": "The Upanishads",
+    "author": "Anonymous",
+    "genre": "Spiritual Classics",
+    "words": 28000
+  },
+  {
+    "id": 4078,
+    "title": "The Bhagavad Gita",
+    "author": "Vyasa",
+    "genre": "Epic Spiritual",
+    "words": 24000
+  },
+  {
+    "id": 1354,
+    "title": "The Analects of Confucius",
+    "author": "Confucius",
+    "genre": "Eastern Philosophy",
+    "words": 32000
+  },
+  {
+    "id": 27827,
+    "title": "The Kama Sutra",
+    "author": "Vatsyayana",
+    "genre": "Ancient Literature",
+    "words": 42000
+  },
+  {
+    "id": 512,
+    "title": "The Rubaiyat of Omar Khayyam",
+    "author": "Omar Khayyam",
+    "genre": "Persian Poetry",
+    "words": 5000
+  },
+  {
+    "id": 2428,
+    "title": "The Arabian Nights: Entertainments",
+    "author": "Andrew Lang",
+    "genre": "Fantasy & Folklore",
+    "words": 115000
+  },
+  {
+    "id": 348,
+    "title": "The Epic of Gilgamesh",
+    "author": "Anonymous",
+    "genre": "Ancient Epic",
+    "words": 18000
+  },
+  {
+    "id": 1567,
+    "title": "The Kalevala (The Finnish National Epic)",
+    "author": "Elias L\u00f6nnrot",
+    "genre": "Nordic Myth",
+    "words": 98000
+  },
+  {
+    "id": 1800,
+    "title": "The Volsunga Saga",
+    "author": "Eirikr Magnusson & William Morris",
+    "genre": "Norse Mythology",
+    "words": 42000
+  },
+  {
+    "id": 14765,
+    "title": "Bulfinch's Mythology: The Age of Fable",
+    "author": "Thomas Bulfinch",
+    "genre": "Classical Mythology",
+    "words": 110000
+  },
+  {
+    "id": 2852,
+    "title": "The Poetic Edda",
+    "author": "Anonymous",
+    "genre": "Norse Mythology",
+    "words": 65000
+  },
+  {
+    "id": 1155,
+    "title": "The Secret Commonwealth of Elves, Fauns and Fairies",
+    "author": "Robert Kirk",
+    "genre": "Folklore & Occult",
+    "words": 22000
+  },
+  {
+    "id": 833,
+    "title": "The Mabinogion",
+    "author": "Lady Charlotte Guest",
+    "genre": "Welsh Mythology",
+    "words": 120000
+  },
+  {
+    "id": 1656,
+    "title": "Myths and Legends of Ancient Greece and Rome",
+    "author": "E. M. Berens",
+    "genre": "Mythology",
+    "words": 85000
+  },
+  {
+    "id": 3800,
+    "title": "Celtic Wonder-Tales",
+    "author": "Ella Young",
+    "genre": "Irish Folklore",
+    "words": 26000
+  },
+  {
+    "id": 35,
+    "title": "The Time Machine",
+    "author": "H. G. Wells",
+    "genre": "Sci-Fi Classic",
+    "words": 32000
+  },
+  {
+    "id": 5230,
+    "title": "The Invisible Man",
+    "author": "H. G. Wells",
+    "genre": "Sci-Fi Classic",
+    "words": 48000
+  },
+  {
+    "id": 159,
+    "title": "The Island of Doctor Moreau",
+    "author": "H. G. Wells",
+    "genre": "Sci-Fi Horror",
+    "words": 44000
+  },
+  {
+    "id": 1013,
+    "title": "The First Men in the Moon",
+    "author": "H. G. Wells",
+    "genre": "Space Sci-Fi",
+    "words": 68000
+  },
+  {
+    "id": 164,
+    "title": "Twenty Thousand Leagues Under the Sea",
+    "author": "Jules Verne",
+    "genre": "Adventure Sci-Fi",
+    "words": 105000
+  },
+  {
+    "id": 18857,
+    "title": "Journey to the Center of the Earth",
+    "author": "Jules Verne",
+    "genre": "Adventure Sci-Fi",
+    "words": 68000
+  },
+  {
+    "id": 83,
+    "title": "From the Earth to the Moon",
+    "author": "Jules Verne",
+    "genre": "Space Sci-Fi",
+    "words": 52000
+  },
+  {
+    "id": 4791,
+    "title": "The Master of the World",
+    "author": "Jules Verne",
+    "genre": "Techno-Thriller",
+    "words": 45000
+  },
+  {
+    "id": 62,
+    "title": "A Princess of Mars (Barsoom Series #1)",
+    "author": "Edgar Rice Burroughs",
+    "genre": "Planetary Romance",
+    "words": 58000
+  },
+  {
+    "id": 64,
+    "title": "The Gods of Mars (Barsoom Series #2)",
+    "author": "Edgar Rice Burroughs",
+    "genre": "Planetary Romance",
+    "words": 62000
+  },
+  {
+    "id": 78,
+    "title": "Tarzan of the Apes (Tarzan #1)",
+    "author": "Edgar Rice Burroughs",
+    "genre": "Adventure Classic",
+    "words": 82000
+  },
+  {
+    "id": 81,
+    "title": "The Return of Tarzan (Tarzan #2)",
+    "author": "Edgar Rice Burroughs",
+    "genre": "Adventure Classic",
+    "words": 78000
+  },
+  {
+    "id": 551,
+    "title": "At the Earth's Core (Pellucidar #1)",
+    "author": "Edgar Rice Burroughs",
+    "genre": "Hollow Earth Sci-Fi",
+    "words": 42000
+  },
+  {
+    "id": 139,
+    "title": "The Lost World",
+    "author": "Arthur Conan Doyle",
+    "genre": "Prehistoric Sci-Fi",
+    "words": 74000
+  },
+  {
+    "id": 105,
+    "title": "The Poison Belt",
+    "author": "Arthur Conan Doyle",
+    "genre": "Apocalyptic Sci-Fi",
+    "words": 31000
+  },
+  {
+    "id": 1952,
+    "title": "The Night Land",
+    "author": "William Hope Hodgson",
+    "genre": "Dying Earth Fantasy",
+    "words": 195000
+  },
+  {
+    "id": 10002,
+    "title": "The House on the Borderland",
+    "author": "William Hope Hodgson",
+    "genre": "Cosmic Horror Sci-Fi",
+    "words": 52000
+  },
+  {
+    "id": 43,
+    "title": "The Strange Case of Dr. Jekyll and Mr. Hyde",
+    "author": "Robert Louis Stevenson",
+    "genre": "Gothic Sci-Fi",
+    "words": 26000
+  },
+  {
+    "id": 13415,
+    "title": "Flatland: A Romance of Many Dimensions",
+    "author": "Edwin A. Abbott",
+    "genre": "Mathematical Sci-Fi",
+    "words": 31000
+  },
+  {
+    "id": 209,
+    "title": "The Metal Monster",
+    "author": "A. Merritt",
+    "genre": "Weird Sci-Fi",
+    "words": 64000
+  },
+  {
+    "id": 1661,
+    "title": "The Adventures of Sherlock Holmes",
+    "author": "Arthur Conan Doyle",
+    "genre": "Detective Mystery",
+    "words": 105000
+  },
+  {
+    "id": 834,
+    "title": "The Memoirs of Sherlock Holmes",
+    "author": "Arthur Conan Doyle",
+    "genre": "Detective Mystery",
+    "words": 89000
+  },
+  {
+    "id": 244,
+    "title": "A Study in Scarlet (Sherlock Holmes #1)",
+    "author": "Arthur Conan Doyle",
+    "genre": "Detective Novel",
+    "words": 44000
+  },
+  {
+    "id": 2097,
+    "title": "The Sign of the Four (Sherlock Holmes #2)",
+    "author": "Arthur Conan Doyle",
+    "genre": "Detective Novel",
+    "words": 43000
+  },
+  {
+    "id": 2852,
+    "title": "The Hound of the Baskervilles",
+    "author": "Arthur Conan Doyle",
+    "genre": "Gothic Mystery",
+    "words": 59000
+  },
+  {
+    "id": 3289,
+    "title": "The Valley of Fear (Sherlock Holmes #4)",
+    "author": "Arthur Conan Doyle",
+    "genre": "Detective Mystery",
+    "words": 56000
+  },
+  {
+    "id": 2346,
+    "title": "His Last Bow",
+    "author": "Arthur Conan Doyle",
+    "genre": "Spy & Mystery",
+    "words": 52000
+  },
+  {
+    "id": 2226,
+    "title": "The Case-Book of Sherlock Holmes",
+    "author": "Arthur Conan Doyle",
+    "genre": "Detective Stories",
+    "words": 68000
+  },
+  {
+    "id": 863,
+    "title": "The Mysterious Affair at Styles (Hercule Poirot #1)",
+    "author": "Agatha Christie",
+    "genre": "Cozy Mystery",
+    "words": 58000
+  },
+  {
+    "id": 1155,
+    "title": "The Secret Adversary (Tommy and Tuppence #1)",
+    "author": "Agatha Christie",
+    "genre": "Spy Mystery",
+    "words": 72000
+  },
+  {
+    "id": 61168,
+    "title": "The Murder on the Links (Hercule Poirot #2)",
+    "author": "Agatha Christie",
+    "genre": "Detective Mystery",
+    "words": 64000
+  },
+  {
+    "id": 6701,
+    "title": "The Man in the Brown Suit",
+    "author": "Agatha Christie",
+    "genre": "Adventure Mystery",
+    "words": 78000
+  },
+  {
+    "id": 69087,
+    "title": "Poirot Investigates",
+    "author": "Agatha Christie",
+    "genre": "Short Detective Mysteries",
+    "words": 52000
+  },
+  {
+    "id": 345,
+    "title": "Dracula's Guest and Other Weird Stories",
+    "author": "Bram Stoker",
+    "genre": "Gothic Horror Mystery",
+    "words": 46000
+  },
+  {
+    "id": 208,
+    "title": "The Moonstone",
+    "author": "Wilkie Collins",
+    "genre": "Victorian Detective Mystery",
+    "words": 195000
+  },
+  {
+    "id": 583,
+    "title": "The Woman in White",
+    "author": "Wilkie Collins",
+    "genre": "Sensation Mystery",
+    "words": 240000
+  },
+  {
+    "id": 204,
+    "title": "The Innocence of Father Brown",
+    "author": "G. K. Chesterton",
+    "genre": "Clerical Detective",
+    "words": 82000
+  },
+  {
+    "id": 223,
+    "title": "The Wisdom of Father Brown",
+    "author": "G. K. Chesterton",
+    "genre": "Clerical Detective",
+    "words": 78000
+  },
+  {
+    "id": 1695,
+    "title": "The Man Who Was Thursday: A Nightmare",
+    "author": "G. K. Chesterton",
+    "genre": "Philosophical Thriller",
+    "words": 56000
+  },
+  {
+    "id": 1184,
+    "title": "The Count of Monte Cristo",
+    "author": "Alexandre Dumas",
+    "genre": "Revenge & Mystery Epic",
+    "words": 464000
+  },
+  {
+    "id": 1257,
+    "title": "The Three Musketeers",
+    "author": "Alexandre Dumas",
+    "genre": "Historical Adventure",
+    "words": 225000
+  },
+  {
+    "id": 1259,
+    "title": "Twenty Years After (D'Artagnan #2)",
+    "author": "Alexandre Dumas",
+    "genre": "Historical Adventure",
+    "words": 280000
+  },
+  {
+    "id": 2609,
+    "title": "The Vicomte de Bragelonne (D'Artagnan #3)",
+    "author": "Alexandre Dumas",
+    "genre": "Epic Swashbuckler",
+    "words": 620000
+  },
+  {
+    "id": 2759,
+    "title": "The Man in the Iron Mask",
+    "author": "Alexandre Dumas",
+    "genre": "Historical Adventure",
+    "words": 165000
+  },
+  {
+    "id": 120,
+    "title": "Treasure Island",
+    "author": "Robert Louis Stevenson",
+    "genre": "Pirate Adventure",
+    "words": 67000
+  },
+  {
+    "id": 421,
+    "title": "Kidnapped",
+    "author": "Robert Louis Stevenson",
+    "genre": "Scottish Adventure",
+    "words": 72000
+  },
+  {
+    "id": 851,
+    "title": "Catriona (Kidnapped #2)",
+    "author": "Robert Louis Stevenson",
+    "genre": "Historical Adventure",
+    "words": 92000
+  },
+  {
+    "id": 215,
+    "title": "The Call of the Wild",
+    "author": "Jack London",
+    "genre": "Wilderness Adventure",
+    "words": 32000
+  },
+  {
+    "id": 910,
+    "title": "White Fang",
+    "author": "Jack London",
+    "genre": "Wilderness Adventure",
+    "words": 72000
+  },
+  {
+    "id": 1074,
+    "title": "The Sea-Wolf",
+    "author": "Jack London",
+    "genre": "Maritime Psychological",
+    "words": 96000
+  },
+  {
+    "id": 1164,
+    "title": "The Iron Heel",
+    "author": "Jack London",
+    "genre": "Dystopian Classic",
+    "words": 82000
+  },
+  {
+    "id": 1080,
+    "title": "A Modest Proposal & Gulliver's Travels",
+    "author": "Jonathan Swift",
+    "genre": "Satire & Adventure",
+    "words": 108000
+  },
+  {
+    "id": 521,
+    "title": "Robinson Crusoe",
+    "author": "Daniel Defoe",
+    "genre": "Desert Island Survival",
+    "words": 120000
+  },
+  {
+    "id": 2852,
+    "title": "King Solomon's Mines (Allan Quatermain #1)",
+    "author": "H. Rider Haggard",
+    "genre": "Lost World Adventure",
+    "words": 82000
+  },
+  {
+    "id": 376,
+    "title": "She: A History of Adventure (Ayesha #1)",
+    "author": "H. Rider Haggard",
+    "genre": "Mystic Adventure",
+    "words": 102000
+  },
+  {
+    "id": 711,
+    "title": "Allan Quatermain (Allan Quatermain #2)",
+    "author": "H. Rider Haggard",
+    "genre": "Lost World Adventure",
+    "words": 88000
+  },
+  {
+    "id": 1260,
+    "title": "Jane Eyre",
+    "author": "Charlotte Bront\u00eb",
+    "genre": "Gothic Romance",
+    "words": 185000
+  },
+  {
+    "id": 768,
+    "title": "Wuthering Heights",
+    "author": "Emily Bront\u00eb",
+    "genre": "Gothic Tragedy",
+    "words": 116000
+  },
+  {
+    "id": 969,
+    "title": "The Tenant of Wildfell Hall",
+    "author": "Anne Bront\u00eb",
+    "genre": "Victorian Realism",
+    "words": 160000
+  },
+  {
+    "id": 158,
+    "title": "Emma",
+    "author": "Jane Austen",
+    "genre": "Regency Romance",
+    "words": 160000
+  },
+  {
+    "id": 1064,
+    "title": "The Masque of the Red Death & Tales",
+    "author": "Edgar Allan Poe",
+    "genre": "Gothic Horror",
+    "words": 42000
+  },
+  {
+    "id": 2147,
+    "title": "The Works of Edgar Allan Poe (Raven & Poems)",
+    "author": "Edgar Allan Poe",
+    "genre": "Dark Romanticism Poetry",
+    "words": 28000
+  },
+  {
+    "id": 2148,
+    "title": "The Fall of the House of Usher & Other Tales",
+    "author": "Edgar Allan Poe",
+    "genre": "Psychological Horror",
+    "words": 52000
+  },
+  {
+    "id": 84,
+    "title": "Frankenstein; Or, The Modern Prometheus",
+    "author": "Mary Wollstonecraft Shelley",
+    "genre": "Gothic Sci-Fi Masterpiece",
+    "words": 75000
+  },
+  {
+    "id": 18269,
+    "title": "The Last Man",
+    "author": "Mary Wollstonecraft Shelley",
+    "genre": "Post-Apocalyptic Gothic",
+    "words": 170000
+  },
+  {
+    "id": 345,
+    "title": "Dracula",
+    "author": "Bram Stoker",
+    "genre": "Epistolary Vampire Horror",
+    "words": 160000
+  },
+  {
+    "id": 10897,
+    "title": "The Lair of the White Worm",
+    "author": "Bram Stoker",
+    "genre": "Occult Horror",
+    "words": 56000
+  },
+  {
+    "id": 696,
+    "title": "The Castle of Otranto",
+    "author": "Horace Walpole",
+    "genre": "First Gothic Novel",
+    "words": 38000
+  },
+  {
+    "id": 3268,
+    "title": "The Mysteries of Udolpho",
+    "author": "Ann Radcliffe",
+    "genre": "Gothic Romance",
+    "words": 290000
+  },
+  {
+    "id": 423,
+    "title": "The King in Yellow",
+    "author": "Robert W. Chambers",
+    "genre": "Cosmic Horror & Decadence",
+    "words": 58000
+  },
+  {
+    "id": 68283,
+    "title": "The Dunwich Horror & Cthulhu Mythos",
+    "author": "H. P. Lovecraft",
+    "genre": "Cosmic Horror",
+    "words": 65000
+  },
+  {
+    "id": 70652,
+    "title": "At the Mountains of Madness",
+    "author": "H. P. Lovecraft",
+    "genre": "Antarctic Sci-Fi Horror",
+    "words": 42000
+  },
+  {
+    "id": 68236,
+    "title": "The Shadow over Innsmouth",
+    "author": "H. P. Lovecraft",
+    "genre": "Weird Fiction",
+    "words": 27000
+  },
+  {
+    "id": 209,
+    "title": "The Turn of the Screw",
+    "author": "Henry James",
+    "genre": "Ghost Story & Psychological Horror",
+    "words": 42000
+  },
+  {
+    "id": 1952,
+    "title": "Carnacki, the Ghost-Finder",
+    "author": "William Hope Hodgson",
+    "genre": "Occult Detective",
+    "words": 54000
+  },
+  {
+    "id": 11438,
+    "title": "Ghost Stories of an Antiquary",
+    "author": "M. R. James",
+    "genre": "Classic Ghost Stories",
+    "words": 46000
+  },
+  {
+    "id": 355,
+    "title": "More Ghost Stories of an Antiquary",
+    "author": "M. R. James",
+    "genre": "Classic Ghost Stories",
+    "words": 44000
+  },
+  {
+    "id": 1365,
+    "title": "Vathek: An Arabian Tale",
+    "author": "William Beckford",
+    "genre": "Oriental Gothic",
+    "words": 39000
+  },
+  {
+    "id": 77,
+    "title": "The House of the Seven Gables",
+    "author": "Nathaniel Hawthorne",
+    "genre": "Gothic Mystery",
+    "words": 105000
+  },
+  {
+    "id": 33,
+    "title": "The Scarlet Letter",
+    "author": "Nathaniel Hawthorne",
+    "genre": "American Classic",
+    "words": 84000
+  },
+  {
+    "id": 11,
+    "title": "Alice's Adventures in Wonderland",
+    "author": "Lewis Carroll",
+    "genre": "Children's Fantasy",
+    "words": 27000
+  },
+  {
+    "id": 12,
+    "title": "Through the Looking-Glass",
+    "author": "Lewis Carroll",
+    "genre": "Children's Fantasy",
+    "words": 29000
+  },
+  {
+    "id": 55,
+    "title": "The Wonderful Wizard of Oz (Oz #1)",
+    "author": "L. Frank Baum",
+    "genre": "American Fairy Tale",
+    "words": 39000
+  },
+  {
+    "id": 54,
+    "title": "The Marvelous Land of Oz (Oz #2)",
+    "author": "L. Frank Baum",
+    "genre": "American Fairy Tale",
+    "words": 44000
+  },
+  {
+    "id": 486,
+    "title": "Ozma of Oz (Oz #3)",
+    "author": "L. Frank Baum",
+    "genre": "American Fairy Tale",
+    "words": 42000
+  },
+  {
+    "id": 2554,
+    "title": "Peter Pan (Peter and Wendy)",
+    "author": "J. M. Barrie",
+    "genre": "Children's Fantasy",
+    "words": 48000
+  },
+  {
+    "id": 1952,
+    "title": "The Secret Garden",
+    "author": "Frances Hodgson Burnett",
+    "genre": "Children's Classic",
+    "words": 80000
+  },
+  {
+    "id": 479,
+    "title": "A Little Princess",
+    "author": "Frances Hodgson Burnett",
+    "genre": "Children's Classic",
+    "words": 62000
+  },
+  {
+    "id": 514,
+    "title": "Little Lord Fauntleroy",
+    "author": "Frances Hodgson Burnett",
+    "genre": "Children's Classic",
+    "words": 56000
+  },
+  {
+    "id": 514,
+    "title": "Anne of Green Gables (Anne #1)",
+    "author": "L. M. Montgomery",
+    "genre": "Coming-of-Age Classic",
+    "words": 104000
+  },
+  {
+    "id": 5348,
+    "title": "Anne of Avonlea (Anne #2)",
+    "author": "L. M. Montgomery",
+    "genre": "Coming-of-Age Classic",
+    "words": 88000
+  },
+  {
+    "id": 289,
+    "title": "The Wind in the Willows",
+    "author": "Kenneth Grahame",
+    "genre": "Pastoral Children's Classic",
+    "words": 58000
+  },
+  {
+    "id": 2591,
+    "title": "Grimms' Fairy Tales",
+    "author": "Jacob & Wilhelm Grimm",
+    "genre": "Folklore & Fairy Tales",
+    "words": 140000
+  },
+  {
+    "id": 272,
+    "title": "Hans Christian Andersen's Fairy Tales",
+    "author": "Hans Christian Andersen",
+    "genre": "Fairy Tales",
+    "words": 95000
+  },
+  {
+    "id": 36,
+    "title": "The War of the Worlds",
+    "author": "H. G. Wells",
+    "genre": "Alien Invasion Sci-Fi",
+    "words": 60000
+  },
+  {
+    "id": 1260,
+    "title": "The Jungle Book",
+    "author": "Rudyard Kipling",
+    "genre": "Fables & Animal Stories",
+    "words": 52000
+  },
+  {
+    "id": 1937,
+    "title": "The Second Jungle Book",
+    "author": "Rudyard Kipling",
+    "genre": "Fables & Animal Stories",
+    "words": 64000
+  },
+  {
+    "id": 288,
+    "title": "Just So Stories",
+    "author": "Rudyard Kipling",
+    "genre": "Origin Fables",
+    "words": 31000
+  },
+  {
+    "id": 345,
+    "title": "Pinocchio: The Tale of a Puppet",
+    "author": "Carlo Collodi",
+    "genre": "Children's Fable",
+    "words": 38000
+  },
+  {
+    "id": 74,
+    "title": "The Adventures of Tom Sawyer",
+    "author": "Mark Twain",
+    "genre": "American Childhood Adventure",
+    "words": 70000
+  },
+  {
+    "id": 76,
+    "title": "Adventures of Huckleberry Finn",
+    "author": "Mark Twain",
+    "genre": "American Masterpiece",
+    "words": 110000
+  },
+  {
+    "id": 86,
+    "title": "A Connecticut Yankee in King Arthur's Court",
+    "author": "Mark Twain",
+    "genre": "Time Travel Satire",
+    "words": 115000
+  },
+  {
+    "id": 1837,
+    "title": "The Prince and the Pauper",
+    "author": "Mark Twain",
+    "genre": "Historical Satire",
+    "words": 68000
+  },
+  {
+    "id": 2600,
+    "title": "War and Peace",
+    "author": "Leo Tolstoy",
+    "genre": "Epic Historical Drama",
+    "words": 560000
+  },
+  {
+    "id": 1399,
+    "title": "Anna Karenina",
+    "author": "Leo Tolstoy",
+    "genre": "Realist Masterpiece",
+    "words": 350000
+  },
+  {
+    "id": 615,
+    "title": "The Death of Ivan Ilyich",
+    "author": "Leo Tolstoy",
+    "genre": "Existential Novella",
+    "words": 20000
+  },
+  {
+    "id": 98,
+    "title": "A Tale of Two Cities",
+    "author": "Charles Dickens",
+    "genre": "Historical Drama",
+    "words": 135000
+  },
+  {
+    "id": 1400,
+    "title": "Great Expectations",
+    "author": "Charles Dickens",
+    "genre": "Victorian Masterpiece",
+    "words": 185000
+  },
+  {
+    "id": 730,
+    "title": "Oliver Twist",
+    "author": "Charles Dickens",
+    "genre": "Victorian Social Novel",
+    "words": 160000
+  },
+  {
+    "id": 766,
+    "title": "David Copperfield",
+    "author": "Charles Dickens",
+    "genre": "Autobiographical Classic",
+    "words": 360000
+  },
+  {
+    "id": 1023,
+    "title": "Bleak House",
+    "author": "Charles Dickens",
+    "genre": "Legal & Social Drama",
+    "words": 355000
+  },
+  {
+    "id": 28054,
+    "title": "The Brothers Karamazov",
+    "author": "Fyodor Dostoevsky",
+    "genre": "Philosophical Masterpiece",
+    "words": 360000
+  },
+  {
+    "id": 2554,
+    "title": "Crime and Punishment",
+    "author": "Fyodor Dostoevsky",
+    "genre": "Psychological Masterpiece",
+    "words": 210000
+  },
+  {
+    "id": 2638,
+    "title": "The Idiot",
+    "author": "Fyodor Dostoevsky",
+    "genre": "Psychological Drama",
+    "words": 240000
+  },
+  {
+    "id": 600,
+    "title": "Notes from the Underground",
+    "author": "Fyodor Dostoevsky",
+    "genre": "Existentialist Classic",
+    "words": 39000
+  },
+  {
+    "id": 996,
+    "title": "Don Quixote",
+    "author": "Miguel de Cervantes",
+    "genre": "Picaresque Epic",
+    "words": 430000
+  },
+  {
+    "id": 1727,
+    "title": "The Odyssey",
+    "author": "Homer (Trans. Samuel Butler)",
+    "genre": "Ancient Greek Epic",
+    "words": 125000
+  },
+  {
+    "id": 6130,
+    "title": "The Iliad",
+    "author": "Homer (Trans. Alexander Pope)",
+    "genre": "Ancient Greek Epic",
+    "words": 155000
+  },
+  {
+    "id": 8800,
+    "title": "The Divine Comedy (Inferno, Purgatorio, Paradiso)",
+    "author": "Dante Alighieri",
+    "genre": "Medieval Epic Poetry",
+    "words": 110000
+  },
+  {
+    "id": 219,
+    "title": "Heart of Darkness",
+    "author": "Joseph Conrad",
+    "genre": "Colonial Psychological",
+    "words": 38000
+  },
+  {
+    "id": 974,
+    "title": "Lord Jim",
+    "author": "Joseph Conrad",
+    "genre": "Maritime Tragedy",
+    "words": 130000
+  },
+  {
+    "id": 174,
+    "title": "The Picture of Dorian Gray",
+    "author": "Oscar Wilde",
+    "genre": "Decadent Gothic",
+    "words": 78000
+  },
+  {
+    "id": 844,
+    "title": "The Importance of Being Earnest",
+    "author": "Oscar Wilde",
+    "genre": "Comedy of Manners",
+    "words": 21000
+  },
+  {
+    "id": 5200,
+    "title": "Metamorphosis",
+    "author": "Franz Kafka",
+    "genre": "Absurdist Classic",
+    "words": 22000
+  },
+  {
+    "id": 7849,
+    "title": "The Trial",
+    "author": "Franz Kafka",
+    "genre": "Dystopian Nightmare",
+    "words": 82000
+  },
+  {
+    "id": 1497,
+    "title": "The Republic",
+    "author": "Plato",
+    "genre": "Political Philosophy",
+    "words": 118000
+  },
+  {
+    "id": 1600,
+    "title": "Symposium",
+    "author": "Plato",
+    "genre": "Philosophical Dialogue",
+    "words": 24000
+  },
+  {
+    "id": 2680,
+    "title": "Meditations",
+    "author": "Marcus Aurelius",
+    "genre": "Stoic Philosophy",
+    "words": 48000
+  },
+  {
+    "id": 1232,
+    "title": "The Prince",
+    "author": "Niccol\u00f2 Machiavelli",
+    "genre": "Political Strategy",
+    "words": 34000
+  }
+]

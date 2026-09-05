@@ -28,7 +28,7 @@ const userActivitySchema = new Schema(
     chapterNumber: { type: Number, default: 1 },
     chapterTitle: { type: String, default: "" },
     activeLang: { type: String, default: "en" },
-    readingMode: { type: String, enum: ["text", "audiobook", "slideshow"], default: "text" },
+    readingMode: { type: String, enum: ["text", "audiobook", "slideshow", "scroll"], default: "text" },
     positionSec: { type: Number, default: 0 },
     progressPercent: { type: Number, default: 0 },
     deviceType: { type: String, default: "web" },

@@ -29,6 +29,18 @@ const storySchema = new mongoose.Schema(
       trim: true,
       default: "World Literature Masterworks",
     },
+    categoryId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "EbookCategory",
+      default: null,
+      index: true,
+    },
+    categories: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "EbookCategory",
+      },
+    ],
     coverImageUrl: {
       type: String,
       trim: true,
@@ -100,9 +112,70 @@ const storySchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    hasAudio: {
+      type: Boolean,
+      default: false,
+    },
+    hasGoodreadsReviews: {
+      type: Boolean,
+      default: false,
+    },
+    hasSparks: {
+      type: Boolean,
+      default: false,
+    },
+    hasQuotes: {
+      type: Boolean,
+      default: false,
+    },
+    hasReels: {
+      type: Boolean,
+      default: false,
+    },
+    goodreadsRating: {
+      type: Number,
+      default: 4.5,
+    },
+    goodreadsReviewCount: {
+      type: Number,
+      default: 0,
+    },
+    goodreadsReviews: {
+      type: Array,
+      default: [],
+    },
+    quotes: {
+      type: Array,
+      default: [],
+    },
+    seriesId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "BookSeries",
+      default: null,
+    },
+    seriesName: {
+      type: String,
+      trim: true,
+      default: null,
+    },
+    seriesOrder: {
+      type: Number,
+      default: null,
+    },
+    nextBookInSeries: {
+      type: mongoose.Schema.Types.Mixed,
+      default: null,
+    },
+    prevBookInSeries: {
+      type: mongoose.Schema.Types.Mixed,
+      default: null,
+    },
   },
   { timestamps: true }
 );
+
+storySchema.index({ seriesId: 1 });
+storySchema.index({ seriesName: 1, seriesOrder: 1 });
 
 storySchema.index({ isPublished: 1, createdAt: -1 });
 storySchema.index({ isPublished: 1, isFeatured: 1, featuredRank: 1 });

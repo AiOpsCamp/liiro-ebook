@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Modal, ScrollView, ActivityIndicator } from "react-native";
-import { BookOpen, Languages, Highlighting, MessageSquare, X, Play, Check } from "lucide-react-native";
+import { BookOpen, Languages, Highlighting, MessageSquare, X, Play, Check, Sparkles, Share2 } from "lucide-react-native";
 import axios from "axios";
+import { QuoteCardShareModal } from "../social/QuoteCardShareModal";
 
 interface EbookTextSelectionTooltipProps {
   selectedText: string;
   isAudioPlayerVisible?: boolean;
+  storyTitle?: string;
+  storySlug?: string;
+  authorName?: string;
+  coverUrl?: string;
   onClose: () => void;
   onHighlight: (color: string) => void;
 }
@@ -13,10 +18,15 @@ interface EbookTextSelectionTooltipProps {
 export function EbookTextSelectionTooltip({
   selectedText,
   isAudioPlayerVisible = true,
+  storyTitle,
+  storySlug,
+  authorName,
+  coverUrl,
   onClose,
   onHighlight,
 }: EbookTextSelectionTooltipProps) {
   const [activeModal, setActiveModal] = useState<"dictionary" | "translate" | null>(null);
+  const [isQuoteCardVisible, setIsQuoteCardVisible] = useState(false);
   const [dictionaryResult, setDictionaryResult] = useState<any>(null);
   const [isLoadingDict, setIsLoadingDict] = useState(false);
   const [translatedText, setTranslatedText] = useState("");
@@ -91,6 +101,14 @@ export function EbookTextSelectionTooltip({
             <Languages size={16} color="#C084FC" />
           </TouchableOpacity>
 
+          {/* Social Quote Card Generator Button */}
+          <TouchableOpacity
+            onPress={() => setIsQuoteCardVisible(true)}
+            className="w-9 h-9 rounded-xl bg-amber-950 border border-amber-500/40 items-center justify-center"
+          >
+            <Sparkles size={16} color="#F59E0B" />
+          </TouchableOpacity>
+
           {/* Color Highlight Buttons */}
           <View className="flex-row items-center space-x-1 pl-1 border-l border-gray-800">
             {highlightColors.map((c) => (
@@ -114,6 +132,19 @@ export function EbookTextSelectionTooltip({
           </TouchableOpacity>
         </View>
       </View>
+
+      {/* Social Quote Card Share Modal */}
+      <QuoteCardShareModal
+        visible={isQuoteCardVisible}
+        onClose={() => setIsQuoteCardVisible(false)}
+        quoteData={{
+          quoteText: selectedText,
+          storyTitle: storyTitle || "Classic Literature",
+          storySlug: storySlug || "",
+          authorName: authorName || "Classic Author",
+          coverUrl: coverUrl
+        }}
+      />
 
       {/* Dictionary Modal Sheet */}
       <Modal visible={activeModal === "dictionary"} animationType="slide" transparent>

@@ -8,6 +8,7 @@ import { View, ActivityIndicator } from "react-native";
 import { useFonts, Lora_400Regular, Lora_600SemiBold, Lora_700Bold, Lora_400Regular_Italic } from "@expo-google-fonts/lora";
 import { PlayfairDisplay_400Regular, PlayfairDisplay_600SemiBold, PlayfairDisplay_700Bold } from "@expo-google-fonts/playfair-display";
 import { JetBrainsMono_400Regular, JetBrainsMono_600SemiBold } from "@expo-google-fonts/jetbrains-mono";
+import { Raleway_400Regular, Raleway_500Medium, Raleway_600SemiBold, Raleway_700Bold, Raleway_900Black } from "@expo-google-fonts/raleway";
 import { store } from "@/redux/store";
 import GlobalProvider, { useGlobalContext } from "@/context/GlobalContext";
 import { AlertProvider } from "@/context/AlertContext";
@@ -29,6 +30,11 @@ function RootNavigationGuard({ children }: { children: React.ReactNode }) {
     "PlayfairDisplay-Bold": PlayfairDisplay_700Bold,
     JetBrainsMono: JetBrainsMono_400Regular,
     "JetBrainsMono-SemiBold": JetBrainsMono_600SemiBold,
+    "Raleway-Regular": Raleway_400Regular,
+    "Raleway-Medium": Raleway_500Medium,
+    "Raleway-SemiBold": Raleway_600SemiBold,
+    "Raleway-Bold": Raleway_700Bold,
+    "Raleway-Black": Raleway_900Black,
   });
 
   useEffect(() => {

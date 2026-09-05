@@ -435,7 +435,8 @@ const ParagraphKaraokeRow = React.memo(function ParagraphKaraokeRow({
     >
       {(() => {
         const isBridgehead = /^\s*\([A-Za-z0-9\s.,;:'"—-]{2,120}\)\s*$/.test(cleanText.trim());
-        const effectiveTextAlign = isBridgehead ? "center" : textAlign;
+        const hasNewlines = cleanText.includes("\n");
+        const effectiveTextAlign = isBridgehead ? "center" : hasNewlines ? "left" : textAlign;
         const effectiveFontSize = isBridgehead ? Math.max(13, Math.round(fontSize * 0.88)) : fontSize;
 
         return (
@@ -444,13 +445,14 @@ const ParagraphKaraokeRow = React.memo(function ParagraphKaraokeRow({
             style={[
               {
                 fontSize: effectiveFontSize,
-                lineHeight: Math.round(effectiveFontSize * 1.68),
+                lineHeight: Math.round(effectiveFontSize * (hasNewlines ? 1.85 : 1.68)),
                 color: active ? (currentTheme.isDark ? "#F8FAFC" : textMain) : isBridgehead ? textSecondary : textMain,
                 fontStyle: isBridgehead ? "italic" : "normal",
                 opacity: isBridgehead ? 0.85 : 1,
-                letterSpacing: 0.15,
+                letterSpacing: hasNewlines ? 0.25 : 0.15,
                 textAlign: effectiveTextAlign as any,
               },
+              Platform.OS === "web" && { whiteSpace: "pre-line" } as any,
               Platform.OS === "web" && fontFamily === "serif"
                 ? ({ fontFamily: 'Georgia, Cambria, "Times New Roman", Times, serif' } as any)
                 : Platform.OS === "web" && fontFamily === "mono"
@@ -714,12 +716,18 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
   }, [activeLang, storyLangs, story.slug, router]);
 
   const initialMode: ReadingMode = useMemo(() => {
-    if (story.contentType === "ebook") return "scroll";
-    if (story.contentType === "audiobook" || startAsAudio) return "audiobook";
+    if (startAsAudio) return "audiobook";
+    if (story.contentType === "audiobook") return "audiobook";
     return "scroll";
   }, [story.contentType, startAsAudio]);
 
   const [readingMode, setReadingMode] = useState<ReadingMode>(initialMode);
+
+  useEffect(() => {
+    if (startAsAudio) {
+      setReadingMode("audiobook");
+    }
+  }, [startAsAudio]);
   const [isChapterSheetOpen, setIsChapterSheetOpen] = useState(false);
   const [isSettingsSheetOpen, setIsSettingsSheetOpen] = useState(false);
   const [isStateLoaded, setIsStateLoaded] = useState(false);
@@ -868,10 +876,14 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
     }
   }, [deleteHighlight, story.slug]);
 
-  // Restore saved state 100% from MongoDB userProgress
+  // Restore saved state 100% from MongoDB userProgress (ONCE ON INITIAL MOUNT)
+  const hasRestoredInitialStateRef = useRef(false);
+
   useEffect(() => {
     let isMounted = true;
     const restoreSavedState = async () => {
+      if (hasRestoredInitialStateRef.current) return;
+
       try {
         const [savedTheme, savedMode] = await Promise.all([
           AsyncStorage.getItem(STORAGE_KEY_THEME),
@@ -882,10 +894,14 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
           setThemeKey(savedTheme as ReadingThemeKey);
         }
         if (isMounted && savedMode && (savedMode === "scroll" || savedMode === "paginate" || savedMode === "audiobook")) {
-          setReadingMode(savedMode as ReadingMode);
-        } else if (story.contentType === "ebook") {
+          if (savedMode === "audiobook" && !story?.hasAudio) {
+            setReadingMode("scroll");
+          } else {
+            setReadingMode(savedMode as ReadingMode);
+          }
+        } else if (story.contentType === "ebook" || !story?.hasAudio) {
           if (isMounted) setReadingMode("scroll");
-        } else if (story.contentType === "audiobook" || startAsAudio) {
+        } else if ((story.contentType === "audiobook" || startAsAudio) && story?.hasAudio) {
           if (isMounted) setReadingMode("audiobook");
         }
       } catch (err) {
@@ -893,7 +909,8 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
       }
 
       // 100% MongoDB-based state restoration from story.userProgress
-      if (story.userProgress && isMounted) {
+      if (story.userProgress && isMounted && !hasRestoredInitialStateRef.current) {
+        hasRestoredInitialStateRef.current = true;
         if (story.userProgress.currentChapterId) {
           const resumeIdx = story.chapters.findIndex(
             (ch) => ch._id.toString() === story.userProgress!.currentChapterId?.toString()
@@ -1039,11 +1056,13 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
   );
 
   const audioUrl = useMemo(() => {
-    // 1. Direct Voice URL lookup from chapterDetails.audioVoices (e.g. audioVoices.adam or audioVoices.heart)
+    if (!story?.hasAudio) return null;
+
+    // 1. Direct Voice URL lookup from chapterDetails.audioVoices
     const directVoiceUrl = chapterDetails?.audioVoices?.[selectedVoiceId] || chapterDetails?.audioVoices?.[voiceKey];
     if (typeof directVoiceUrl === "string" && directVoiceUrl) return directVoiceUrl;
 
-    // 2. Voice object URL from availableVoices list (e.g. Adam's URL)
+    // 2. Voice object URL from availableVoices list
     if (activeVoiceObj?.url) return activeVoiceObj.url;
 
     // 3. Bitrate Quality URL lookup
@@ -1053,14 +1072,16 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
 
     // 4. Fallback to chapter default audioUrl
     const rawUrl = chapterDetails?.audioUrl || chapterStub?.audioUrl;
-    if (typeof rawUrl === "string" && rawUrl) return rawUrl;
+    if (typeof rawUrl === "string" && rawUrl && rawUrl.trim().length > 0) return rawUrl;
     if (rawUrl && typeof rawUrl === "object") {
       const localized = (rawUrl as any)[activeLang] || Object.values(rawUrl)[0];
-      if (localized && typeof localized === "string") return localized;
+      if (localized && typeof localized === "string" && localized.trim().length > 0) return localized;
     }
     if (streamTokenData?.signedStreamUrl) return streamTokenData.signedStreamUrl;
     return null;
-  }, [activeVoiceObj, chapterDetails, chapterStub, activeLang, streamTokenData, selectedVoiceId, voiceKey, audioBitrate]);
+  }, [story, activeVoiceObj, chapterDetails, chapterStub, activeLang, streamTokenData, selectedVoiceId, voiceKey, audioBitrate]);
+
+  const [hasPlayedBrandIntro, setHasPlayedBrandIntro] = useState(false);
 
   const togglePlayPause = useCallback(async () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
@@ -1077,40 +1098,44 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
         return;
       }
 
-      // Reset seek position if current position is near or past end of track
-      const targetSeek = (effectiveAudioDuration > 0 && audioCurrentTime >= effectiveAudioDuration - 1) ? 0 : audioCurrentTime;
-      if (targetSeek === 0) {
-        setAudioCurrentTime(0);
-      }
+      const targetSeek = (effectiveAudioDuration > 0 && audioCurrentTime >= effectiveAudioDuration - 1) ? 0 : (audioCurrentTime || 0);
 
       setIsAudioLoading(true);
-      const success = await audioMgr.playAudio(
-        playUrl,
-        () => {
-          setIsPlaying(false);
-          if (currentChapterIdx < story.chapters.length - 1) {
-            setCurrentChapterIdx((prev) => prev + 1);
+      try {
+        const success = await audioMgr.playAudio(
+          playUrl,
+          () => {
+            setIsPlaying(false);
+            if (currentChapterIdx < story.chapters.length - 1) {
+              setCurrentChapterIdx((prev) => prev + 1);
+            }
+          },
+          targetSeek
+        );
+        setIsAudioLoading(false);
+        if (success) {
+          setIsPlaying(true);
+          audioMgr.setRate(playbackSpeed);
+          const activeChapterObj = chapterDetails || chapterStub;
+          audioMgr.updateCarPlayMediaSessionMetadata({
+            title: activeChapterObj?.title ? (typeof activeChapterObj.title === "object" ? (activeChapterObj.title as any).en : activeChapterObj.title) : `Chapter ${currentChapterIdx + 1}`,
+            artist: typeof story?.author === "object" ? (story.author as any).name : (story?.author || "Liiro Author"),
+            album: typeof story?.title === "object" ? (story.title as any).en : (story?.title || "Liiro Audiobook"),
+            artworkUrl: story?.coverImageUrl || "",
+          });
+          if (Platform.OS === "web") {
+            audioElementRef.current = audioMgr.getWebAudioElement();
           }
-        },
-        targetSeek
-      );
-      setIsAudioLoading(false);
-      if (success) {
-        setIsPlaying(true);
-        audioMgr.setRate(playbackSpeed);
-        const activeChapterObj = chapterDetails || chapterStub;
-        audioMgr.updateCarPlayMediaSessionMetadata({
-          title: activeChapterObj?.title ? (typeof activeChapterObj.title === "object" ? (activeChapterObj.title as any).en : activeChapterObj.title) : `Chapter ${currentChapterIdx + 1}`,
-          artist: typeof story?.author === "object" ? (story.author as any).name : (story?.author || "Liiro Author"),
-          album: typeof story?.title === "object" ? (story.title as any).en : (story?.title || "Liiro Audiobook"),
-          artworkUrl: story?.coverImageUrl || "",
-        });
-        if (Platform.OS === "web") {
-          audioElementRef.current = audioMgr.getWebAudioElement();
+        } else {
+          setIsPlaying(false);
         }
+      } catch (err) {
+        console.error("togglePlayPause error:", err);
+        setIsAudioLoading(false);
+        setIsPlaying(false);
       }
     }
-  }, [isPlaying, audioUrl, story, currentChapterIdx, voiceKey, audioCurrentTime, audioDuration, playbackSpeed]);
+  }, [isPlaying, audioUrl, story, currentChapterIdx, voiceKey, audioCurrentTime, audioDuration, playbackSpeed, effectiveAudioDuration, chapterDetails, chapterStub, activeLang]);
 
   // Seamless Voice Switch Effect
   const prevVoiceRef = useRef(selectedVoiceId);
@@ -1491,12 +1516,38 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
     ? Math.min(paragraphs.length - 1, Math.round(savedScrollProgress * paragraphs.length))
     : -1;
 
-  // Determine Active Highlighting Index during Audio Playback
+  // Determine Active Highlighting Index during Audio Playback using Exact Timestamps
   const activeParagraphIdx = useMemo(() => {
-    if (!isPlaying || !audioDuration || paragraphs.length === 0) return -1;
+    if (!isPlaying || paragraphs.length === 0) return -1;
+    const timestamps = chapterDetails?.paragraphTimestamps || chapterDetails?.timestamps || [];
+    if (Array.isArray(timestamps) && timestamps.length > 0) {
+      for (let i = 0; i < timestamps.length; i++) {
+        const item = timestamps[i];
+        const start = item.startSec ?? item.start ?? 0;
+        const end = item.endSec ?? item.end ?? (start + 5);
+        if (audioCurrentTime >= start && audioCurrentTime < end) {
+          const pIdx = typeof item.paragraphIndex === "number" ? item.paragraphIndex : i;
+          // paragraphIndex <= 0 is Brand Intro (-1) or Chapter Header (0) -> do NOT highlight body text yet
+          if (pIdx <= 0) return -1;
+          return Math.min(pIdx - 1, paragraphs.length - 1);
+        }
+      }
+    }
+    if (!audioDuration) return -1;
     const ratio = audioCurrentTime / audioDuration;
     return Math.min(Math.floor(ratio * paragraphs.length), paragraphs.length - 1);
-  }, [isPlaying, audioCurrentTime, audioDuration, paragraphs.length]);
+  }, [isPlaying, audioCurrentTime, audioDuration, paragraphs.length, chapterDetails?.paragraphTimestamps, chapterDetails?.timestamps]);
+
+  // Smooth Auto-Scroll to Active Paragraph during Audio Playback
+  useEffect(() => {
+    if (!isPlaying || activeParagraphIdx < 0) return;
+    if (Platform.OS === "web" && typeof document !== "undefined") {
+      const el = document.getElementById(`para-${activeParagraphIdx}`);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }
+  }, [isPlaying, activeParagraphIdx]);
 
   const handleSelectTheme = useCallback((theme: ReadingThemeKey) => {
     setThemeKey(theme);
@@ -1530,6 +1581,8 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
     if (prevChapterKeyRef.current !== null && prevChapterKeyRef.current !== chapterKey) {
       prevChapterKeyRef.current = chapterKey;
       setCurrentPageIdx(0);
+      setAudioCurrentTime(0);
+      initialAudioTimestampRef.current = 0;
       flatListRef.current?.scrollToOffset({ offset: 0, animated: false });
       scrollViewRef.current?.scrollTo({ y: 0, animated: false });
       scrollYPxRef.current = 0;
@@ -1545,6 +1598,8 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
       const nextCh = story.chapters[nextIdx];
       setCurrentChapterIdx(nextIdx);
       setCurrentPageIdx(0);
+      setAudioCurrentTime(0);
+      initialAudioTimestampRef.current = 0;
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
 
       if (story.slug && nextCh?._id) {
@@ -1563,6 +1618,8 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
       const prevCh = story.chapters[prevIdx];
       setCurrentChapterIdx(prevIdx);
       setCurrentPageIdx(0);
+      setAudioCurrentTime(0);
+      initialAudioTimestampRef.current = 0;
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
 
       if (story.slug && prevCh?._id) {
@@ -1708,8 +1765,8 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
 
           {/* Right Action Controls */}
           <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-            {/* Mode Toggle Pill – only for "both" content */}
-            {story.contentType === "both" && (
+            {/* Mode Toggle Pill – visible whenever audio is available */}
+            {(story.contentType === "both" || story.hasAudio || !!audioUrl || story.isAudiobook || !!chapterDetails?.hasAudio) && (
               <View
                 style={{
                   flexDirection: "row",
@@ -2251,18 +2308,72 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
             }
 
             return (
-              <ScrollView
-                style={{ flex: 1, width: "100%", alignSelf: "center" }}
-                contentContainerStyle={{
-                  alignItems: "center",
-                  justifyContent: "center",
-                  width: "100%",
-                  minHeight: "100%",
-                  paddingTop: Math.max(insets.top + 68, 76),
-                  paddingBottom: Math.max(insets.bottom + 40, 48),
-                }}
-                showsVerticalScrollIndicator={false}
-              >
+              <View style={{ flex: 1, width: "100%", position: "relative" }}>
+                {/* Floating Top Banner: Switch Back to Reading Text */}
+                <View
+                  style={{
+                    position: "absolute",
+                    top: Math.max(insets.top + 8, 16),
+                    left: 20,
+                    right: 20,
+                    zIndex: 60,
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Pressable
+                    onPress={() => handleSelectReadingMode("scroll")}
+                    style={({ pressed }) => ({
+                      flexDirection: "row",
+                      alignItems: "center",
+                      gap: 8,
+                      paddingHorizontal: 18,
+                      paddingVertical: 10,
+                      borderRadius: 100,
+                      backgroundColor: accent,
+                      shadowColor: "#000",
+                      shadowOffset: { width: 0, height: 4 },
+                      shadowOpacity: 0.25,
+                      shadowRadius: 10,
+                      elevation: 6,
+                      opacity: pressed ? 0.85 : 1,
+                    })}
+                  >
+                    <BookOpen size={16} color="#FFFFFF" />
+                    <AppText weight="Bold" style={{ fontSize: 13, color: "#FFFFFF", letterSpacing: -0.2 }}>
+                      Read Chapter Text 📖
+                    </AppText>
+                  </Pressable>
+
+                  <Pressable
+                    onPress={() => handleSelectReadingMode("scroll")}
+                    style={({ pressed }) => ({
+                      paddingHorizontal: 14,
+                      paddingVertical: 8,
+                      borderRadius: 100,
+                      backgroundColor: currentTheme.isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.06)",
+                      opacity: pressed ? 0.7 : 1,
+                    })}
+                  >
+                    <AppText weight="SemiBold" style={{ fontSize: 12, color: textMain }}>
+                      Exit Audio View
+                    </AppText>
+                  </Pressable>
+                </View>
+
+                <ScrollView
+                  style={{ flex: 1, width: "100%", alignSelf: "center" }}
+                  contentContainerStyle={{
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "100%",
+                    minHeight: "100%",
+                    paddingTop: Math.max(insets.top + 72, 80),
+                    paddingBottom: Math.max(insets.bottom + 40, 48),
+                  }}
+                  showsVerticalScrollIndicator={false}
+                >
                 <Animated.View
                   entering={FadeInDown.duration(420)}
                   style={{
@@ -2340,7 +2451,11 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
                             max={effectiveAudioDuration || 1}
                             step={0.1}
                             value={audioCurrentTime || 0}
-                            onChange={(e) => {
+                            onInput={(e: any) => {
+                              const val = parseFloat(e.target.value);
+                              if (!isNaN(val)) seekAudio(val);
+                            }}
+                            onChange={(e: any) => {
                               const val = parseFloat(e.target.value);
                               if (!isNaN(val)) seekAudio(val);
                             }}
@@ -2349,10 +2464,10 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
                               left: 0,
                               top: 0,
                               width: "100%",
-                              height: 28,
+                              height: "100%",
                               opacity: 0,
                               cursor: "pointer",
-                              zIndex: 10,
+                              zIndex: 20,
                             }}
                           />
                         )}
@@ -2791,6 +2906,7 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
                   </View>
                 </Animated.View>
               </ScrollView>
+            </View>
             );
           })()
         ) : (
@@ -2873,17 +2989,39 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
 
                   return contentBlocks.map((block, itemIdx) => {
                       if (block.type === "image" && block.src) {
+                        const cardBg = globalIsDark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.02)";
+                        const cardBorder = globalIsDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)";
                         return (
-                          <View key={`fig-${itemIdx}`} style={{ alignItems: "center", marginVertical: 32, width: "100%" }}>
+                          <View
+                            key={`fig-${itemIdx}`}
+                            style={{
+                              alignItems: "center",
+                              marginVertical: 36,
+                              width: "100%",
+                              paddingVertical: 20,
+                              paddingHorizontal: 16,
+                              borderRadius: 18,
+                              backgroundColor: cardBg,
+                              borderWidth: 1,
+                              borderColor: cardBorder,
+                            }}
+                          >
+                            <View style={{ flexDirection: "row", alignItems: "center", gap: 6, marginBottom: 14 }}>
+                              <Sparkles size={12} color={accent} />
+                              <AppText weight="SemiBold" style={{ fontSize: 10, letterSpacing: 1.2, color: accent, textTransform: "uppercase" }}>
+                                Ebook Illustration
+                              </AppText>
+                            </View>
+
                             {Platform.OS === "web" ? (
                               <img
                                 src={block.src}
                                 alt={block.alt || "Illustration by Sir John Tenniel"}
                                 style={{
-                                  maxWidth: "92%",
-                                  maxHeight: 460,
-                                  borderRadius: 14,
-                                  boxShadow: "0 8px 24px rgba(0,0,0,0.14)",
+                                  maxWidth: "94%",
+                                  maxHeight: 440,
+                                  borderRadius: 12,
+                                  boxShadow: globalIsDark ? "0 8px 24px rgba(0,0,0,0.4)" : "0 8px 24px rgba(0,0,0,0.08)",
                                   display: "block",
                                   margin: "0 auto",
                                 }}
@@ -2891,25 +3029,48 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
                             ) : (
                               <Image
                                 source={{ uri: block.src }}
-                                style={{ width: "90%", height: 320, borderRadius: 14 }}
+                                style={{ width: "94%", height: 320, borderRadius: 12 }}
                                 resizeMode="contain"
                               />
                             )}
-                            <AppText weight="Medium" style={{ fontSize: 11, color: textSecondary, marginTop: 10, fontStyle: "italic", textAlign: "center", paddingHorizontal: 20 }}>
-                              {block.alt || "Illustration by Sir John Tenniel"}
-                            </AppText>
+
+                            {block.alt ? (
+                              <AppText
+                                weight="Medium"
+                                style={{
+                                  fontSize: 12,
+                                  lineHeight: 18,
+                                  color: textSecondary,
+                                  marginTop: 14,
+                                  fontStyle: "italic",
+                                  textAlign: "center",
+                                  paddingHorizontal: 12,
+                                  opacity: 0.85,
+                                }}
+                              >
+                                {block.alt}
+                              </AppText>
+                            ) : null}
                           </View>
                         );
                       }
 
                       const idx = block.paraIdx ?? 0;
                       const para = block.text || "";
-                      const paraDur = (para.length / totalChars) * (audioDuration || 1);
-                      const paraStart = currTime;
-                      const paraEnd = currTime + paraDur;
-                      currTime += paraDur;
+                      const realParaTimestamps = chapterDetails?.paragraphTimestamps || chapterDetails?.timestamps || [];
+                      const hasHeaderPara = Array.isArray(realParaTimestamps) && realParaTimestamps.some((t: any) => t.paragraphIndex === 0);
+                      const realTs = Array.isArray(realParaTimestamps) && realParaTimestamps.length > 0
+                        ? realParaTimestamps.find((t: any) => hasHeaderPara ? t.paragraphIndex === idx + 1 : t.paragraphIndex === idx)
+                        : null;
 
-                      const isActive = isPlaying && audioCurrentTime >= paraStart && audioCurrentTime <= paraEnd;
+                      const paraDur = realTs
+                        ? (realTs.durationSec ?? ((realTs.endSec ?? realTs.end) - (realTs.startSec ?? realTs.start)))
+                        : (para.length / totalChars) * (audioDuration || 1);
+                      const paraStart = realTs ? (realTs.startSec ?? realTs.start ?? 0) : currTime;
+                      const paraEnd = realTs ? (realTs.endSec ?? realTs.end ?? paraStart + paraDur) : currTime + paraDur;
+                      if (!realTs) currTime += paraDur;
+
+                      const isActive = isPlaying && audioCurrentTime >= paraStart && audioCurrentTime < paraEnd;
                       const matchedHighlight = backendHighlights.find(
                         (h) => h.chapterId?.toString() === chapterStub?._id?.toString() && (h.paragraphIdx === idx || h.selectedText === para)
                       );
@@ -3054,8 +3215,8 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
         </Animated.View>
       )}
 
-      {/* ── Switch to Audiobook banner (for "both" stories in ebook mode) ── */}
-      {story.contentType === "both" && readingMode !== "audiobook" && !audioUrl && (
+      {/* ── Switch to Audiobook banner (for stories with audio in ebook mode) ── */}
+      {(story.contentType === "both" || story.hasAudio || story.isAudiobook) && readingMode !== "audiobook" && !audioUrl && (
         <Pressable
           onPress={() => handleSelectReadingMode("audiobook")}
           style={({ pressed }) => ({
@@ -3116,7 +3277,11 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
                   max={effectiveAudioDuration || 1}
                   step={0.1}
                   value={audioCurrentTime || 0}
-                  onChange={(e) => {
+                  onInput={(e: any) => {
+                    const val = parseFloat(e.target.value);
+                    if (!isNaN(val)) seekAudio(val);
+                  }}
+                  onChange={(e: any) => {
                     const val = parseFloat(e.target.value);
                     if (!isNaN(val)) seekAudio(val);
                   }}
@@ -3125,10 +3290,10 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
                     left: 0,
                     top: 0,
                     width: "100%",
-                    height: 16,
+                    height: "100%",
                     opacity: 0,
                     cursor: "pointer",
-                    zIndex: 10,
+                    zIndex: 20,
                   }}
                 />
               )}
@@ -3392,6 +3557,8 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
                 key={ch._id}
                 onPress={() => {
                   setCurrentChapterIdx(idx);
+                  setAudioCurrentTime(0);
+                  initialAudioTimestampRef.current = 0;
                   setIsChapterSheetOpen(false);
                 }}
                 style={({ pressed }) => ({
@@ -3530,15 +3697,21 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
             ) : (
               <View style={{ borderRadius: 16, borderWidth: 1, borderColor: borderSoft, flexDirection: "row", alignItems: "center", padding: 4, gap: 4, backgroundColor: currentTheme.isDark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.02)" }}>
                 {[
-                  { key: "scroll", label: "Text + Audio", icon: Scroll },
-                  { key: "audiobook", label: "Audiobook", icon: Headphones },
-                  { key: "paginate", label: "Page Cards", icon: BookOpen },
-                ].map(({ key, label, icon: IconComponent }) => {
+                  { key: "scroll", label: story?.hasAudio ? "Text + Audio" : "Continuous Scroll", icon: Scroll, isDisabled: false },
+                  { key: "audiobook", label: "Audiobook", icon: Headphones, isDisabled: !story?.hasAudio },
+                  { key: "paginate", label: "Page Cards", icon: BookOpen, isDisabled: false },
+                ].map(({ key, label, icon: IconComponent, isDisabled }) => {
                   const isSel = readingMode === key;
                   return (
                     <Pressable
                       key={key}
-                      onPress={() => handleSelectReadingMode(key as any)}
+                      onPress={() => {
+                        if (isDisabled) {
+                          alert("Audiobook narration is currently being synthesized for this edition.");
+                          return;
+                        }
+                        handleSelectReadingMode(key as any);
+                      }}
                       style={({ pressed }) => ({
                         flex: 1,
                         paddingVertical: 10,
@@ -3548,7 +3721,7 @@ const EbookReadContent: React.FC<EbookReadContentProps> = ({ story, startAsAudio
                         gap: 6,
                         borderRadius: 12,
                         backgroundColor: isSel ? accent : "transparent",
-                        opacity: pressed ? 0.8 : 1,
+                        opacity: isDisabled ? 0.35 : pressed ? 0.8 : 1,
                       })}
                     >
                       <IconComponent size={14} color={isSel ? "#FFFFFF" : textSecondary} />

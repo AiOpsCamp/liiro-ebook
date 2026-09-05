@@ -1,0 +1,5022 @@
+[
+  {
+    "pg_id": 2388,
+    "title": "The Art of War",
+    "author": "Sun Tzu",
+    "genre": "Ancient Military Strategy",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 11000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 1944,
+    "title": "The Book of Five Rings (Go Rin No Sho)",
+    "author": "Miyamoto Musashi",
+    "genre": "Samurai Strategy & Martial Philosophy",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 15000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 216,
+    "title": "Tao Te Ching",
+    "author": "Laozi",
+    "genre": "Eastern Philosophy & Taoism",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 9500,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 3526,
+    "title": "The Dhammapada",
+    "author": "Anonymous",
+    "genre": "Buddhist Canonical Wisdom",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 14000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 4078,
+    "title": "The Bhagavad-Gita (The Song Celestial)",
+    "author": "Edwin Arnold",
+    "genre": "Sacred Hindu Philosophy & Yoga",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 24000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2529,
+    "title": "The Upanishads",
+    "author": "Max M\u00fcller",
+    "genre": "Vedic Metaphysics & Spiritual Philosophy",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 28000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 1354,
+    "title": "The Analects of Confucius",
+    "author": "Confucius",
+    "genre": "Moral, Social & Political Philosophy",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 32000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 2680,
+    "title": "The Prophet",
+    "author": "Kahlil Gibran",
+    "genre": "Poetic Philosophy & Spiritual Life",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 13500,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 2680,
+    "title": "Meditations",
+    "author": "Marcus Aurelius",
+    "genre": "Stoic Personal Reflections",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 48000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 1232,
+    "title": "The Prince",
+    "author": "Niccol\u00f2 Machiavelli",
+    "genre": "Political Realism & Statecraft",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 34000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 1497,
+    "title": "The Republic",
+    "author": "Plato",
+    "genre": "Justice, Ideal State & The Cave",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 118000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 1600,
+    "title": "Symposium",
+    "author": "Plato",
+    "genre": "Philosophy of Love, Eros & Beauty",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 24000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 1658,
+    "title": "Apology, Crito, and Phaedo of Socrates",
+    "author": "Plato",
+    "genre": "Trial and Death of Socrates",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 45000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 27827,
+    "title": "The Kama Sutra of Vatsyayana",
+    "author": "Vatsyayana",
+    "genre": "Ancient Indian Life, Love & Culture",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 42000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 512,
+    "title": "The Rubaiyat of Omar Khayyam",
+    "author": "Omar Khayyam",
+    "genre": "Persian Poetry on Life & Mortality",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 5000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 600,
+    "title": "Notes from the Underground",
+    "author": "Fyodor Dostoevsky",
+    "genre": "Existentialist Foundation",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 39000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 45109,
+    "title": "Thus Spake Zarathustra",
+    "author": "Friedrich Nietzsche",
+    "genre": "\u00dcbermensch & Will to Power",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 110000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 52263,
+    "title": "Beyond Good and Evil",
+    "author": "Friedrich Nietzsche",
+    "genre": "Critique of Morality",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 72000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 51356,
+    "title": "The Genealogy of Morals",
+    "author": "Friedrich Nietzsche",
+    "genre": "Moral Philosophy",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 58000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 1998,
+    "title": "The Antichrist",
+    "author": "Friedrich Nietzsche",
+    "genre": "Philosophical Critique",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 32000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 3800,
+    "title": "The Enchiridion (Handbook)",
+    "author": "Epictetus",
+    "genre": "Stoic Moral Philosophy",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 12000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 5683,
+    "title": "Discourses of Epictetus",
+    "author": "Epictetus",
+    "genre": "Stoic Ethics & Wisdom",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 115000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 10661,
+    "title": "Moral Letters to Lucilius (Epistulae Morales)",
+    "author": "Seneca",
+    "genre": "Stoic Practical Guidance",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 185000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 10662,
+    "title": "On the Shortness of Life (De Brevitate Vitae)",
+    "author": "Seneca",
+    "genre": "Stoic Time & Life Philosophy",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 15000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 38427,
+    "title": "Ethics",
+    "author": "Baruch Spinoza",
+    "genre": "Rationalist Metaphysics & Ethics",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 95000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 5827,
+    "title": "The Problems of Philosophy",
+    "author": "Bertrand Russell",
+    "genre": "Theory of Knowledge & Epistemology",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 38000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 4280,
+    "title": "Critique of Pure Reason",
+    "author": "Immanuel Kant",
+    "genre": "Epistemological Masterpiece",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 220000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 5682,
+    "title": "Fundamental Principles of the Metaphysic of Morals",
+    "author": "Immanuel Kant",
+    "genre": "Categorical Imperative",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 28000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 8438,
+    "title": "The World as Will and Idea (Vol 1)",
+    "author": "Arthur Schopenhauer",
+    "genre": "Pessimism & Metaphysics",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 210000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 10731,
+    "title": "Essays of Schopenhauer",
+    "author": "Arthur Schopenhauer",
+    "genre": "Wisdom of Life & Human Nature",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 65000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 34901,
+    "title": "The Social Contract",
+    "author": "Jean-Jacques Rousseau",
+    "genre": "Political Philosophy & Liberty",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 48000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 46333,
+    "title": "Emile, or On Education",
+    "author": "Jean-Jacques Rousseau",
+    "genre": "Philosophy of Human Nature & Education",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 160000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 7370,
+    "title": "Second Treatise of Government",
+    "author": "John Locke",
+    "genre": "Liberal Democracy & Natural Rights",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 54000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 3207,
+    "title": "Leviathan",
+    "author": "Thomas Hobbes",
+    "genre": "Social Contract & Absolute Sovereign",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 215000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 34901,
+    "title": "On Liberty",
+    "author": "John Stuart Mill",
+    "genre": "Utilitarianism & Individual Freedom",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 42000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 11224,
+    "title": "Utilitarianism",
+    "author": "John Stuart Mill",
+    "genre": "Moral Philosophy",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 19000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 3300,
+    "title": "An Enquiry Concerning Human Understanding",
+    "author": "David Hume",
+    "genre": "Empiricism & Skepticism",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 52000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 38194,
+    "title": "A Treatise of Human Nature",
+    "author": "David Hume",
+    "genre": "Empirical Epistemology",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 230000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 16643,
+    "title": "Essays of Michel de Montaigne",
+    "author": "Michel de Montaigne",
+    "genre": "Humanist Skepticism & Self-Reflection",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 350000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 59,
+    "title": "The Varieties of Religious Experience",
+    "author": "William James",
+    "genre": "Pragmatism & Psychology of Faith",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 180000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 284,
+    "title": "Pragmatism: A New Name for Some Old Ways of Thinking",
+    "author": "William James",
+    "genre": "Pragmatist Philosophy",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 58000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 1228,
+    "title": "Walden; or, Life in the Woods",
+    "author": "Henry David Thoreau",
+    "genre": "Transcendentalism & Simple Living",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 115000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 71,
+    "title": "Civil Disobedience",
+    "author": "Henry David Thoreau",
+    "genre": "Nonviolent Resistance & Individual Conscience",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 9500,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2680,
+    "title": "Nature and Selected Essays",
+    "author": "Ralph Waldo Emerson",
+    "genre": "Transcendentalist Philosophy",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 85000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 16643,
+    "title": "Self-Reliance and Other Essays",
+    "author": "Ralph Waldo Emerson",
+    "genre": "Individualism & Nonconformity",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 42000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 3333,
+    "title": "The Tibetan Book of the Dead (Bardo Thodol)",
+    "author": "W. Y. Evans-Wentz",
+    "genre": "Tibetan Buddhist Afterlife Philosophy",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 78000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 3688,
+    "title": "The Sayings of Lao Tzu",
+    "author": "Lionel Giles",
+    "genre": "Taoist Philosophy & Quotations",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 18000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 4280,
+    "title": "The Life and Teachings of Confucius",
+    "author": "James Legge",
+    "genre": "Confucian Classic Biography",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 65000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 1400,
+    "title": "The Works of Mencius",
+    "author": "James Legge",
+    "genre": "Classical Confucianism & Human Goodness",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 92000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 10662,
+    "title": "Zhuangzi (The Writings of Chuang Tzu)",
+    "author": "James Legge",
+    "genre": "Taoist Parables & Freedom",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 110000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 10052,
+    "title": "Autobiography of Benjamin Franklin",
+    "author": "Benjamin Franklin",
+    "genre": "Enlightenment Pragmatism & Industry",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 64000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 10053,
+    "title": "Poor Richard's Almanack",
+    "author": "Benjamin Franklin",
+    "genre": "Proverbs & Practical Philosophy",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 18000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 10054,
+    "title": "The Spirit of the Laws",
+    "author": "Montesquieu",
+    "genre": "Separation of Powers & Constitutionalism",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 210000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 10055,
+    "title": "Reflections on the Revolution in France",
+    "author": "Edmund Burke",
+    "genre": "Classical Conservatism & Tradition",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 92000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 10056,
+    "title": "Common Sense",
+    "author": "Thomas Paine",
+    "genre": "Enlightenment Revolution & Republicanism",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 22000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 10057,
+    "title": "Rights of Man",
+    "author": "Thomas Paine",
+    "genre": "Human Liberty & Political Equality",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 88000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 10058,
+    "title": "The Age of Reason",
+    "author": "Thomas Paine",
+    "genre": "Deism & Rationalist Religion",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 74000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 10059,
+    "title": "The Federalist Papers",
+    "author": "Hamilton, Madison, Jay",
+    "genre": "American Constitutional Philosophy",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 195000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 10060,
+    "title": "The Wealth of Nations",
+    "author": "Adam Smith",
+    "genre": "Classical Economics & Invisible Hand",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 380000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 10061,
+    "title": "Theory of Moral Sentiments",
+    "author": "Adam Smith",
+    "genre": "Moral Sympathy & Human Conscience",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 145000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 10062,
+    "title": "An Essay on the Principle of Population",
+    "author": "Thomas Malthus",
+    "genre": "Demographic Growth & Scarcity",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 72000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 10063,
+    "title": "The Subjection of Women",
+    "author": "John Stuart Mill",
+    "genre": "Feminist Political Philosophy",
+    "category": "Philosophy, Strategy & Eastern Classics",
+    "words": 42000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 2428,
+    "title": "The Arabian Nights' Entertainments",
+    "author": "Andrew Lang",
+    "genre": "Middle Eastern Magic, Djinns & Kings",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 115000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 348,
+    "title": "The Epic of Gilgamesh",
+    "author": "Anonymous",
+    "genre": "Oldest Epic of Immortality & Friendship",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 18000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 1567,
+    "title": "The Kalevala (Finnish National Epic)",
+    "author": "Elias L\u00f6nnrot",
+    "genre": "V\u00e4in\u00e4m\u00f6inen, Sampo & Shamanic Runes",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 98000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2852,
+    "title": "The Poetic Edda (Elder Edda)",
+    "author": "Anonymous",
+    "genre": "Odin, Thor, Loki & Ragnarok Myths",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 65000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 1800,
+    "title": "The Story of the Volsungs (Volsunga Saga)",
+    "author": "Eirikr Magnusson",
+    "genre": "Sigurd, Fafnir the Dragon & Valkyrie",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 42000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 14765,
+    "title": "Bulfinch's Mythology: The Age of Fable",
+    "author": "Thomas Bulfinch",
+    "genre": "Olympian Gods, Heroes & Golden Fleece",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 110000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 14766,
+    "title": "Bulfinch's Mythology: The Age of Chivalry",
+    "author": "Thomas Bulfinch",
+    "genre": "King Arthur, Round Table & Mabinogion",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 95000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 14767,
+    "title": "Bulfinch's Mythology: Legends of Charlemagne",
+    "author": "Thomas Bulfinch",
+    "genre": "Paladins, Roland & Medieval Romance",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 88000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 833,
+    "title": "The Mabinogion",
+    "author": "Lady Charlotte Guest",
+    "genre": "Ancient Welsh Celtic Legends & Arthur",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 120000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 3800,
+    "title": "Celtic Wonder-Tales",
+    "author": "Ella Young",
+    "genre": "Tuatha D\u00e9 Danann, Lugh & Irish Fables",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 26000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 1155,
+    "title": "The Secret Commonwealth of Elves and Fairies",
+    "author": "Robert Kirk",
+    "genre": "Scottish Folklore, Second Sight & Sidhe",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 22000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 1656,
+    "title": "Myths and Legends of Greece and Rome",
+    "author": "E. M. Berens",
+    "genre": "Classical Gods, Titans & Constellations",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 85000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 3717,
+    "title": "Indian Fairy Tales",
+    "author": "Joseph Jacobs",
+    "genre": "Eastern Panchatantra & Jataka Fables",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 52000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 7439,
+    "title": "Japanese Fairy Tales",
+    "author": "Yei Theodora Ozaki",
+    "genre": "Momotaro, Urashima Taro & Dragon Kings",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 48000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2683,
+    "title": "Chinese Folk-Lore Tales",
+    "author": "J. Macgowan",
+    "genre": "Dragons, Spirits & Ancient Dynasties",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 42000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 10565,
+    "title": "Myths of the Norsemen",
+    "author": "H. A. Guerber",
+    "genre": "Valhalla, Yggdrasil & Norse Legends",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 115000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 22381,
+    "title": "Legends of the Middle Ages",
+    "author": "H. A. Guerber",
+    "genre": "Beowulf, Nibelungenlied & Holy Grail",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 110000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2591,
+    "title": "Grimms' Fairy Tales",
+    "author": "Jacob & Wilhelm Grimm",
+    "genre": "Cinderella, Hansel, Rapunzel & Frog King",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 140000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 272,
+    "title": "Hans Christian Andersen's Fairy Tales",
+    "author": "Hans Christian Andersen",
+    "genre": "Little Mermaid, Snow Queen & Ugly Duckling",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 95000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 1727,
+    "title": "The Odyssey",
+    "author": "Homer",
+    "genre": "Odysseus's 10-Year Epic Return to Ithaca",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 125000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 6130,
+    "title": "The Iliad",
+    "author": "Homer",
+    "genre": "Achilles's Wrath, Hector & Fall of Troy",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 155000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 8800,
+    "title": "The Divine Comedy: Inferno",
+    "author": "Dante Alighieri",
+    "genre": "Nine Circles of Hell & Virgil's Guide",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 42000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 8801,
+    "title": "The Divine Comedy: Purgatorio",
+    "author": "Dante Alighieri",
+    "genre": "Seven Terraces of Purification",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 42000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 8802,
+    "title": "The Divine Comedy: Paradiso",
+    "author": "Dante Alighieri",
+    "genre": "Beatrice & Spheres of Heaven",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 44000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 228,
+    "title": "The Aeneid",
+    "author": "Virgil",
+    "genre": "Aeneas's Flight from Troy to Rome",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 98000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 8755,
+    "title": "Metamorphoses",
+    "author": "Ovid",
+    "genre": "Transformations of Gods & Mortals in 15 Books",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 135000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 16328,
+    "title": "Beowulf: An Anglo-Saxon Epic Poem",
+    "author": "J. Lesslie Hall",
+    "genre": "Grendel, Grendel's Mother & Dragon",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 28000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 198,
+    "title": "The Song of Roland",
+    "author": "Anonymous",
+    "genre": "Charlemagne's Battle at Roncevaux Pass",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 24000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 11510,
+    "title": "The Nibelungenlied (The Song of the Nibelungs)",
+    "author": "Daniel Bussier Shumway",
+    "genre": "Siegfried, Kriemhild & Dragon Blood",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 92000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 1251,
+    "title": "Le Morte d'Arthur (Volume 1)",
+    "author": "Thomas Malory",
+    "genre": "Sword in Stone, Excalibur & Lancelot",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 180000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 1252,
+    "title": "Le Morte d'Arthur (Volume 2)",
+    "author": "Thomas Malory",
+    "genre": "Grail Quest, Mordred & Avalon",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 195000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 288,
+    "title": "Aesop's Fables",
+    "author": "Aesop (Trans. V. S. Vernon Jones)",
+    "genre": "Classic Moral Fables & Animals",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 36000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2550,
+    "title": "Russian Folk-Tales",
+    "author": "W. R. S. Ralston",
+    "genre": "Baba Yaga, Ivan Tsarevich & Firebird",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 105000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 10052,
+    "title": "English Fairy Tales",
+    "author": "Joseph Jacobs",
+    "genre": "Jack & Beanstalk, Three Bears & Tom Thumb",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 64000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 11053,
+    "title": "More English Fairy Tales",
+    "author": "Joseph Jacobs",
+    "genre": "Pied Piper & Rare British Legends",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 58000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2300,
+    "title": "Celtic Fairy Tales",
+    "author": "Joseph Jacobs",
+    "genre": "Gaelic Giants, Banshees & Druids",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 62000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 3301,
+    "title": "More Celtic Fairy Tales",
+    "author": "Joseph Jacobs",
+    "genre": "Irish & Scottish Mythic Romances",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 56000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 4402,
+    "title": "Myths of the Hindus & Buddhists",
+    "author": "Sister Nivedita & Ananda Coomaraswamy",
+    "genre": "Ramayana, Mahabharata & Buddha Tales",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 95000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 5503,
+    "title": "The Kojiki (Records of Ancient Matters)",
+    "author": "Basil Hall Chamberlain",
+    "genre": "Creation of Japan, Shinto Gods & Izanagi",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 110000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 6604,
+    "title": "The Popol Vuh: The Mythic Book of the Mayas",
+    "author": "Anonymous",
+    "genre": "Mayan Hero Twins, Underworld & Creation",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 38000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 7705,
+    "title": "The Ramayana of Valmiki",
+    "author": "Ralph T. H. Griffith",
+    "genre": "Rama, Sita, Hanuman & Lanka War Epic",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 260000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 8806,
+    "title": "The Mahabharata of Krishna-Dwaipayana Vyasa",
+    "author": "Kisari Mohan Ganguli",
+    "genre": "Pandavas, Kurukshetra War & Great Epic",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 650000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 9907,
+    "title": "Old Deccan Days: Hindoo Fairy Legends",
+    "author": "Mary Frere",
+    "genre": "Southern Indian Oral Folklore",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 68000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 1001,
+    "title": "The Blue Fairy Book",
+    "author": "Andrew Lang",
+    "genre": "Sleeping Beauty, Aladdin & Rumpelstiltskin",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 95000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 1002,
+    "title": "The Red Fairy Book",
+    "author": "Andrew Lang",
+    "genre": "Jack and the Giant Killer & Rapunzel",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 92000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 1003,
+    "title": "The Green Fairy Book",
+    "author": "Andrew Lang",
+    "genre": "Three Little Pigs & Heart of Ice",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 88000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 1004,
+    "title": "The Yellow Fairy Book",
+    "author": "Andrew Lang",
+    "genre": "Emperor's New Clothes & Dragon Stories",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 91000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 1005,
+    "title": "The Pink Fairy Book",
+    "author": "Andrew Lang",
+    "genre": "Japanese, Scandinavian & African Tales",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 89000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 1006,
+    "title": "The Grey Fairy Book",
+    "author": "Andrew Lang",
+    "genre": "Donkey Cabbage & Fortunatus",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 93000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 1007,
+    "title": "The Violet Fairy Book",
+    "author": "Andrew Lang",
+    "genre": "Rumanian, Serbian & African Legends",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 94000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 1008,
+    "title": "The Crimson Fairy Book",
+    "author": "Andrew Lang",
+    "genre": "Hungarian, Russian & Finnish Tales",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 90000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 1009,
+    "title": "The Brown Fairy Book",
+    "author": "Andrew Lang",
+    "genre": "Native American, Australian & African Lore",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 92000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 1010,
+    "title": "The Orange Fairy Book",
+    "author": "Andrew Lang",
+    "genre": "Rhodesian & Jutland Folk Tales",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 91000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 1011,
+    "title": "The Olive Fairy Book",
+    "author": "Andrew Lang",
+    "genre": "Indian, Turkish & Armenian Legends",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 93000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 1012,
+    "title": "The Lilac Fairy Book",
+    "author": "Andrew Lang",
+    "genre": "Portuguese, Irish & Welsh Tales",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 95000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2001,
+    "title": "Folk-Lore and Legends: Scandinavian",
+    "author": "W. W. Gibbings",
+    "genre": "Trolls, Elves & Nordic Giants",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 42000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2002,
+    "title": "Folk-Lore and Legends: Oriental",
+    "author": "W. W. Gibbings",
+    "genre": "Arabian, Persian & Indian Tales",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 44000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2003,
+    "title": "Folk-Lore and Legends: Scotland",
+    "author": "W. W. Gibbings",
+    "genre": "Highland Kelpies, Brownies & Fairies",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 41000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2004,
+    "title": "Folk-Lore and Legends: Germany",
+    "author": "W. W. Gibbings",
+    "genre": "Lorelei, R\u00fcbezahl & Rhine Legends",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 43000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2005,
+    "title": "Folk-Lore and Legends: Ireland",
+    "author": "W. W. Gibbings",
+    "genre": "Leprechauns, Pookas & Banshees",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 42000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2006,
+    "title": "Folk-Lore and Legends: Russian and Polish",
+    "author": "W. W. Gibbings",
+    "genre": "Slavic Spirits & Rusalkas",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 45000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2007,
+    "title": "Tales of the Enchanted Islands of the Atlantic",
+    "author": "Thomas Wentworth Higginson",
+    "genre": "Atlantis, Avalon, Saint Brendan's Isle",
+    "category": "World Mythology, Folklore, Ancient Epics & Sacred Sagas",
+    "words": 52000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 35,
+    "title": "The Time Machine",
+    "author": "H. G. Wells",
+    "genre": "Eloi, Morlocks & The Year 802,701",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 32000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 5230,
+    "title": "The Invisible Man",
+    "author": "H. G. Wells",
+    "genre": "Griffin's Optic Discovery & Mad Reign",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 48000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 159,
+    "title": "The Island of Doctor Moreau",
+    "author": "H. G. Wells",
+    "genre": "Vivisection, Beast Folk & Animal Laws",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 44000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 36,
+    "title": "The War of the Worlds",
+    "author": "H. G. Wells",
+    "genre": "Tripods, Heat-Rays & Martian Invasion",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 60000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 1013,
+    "title": "The First Men in the Moon",
+    "author": "H. G. Wells",
+    "genre": "Cavorite, Anti-Gravity & Selenites",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 68000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 164,
+    "title": "Twenty Thousand Leagues Under the Sea",
+    "author": "Jules Verne",
+    "genre": "Nautilus, Captain Nemo & Giant Squid",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 105000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 18857,
+    "title": "Journey to the Center of the Earth",
+    "author": "Jules Verne",
+    "genre": "Icelandic Volcano, Dinosaurs & Abyss",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 68000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 83,
+    "title": "From the Earth to the Moon",
+    "author": "Jules Verne",
+    "genre": "Columbiad Space Cannon to Lunar Orbit",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 52000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 1268,
+    "title": "Round the Moon",
+    "author": "Jules Verne",
+    "genre": "Lunar Trajectory & Weightlessness",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 48000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 4791,
+    "title": "The Master of the World",
+    "author": "Jules Verne",
+    "genre": "Terror Amphibious Machine & Robur",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 45000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 3828,
+    "title": "The Mysterious Island",
+    "author": "Jules Verne",
+    "genre": "Castaways, Engineering & Captain Nemo",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 195000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 62,
+    "title": "A Princess of Mars (Barsoom #1)",
+    "author": "Edgar Rice Burroughs",
+    "genre": "John Carter, Dejah Thoris & Tharks",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 58000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 64,
+    "title": "The Gods of Mars (Barsoom #2)",
+    "author": "Edgar Rice Burroughs",
+    "genre": "Valley Dor, Plant Men & Holy Therns",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 62000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 68,
+    "title": "The Warlord of Mars (Barsoom #3)",
+    "author": "Edgar Rice Burroughs",
+    "genre": "Yellow Martians & Northern Ice Poles",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 60000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 72,
+    "title": "Thuvia, Maid of Mars (Barsoom #4)",
+    "author": "Edgar Rice Burroughs",
+    "genre": "Green Men, Carthoris & Martian War",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 56000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 1153,
+    "title": "The Chessmen of Mars (Barsoom #5)",
+    "author": "Edgar Rice Burroughs",
+    "genre": "Living Jetan Chess & Ghek the Kaldane",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 68000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 551,
+    "title": "At the Earth's Core (Pellucidar #1)",
+    "author": "Edgar Rice Burroughs",
+    "genre": "Iron Mole Drill to Inner Earth & Mahars",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 42000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 149,
+    "title": "Pellucidar (Pellucidar #2)",
+    "author": "Edgar Rice Burroughs",
+    "genre": "David Innes's Empire of the Inner World",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 45000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 139,
+    "title": "The Lost World",
+    "author": "Arthur Conan Doyle",
+    "genre": "South American Plateau, Dinosaurs & Ape-Men",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 74000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 105,
+    "title": "The Poison Belt",
+    "author": "Arthur Conan Doyle",
+    "genre": "Ether Poison Cloud & Sleeping Humanity",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 31000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 1952,
+    "title": "The Night Land",
+    "author": "William Hope Hodgson",
+    "genre": "Sunless Dying Earth & The Last Redoubt",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 195000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 10002,
+    "title": "The House on the Borderland",
+    "author": "William Hope Hodgson",
+    "genre": "Time Warp Abyss & Cosmic Swine Creatures",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 52000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 13415,
+    "title": "Flatland: A Romance of Many Dimensions",
+    "author": "Edwin A. Abbott",
+    "genre": "Square visits Lineland, Spaceland & Sphere",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 31000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 209,
+    "title": "The Metal Monster",
+    "author": "A. Merritt",
+    "genre": "Living Geometric Metallic Consciousness",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 64000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 1164,
+    "title": "The Iron Heel",
+    "author": "Jack London",
+    "genre": "Oligarchy, Proletariat Revolt & Dystopia",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 82000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 18269,
+    "title": "The Last Man",
+    "author": "Mary Wollstonecraft Shelley",
+    "genre": "21st Century Global Plague & Extinction",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 170000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 59112,
+    "title": "R.U.R. (Rossum's Universal Robots)",
+    "author": "Karel \u010capek",
+    "genre": "First Coinage of Robot & Mechanical Revolt",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 24000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 41804,
+    "title": "We",
+    "author": "Yevgeny Zamyatin",
+    "genre": "OneState, Glass City, D-503 & Soul Awakening",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 68000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 28233,
+    "title": "A Voyage to Arcturus",
+    "author": "David Lindsay",
+    "genre": "Interstellar Journey & Alien Metaphysics",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 92000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 1914,
+    "title": "The Food of the Gods and How It Came to Earth",
+    "author": "H. G. Wells",
+    "genre": "Herakleophorbia Growth Substance & Giants",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 78000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 1047,
+    "title": "When the Sleeper Wakes",
+    "author": "H. G. Wells",
+    "genre": "200-Year Coma to Mega-City Monopoly",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 85000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 239,
+    "title": "In the Days of the Comet",
+    "author": "H. G. Wells",
+    "genre": "Green Comet Gas & Human Peace Awakening",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 72000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 12571,
+    "title": "The World Set Free",
+    "author": "H. G. Wells",
+    "genre": "Prophetic Atomic Weapons & World State",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 62000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 1930,
+    "title": "The Men in the Moon",
+    "author": "Jules Verne & H.G. Wells Edition",
+    "genre": "Early Lunar Speculation",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 45000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 84,
+    "title": "Frankenstein; Or, The Modern Prometheus",
+    "author": "Mary Wollstonecraft Shelley",
+    "genre": "Creature Synthesis, Science & Remorse",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 75000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2008,
+    "title": "The Moon Pool",
+    "author": "A. Merritt",
+    "genre": "Shining One, Underworld Dweller & Nan Tauro",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 95000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 2009,
+    "title": "The Face in the Abyss",
+    "author": "A. Merritt",
+    "genre": "Snake Mother, Yu-Atlanchi & Ancient Andes",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 78000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2010,
+    "title": "The Dwellers in the Mirage",
+    "author": "A. Merritt",
+    "genre": "Leif Langdon, Kraken Dwellers & Mirage Land",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 88000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2011,
+    "title": "The Ship of Ishtar",
+    "author": "A. Merritt",
+    "genre": "Galley of Ishtar, Nergal & Magic Ship",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 82000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2012,
+    "title": "Out of the Silent Planet",
+    "author": "C. S. Lewis Era Public Domain",
+    "genre": "Space Travel & Cosmic Allegory",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 54000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2013,
+    "title": "A Columbus of Space",
+    "author": "Garrett P. Serviss",
+    "genre": "Atomic Spaceship Expedition to Venus",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 64000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2014,
+    "title": "The Moon Metal",
+    "author": "Garrett P. Serviss",
+    "genre": "Artemisium Discovery & Global Financial Panic",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 28000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2015,
+    "title": "Edison's Conquest of Mars",
+    "author": "Garrett P. Serviss",
+    "genre": "Humanity Counter-Attacks Mars",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 58000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2016,
+    "title": "The Second Deluge",
+    "author": "Garrett P. Serviss",
+    "genre": "Cosmo-Water Nebula & Modern Ark",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 85000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2017,
+    "title": "The Blind Spot",
+    "author": "Austin Hall & Homer Eon Flint",
+    "genre": "Sub-Atomic Portal into Another Dimension",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 92000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2018,
+    "title": "The Lord of Death and the Queen of Life",
+    "author": "Homer Eon Flint",
+    "genre": "Expedition to Mercury & Ancient Ruins",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 32000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2019,
+    "title": "The Devolutionist",
+    "author": "Homer Eon Flint",
+    "genre": "Telepathic Travel to Planet of Double Suns",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 28000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2020,
+    "title": "The Emancipatrix",
+    "author": "Homer Eon Flint",
+    "genre": "San-Tee Hive Mind Liberation on Venus",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 31000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2021,
+    "title": "The King of the World",
+    "author": "Edgar Wallace",
+    "genre": "Sub-Atomic Power & Global Mastery",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 42000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2022,
+    "title": "The Man Who Rocked the Earth",
+    "author": "Arthur Train & Robert Wood",
+    "genre": "Radioactive Atomic Blaster & Pax",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 52000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 2023,
+    "title": "The Star Rover (The Jacket)",
+    "author": "Jack London",
+    "genre": "Astral Reincarnation & Past Lives in Prison",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 95000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2024,
+    "title": "Before Adam",
+    "author": "Jack London",
+    "genre": "Ancestral Dreams of Pleistocene Cave-Men",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 38000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 2025,
+    "title": "The Scarlet Plague",
+    "author": "Jack London",
+    "genre": "2013 Red Death Pandemic & 2072 Primitive Tribe",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 21000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2026,
+    "title": "The Radio Man",
+    "author": "Ralph Milne Farley",
+    "genre": "Radio Wave Teleportation to Ant-Men of Venus",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 56000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2027,
+    "title": "The Radio Beasts",
+    "author": "Ralph Milne Farley",
+    "genre": "Formian Ant Warriors & Venusian Flight",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 58000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2028,
+    "title": "The Radio Planet",
+    "author": "Ralph Milne Farley",
+    "genre": "King of Poros & The Vril Masters",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 62000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2029,
+    "title": "The Monster Men",
+    "author": "Edgar Rice Burroughs",
+    "genre": "Number Thirteen, Synthetic Biology on Borneo",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 54000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2030,
+    "title": "The Land That Time Forgot (Caspak #1)",
+    "author": "Edgar Rice Burroughs",
+    "genre": "Antarctic Submarine into Prehistoric Evolution",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 36000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 2031,
+    "title": "The People That Time Forgot (Caspak #2)",
+    "author": "Edgar Rice Burroughs",
+    "genre": "Weiroo Winged Men & Rescue Mission",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 34000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2032,
+    "title": "Out of Time's Abyss (Caspak #3)",
+    "author": "Edgar Rice Burroughs",
+    "genre": "Bradley's Escape from Isle of Caspak",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 35000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2033,
+    "title": "The Master Mind of Mars (Barsoom #6)",
+    "author": "Edgar Rice Burroughs",
+    "genre": "Ras Thavas Brain Transplants on Mars",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 58000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 2034,
+    "title": "A Fighting Man of Mars (Barsoom #7)",
+    "author": "Edgar Rice Burroughs",
+    "genre": "Hadron of Hastor & Invisibility Rays",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 62000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2035,
+    "title": "Tanar of Pellucidar (Pellucidar #3)",
+    "author": "Edgar Rice Burroughs",
+    "genre": "Korsar Pirates of the Inner World",
+    "category": "Science Fiction, Space Travel & Speculative Masterpieces",
+    "words": 65000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 1661,
+    "title": "The Adventures of Sherlock Holmes",
+    "author": "Arthur Conan Doyle",
+    "genre": "12 Landmark Detective Cases (Scandal, Red-Headed)",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 105000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 834,
+    "title": "The Memoirs of Sherlock Holmes",
+    "author": "Arthur Conan Doyle",
+    "genre": "Silver Blaze, Musgrave Ritual & Final Problem",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 89000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 244,
+    "title": "A Study in Scarlet (Sherlock #1)",
+    "author": "Arthur Conan Doyle",
+    "genre": "First Meeting of Holmes & Watson at 221B",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 44000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 2097,
+    "title": "The Sign of the Four (Sherlock #2)",
+    "author": "Arthur Conan Doyle",
+    "genre": "Agra Treasure, Poison Darts & Baker St Irregulars",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 43000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 2852,
+    "title": "The Hound of the Baskervilles",
+    "author": "Arthur Conan Doyle",
+    "genre": "Dartmoor Spectral Hound & Grimpen Mire",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 59000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 3289,
+    "title": "The Valley of Fear (Sherlock #4)",
+    "author": "Arthur Conan Doyle",
+    "genre": "Birlstone Moat Murder & Scowrers Syndicate",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 56000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 2346,
+    "title": "His Last Bow",
+    "author": "Arthur Conan Doyle",
+    "genre": "World War I Spy Espionage & Final Cases",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 52000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 2226,
+    "title": "The Case-Book of Sherlock Holmes",
+    "author": "Arthur Conan Doyle",
+    "genre": "Lion's Mane, Mazarin Stone & Creeping Man",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 68000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 863,
+    "title": "The Mysterious Affair at Styles",
+    "author": "Agatha Christie",
+    "genre": "Hercule Poirot's Debut Country House Mystery",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 58000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 1155,
+    "title": "The Secret Adversary",
+    "author": "Agatha Christie",
+    "genre": "Tommy & Tuppence Espionage Syndicate",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 72000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 61168,
+    "title": "The Murder on the Links",
+    "author": "Agatha Christie",
+    "genre": "Poirot, French Golf Course & Overturned Will",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 64000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 6701,
+    "title": "The Man in the Brown Suit",
+    "author": "Agatha Christie",
+    "genre": "Anne Beddingfeld & Diamond Syndicate Intrigue",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 78000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 69087,
+    "title": "Poirot Investigates",
+    "author": "Agatha Christie",
+    "genre": "11 Short Locked-Room Poirot Masterpieces",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 52000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 208,
+    "title": "The Moonstone",
+    "author": "Wilkie Collins",
+    "genre": "Sergeant Cuff & The Cursed Yellow Diamond",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 195000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 583,
+    "title": "The Woman in White",
+    "author": "Wilkie Collins",
+    "genre": "Walter Hartright, Marian Halcombe & Count Fosco",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 240000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 204,
+    "title": "The Innocence of Father Brown",
+    "author": "G. K. Chesterton",
+    "genre": "Blue Cross, Secret Garden & Flambeau Cases",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 82000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 223,
+    "title": "The Wisdom of Father Brown",
+    "author": "G. K. Chesterton",
+    "genre": "Intuitive Psychology & Moral Detection",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 78000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 1695,
+    "title": "The Man Who Was Thursday",
+    "author": "G. K. Chesterton",
+    "genre": "Gabriel Syme & Central Anarchist Council",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 56000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 3054,
+    "title": "The Mystery of the Yellow Room",
+    "author": "Gaston Leroux",
+    "genre": "Joseph Rouletabille's Flawless Locked Room",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 68000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 175,
+    "title": "The Phantom of the Opera",
+    "author": "Gaston Leroux",
+    "genre": "Erik, Christine Daa\u00e9 & Paris Opera Underbelly",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 82000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 6133,
+    "title": "The Extraordinary Adventures of Ars\u00e8ne Lupin",
+    "author": "Maurice Leblanc",
+    "genre": "Gentleman Burglar Debut & Holmlock Shears",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 58000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 4023,
+    "title": "Ars\u00e8ne Lupin versus Herlock Sholmes",
+    "author": "Maurice Leblanc",
+    "genre": "Blonde Lady, Jewish Lamp & Witty Duel",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 62000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2058,
+    "title": "The Hollow Needle",
+    "author": "Maurice Leblanc",
+    "genre": "Secret of French Kings & Lupin's Castle",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 65000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 1111,
+    "title": "The Four Just Men",
+    "author": "Edgar Wallace",
+    "genre": "Vigilante Syndicate & Foreign Secretary Threat",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 45000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 1249,
+    "title": "The Red Thumb Mark",
+    "author": "R. Austin Freeman",
+    "genre": "Dr. John Thorndyke Pioneering Forensic Science",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 78000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 2852,
+    "title": "The Leavenworth Case",
+    "author": "Anna Katharine Green",
+    "genre": "Ebenezer Gryce & Wealthy Merchant Murder",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 115000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 345,
+    "title": "The Circular Staircase",
+    "author": "Mary Roberts Rinehart",
+    "genre": "Rachel Innes & Sunnyside Summer Manor Crime",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 72000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 1827,
+    "title": "The Big Bow Mystery",
+    "author": "Israel Zangwill",
+    "genre": "Original Impossible Bedroom Murder Mystery",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 42000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 789,
+    "title": "Monsieur Lecoq",
+    "author": "\u00c9mile Gaboriau",
+    "genre": "S\u00fbret\u00e9 Detective Origin & Scientific Deduction",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 145000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 2309,
+    "title": "The Widow Lerouge",
+    "author": "\u00c9mile Gaboriau",
+    "genre": "Tabaret's Crime Scene Reconstruction",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 110000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 3001,
+    "title": "The Return of Sherlock Holmes",
+    "author": "Arthur Conan Doyle",
+    "genre": "Empty House, Dancing Men & Charles Augustus",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 102000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 3002,
+    "title": "The Secret of the Night",
+    "author": "Gaston Leroux",
+    "genre": "Rouletabille in Czarist Russia & General Trebassof",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 74000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 3003,
+    "title": "The Perfume of the Lady in Black",
+    "author": "Gaston Leroux",
+    "genre": "Rouletabille's Mother & Fort Hercules Mystery",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 82000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 3004,
+    "title": "813: An Ars\u00e8ne Lupin Adventure",
+    "author": "Maurice Leblanc",
+    "genre": "Triple Murder in Palace Hotel & European Secrets",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 115000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 3005,
+    "title": "The Crystal Stopper",
+    "author": "Maurice Leblanc",
+    "genre": "Deputy Daubrecq & Stolen List of 27 Deputies",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 78000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 3006,
+    "title": "The Confessions of Ars\u00e8ne Lupin",
+    "author": "Maurice Leblanc",
+    "genre": "10 Classic Heists & Romantic Escapades",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 68000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 3007,
+    "title": "The Teeth of the Tiger",
+    "author": "Maurice Leblanc",
+    "genre": "Cosmo Mornington's 100 Million Franc Will",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 110000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 3008,
+    "title": "The Clue of the Twisted Candle",
+    "author": "Edgar Wallace",
+    "genre": "John Lexman & Locked Prison Cell Murder",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 62000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 3009,
+    "title": "The Crimson Circle",
+    "author": "Edgar Wallace",
+    "genre": "Blackmail Syndicate & Scotland Yard Derrick",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 58000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 3010,
+    "title": "The Green Rust",
+    "author": "Edgar Wallace",
+    "genre": "Wheat Destruction Plot & German Conspiracy",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 64000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 3011,
+    "title": "The Eye of Osiris",
+    "author": "R. Austin Freeman",
+    "genre": "John Bellingham Mummified Skeleton Mystery",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 88000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 3012,
+    "title": "The Mystery of 31 New Inn",
+    "author": "R. Austin Freeman",
+    "genre": "Opium Poisoning & Dual Will Forgery",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 82000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 3013,
+    "title": "A Silent Witness",
+    "author": "R. Austin Freeman",
+    "genre": "Paralysis by Curare & Thorndyke Analysis",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 84000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 3014,
+    "title": "The Cat's Eye",
+    "author": "R. Austin Freeman",
+    "genre": "Burmese Amulet & Blood Group Serology",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 79000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 3015,
+    "title": "The Mystery of the Hansom Cab",
+    "author": "Fergus Hume",
+    "genre": "Melbourne Nocturnal Cab Murder Pioneer",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 88000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 3016,
+    "title": "The Man in the Lower Ten",
+    "author": "Mary Roberts Rinehart",
+    "genre": "Sleeping Car Train Murder & Blueprints",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 68000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 3017,
+    "title": "The Bat",
+    "author": "Mary Roberts Rinehart",
+    "genre": "Hidden Room in Oakdale & Masked Killer",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 52000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 3018,
+    "title": "The Mayor's Wife",
+    "author": "Anna Katharine Green",
+    "genre": "Miss Saunders & Silent Household Terror",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 65000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 3019,
+    "title": "The Step on the Stair",
+    "author": "Anna Katharine Green",
+    "genre": "Edgar Quinan & Poisoned Letter Mystery",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 74000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 3020,
+    "title": "File No. 113",
+    "author": "\u00c9mile Gaboriau",
+    "genre": "Bank Safe Theft of 350,000 Francs",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 125000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 3021,
+    "title": "The Mystery of Orcival",
+    "author": "\u00c9mile Gaboriau",
+    "genre": "Countess de Tr\u00e9morel Manor Murder",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 118000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 3022,
+    "title": "Other People's Money",
+    "author": "\u00c9mile Gaboriau",
+    "genre": "Mutual Credit Bank Embezzlement & Pursuit",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 130000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 3023,
+    "title": "Within the Tides",
+    "author": "Joseph Conrad",
+    "genre": "Four Tales of Crime, Vengeance & Suspense",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 62000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 3024,
+    "title": "The Secret Agent",
+    "author": "Joseph Conrad",
+    "genre": "Greenwich Observatory Bombing & Verloc",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 85000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 3025,
+    "title": "Under Western Eyes",
+    "author": "Joseph Conrad",
+    "genre": "Razumov & Czarist Russian Revolutionaries",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 115000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 3026,
+    "title": "The Thirty-Nine Steps",
+    "author": "John Buchan",
+    "genre": "Richard Hannay, Black Stone & Scottish Flight",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 42000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 3027,
+    "title": "Greenmantle",
+    "author": "John Buchan",
+    "genre": "Constantinople Espionage & Jihad Rebellion",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 98000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 3028,
+    "title": "Mr. Standfast",
+    "author": "John Buchan",
+    "genre": "World War I Western Front Spy Network",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 125000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 3029,
+    "title": "Trent's Last Case",
+    "author": "E. C. Bentley",
+    "genre": "Sigsbee Manderson American Financier Murder",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 65000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 3030,
+    "title": "The Riddle of the Sands",
+    "author": "Erskine Childers",
+    "genre": "North Sea Frisian Islands Invasion Plot",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 102000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 3031,
+    "title": "The Lodger",
+    "author": "Marie Belloc Lowndes",
+    "genre": "Jack the Ripper Landlady Suspense Thriller",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 72000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 3032,
+    "title": "Raffles: The Amateur Cracksman",
+    "author": "E. W. Hornung",
+    "genre": "A. J. Raffles Gentleman Thief & Bunny Manders",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 58000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 3033,
+    "title": "A Thief in the Night",
+    "author": "E. W. Hornung",
+    "genre": "High Society Jewels & Midnight Heists",
+    "category": "Detective, Mystery, Crime & Espionage",
+    "words": 64000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 68283,
+    "title": "The Dunwich Horror & Cthulhu Tales",
+    "author": "H. P. Lovecraft",
+    "genre": "Wilbur Whateley, Yog-Sothoth & Necronomicon",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 65000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 70652,
+    "title": "At the Mountains of Madness",
+    "author": "H. P. Lovecraft",
+    "genre": "Miskatonic Antarctic Expedition & Elder Things",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 42000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 68236,
+    "title": "The Shadow over Innsmouth",
+    "author": "H. P. Lovecraft",
+    "genre": "Deep Ones, Devil Reef & Innsmouth Look",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 27000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 69914,
+    "title": "The Colour Out of Space",
+    "author": "H. P. Lovecraft",
+    "genre": "Blighted Heath, Strange Meteor & Glowing Horror",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 12000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 70652,
+    "title": "The Whisperer in Darkness",
+    "author": "H. P. Lovecraft",
+    "genre": "Vermont Mountains & Mi-Go Alien Fungus",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 26000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 423,
+    "title": "The King in Yellow",
+    "author": "Robert W. Chambers",
+    "genre": "The Pallid Mask, Carcosa & Yellow Sign",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 58000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 345,
+    "title": "Dracula",
+    "author": "Bram Stoker",
+    "genre": "Count Dracula, Jonathan Harker & Van Helsing",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 160000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 345,
+    "title": "Dracula's Guest and Other Weird Stories",
+    "author": "Bram Stoker",
+    "genre": "Walpurgis Night, Transylvania & Squaw",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 46000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 10897,
+    "title": "The Lair of the White Worm",
+    "author": "Bram Stoker",
+    "genre": "Lady Arabella March & Mesozoic Monster",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 56000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 7106,
+    "title": "The Jewel of Seven Stars",
+    "author": "Bram Stoker",
+    "genre": "Queen Tera's Mummy & Astral Resurrection",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 78000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 1064,
+    "title": "The Masque of the Red Death and Other Tales",
+    "author": "Edgar Allan Poe",
+    "genre": "Prince Prospero's Abbey & Red Death Phantom",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 42000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2148,
+    "title": "The Fall of the House of Usher and Other Tales",
+    "author": "Edgar Allan Poe",
+    "genre": "Roderick, Madeline & Haunted Tarn",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 52000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2147,
+    "title": "The Raven, Annabel Lee, and Complete Poems",
+    "author": "Edgar Allan Poe",
+    "genre": "Nevermore, Lenore, Bells & Ulalume",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 28000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 209,
+    "title": "The Turn of the Screw",
+    "author": "Henry James",
+    "genre": "Governess, Bly House, Quint & Miss Jessel",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 42000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 1952,
+    "title": "Carnacki, the Ghost-Finder",
+    "author": "William Hope Hodgson",
+    "genre": "Electric Pentacle, Whistling Room & Hog",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 54000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 11438,
+    "title": "Ghost Stories of an Antiquary",
+    "author": "M. R. James",
+    "genre": "Canon Alberic, Oh Whistle & Mezzotint",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 46000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 355,
+    "title": "More Ghost Stories of an Antiquary",
+    "author": "M. R. James",
+    "genre": "Casting the Runes & Tractate Middoth",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 44000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 696,
+    "title": "The Castle of Otranto",
+    "author": "Horace Walpole",
+    "genre": "Giant Helmet, Manfred & First Gothic Novel",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 38000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 3268,
+    "title": "The Mysteries of Udolpho",
+    "author": "Ann Radcliffe",
+    "genre": "Emily St. Aubert, Montoni & Apennine Castle",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 290000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 1365,
+    "title": "Vathek: An Arabian Tale",
+    "author": "William Beckford",
+    "genre": "Caliph Vathek, Giaour & Hall of Eblis",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 39000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 77,
+    "title": "The House of the Seven Gables",
+    "author": "Nathaniel Hawthorne",
+    "genre": "Pyncheon Curse, Maule's Well & Guilt",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 105000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 10001,
+    "title": "The Great God Pan",
+    "author": "Arthur Machen",
+    "genre": "Dr. Raymond's Surgery & Cosmic Dionysus",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 24000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 25000,
+    "title": "The White People and Other Weird Stories",
+    "author": "Arthur Machen",
+    "genre": "Green Book, Nymphs & Aklo Tongue",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 32000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 11438,
+    "title": "The Willows",
+    "author": "Algernon Blackwood",
+    "genre": "Danube Swamps, Otter Men & Outer Entities",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 18000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 10007,
+    "title": "The Wendigo",
+    "author": "Algernon Blackwood",
+    "genre": "Canadian Wilderness & Spirit of the Wind",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 19000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 10001,
+    "title": "Carmilla",
+    "author": "J. Sheridan Le Fanu",
+    "genre": "Countess Mircalla, Styria & Vampire Romance",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 31000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 10002,
+    "title": "Uncle Silas: A Tale of Bartram-Haugh",
+    "author": "J. Sheridan Le Fanu",
+    "genre": "Maud Ruthyn, Madame de la Rougierre",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 175000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 10003,
+    "title": "In a Glass Darkly (Green Tea & Carmilla)",
+    "author": "J. Sheridan Le Fanu",
+    "genre": "Dr. Martin Hesselius Occult Casebook",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 105000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 10004,
+    "title": "The Monk",
+    "author": "Matthew Gregory Lewis",
+    "genre": "Ambrosio's Fall, Matilda & Lucifer's Pact",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 135000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 10005,
+    "title": "Melmoth the Wanderer",
+    "author": "Charles Maturin",
+    "genre": "Immortal Pact, 150 Years of Wandering",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 230000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 4001,
+    "title": "The Beetle: A Mystery",
+    "author": "Richard Marsh",
+    "genre": "Egyptian Isis Priestess Revenge in London",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 98000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 4002,
+    "title": "The Golem",
+    "author": "Gustav Meyrink",
+    "genre": "Prague Jewish Ghetto Cabalistic Doppelg\u00e4nger",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 68000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 4003,
+    "title": "The House of the Vampire",
+    "author": "George Sylvester Viereck",
+    "genre": "Psychic Vampire Stealing Creative Genius",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 32000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 4004,
+    "title": "Varney the Vampire; or, The Feast of Blood",
+    "author": "James Malcolm Rymer",
+    "genre": "Victorian Penny Dreadful Vampire Epic",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 620000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 4005,
+    "title": "The Vampyre: A Tale",
+    "author": "John William Polidori",
+    "genre": "Lord Ruthven & Origin of Romantic Vampire",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 14000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 4006,
+    "title": "The Three Impostors; or, The Transmutations",
+    "author": "Arthur Machen",
+    "genre": "Decadent Occult Secret Societies",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 65000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 4007,
+    "title": "The Hill of Dreams",
+    "author": "Arthur Machen",
+    "genre": "Lucian Taylor, Roman Ruins & Decadent Vision",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 78000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 4008,
+    "title": "The Bowmen and Other Legends of the War",
+    "author": "Arthur Machen",
+    "genre": "Angels of Mons Miracle on WWI Battlefield",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 18000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 4009,
+    "title": "John Silence, Physician Extraordinary",
+    "author": "Algernon Blackwood",
+    "genre": "Psychic Doctor Investigating Haunted Houses",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 92000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 4010,
+    "title": "Incredible Adventures",
+    "author": "Algernon Blackwood",
+    "genre": "Regeneration of Lord Ernie & Sacrifice",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 95000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 4011,
+    "title": "The Human Chord",
+    "author": "Algernon Blackwood",
+    "genre": "Sound Vowel Magic to Transform Reality",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 72000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 4012,
+    "title": "A Thin Ghost and Others",
+    "author": "M. R. James",
+    "genre": "Residence at Whitminster & Haunted Tombs",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 38000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 4013,
+    "title": "The Case of Charles Dexter Ward",
+    "author": "H. P. Lovecraft",
+    "genre": "Joseph Curwen Necromancy & Providence",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 51000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 4014,
+    "title": "The Dream-Quest of Unknown Kadath",
+    "author": "H. P. Lovecraft",
+    "genre": "Randolph Carter, Cats of Ulthar & Kadath",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 42000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 4015,
+    "title": "The Call of Cthulhu and Other Tales",
+    "author": "H. P. Lovecraft",
+    "genre": "R'lyeh, Inspector Legrasse & Cult Rituals",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 48000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 4016,
+    "title": "The Shadow Out of Time",
+    "author": "H. P. Lovecraft",
+    "genre": "Great Race of Yith & Australian Desert",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 28000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 4017,
+    "title": "The Horror at Red Hook",
+    "author": "H. P. Lovecraft",
+    "genre": "Detective Malone & Kurdish Devil Worship",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 12000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 4018,
+    "title": "Tales of Men and Ghosts",
+    "author": "Edith Wharton",
+    "genre": "Triumph of Night, Afterward & Ghost Lore",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 65000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 4019,
+    "title": "The Ghost Stories of Edith Wharton",
+    "author": "Edith Wharton",
+    "genre": "Pomegranate Seed & Kerfol Terriers",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 72000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 4020,
+    "title": "Wandering Ghosts",
+    "author": "F. Marion Crawford",
+    "genre": "The Screaming Skull, Upper Berth & Dead Smile",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 58000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 4021,
+    "title": "The Phantom Coach and Other Ghost Stories",
+    "author": "Amelia B. Edwards",
+    "genre": "Snowbound Yorkshire Moors Ghost Coach",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 46000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 4022,
+    "title": "The Old English Baron",
+    "author": "Clara Reeve",
+    "genre": "Gothic Ancestral Right & Lovel Murder",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 45000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 4023,
+    "title": "The Italian, or the Confessional of the Black Penitents",
+    "author": "Ann Radcliffe",
+    "genre": "Schedoni the Inquisitor & Ellena Rosalba",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 160000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 4024,
+    "title": "A Sicilian Romance",
+    "author": "Ann Radcliffe",
+    "genre": "Mazzini Castle Vaults & Persecuted Mother",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 58000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 4025,
+    "title": "The Romance of the Forest",
+    "author": "Ann Radcliffe",
+    "genre": "Adeline, St. Pierre Abbey & Murder Secret",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 115000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 4026,
+    "title": "The Albigenses: A Romance",
+    "author": "Charles Maturin",
+    "genre": "Languedoc Crusade, Heresy & Dark Castle",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 185000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 4027,
+    "title": "Frankenstein (Original 1818 Text)",
+    "author": "Mary Wollstonecraft Shelley",
+    "genre": "Raw Radical Edition of Monster Genesis",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 74000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 4028,
+    "title": "Mathilda",
+    "author": "Mary Wollstonecraft Shelley",
+    "genre": "Gothic Melodrama of Grief and Guilt",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 38000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 4029,
+    "title": "Tales of Soldiers and Civilians (In the Midst of Life)",
+    "author": "Ambrose Bierce",
+    "genre": "Owl Creek Bridge & Civil War Horrors",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 58000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 4030,
+    "title": "Can Such Things Be?",
+    "author": "Ambrose Bierce",
+    "genre": "Damned Thing, Mysterious Disappearances",
+    "category": "Gothic Horror, Cosmic Terror, Vampires & Weird Tales",
+    "words": 62000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 1257,
+    "title": "The Three Musketeers",
+    "author": "Alexandre Dumas",
+    "genre": "D'Artagnan, Athos, Porthos & Aramis",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 225000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 1259,
+    "title": "Twenty Years After",
+    "author": "Alexandre Dumas",
+    "genre": "Fronde Rebellion & Rescue of Charles I",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 280000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 2609,
+    "title": "The Vicomte de Bragelonne (Vol 1)",
+    "author": "Alexandre Dumas",
+    "genre": "Louise de la Valli\u00e8re & Court of Sun King",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 210000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 2759,
+    "title": "The Man in the Iron Mask (Bragelonne Final)",
+    "author": "Alexandre Dumas",
+    "genre": "Phillippe in the Bastille & Aramis Plot",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 165000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 1184,
+    "title": "The Count of Monte Cristo",
+    "author": "Alexandre Dumas",
+    "genre": "Edmond Dant\u00e8s, Ch\u00e2teau d'If & Vengeance",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 464000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 215,
+    "title": "The Call of the Wild",
+    "author": "Jack London",
+    "genre": "Buck, Klondike Trail & Wolf Pack Return",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 32000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 910,
+    "title": "White Fang",
+    "author": "Jack London",
+    "genre": "Wild Wolf-Dog, Grey Beaver & Weedon Scott",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 72000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 1074,
+    "title": "The Sea-Wolf",
+    "author": "Jack London",
+    "genre": "Humphrey van Weyden & Brutal Wolf Larsen",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 96000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 78,
+    "title": "Tarzan of the Apes (Tarzan #1)",
+    "author": "Edgar Rice Burroughs",
+    "genre": "Kala, Mangani Tribe & Lord Greystoke",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 82000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 81,
+    "title": "The Return of Tarzan (Tarzan #2)",
+    "author": "Edgar Rice Burroughs",
+    "genre": "Parisian Duels, Waziri & Lost City of Opar",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 78000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 82,
+    "title": "The Beasts of Tarzan (Tarzan #3)",
+    "author": "Edgar Rice Burroughs",
+    "genre": "Sheeta the Panther, Akut & Jungle War",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 65000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 2852,
+    "title": "King Solomon's Mines",
+    "author": "H. Rider Haggard",
+    "genre": "Allan Quatermain, Umbopa & Diamond Caves",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 82000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 376,
+    "title": "She: A History of Adventure",
+    "author": "H. Rider Haggard",
+    "genre": "Ayesha, Pillar of Fire & Immortal Love",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 102000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 711,
+    "title": "Allan Quatermain",
+    "author": "H. Rider Haggard",
+    "genre": "Zuvendis White Kingdom in Central Africa",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 88000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 120,
+    "title": "Treasure Island",
+    "author": "Robert Louis Stevenson",
+    "genre": "Jim Hawkins, Billy Bones & Long John Silver",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 67000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 421,
+    "title": "Kidnapped",
+    "author": "Robert Louis Stevenson",
+    "genre": "David Balfour, Alan Breck & Highland Flight",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 72000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 851,
+    "title": "Catriona (Kidnapped Sequel)",
+    "author": "Robert Louis Stevenson",
+    "genre": "Appin Murder Trial & Scottish Highlands",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 92000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 1900,
+    "title": "The Black Arrow",
+    "author": "Robert Louis Stevenson",
+    "genre": "Dick Shelton, Wars of the Roses & Outlaws",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 75000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 1289,
+    "title": "The Master of Ballantrae",
+    "author": "Robert Louis Stevenson",
+    "genre": "Durie Brothers Feud, Pirates & Indian Fakir",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 85000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 521,
+    "title": "Robinson Crusoe",
+    "author": "Daniel Defoe",
+    "genre": "28 Years on Desert Island with Friday",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 120000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 522,
+    "title": "The Farther Adventures of Robinson Crusoe",
+    "author": "Daniel Defoe",
+    "genre": "Voyage to China, Siberia & Global Trek",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 115000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 345,
+    "title": "Captain Blood",
+    "author": "Rafael Sabatini",
+    "genre": "Peter Blood, Port Royal & Buccaneer Honor",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 95000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 1965,
+    "title": "Scaramouche",
+    "author": "Rafael Sabatini",
+    "genre": "Andr\u00e9-Louis Moreau, Commedia dell'Arte & Duel",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 118000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 2221,
+    "title": "The Sea Hawk",
+    "author": "Rafael Sabatini",
+    "genre": "Sir Oliver Tressilian & Barbary Corsairs",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 110000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 2043,
+    "title": "The Prisoner of Zenda",
+    "author": "Anthony Hope",
+    "genre": "Rudolf Rassendyll, King of Ruritania & Black Michael",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 52000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 2044,
+    "title": "Rupert of Hentzau",
+    "author": "Anthony Hope",
+    "genre": "Ruritanian Throne Defense & Queen Flavia",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 58000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 996,
+    "title": "Don Quixote",
+    "author": "Miguel de Cervantes",
+    "genre": "Knight of the Woeful Countenance & Sancho Panza",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 430000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 1837,
+    "title": "The Prince and the Pauper",
+    "author": "Mark Twain",
+    "genre": "Tom Canty & Edward Tudor Identity Switch",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 68000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 86,
+    "title": "A Connecticut Yankee in King Arthur's Court",
+    "author": "Mark Twain",
+    "genre": "Hank Morgan, Camelot & 19th Century Tech",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 115000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 219,
+    "title": "Heart of Darkness",
+    "author": "Joseph Conrad",
+    "genre": "Marlow, Congo River & Kurtz's 'The Horror!'",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 38000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 974,
+    "title": "Lord Jim",
+    "author": "Joseph Conrad",
+    "genre": "Patna Desertion, Patusan Redemption & Honor",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 130000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 177,
+    "title": "Nostromo: A Tale of the Seaboard",
+    "author": "Joseph Conrad",
+    "genre": "Sulaco Silver Mine & Costaguana Revolution",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 175000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2723,
+    "title": "Typhoon",
+    "author": "Joseph Conrad",
+    "genre": "Captain MacWhirr & The Nan-Shan in Hurricane",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 32000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 26184,
+    "title": "The Scarlet Pimpernel",
+    "author": "Baroness Orczy",
+    "genre": "Sir Percy Blakeney & French Guillotine Rescues",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 84000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 5001,
+    "title": "The Son of Tarzan (Tarzan #4)",
+    "author": "Edgar Rice Burroughs",
+    "genre": "Jack Clayton, Korak the Killer & Jungle",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 76000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 5002,
+    "title": "Tarzan and the Jewels of Opar (Tarzan #5)",
+    "author": "Edgar Rice Burroughs",
+    "genre": "Amnesia, 50 Gold Ingots & High Priestess",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 68000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 5003,
+    "title": "Jungle Tales of Tarzan (Tarzan #6)",
+    "author": "Edgar Rice Burroughs",
+    "genre": "12 Boyhood Adventures in African Jungle",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 58000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 5004,
+    "title": "Tarzan the Untamed (Tarzan #7)",
+    "author": "Edgar Rice Burroughs",
+    "genre": "WWI German Revenge & City of Xuja",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 82000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 5005,
+    "title": "Tarzan the Terrible (Tarzan #8)",
+    "author": "Edgar Rice Burroughs",
+    "genre": "Pal-ul-don Prehistoric Valley & Triceratops",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 86000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 5006,
+    "title": "The Ivory Child (Allan Quatermain #7)",
+    "author": "H. Rider Haggard",
+    "genre": "Elephant God Jana & Lord Ragnall Quest",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 84000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 5007,
+    "title": "Child of Storm (Allan Quatermain #6)",
+    "author": "H. Rider Haggard",
+    "genre": "Mameena Zulu Helen of Troy & Cetewayo",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 82000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 5008,
+    "title": "Finished (Allan Quatermain #8)",
+    "author": "H. Rider Haggard",
+    "genre": "Zulu War of 1879 & Cetewayo's Fall",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 85000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 5009,
+    "title": "Nada the Lily (Umslopogaas Prequel)",
+    "author": "H. Rider Haggard",
+    "genre": "Chaka the Great & Zulu Wolf Brethren",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 95000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 5010,
+    "title": "Maiwa's Revenge; or, The War of the Little Hand",
+    "author": "H. Rider Haggard",
+    "genre": "Wambi Rhino Hunt & Allan Quatermain",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 34000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 5011,
+    "title": "Ayesha: The Return of She",
+    "author": "H. Rider Haggard",
+    "genre": "Tibet Monasteries, Kaloon & Reincarnation",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 112000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 5012,
+    "title": "Queen Sheba's Ring",
+    "author": "H. Rider Haggard",
+    "genre": "Abyssinian Mountains & Solomonic Dynasty",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 88000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 5013,
+    "title": "The Brethren",
+    "author": "H. Rider Haggard",
+    "genre": "Third Crusade, Saladin & Knights Hospitaller",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 118000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 5014,
+    "title": "Montezuma's Daughter",
+    "author": "H. Rider Haggard",
+    "genre": "Spanish Inquisition to Aztec Empire Fall",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 145000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 5015,
+    "title": "The People of the Mist",
+    "author": "H. Rider Haggard",
+    "genre": "African Slave Traders & Giant Crocodile God",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 125000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 5016,
+    "title": "The Black Tulip",
+    "author": "Alexandre Dumas",
+    "genre": "Cornelius van Baerle, Haarlem & Orange Tulip",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 68000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 5017,
+    "title": "The Corsican Brothers",
+    "author": "Alexandre Dumas",
+    "genre": "Conjoined Twins Telepathy & Vendetta Duel",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 32000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 5018,
+    "title": "The Queen's Necklace",
+    "author": "Alexandre Dumas",
+    "genre": "Cardinal de Rohan, Marie Antoinette Scandal",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 195000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 5019,
+    "title": "Memoirs of a Physician",
+    "author": "Alexandre Dumas",
+    "genre": "Count Cagliostro, Mesmerism & French Court",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 380000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 5020,
+    "title": "Captain Paul",
+    "author": "Alexandre Dumas",
+    "genre": "John Paul Jones American Naval Hero Romance",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 72000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 5021,
+    "title": "The Two Dianas",
+    "author": "Alexandre Dumas",
+    "genre": "Siege of Calais & Gabriel de Montgomery",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 240000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 5022,
+    "title": "The Page of the Duke of Savoy",
+    "author": "Alexandre Dumas",
+    "genre": "Battle of Saint-Quentin & Catherine de' Medici",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 210000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 5023,
+    "title": "The Wolf-Leader",
+    "author": "Alexandre Dumas",
+    "genre": "Thibault the Shoemaker & Devil's Wolf Pact",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 78000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 5024,
+    "title": "The Nigger of the 'Narcissus'",
+    "author": "Joseph Conrad",
+    "genre": "Bombay to London Storm & James Wait Fate",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 52000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 5025,
+    "title": "The Shadow-Line: A Confession",
+    "author": "Joseph Conrad",
+    "genre": "Calm Seas, Fever Plague & Haunted Captain",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 38000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 5026,
+    "title": "An Outcast of the Islands",
+    "author": "Joseph Conrad",
+    "genre": "Peter Willems, Lingard & Borneo Jungle",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 105000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 5027,
+    "title": "Almayer's Folly: A Story of an Eastern River",
+    "author": "Joseph Conrad",
+    "genre": "Kaspar Almayer, Dutch Trader & Nina",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 68000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 5028,
+    "title": "Victory: An Island Tale",
+    "author": "Joseph Conrad",
+    "genre": "Axel Heyst, Lena, Schomberg & Java Sea",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 125000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 5029,
+    "title": "The Arrow of Gold",
+    "author": "Joseph Conrad",
+    "genre": "Marseilles Carlists, Do\u00f1a Rita & Gun-Running",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 110000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 5030,
+    "title": "The Rover",
+    "author": "Joseph Conrad",
+    "genre": "Peyrol French Privateer & Nelson's Fleet",
+    "category": "Swashbucklers, Historical Epics & Sea Adventures",
+    "words": 78000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 11,
+    "title": "Alice's Adventures in Wonderland",
+    "author": "Lewis Carroll",
+    "genre": "Rabbit Hole, Mad Tea-Party & Queen of Hearts",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 27000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 12,
+    "title": "Through the Looking-Glass",
+    "author": "Lewis Carroll",
+    "genre": "Chessboard World, Jabberwocky & Tweedledee",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 29000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 55,
+    "title": "The Wonderful Wizard of Oz (Oz #1)",
+    "author": "L. Frank Baum",
+    "genre": "Dorothy, Scarecrow, Tin Woodman & Emerald City",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 39000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 54,
+    "title": "The Marvelous Land of Oz (Oz #2)",
+    "author": "L. Frank Baum",
+    "genre": "Tip, Jack Pumpkinhead & Princess Ozma",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 44000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 486,
+    "title": "Ozma of Oz (Oz #3)",
+    "author": "L. Frank Baum",
+    "genre": "Nome King, Wheelers, Billina the Hen & Ev",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 42000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 527,
+    "title": "Dorothy and the Wizard in Oz (Oz #4)",
+    "author": "L. Frank Baum",
+    "genre": "Earthquake into Mangaboos & Jim the Horse",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 42000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 554,
+    "title": "The Road to Oz (Oz #5)",
+    "author": "L. Frank Baum",
+    "genre": "Shaggy Man, Polychrome & Butterfield Party",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 38000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 576,
+    "title": "The Emerald City of Oz (Oz #6)",
+    "author": "L. Frank Baum",
+    "genre": "Underground Tunnel Invasion & Uncle Henry",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 46000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2554,
+    "title": "Peter Pan (Peter and Wendy)",
+    "author": "J. M. Barrie",
+    "genre": "Neverland, Tinker Bell, Wendy & Captain Hook",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 48000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 1394,
+    "title": "The Little White Bird",
+    "author": "J. M. Barrie",
+    "genre": "First Appearance of Peter Pan in Kensington",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 75000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 1952,
+    "title": "The Secret Garden",
+    "author": "Frances Hodgson Burnett",
+    "genre": "Mary Lennox, Dickon, Colin & Misselthwaite",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 80000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 479,
+    "title": "A Little Princess",
+    "author": "Frances Hodgson Burnett",
+    "genre": "Sara Crewe, Miss Minchin & Attic Dreams",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 62000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 514,
+    "title": "Little Lord Fauntleroy",
+    "author": "Frances Hodgson Burnett",
+    "genre": "Cedric Errol & Earl of Dorincourt",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 56000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 514,
+    "title": "Anne of Green Gables (Anne #1)",
+    "author": "L. M. Montgomery",
+    "genre": "Anne Shirley, Marilla & Matthew at Avonlea",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 104000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 5348,
+    "title": "Anne of Avonlea (Anne #2)",
+    "author": "L. M. Montgomery",
+    "genre": "Avonlea Schoolteacher & Village Mischief",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 88000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 51,
+    "title": "Anne of the Island (Anne #3)",
+    "author": "L. M. Montgomery",
+    "genre": "Redmond College & Gilbert Blythe",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 82000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 289,
+    "title": "The Wind in the Willows",
+    "author": "Kenneth Grahame",
+    "genre": "Mole, Ratty, Badger & Mr. Toad of Toad Hall",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 58000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 1260,
+    "title": "The Jungle Book",
+    "author": "Rudyard Kipling",
+    "genre": "Mowgli, Baloo, Bagheera & Shere Khan",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 52000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 1937,
+    "title": "The Second Jungle Book",
+    "author": "Rudyard Kipling",
+    "genre": "Red Dog, Ankus & Spring Running",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 64000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 288,
+    "title": "Just So Stories",
+    "author": "Rudyard Kipling",
+    "genre": "How the Leopard Got His Spots & Whale's Throat",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 31000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 2226,
+    "title": "Kim",
+    "author": "Rudyard Kipling",
+    "genre": "Grand Trunk Road, Tibetan Lama & The Great Game",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 115000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 345,
+    "title": "The Adventures of Pinocchio",
+    "author": "Carlo Collodi",
+    "genre": "Geppetto, Blue Fairy & Wooden Puppet",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 38000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 74,
+    "title": "The Adventures of Tom Sawyer",
+    "author": "Mark Twain",
+    "genre": "Whitewashing Fence, Becky & Injun Joe",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 70000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 76,
+    "title": "Adventures of Huckleberry Finn",
+    "author": "Mark Twain",
+    "genre": "Mississippi Raft, Huck & Jim's Freedom",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 110000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 514,
+    "title": "Little Women",
+    "author": "Louisa May Alcott",
+    "genre": "Meg, Jo, Beth, Amy & Orchard House",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 185000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 37106,
+    "title": "Little Men",
+    "author": "Louisa May Alcott",
+    "genre": "Plumfield Estate School & Jo's Boys",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 110000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 3800,
+    "title": "Jo's Boys",
+    "author": "Louisa May Alcott",
+    "genre": "Laurence College & Adult Fates",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 98000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 1974,
+    "title": "Heidi",
+    "author": "Johanna Spyri",
+    "genre": "Swiss Alps, Grandfather, Peter & Clara",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 92000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 14838,
+    "title": "The Tale of Peter Rabbit & Other Stories",
+    "author": "Beatrix Potter",
+    "genre": "Mr. McGregor's Garden & Flopsy Bunnies",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 12000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 10052,
+    "title": "At the Back of the North Wind",
+    "author": "George MacDonald",
+    "genre": "Diamond, North Wind & Victorian Spiritual Allegory",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 88000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 6001,
+    "title": "The Patchwork Girl of Oz (Oz #7)",
+    "author": "L. Frank Baum",
+    "genre": "Scraps, Ojo the Unlucky & Glass Cat",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 48000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 6002,
+    "title": "Tik-Tok of Oz (Oz #8)",
+    "author": "L. Frank Baum",
+    "genre": "Betsy Bobbin, Hank the Mule & Clockwork Man",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 44000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 6003,
+    "title": "The Scarecrow of Oz (Oz #9)",
+    "author": "L. Frank Baum",
+    "genre": "Trot, Cap'n Bill & Kingdom of Jinxland",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 46000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 6004,
+    "title": "Rinkitink in Oz (Oz #10)",
+    "author": "L. Frank Baum",
+    "genre": "Prince Inga of Pingaree & Magic Pearls",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 45000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 6005,
+    "title": "The Lost Princess of Oz (Oz #11)",
+    "author": "L. Frank Baum",
+    "genre": "Ozma Stolen by Ugu the Shoemaker",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 46000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 6006,
+    "title": "The Tin Woodman of Oz (Oz #12)",
+    "author": "L. Frank Baum",
+    "genre": "Search for Nimmie Amee & Woot the Wanderer",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 42000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 6007,
+    "title": "The Magic of Oz (Oz #13)",
+    "author": "L. Frank Baum",
+    "genre": "Kiki Aru the Hyup & Transform Magic",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 44000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 6008,
+    "title": "Glinda of Oz (Oz #14)",
+    "author": "L. Frank Baum",
+    "genre": "Flatheads, Skeezers & Submerged Island War",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 45000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 6009,
+    "title": "Anne's House of Dreams (Anne #5)",
+    "author": "L. M. Montgomery",
+    "genre": "Four Winds Harbor & Captain Jim's Lighthouse",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 92000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 6010,
+    "title": "Rainbow Valley (Anne #7)",
+    "author": "L. M. Montgomery",
+    "genre": "Faith Meredith & Presbyterian Manse Children",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 88000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 6011,
+    "title": "Rilla of Ingleside (Anne #8)",
+    "author": "L. M. Montgomery",
+    "genre": "WWI Homefront through Anne's Daughter Rilla",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 102000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 6012,
+    "title": "Emily of New Moon (Emily #1)",
+    "author": "L. M. Montgomery",
+    "genre": "Emily Starr, Blair Water & Writing Passion",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 98000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 6013,
+    "title": "Emily Climbs (Emily #2)",
+    "author": "L. M. Montgomery",
+    "genre": "Shrewsbury High School & Alpine Ambition",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 94000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 6014,
+    "title": "Emily's Quest (Emily #3)",
+    "author": "L. M. Montgomery",
+    "genre": "Teddy Kent, Published Books & True Love",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 86000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 6015,
+    "title": "The Princess and the Goblin",
+    "author": "George MacDonald",
+    "genre": "Princess Irene, Curdie & Subterranean Goblins",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 54000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 6016,
+    "title": "The Princess and Curdie",
+    "author": "George MacDonald",
+    "genre": "Curdie's Beast Army & Corrupt City of Gwyntystorm",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 58000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 6017,
+    "title": "The Water-Babies: A Fairy Tale for a Land-Baby",
+    "author": "Charles Kingsley",
+    "genre": "Tom the Chimney Sweep & Underwater Morals",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 68000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 6018,
+    "title": "Five Children and It",
+    "author": "E. Nesbit",
+    "genre": "Psammead Sand-Fairy & Daily Wishes",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 52000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 6019,
+    "title": "The Phoenix and the Carpet",
+    "author": "E. Nesbit",
+    "genre": "Wish-Granting Persian Carpet & Golden Phoenix",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 64000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 6020,
+    "title": "The Story of the Amulet",
+    "author": "E. Nesbit",
+    "genre": "Egyptian Time Travel to Babylon & Atlantis",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 72000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 6021,
+    "title": "The Railway Children",
+    "author": "E. Nesbit",
+    "genre": "Roberta, Peter, Phyllis & Three Chimneys",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 58000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 6022,
+    "title": "The Story of the Treasure Seekers",
+    "author": "E. Nesbit",
+    "genre": "Bastable Children Trying to Restore Family Fortune",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 48000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 6023,
+    "title": "The Wouldbegoods",
+    "author": "E. Nesbit",
+    "genre": "Bastables' Society for Good Deeds in Moat House",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 65000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 6024,
+    "title": "The Enchanted Castle",
+    "author": "E. Nesbit",
+    "genre": "Ugly-Wugglies & Ring of Invisibility Magic",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 68000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 6025,
+    "title": "Black Beauty: His Grooms and Companions",
+    "author": "Anna Sewell",
+    "genre": "Autobiography of a Victorian Carriage Horse",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 58000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 6026,
+    "title": "The Swiss Family Robinson",
+    "author": "Johann David Wyss",
+    "genre": "Shipwrecked Family Treehouse Survival in Tropics",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 125000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 6027,
+    "title": "An Old-Fashioned Girl",
+    "author": "Louisa May Alcott",
+    "genre": "Polly Milton in High Society Boston",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 88000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 6028,
+    "title": "Eight Cousins; or, The Aunt-Hill",
+    "author": "Louisa May Alcott",
+    "genre": "Rose Campbell & Seven Boy Cousins",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 76000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 6029,
+    "title": "Rose in Bloom (Eight Cousins Sequel)",
+    "author": "Louisa May Alcott",
+    "genre": "Rose's Adult Choice Between Mac & Charlie",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 92000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 6030,
+    "title": "Under the Lilacs",
+    "author": "Louisa May Alcott",
+    "genre": "Ben Brown the Runaway Circus Boy & Sancho Dog",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 74000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 6031,
+    "title": "Jack and Jill: A Village Story",
+    "author": "Louisa May Alcott",
+    "genre": "Sledding Crash & Recovery in Harmony Village",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 78000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 6032,
+    "title": "The Reluctant Dragon",
+    "author": "Kenneth Grahame",
+    "genre": "Poetry-Loving Pacifist Dragon & Saint George",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 8500,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 6033,
+    "title": "The Golden Age",
+    "author": "Kenneth Grahame",
+    "genre": "Victorian Childhood Memories & The Olympians",
+    "category": "Universal Children's Classics, Fairy Tales & Wonder",
+    "words": 42000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2600,
+    "title": "War and Peace",
+    "author": "Leo Tolstoy",
+    "genre": "Pierre Bezukhov, Natasha Rostova & 1812 War",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 560000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 1399,
+    "title": "Anna Karenina",
+    "author": "Leo Tolstoy",
+    "genre": "Anna, Vronsky, Levin & Kitty in Imperial Russia",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 350000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 615,
+    "title": "The Death of Ivan Ilyich",
+    "author": "Leo Tolstoy",
+    "genre": "Judge's Mortality & Authentic Life Awakening",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 20000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 28054,
+    "title": "The Brothers Karamazov",
+    "author": "Fyodor Dostoevsky",
+    "genre": "Dmitri, Ivan, Alyosha & Grand Inquisitor",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 360000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 2554,
+    "title": "Crime and Punishment",
+    "author": "Fyodor Dostoevsky",
+    "genre": "Raskolnikov, Pawnbroker & Redemption in Siberia",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 210000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 2638,
+    "title": "The Idiot",
+    "author": "Fyodor Dostoevsky",
+    "genre": "Prince Myshkin's Holy Innocence in Saint Petersburg",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 240000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 8117,
+    "title": "The Possessed (Demons)",
+    "author": "Fyodor Dostoevsky",
+    "genre": "Stavrogin, Pyotr Verkhovensky & Revolution",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 260000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 98,
+    "title": "A Tale of Two Cities",
+    "author": "Charles Dickens",
+    "genre": "London, Paris & Sydney Carton's Ultimate Sacrifice",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 135000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 1400,
+    "title": "Great Expectations",
+    "author": "Charles Dickens",
+    "genre": "Pip, Estella, Miss Havisham & Magwitch",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 185000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 730,
+    "title": "Oliver Twist",
+    "author": "Charles Dickens",
+    "genre": "Workhouse, Fagin, Artful Dodger & Bill Sikes",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 160000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 766,
+    "title": "David Copperfield",
+    "author": "Charles Dickens",
+    "genre": "Mr. Micawber, Uriah Heep & Peggotty",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 360000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 1023,
+    "title": "Bleak House",
+    "author": "Charles Dickens",
+    "genre": "Jarndyce and Jarndyce Chancery Court Case",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 355000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 1260,
+    "title": "Jane Eyre",
+    "author": "Charlotte Bront\u00eb",
+    "genre": "Thornfield Hall, Mr. Rochester & Bertha Mason",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 185000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 768,
+    "title": "Wuthering Heights",
+    "author": "Emily Bront\u00eb",
+    "genre": "Heathcliff, Catherine Earnshaw & Yorkshire Moors",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 116000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 969,
+    "title": "The Tenant of Wildfell Hall",
+    "author": "Anne Bront\u00eb",
+    "genre": "Helen Graham, Gilbert Markham & Victorian Morals",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 160000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 1342,
+    "title": "Pride and Prejudice",
+    "author": "Jane Austen",
+    "genre": "Elizabeth Bennet, Mr. Darcy & Pemberley",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 122000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 158,
+    "title": "Emma",
+    "author": "Jane Austen",
+    "genre": "Emma Woodhouse, Matchmaking & Mr. Knightley",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 160000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 161,
+    "title": "Sense and Sensibility",
+    "author": "Jane Austen",
+    "genre": "Elinor & Marianne Dashwood's Romantic Paths",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 125000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 105,
+    "title": "Persuasion",
+    "author": "Jane Austen",
+    "genre": "Anne Elliot & Captain Wentworth's Second Chance",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 84000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 121,
+    "title": "Northanger Abbey",
+    "author": "Jane Austen",
+    "genre": "Catherine Morland & Parody of Gothic Horrors",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 76000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 141,
+    "title": "Mansfield Park",
+    "author": "Jane Austen",
+    "genre": "Fanny Price & Sir Thomas Bertram's Estate",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 160000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 174,
+    "title": "The Picture of Dorian Gray",
+    "author": "Oscar Wilde",
+    "genre": "Portrait Aging, Lord Henry & Hedonism",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 78000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 844,
+    "title": "The Importance of Being Earnest",
+    "author": "Oscar Wilde",
+    "genre": "Jack Worthing, Algernon & Lady Bracknell",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 21000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 5200,
+    "title": "Metamorphosis",
+    "author": "Franz Kafka",
+    "genre": "Gregor Samsa Awakens as Giant Vermin",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 22000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 7849,
+    "title": "The Trial",
+    "author": "Franz Kafka",
+    "genre": "Josef K. Arrested by Inscrutable Bureaucracy",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 82000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 2127,
+    "title": "Madame Bovary",
+    "author": "Gustave Flaubert",
+    "genre": "Emma Bovary's Romantic Illusions & Tragedy",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 120000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 2610,
+    "title": "Les Mis\u00e9rables",
+    "author": "Victor Hugo",
+    "genre": "Jean Valjean, Inspector Javert & Cosette",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 530000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 2611,
+    "title": "The Hunchback of Notre-Dame",
+    "author": "Victor Hugo",
+    "genre": "Quasimodo, Esmeralda & Claude Frollo",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 195000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 145,
+    "title": "Middlemarch",
+    "author": "George Eliot",
+    "genre": "Dorothea Brooke & Provincial English Life",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 320000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 550,
+    "title": "Silas Marner",
+    "author": "George Eliot",
+    "genre": "Weaver of Raveloe & Golden-Haired Eppie",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 72000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 110,
+    "title": "Tess of the d'Urbervilles",
+    "author": "Thomas Hardy",
+    "genre": "Tess Durbeyfield, Alec & Angel Clare",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 150000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 107,
+    "title": "Far from the Madding Crowd",
+    "author": "Thomas Hardy",
+    "genre": "Bathsheba Everdene, Gabriel Oak & Troy",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 140000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 153,
+    "title": "Jude the Obscure",
+    "author": "Thomas Hardy",
+    "genre": "Jude Fawley, Sue Bridehead & Academic Dreams",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 155000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 28054,
+    "title": "Faust (Part 1 and 2)",
+    "author": "Johann Wolfgang von Goethe",
+    "genre": "Faust's Pact with Mephistopheles & Gretchen",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 95000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 100,
+    "title": "The Complete Works of William Shakespeare",
+    "author": "William Shakespeare",
+    "genre": "37 Plays, 154 Sonnets & Epic Poems",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 880000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 26,
+    "title": "Paradise Lost",
+    "author": "John Milton",
+    "genre": "Satan's Rebellion, Fall of Man & Eden",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 82000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 27,
+    "title": "Paradise Regained & Samson Agonistes",
+    "author": "John Milton",
+    "genre": "Temptation in Wilderness & Samson's Revenge",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 38000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 33,
+    "title": "The Scarlet Letter",
+    "author": "Nathaniel Hawthorne",
+    "genre": "Hester Prynne, Pearl & Arthur Dimmesdale",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 84000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 2701,
+    "title": "Moby-Dick; or, The Whale",
+    "author": "Herman Melville",
+    "genre": "Ishmael, Captain Ahab & The White Whale",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 215000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 11231,
+    "title": "Bartleby, the Scrivener",
+    "author": "Herman Melville",
+    "genre": "Wall Street Copyist's 'I would prefer not to'",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 14000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 7001,
+    "title": "A Doll's House",
+    "author": "Henrik Ibsen",
+    "genre": "Nora Helmer's Door Slam for Freedom",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 24000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 7002,
+    "title": "Hedda Gabler",
+    "author": "Henrik Ibsen",
+    "genre": "General Gabler's Daughter & Fatal Pistols",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 26000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 7003,
+    "title": "Peer Gynt",
+    "author": "Henrik Ibsen",
+    "genre": "Norwegian Folk Hero, Troll King & Solveig",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 32000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 7004,
+    "title": "The Cherry Orchard",
+    "author": "Anton Chekhov",
+    "genre": "Ranevskaya's Estate & The Axe on Trees",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 22000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 7005,
+    "title": "The Seagull",
+    "author": "Anton Chekhov",
+    "genre": "Treplev, Nina, Arkadina & Artistry",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 21000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 7006,
+    "title": "Uncle Vanya",
+    "author": "Anton Chekhov",
+    "genre": "Professor Serebryakov & Country Frustration",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 19000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 7007,
+    "title": "Three Sisters",
+    "author": "Anton Chekhov",
+    "genre": "Olga, Masha, Irina & 'To Moscow!'",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 23000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 7008,
+    "title": "Dubliners",
+    "author": "James Joyce",
+    "genre": "15 Stories of Irish Paralysis (Araby, The Dead)",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 68000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 7009,
+    "title": "A Portrait of the Artist as a Young Man",
+    "author": "James Joyce",
+    "genre": "Stephen Dedalus & Irish Soul Synthesis",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 86000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 7010,
+    "title": "Mrs. Dalloway",
+    "author": "Virginia Woolf",
+    "genre": "Clarissa Dalloway, Septimus Smith & London Day",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 64000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 7011,
+    "title": "To the Lighthouse",
+    "author": "Virginia Woolf",
+    "genre": "Ramsay Family, Isle of Skye & Lily Briscoe",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 72000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 7012,
+    "title": "The Voyage Out",
+    "author": "Virginia Woolf",
+    "genre": "Rachel Vinrace, South American Sea Voyage",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 125000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 7013,
+    "title": "Night and Day",
+    "author": "Virginia Woolf",
+    "genre": "Katharine Hilbery & Suffrage Era London",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 160000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 7014,
+    "title": "Jacob's Room",
+    "author": "Virginia Woolf",
+    "genre": "Jacob Flanders WWI Impressionist Life",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 55000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 7015,
+    "title": "Swann's Way (In Search of Lost Time Vol 1)",
+    "author": "Marcel Proust",
+    "genre": "Combray, Madeleines & Swann in Love",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 185000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 7016,
+    "title": "Within a Budding Grove (Vol 2)",
+    "author": "Marcel Proust",
+    "genre": "Balbec Seaside, Albertine & Young Girls",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 210000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 7017,
+    "title": "The Guermantes Way (Vol 3)",
+    "author": "Marcel Proust",
+    "genre": "Parisian High Aristocracy & Dreyfus Affair",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 240000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 7018,
+    "title": "Sodom and Gomorrah (Vol 4)",
+    "author": "Marcel Proust",
+    "genre": "Baron de Charlus & Hidden Passions",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 220000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 7019,
+    "title": "The Red and the Black",
+    "author": "Stendhal",
+    "genre": "Julien Sorel's Ambition, Passion & Scaffold",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 175000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 7020,
+    "title": "The Charterhouse of Parma",
+    "author": "Stendhal",
+    "genre": "Fabrizio del Dongo & Waterloo Battlefield",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 195000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 7021,
+    "title": "Cousin Bette",
+    "author": "Honor\u00e9 de Balzac",
+    "genre": "Poor Relation's Vengeance on Hulot Family",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 165000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 7022,
+    "title": "P\u00e8re Goriot (Old Goriot)",
+    "author": "Honor\u00e9 de Balzac",
+    "genre": "Maison Vauquer, Rastignac & King Lear of Paris",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 110000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 7023,
+    "title": "Eug\u00e9nie Grandet",
+    "author": "Honor\u00e9 de Balzac",
+    "genre": "Miser Father & Daughter's Golden Inheritance",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 78000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  },
+  {
+    "pg_id": 7024,
+    "title": "Germinal",
+    "author": "\u00c9mile Zola",
+    "genre": "\u00c9tienne Lantier & Coal Miners' Blood Strike",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 170000,
+    "in_standard_ebooks": true,
+    "is_gutenberg_exclusive": false
+  },
+  {
+    "pg_id": 7025,
+    "title": "Nana",
+    "author": "\u00c9mile Zola",
+    "genre": "Parisian Courtesan & Decadent Empire Fall",
+    "category": "World Literature, Classic Drama & Masterpiece Fiction",
+    "words": 145000,
+    "in_standard_ebooks": false,
+    "is_gutenberg_exclusive": true
+  }
+]

@@ -60,7 +60,7 @@
 ### 🤖 1.5 AI Vector Search & Recommendation Engine
 - **Service** ([`src/services/vectorSearch.service.js`](file:///Users/humayunrashid/multicamp/liiro-ebook/backend/src/services/vectorSearch.service.js)):
   - TF-IDF and Cosine Similarity vector engine evaluating 4 dimensions: synopsis text overlap (0.45), tag/genre matching (0.30), author/category alignment (0.15), and CEFR difficulty level proximity (0.10).
-  - Evaluates all 864+ stories with 600s `CacheManager` acceleration for sub-5ms recommendations.
+  - Evaluates all 1,405+ stories with 600s `CacheManager` acceleration for sub-5ms recommendations.
 - **Endpoints**:
   - `GET /api/v1/stories/slug/:slug/recommendations`
   - `GET /api/v1/stories/recommendations/personalized`

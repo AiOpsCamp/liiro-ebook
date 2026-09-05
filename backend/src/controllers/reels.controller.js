@@ -7,32 +7,44 @@ const Story = require("../models/Story.model");
  * Short Video & Image Book Reels Feed Controller
  */
 
+const CacheManager = require("../utils/cache.utils");
+
 exports.getReels = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 20;
     const skip = (page - 1) * limit;
 
+    const cacheKey = `reels_feed_p${page}_l${limit}_s${req.query.storySlug || "all"}`;
+    const cached = await CacheManager.get(cacheKey);
+    if (cached) {
+      return res.status(200).json(cached);
+    }
+
     const query = {};
     if (req.query.storySlug) {
       query.storySlug = req.query.storySlug;
     }
 
-    const reels = await BookReel.find(query)
-      .sort({ isFeatured: -1, createdAt: -1 })
-      .skip(skip)
-      .limit(limit)
-      .lean();
+    const [reels, total] = await Promise.all([
+      BookReel.find(query)
+        .sort({ isFeatured: -1, createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .lean(),
+      BookReel.countDocuments(query),
+    ]);
 
-    const total = await BookReel.countDocuments(query);
-
-    res.status(200).json({
+    const responseData = {
       success: true,
       count: reels.length,
       total,
       page,
       data: reels,
-    });
+    };
+
+    await CacheManager.set(cacheKey, responseData, 300);
+    res.status(200).json(responseData);
   } catch (error) {
     console.error("Error in getReels:", error);
     res.status(500).json({ success: false, message: "Server error fetching book reels" });

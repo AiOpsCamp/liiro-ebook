@@ -1,25 +1,39 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { View, Text, ScrollView, Pressable, ActivityIndicator, Image } from "react-native";
 import { useLocalSearchParams, useRouter, Stack } from "expo-router";
-import { ArrowLeft, Sparkles, Clock, Play, Pause, ChevronRight, BookOpen, Quote } from "lucide-react-native";
+import { ArrowLeft, Sparkles, Clock, Play, Pause, ChevronRight, BookOpen, Quote, Globe, Volume2, Layers, CheckCircle2 } from "lucide-react-native";
 import { AudioManager } from "@/lib/utils/audioManager";
 import { useGetStorySummaryQuery } from "@/api/storiesQuery";
 
-export default function BlinksSummaryScreen() {
+export default function SparksSummaryScreen() {
   const { slug } = useLocalSearchParams<{ slug: string }>();
   const router = useRouter();
-  const [activeTakeawayIdx, setActiveTakeawayIdx] = useState(0);
-  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
 
-  const { data, isLoading: loading } = useGetStorySummaryQuery(slug as string, { skip: !slug });
+  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const [selectedLang, setSelectedLang] = useState<"en" | "bn" | "es">("en");
+  const [selectedVoice, setSelectedVoice] = useState<string>("af_heart");
+  const [selectedQuality, setSelectedQuality] = useState<"high_192k" | "standard_96k" | "low_48k">("high_192k");
+
+  // Query Backend with Language, Voice, and Quality params
+  const { data, isLoading: loading } = useGetStorySummaryQuery({
+    slug: slug as string,
+    lang: selectedLang,
+    voiceId: selectedVoice,
+    quality: selectedQuality,
+  } as any, { skip: !slug });
+
+  const summary = data?.summary;
+  const story = data?.story;
+  const audioTrack = summary?.activeAudioTrack;
 
   const handleToggleAudio = () => {
-    if (!data?.summary?.summaryAudioUrl) return;
+    if (!audioTrack?.audioUrl && !summary?.summaryAudioUrl) return;
+    const targetUrl = audioTrack?.audioUrl || summary?.summaryAudioUrl;
     if (isPlayingAudio) {
       AudioManager.getInstance().pauseAudio();
       setIsPlayingAudio(false);
     } else {
-      AudioManager.getInstance().playAudio(data.summary.summaryAudioUrl, () => setIsPlayingAudio(false));
+      AudioManager.getInstance().playAudio(targetUrl, () => setIsPlayingAudio(false));
       setIsPlayingAudio(true);
     }
   };
@@ -32,15 +46,25 @@ export default function BlinksSummaryScreen() {
     }
   };
 
-  const currentTakeaway = data?.summary?.keyTakeaways?.[activeTakeawayIdx];
-  const totalTakeaways = data?.summary?.keyTakeaways?.length || 5;
-
   return (
-    <View style={{ flex: 1, backgroundColor: "#080E1A", paddingHorizontal: 16, paddingTop: 48 }}>
+    <View style={{ flex: 1, backgroundColor: "#040914" }}>
       <Stack.Screen options={{ headerShown: false }} />
 
-      {/* Header */}
-      <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
+      {/* Top Floating Glass Header */}
+      <View
+        style={{
+          paddingTop: 52,
+          paddingHorizontal: 16,
+          paddingBottom: 16,
+          backgroundColor: "rgba(4, 9, 20, 0.95)",
+          borderBottomWidth: 1,
+          borderBottomColor: "#1E293B",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          zIndex: 20,
+        }}
+      >
         <Pressable
           onPress={handleBack}
           style={({ pressed }) => ({
@@ -55,7 +79,19 @@ export default function BlinksSummaryScreen() {
           <ArrowLeft size={18} color="#FFFFFF" />
         </Pressable>
 
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 6, backgroundColor: "rgba(245,158,11,0.15)", paddingHorizontal: 14, paddingVertical: 6, borderRadius: 100, borderWidth: 1, borderColor: "rgba(245,158,11,0.35)" }}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 6,
+            backgroundColor: "rgba(245,158,11,0.15)",
+            paddingHorizontal: 14,
+            paddingVertical: 6,
+            borderRadius: 100,
+            borderWidth: 1,
+            borderColor: "rgba(245,158,11,0.35)",
+          }}
+        >
           <Sparkles size={14} color="#F59E0B" />
           <Text style={{ color: "#F59E0B", fontWeight: "800", fontSize: 12, letterSpacing: 0.5 }}>LIIRO SPARKS ⚡</Text>
         </View>
@@ -74,45 +110,257 @@ export default function BlinksSummaryScreen() {
           })}
         >
           <BookOpen size={14} color="#FFFFFF" />
-          <Text style={{ color: "#FFFFFF", fontWeight: "700", fontSize: 12 }}>Full Book</Text>
+          <Text style={{ color: "#FFFFFF", fontWeight: "700", fontSize: 12 }}>Full Ebook</Text>
         </Pressable>
       </View>
 
       {loading ? (
-        <ActivityIndicator size="large" color="#818CF8" style={{ marginTop: 80 }} />
+        <ActivityIndicator size="large" color="#818CF8" style={{ marginTop: 120 }} />
       ) : (
-        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 40 }}>
-          {/* Hero Summary Book Card */}
-          <View style={{ backgroundColor: "#0F172A", borderWidth: 1, borderColor: "#1E293B", borderRadius: 24, padding: 20, marginBottom: 20 }}>
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 16, marginBottom: 16 }}>
-              <Image
-                source={{ uri: data?.story?.coverImageUrl || "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=300" }}
-                style={{ width: 68, height: 96, borderRadius: 12, backgroundColor: "#1E293B" }}
-                resizeMode="cover"
-              />
-              <View style={{ flex: 1 }}>
-                <Text style={{ color: "#FFFFFF", fontSize: 18, fontWeight: "700", marginBottom: 4 }} numberOfLines={1}>
-                  {data?.story?.title?.en || data?.story?.title}
-                </Text>
-                <Text style={{ color: "#94A3B8", fontSize: 13, marginBottom: 8 }}>by {data?.story?.author}</Text>
+        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 60 }}>
+          {/* Hetzner S3 Hero Banner Image */}
+          <View style={{ position: "relative", width: "100%", height: 230, marginBottom: 20 }}>
+            <Image
+              source={{ uri: summary?.heroImageUrl || story?.coverImageUrl || "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=600" }}
+              style={{ width: "100%", height: "100%" }}
+              resizeMode="cover"
+            />
+            {/* Gradient Overlay */}
+            <View
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundColor: "rgba(4,9,20,0.7)",
+                justifyContent: "flex-end",
+                padding: 20,
+              }}
+            >
+              <Text style={{ color: "#F59E0B", fontWeight: "800", fontSize: 11, letterSpacing: 1.2, textTransform: "uppercase", marginBottom: 4 }}>
+                15-MIN EXECUTIVE AUDIO SUMMARY
+              </Text>
+              <Text style={{ color: "#FFFFFF", fontSize: 26, fontWeight: "900", lineHeight: 32, marginBottom: 4 }}>
+                {story?.title?.en || story?.title}
+              </Text>
+              <Text style={{ color: "#94A3B8", fontSize: 14, fontWeight: "500" }}>by {story?.author}</Text>
+            </View>
+          </View>
+
+          <View style={{ paddingHorizontal: 16 }}>
+            {/* Multilingual & Audio Controls Card */}
+            <View
+              style={{
+                backgroundColor: "#0F172A",
+                borderWidth: 1,
+                borderColor: "#1E293B",
+                borderRadius: 20,
+                padding: 16,
+                marginBottom: 20,
+              }}
+            >
+              {/* Language Selector */}
+              <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
                 <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
-                  <Clock size={13} color="#F59E0B" />
-                  <Text style={{ color: "#F59E0B", fontSize: 12, fontWeight: "700" }}>{data?.summary?.estimatedAudioMinutes || 12} Min Audio</Text>
-                  <Text style={{ color: "#64748B", fontSize: 12 }}>• {totalTakeaways} Blinks</Text>
+                  <Globe size={14} color="#818CF8" />
+                  <Text style={{ color: "#94A3B8", fontSize: 12, fontWeight: "700" }}>Language:</Text>
+                </View>
+                <View style={{ flexDirection: "row", gap: 6 }}>
+                  {[
+                    { code: "en", label: "English" },
+                    { code: "bn", label: "বাংলা" },
+                    { code: "es", label: "Español" },
+                  ].map((langObj) => (
+                    <Pressable
+                      key={langObj.code}
+                      onPress={() => setSelectedLang(langObj.code as any)}
+                      style={{
+                        paddingHorizontal: 12,
+                        paddingVertical: 5,
+                        borderRadius: 100,
+                        backgroundColor: selectedLang === langObj.code ? "#4F46E5" : "#1E293B",
+                      }}
+                    >
+                      <Text style={{ color: selectedLang === langObj.code ? "#FFFFFF" : "#94A3B8", fontSize: 11, fontWeight: "700" }}>
+                        {langObj.label}
+                      </Text>
+                    </Pressable>
+                  ))}
+                </View>
+              </View>
+
+              {/* Bitrate & Quality Selector */}
+              <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+                <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
+                  <Volume2 size={14} color="#F59E0B" />
+                  <Text style={{ color: "#94A3B8", fontSize: 12, fontWeight: "700" }}>Audio Quality:</Text>
+                </View>
+                <View style={{ flexDirection: "row", gap: 6 }}>
+                  {[
+                    { code: "high_192k", label: "192k HD" },
+                    { code: "standard_96k", label: "96k HQ" },
+                    { code: "low_48k", label: "48k Data" },
+                  ].map((qObj) => (
+                    <Pressable
+                      key={qObj.code}
+                      onPress={() => setSelectedQuality(qObj.code as any)}
+                      style={{
+                        paddingHorizontal: 10,
+                        paddingVertical: 4,
+                        borderRadius: 100,
+                        backgroundColor: selectedQuality === qObj.code ? "rgba(245,158,11,0.2)" : "#1E293B",
+                        borderWidth: 1,
+                        borderColor: selectedQuality === qObj.code ? "#F59E0B" : "transparent",
+                      }}
+                    >
+                      <Text style={{ color: selectedQuality === qObj.code ? "#F59E0B" : "#64748B", fontSize: 10, fontWeight: "700" }}>
+                        {qObj.label}
+                      </Text>
+                    </Pressable>
+                  ))}
                 </View>
               </View>
             </View>
 
-            <Text style={{ color: "#CBD5E1", fontSize: 13, lineHeight: 19, marginBottom: 16 }}>{data?.summary?.overview}</Text>
-
-            {/* 15-Min Audio Summary Player */}
+            {/* 15-Min Audio Summary Player Bar */}
             <Pressable
               onPress={handleToggleAudio}
               style={({ pressed }) => ({
                 backgroundColor: "#F59E0B",
-                paddingVertical: 14,
+                paddingVertical: 16,
                 paddingHorizontal: 20,
-                borderRadius: 16,
+                borderRadius: 20,
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginBottom: 24,
+                opacity: pressed ? 0.88 : 1,
+              })}
+            >
+              <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
+                <View style={{ width: 42, height: 42, borderRadius: 100, backgroundColor: "#0F172A", alignItems: "center", justifyContent: "center" }}>
+                  {isPlayingAudio ? <Pause size={20} color="#F59E0B" /> : <Play size={20} color="#F59E0B" style={{ marginLeft: 2 }} />}
+                </View>
+                <View>
+                  <Text style={{ color: "#0F172A", fontWeight: "900", fontSize: 14 }}>
+                    {isPlayingAudio ? "Pause Audio Summary" : "Play 15-Min Audio Summary"}
+                  </Text>
+                  <Text style={{ color: "rgba(15,23,42,0.8)", fontSize: 11, fontWeight: "700" }}>
+                    {audioTrack?.voiceName || "Heart (Female US)"} • {audioTrack?.quality || "192k HD"}
+                  </Text>
+                </View>
+              </View>
+              <Clock size={18} color="#0F172A" />
+            </Pressable>
+
+            {/* SECTION 1: Executive Hook & Overview */}
+            <View style={{ backgroundColor: "#0F172A", borderWidth: 1, borderColor: "#1E293B", borderRadius: 24, padding: 22, marginBottom: 24 }}>
+              <View style={{ flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 12 }}>
+                <Sparkles size={18} color="#F59E0B" />
+                <Text style={{ color: "#FFFFFF", fontSize: 18, fontWeight: "800" }}>One-Sentence Executive Hook</Text>
+              </View>
+
+              <Text style={{ color: "#FBBF24", fontSize: 15, lineHeight: 22, fontWeight: "600", fontStyle: "italic", marginBottom: 18 }}>
+                "{summary?.oneSentenceSummary || "An immortal Transylvanian vampire unleashes ancient evil upon Victorian London..."}"
+              </Text>
+
+              <Text style={{ color: "#FFFFFF", fontSize: 16, fontWeight: "800", marginBottom: 10 }}>
+                Full Synopsis & Literary Overview
+              </Text>
+              <Text style={{ color: "#CBD5E1", fontSize: 14, lineHeight: 22 }}>
+                {summary?.summaryText || summary?.overview}
+              </Text>
+            </View>
+
+            {/* SECTION 2: Key Takeaways (Sparks ⚡) */}
+            <View style={{ marginBottom: 24 }}>
+              <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
+                <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+                  <CheckCircle2 size={20} color="#F59E0B" />
+                  <Text style={{ color: "#FFFFFF", fontSize: 20, fontWeight: "800" }}>Key Takeaways ({summary?.keyTakeaways?.length || 0})</Text>
+                </View>
+                <Text style={{ color: "#64748B", fontSize: 12, fontWeight: "700" }}>15-MIN SPARKS ⚡</Text>
+              </View>
+
+              <View style={{ gap: 16 }}>
+                {summary?.keyTakeaways?.map((item: any, idx: number) => (
+                  <View
+                    key={idx}
+                    style={{
+                      backgroundColor: "#0F172A",
+                      borderWidth: 1.5,
+                      borderColor: "#1E293B",
+                      borderRadius: 22,
+                      padding: 20,
+                    }}
+                  >
+                    <Text style={{ color: "#F59E0B", fontWeight: "800", fontSize: 11, letterSpacing: 1.2, textTransform: "uppercase", marginBottom: 8 }}>
+                      KEY TAKEAWAY #{item.takeawayNumber || idx + 1} OF {summary?.keyTakeaways?.length}
+                    </Text>
+
+                    <Text style={{ color: "#FFFFFF", fontSize: 18, fontWeight: "800", marginBottom: 10, lineHeight: 24 }}>
+                      {item.title}
+                    </Text>
+
+                    <Text style={{ color: "#CBD5E1", fontSize: 14, lineHeight: 21, marginBottom: item.quote ? 14 : 0 }}>
+                      {item.description || item.content}
+                    </Text>
+
+                    {item.quote && (
+                      <View style={{ backgroundColor: "#030712", borderWidth: 1, borderColor: "rgba(245,158,11,0.3)", padding: 14, borderRadius: 14, flexDirection: "row", alignItems: "flex-start", gap: 10 }}>
+                        <Quote size={16} color="#F59E0B" />
+                        <Text style={{ color: "#FBBF24", fontStyle: "italic", fontSize: 12, lineHeight: 18, flex: 1, fontWeight: "500" }}>
+                          "{item.quote}"
+                        </Text>
+                      </View>
+                    )}
+                  </View>
+                ))}
+              </View>
+            </View>
+
+            {/* SECTION 3: Chapter-by-Chapter Act Breakdowns */}
+            {summary?.chapterBreakdowns && summary?.chapterBreakdowns?.length > 0 && (
+              <View style={{ marginBottom: 24 }}>
+                <View style={{ flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 16 }}>
+                  <Layers size={20} color="#818CF8" />
+                  <Text style={{ color: "#FFFFFF", fontSize: 20, fontWeight: "800" }}>Chapter-by-Chapter Acts</Text>
+                </View>
+
+                <View style={{ gap: 14 }}>
+                  {summary?.chapterBreakdowns?.map((actObj: any, idx: number) => (
+                    <View
+                      key={idx}
+                      style={{
+                        backgroundColor: "#0F172A",
+                        borderWidth: 1,
+                        borderColor: "#1E293B",
+                        borderRadius: 20,
+                        padding: 20,
+                      }}
+                    >
+                      <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
+                        <Text style={{ color: "#F59E0B", fontWeight: "800", fontSize: 14 }}>{actObj.act}</Text>
+                        <View style={{ backgroundColor: "#1E293B", paddingHorizontal: 10, paddingVertical: 4, borderRadius: 100 }}>
+                          <Text style={{ color: "#94A3B8", fontSize: 11, fontWeight: "700" }}>{actObj.chapters}</Text>
+                        </View>
+                      </View>
+                      <Text style={{ color: "#CBD5E1", fontSize: 13, lineHeight: 20 }}>{actObj.summary}</Text>
+                    </View>
+                  ))}
+                </View>
+              </View>
+            )}
+
+            {/* Read Full Book CTA Button */}
+            <Pressable
+              onPress={() => router.push(`/read/${slug}`)}
+              style={({ pressed }) => ({
+                backgroundColor: "#4F46E5",
+                paddingVertical: 18,
+                paddingHorizontal: 24,
+                borderRadius: 20,
                 flexDirection: "row",
                 alignItems: "center",
                 justifyContent: "center",
@@ -120,99 +368,10 @@ export default function BlinksSummaryScreen() {
                 opacity: pressed ? 0.85 : 1,
               })}
             >
-              {isPlayingAudio ? <Pause size={16} color="#0F172A" /> : <Play size={16} color="#0F172A" style={{ marginLeft: 2 }} />}
-              <Text style={{ color: "#0F172A", fontWeight: "800", fontSize: 13 }}>
-                {isPlayingAudio ? "Pause 15-Min Audio Summary" : "Listen to 15-Min Audio Summary"}
+              <Text style={{ color: "#FFFFFF", fontWeight: "800", fontSize: 15 }}>
+                Read Full Book ({story?.title?.en || story?.title})
               </Text>
-            </Pressable>
-          </View>
-
-          {/* Progress Indicators */}
-          <View style={{ flexDirection: "row", gap: 6, marginBottom: 20 }}>
-            {data?.summary?.keyTakeaways?.map((_: any, idx: number) => (
-              <Pressable
-                key={idx}
-                onPress={() => setActiveTakeawayIdx(idx)}
-                style={{
-                  flex: 1,
-                  height: 6,
-                  borderRadius: 3,
-                  backgroundColor: idx === activeTakeawayIdx ? "#F59E0B" : idx < activeTakeawayIdx ? "#334155" : "#1E293B",
-                }}
-              />
-            ))}
-          </View>
-
-          {/* Key Takeaway Card */}
-          {currentTakeaway && (
-            <View style={{ backgroundColor: "#0F172A", borderWidth: 1.5, borderColor: "#1E293B", borderRadius: 24, padding: 24, marginBottom: 24 }}>
-              <Text style={{ color: "#F59E0B", fontWeight: "800", fontSize: 11, letterSpacing: 1.2, textTransform: "uppercase", marginBottom: 8 }}>
-                KEY TAKEAWAY #{currentTakeaway.takeawayNumber} OF {totalTakeaways}
-              </Text>
-
-              <Text style={{ color: "#FFFFFF", fontSize: 22, fontWeight: "800", marginBottom: 12, lineHeight: 28 }}>
-                {currentTakeaway.title}
-              </Text>
-
-              <Text style={{ color: "#E2E8F0", fontSize: 14, lineHeight: 22, marginBottom: 20 }}>
-                {currentTakeaway.content}
-              </Text>
-
-              {/* Quote Pill */}
-              {currentTakeaway.quote && (
-                <View style={{ backgroundColor: "#030712", borderWidth: 1, borderColor: "rgba(245,158,11,0.3)", padding: 16, borderRadius: 16, flexDirection: "row", alignItems: "flex-start", gap: 12 }}>
-                  <Quote size={18} color="#F59E0B" />
-                  <Text style={{ color: "#FBBF24", fontStyle: "italic", fontSize: 13, lineHeight: 19, flex: 1, fontWeight: "500" }}>
-                    "{currentTakeaway.quote}"
-                  </Text>
-                </View>
-              )}
-            </View>
-          )}
-
-          {/* Bottom Controls */}
-          <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
-            <Pressable
-              onPress={() => setActiveTakeawayIdx((prev) => Math.max(0, prev - 1))}
-              disabled={activeTakeawayIdx === 0}
-              style={({ pressed }) => ({
-                flex: 1,
-                paddingVertical: 14,
-                borderRadius: 16,
-                backgroundColor: "#0F172A",
-                borderWidth: 1,
-                borderColor: "#1E293B",
-                alignItems: "center",
-                opacity: activeTakeawayIdx === 0 ? 0.3 : pressed ? 0.8 : 1,
-              })}
-            >
-              <Text style={{ color: "#FFFFFF", fontWeight: "700", fontSize: 13 }}>Previous Blink</Text>
-            </Pressable>
-
-            <Pressable
-              onPress={() => {
-                if (activeTakeawayIdx < totalTakeaways - 1) {
-                  setActiveTakeawayIdx((prev) => prev + 1);
-                } else {
-                  router.push(`/read/${slug}`);
-                }
-              }}
-              style={({ pressed }) => ({
-                flex: 1,
-                paddingVertical: 14,
-                borderRadius: 16,
-                backgroundColor: "#4F46E5",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: 6,
-                opacity: pressed ? 0.85 : 1,
-              })}
-            >
-              <Text style={{ color: "#FFFFFF", fontWeight: "800", fontSize: 13 }}>
-                {activeTakeawayIdx < totalTakeaways - 1 ? "Next Blink" : "Read Full Book"}
-              </Text>
-              <ChevronRight size={16} color="#FFFFFF" />
+              <ChevronRight size={18} color="#FFFFFF" />
             </Pressable>
           </View>
         </ScrollView>

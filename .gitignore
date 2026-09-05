@@ -14,3 +14,16 @@ venv/
 *.onnx
 *.bin
 *firebase-adminsdk*.json
+
+# Audio, scratch, downloads & binary caches
+ebook-contents/
+gutenberg/
+scratch/
+backend/scratch/
+backend/public/audio/
+*.rdb
+__pycache__/
+*.pyc
+.expo/
+frontend/.expo/
+

@@ -49,11 +49,11 @@ Ensure the following environment variables are mounted in the K8s secrets/config
 
 ```bash
 kubectl create secret generic liiro-backend-secrets \
-  --from-literal=MONGO_URI="mongodb://admin:PROD_PASSWORD_2026@10.43.172.242:27017/liiro_prod?authSource=admin&directConnection=true" \
+  --from-literal=MONGO_URI="mongodb://admin:<PROD_PASSWORD>@10.43.172.242:27017/liiro_prod?authSource=admin&directConnection=true" \
   --from-literal=REDIS_HOST="redis-service.default.svc.cluster.local" \
   --from-literal=REDIS_PORT="6379" \
-  --from-literal=HETZNER_S3_KEY="KVFSGG7GLKG95GYEJOE3" \
-  --from-literal=HETZNER_S3_SECRET="DsaLlvMswIAzVx93FjkvaUyfsqUrzatR8kF1SrGK" \
+  --from-literal=HETZNER_S3_KEY="<HETZNER_S3_KEY>" \
+  --from-literal=HETZNER_S3_SECRET="<HETZNER_S3_SECRET>" \
   --from-literal=HETZNER_S3_BUCKET="multicamp-prod-storage" \
   --from-literal=HETZNER_S3_ENDPOINT="https://nbg1.your-objectstorage.com" \
   --dry-run=client -o yaml | kubectl apply -f -

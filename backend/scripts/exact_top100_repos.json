@@ -1,0 +1,334 @@
+[
+  {
+    "slug": "the-yellow-wallpaper",
+    "repo": "charlotte-perkins-gilman_herland"
+  },
+  {
+    "slug": "jane-eyre",
+    "repo": "charlotte-bronte_jane-eyre"
+  },
+  {
+    "slug": "wuthering-heights",
+    "repo": "emily-bronte_wuthering-heights"
+  },
+  {
+    "slug": "the-phantom-of-the-opera",
+    "repo": "gaston-leroux_the-phantom-of-the-opera_alexander-teixeira-de-mattos"
+  },
+  {
+    "slug": "the-legend-of-sleepy-hollow",
+    "repo": null
+  },
+  {
+    "slug": "carmilla",
+    "repo": null
+  },
+  {
+    "slug": "the-fall-of-the-house-of-usher",
+    "repo": null
+  },
+  {
+    "slug": "the-turn-of-the-screw",
+    "repo": "henry-james_the-turn-of-the-screw"
+  },
+  {
+    "slug": "the-house-of-the-seven-gables",
+    "repo": "nathaniel-hawthorne_the-house-of-the-seven-gables"
+  },
+  {
+    "slug": "villette",
+    "repo": "charlotte-bronte_villette"
+  },
+  {
+    "slug": "the-tenant-of-wildfell-hall",
+    "repo": "anne-bronte_the-tenant-of-wildfell-hall"
+  },
+  {
+    "slug": "twenty-thousand-leagues-under-the-seas",
+    "repo": "yevgeny-zamyatin_we_gregory-zilboorg"
+  },
+  {
+    "slug": "around-the-world-in-eighty-days",
+    "repo": "jules-verne_around-the-world-in-eighty-days_george-makepeace-towle"
+  },
+  {
+    "slug": "journey-to-the-center-of-the-earth",
+    "repo": "jules-verne_journey-to-the-center-of-the-earth_f-a-malleson"
+  },
+  {
+    "slug": "a-princess-of-mars",
+    "repo": "edgar-rice-burroughs_a-princess-of-mars"
+  },
+  {
+    "slug": "the-gods-of-mars",
+    "repo": "edgar-rice-burroughs_the-gods-of-mars"
+  },
+  {
+    "slug": "the-first-men-in-the-moon",
+    "repo": null
+  },
+  {
+    "slug": "looking-backward",
+    "repo": null
+  },
+  {
+    "slug": "news-from-nowhere",
+    "repo": null
+  },
+  {
+    "slug": "the-food-of-the-gods",
+    "repo": null
+  },
+  {
+    "slug": "herland",
+    "repo": "charlotte-perkins-gilman_herland"
+  },
+  {
+    "slug": "flatland",
+    "repo": "edwin-a-abbott_flatland"
+  },
+  {
+    "slug": "the-hound-of-the-baskervilles",
+    "repo": "arthur-conan-doyle_the-hound-of-the-baskervilles"
+  },
+  {
+    "slug": "a-study-in-scarlet",
+    "repo": "arthur-conan-doyle_a-study-in-scarlet"
+  },
+  {
+    "slug": "the-sign-of-the-four",
+    "repo": "arthur-conan-doyle_the-sign-of-the-four"
+  },
+  {
+    "slug": "the-memoirs-of-sherlock-holmes",
+    "repo": "arthur-conan-doyle_the-memoirs-of-sherlock-holmes"
+  },
+  {
+    "slug": "the-return-of-sherlock-holmes",
+    "repo": "arthur-conan-doyle_the-return-of-sherlock-holmes"
+  },
+  {
+    "slug": "the-moonstone",
+    "repo": "wilkie-collins_the-moonstone"
+  },
+  {
+    "slug": "the-woman-in-white",
+    "repo": "wilkie-collins_the-woman-in-white"
+  },
+  {
+    "slug": "the-murders-in-the-rue-morgue",
+    "repo": null
+  },
+  {
+    "slug": "the-mystery-of-edwin-drood",
+    "repo": null
+  },
+  {
+    "slug": "arsene-lupin-gentleman-burglar",
+    "repo": "maurice-leblanc_the-extraordinary-adventures-of-arsene-lupin-gentleman-burglar_george-morehead"
+  },
+  {
+    "slug": "the-innocence-of-father-brown",
+    "repo": "g-k-chesterton_the-innocence-of-father-brown"
+  },
+  {
+    "slug": "the-wisdom-of-father-brown",
+    "repo": "g-k-chesterton_the-wisdom-of-father-brown"
+  },
+  {
+    "slug": "the-riddle-of-the-sands",
+    "repo": "erskine-childers_the-riddle-of-the-sands"
+  },
+  {
+    "slug": "the-thirty-nine-steps",
+    "repo": "john-buchan_the-thirty-nine-steps"
+  },
+  {
+    "slug": "white-fang",
+    "repo": null
+  },
+  {
+    "slug": "moby-dick",
+    "repo": "herman-melville_moby-dick"
+  },
+  {
+    "slug": "the-count-of-monte-cristo",
+    "repo": "alexandre-dumas_the-count-of-monte-cristo_chapman-and-hall"
+  },
+  {
+    "slug": "the-three-musketeers",
+    "repo": "alexandre-dumas_the-three-musketeers_william-robson"
+  },
+  {
+    "slug": "twenty-years-after",
+    "repo": "yevgeny-zamyatin_we_gregory-zilboorg"
+  },
+  {
+    "slug": "the-adventures-of-tom-sawyer",
+    "repo": "mark-twain_the-adventures-of-tom-sawyer"
+  },
+  {
+    "slug": "adventures-of-huckleberry-finn",
+    "repo": "mark-twain_the-adventures-of-huckleberry-finn"
+  },
+  {
+    "slug": "robinson-crusoe",
+    "repo": "daniel-defoe_the-life-and-adventures-of-robinson-crusoe"
+  },
+  {
+    "slug": "king-solomons-mines",
+    "repo": "h-rider-haggard_king-solomons-mines"
+  },
+  {
+    "slug": "she",
+    "repo": "arthur-conan-doyle_the-adventures-of-sherlock-holmes"
+  },
+  {
+    "slug": "tarzan-of-the-apes",
+    "repo": null
+  },
+  {
+    "slug": "the-sea-wolf",
+    "repo": "jack-london_the-sea-wolf"
+  },
+  {
+    "slug": "kidnapped",
+    "repo": "robert-louis-stevenson_kidnapped"
+  },
+  {
+    "slug": "sense-and-sensibility",
+    "repo": "jane-austen_sense-and-sensibility"
+  },
+  {
+    "slug": "emma",
+    "repo": "jane-austen_emma"
+  },
+  {
+    "slug": "mansfield-park",
+    "repo": null
+  },
+  {
+    "slug": "northanger-abbey",
+    "repo": null
+  },
+  {
+    "slug": "persuasion",
+    "repo": "jane-austen_persuasion"
+  },
+  {
+    "slug": "little-women",
+    "repo": "louisa-may-alcott_little-women"
+  },
+  {
+    "slug": "anna-karenina",
+    "repo": "leo-tolstoy_anna-karenina_constance-garnett"
+  },
+  {
+    "slug": "madame-bovary",
+    "repo": "gustave-flaubert_madame-bovary_eleanor-marx-aveling"
+  },
+  {
+    "slug": "the-age-of-innocence",
+    "repo": "edith-wharton_the-age-of-innocence"
+  },
+  {
+    "slug": "the-house-of-mirth",
+    "repo": "edith-wharton_the-house-of-mirth"
+  },
+  {
+    "slug": "far-from-the-madding-crowd",
+    "repo": "thomas-hardy_far-from-the-madding-crowd"
+  },
+  {
+    "slug": "tess-of-the-durbervilles",
+    "repo": "thomas-hardy_tess-of-the-durbervilles"
+  },
+  {
+    "slug": "the-scarlet-letter",
+    "repo": null
+  },
+  {
+    "slug": "the-metamorphosis",
+    "repo": null
+  },
+  {
+    "slug": "crime-and-punishment",
+    "repo": "fyodor-dostoevsky_crime-and-punishment_constance-garnett"
+  },
+  {
+    "slug": "the-brothers-karamazov",
+    "repo": "fyodor-dostoevsky_the-brothers-karamazov_constance-garnett"
+  },
+  {
+    "slug": "les-miserables",
+    "repo": "victor-hugo_les-miserables_isabel-f-hapgood"
+  },
+  {
+    "slug": "a-tale-of-two-cities",
+    "repo": "charles-dickens_a-tale-of-two-cities"
+  },
+  {
+    "slug": "great-expectations",
+    "repo": "charles-dickens_great-expectations"
+  },
+  {
+    "slug": "the-odyssey",
+    "repo": "homer_the-odyssey_william-cullen-bryant"
+  },
+  {
+    "slug": "the-iliad",
+    "repo": "homer_the-iliad_william-cullen-bryant"
+  },
+  {
+    "slug": "meditations",
+    "repo": "marcus-aurelius_meditations_george-long"
+  },
+  {
+    "slug": "the-republic",
+    "repo": null
+  },
+  {
+    "slug": "beyond-good-and-evil",
+    "repo": "friedrich-nietzsche_beyond-good-and-evil_helen-zimmern"
+  },
+  {
+    "slug": "the-art-of-war",
+    "repo": "sun-tzu_the-art-of-war_lionel-giles"
+  },
+  {
+    "slug": "the-prince",
+    "repo": "niccolo-machiavelli_the-prince_w-k-marriott"
+  },
+  {
+    "slug": "heart-of-darkness",
+    "repo": "joseph-conrad_heart-of-darkness"
+  },
+  {
+    "slug": "the-wonderful-wizard-of-oz",
+    "repo": "l-frank-baum_the-wonderful-wizard-of-oz"
+  },
+  {
+    "slug": "peter-and-wendy",
+    "repo": "j-m-barrie_peter-and-wendy"
+  },
+  {
+    "slug": "the-secret-garden",
+    "repo": "frances-hodgson-burnett_the-secret-garden"
+  },
+  {
+    "slug": "a-little-princess",
+    "repo": "frances-hodgson-burnett_a-little-princess"
+  },
+  {
+    "slug": "the-wind-in-the-willows",
+    "repo": "kenneth-grahame_the-wind-in-the-willows"
+  },
+  {
+    "slug": "grimms-fairy-tales",
+    "repo": null
+  },
+  {
+    "slug": "andersens-fairy-tales",
+    "repo": null
+  }
+]

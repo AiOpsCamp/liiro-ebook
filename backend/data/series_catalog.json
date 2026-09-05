@@ -1,0 +1,2542 @@
+{
+  "generatedAt": "2026-08-28T14:41:54.342Z",
+  "totalSeriesFound": 84,
+  "series": [
+    {
+      "name": "Voyages Extraordinaires Series",
+      "slug": "voyages-extraordinaires-series",
+      "author": "Jules Verne",
+      "description": "The complete Voyages Extraordinaires Series collection by Jules Verne",
+      "books": [
+        {
+          "repo": "jules-verne_five-weeks-in-a-balloon_william-lackland",
+          "title": "Five Weeks in a Balloon",
+          "order": 1
+        },
+        {
+          "repo": "jules-verne_the-adventures-of-captain-hatteras_james-r-osgood-and-company",
+          "title": "The Adventures of Captain Hatteras",
+          "order": 2
+        },
+        {
+          "repo": "jules-verne_journey-to-the-center-of-the-earth_f-a-malleson",
+          "title": "Journey to the Center of the Earth",
+          "order": 3
+        },
+        {
+          "repo": "jules-verne_from-the-earth-to-the-moon_ward-lock-co",
+          "title": "From the Earth to the Moon",
+          "order": 4
+        },
+        {
+          "repo": "jules-verne_in-search-of-the-castaways_j-b-lippincott-co",
+          "title": "In Search of the Castaways",
+          "order": 5
+        },
+        {
+          "repo": "jules-verne_round-the-moon_ward-lock-co",
+          "title": "Round the Moon",
+          "order": 7
+        },
+        {
+          "repo": "jules-verne_the-fur-country_n-danvers",
+          "title": "The Fur Country",
+          "order": 10
+        },
+        {
+          "repo": "jules-verne_around-the-world-in-eighty-days_george-makepeace-towle",
+          "title": "Around the World in Eighty Days",
+          "order": 11
+        },
+        {
+          "repo": "jules-verne_the-mysterious-island_stephen-w-white",
+          "title": "The Mysterious Island",
+          "order": 12
+        },
+        {
+          "repo": "jules-verne_the-survivors-of-the-chancellor_ellen-frewer",
+          "title": "The Survivors of the Chancellor",
+          "order": 13
+        },
+        {
+          "repo": "jules-verne_michael-strogoff_w-h-g-kingston",
+          "title": "Michael Strogoff",
+          "order": 14
+        },
+        {
+          "repo": "jules-verne_the-child-of-the-cavern_vincent-parke-and-company",
+          "title": "The Child of the Cavern",
+          "order": 16
+        },
+        {
+          "repo": "jules-verne_dick-sands-the-boy-captain_ellen-e-frewer",
+          "title": "Dick Sands, the Boy Captain",
+          "order": 17
+        },
+        {
+          "repo": "jules-verne_the-giant-raft_w-j-gordon",
+          "title": "The Giant Raft",
+          "order": 21
+        },
+        {
+          "repo": "jules-verne_ticket-no-9672_laura-e-kendall",
+          "title": "Ticket No. 9672",
+          "order": 29
+        },
+        {
+          "repo": "jules-verne_topsy-turvy_j-g-ogilvie",
+          "title": "Topsy-Turvy",
+          "order": 35
+        },
+        {
+          "repo": "jules-verne_the-special-correspondent_the-boys-own-paper",
+          "title": "The Special Correspondent",
+          "order": 39
+        },
+        {
+          "repo": "jules-verne_facing-the-flag_f-tennyson-neely",
+          "title": "Facing the Flag",
+          "order": 43
+        },
+        {
+          "repo": "jules-verne_an-antarctic-mystery_frances-cashel-hoey",
+          "title": "An Antarctic Mystery",
+          "order": 45
+        }
+      ],
+      "totalBooks": 19
+    },
+    {
+      "name": "The Human Comedy Series",
+      "slug": "the-human-comedy-series",
+      "author": "Honoré de Balzac",
+      "description": "The complete The Human Comedy Series collection by Honoré de Balzac",
+      "books": [
+        {
+          "repo": "honore-de-balzac_the-celibates_clara-bell",
+          "title": "The Celibates",
+          "order": 12
+        },
+        {
+          "repo": "honore-de-balzac_a-daughter-of-eve_ellen-marriage",
+          "title": "A Daughter of Eve",
+          "order": 99
+        },
+        {
+          "repo": "honore-de-balzac_a-marriage-settlement_clara-bell",
+          "title": "A Marriage Settlement",
+          "order": 99
+        },
+        {
+          "repo": "honore-de-balzac_a-start-in-life_clara-bell",
+          "title": "A Start in Life",
+          "order": 99
+        },
+        {
+          "repo": "honore-de-balzac_a-woman-of-thirty_ellen-marriage",
+          "title": "A Woman of Thirty",
+          "order": 99
+        },
+        {
+          "repo": "honore-de-balzac_albert-savarus_ellen-marriage",
+          "title": "Albert Savarus",
+          "order": 99
+        },
+        {
+          "repo": "honore-de-balzac_beatrix_james-waring",
+          "title": "Béatrix",
+          "order": 99
+        },
+        {
+          "repo": "honore-de-balzac_eugenie-grandet_clara-bell",
+          "title": "Eugénie Grandet",
+          "order": 99
+        },
+        {
+          "repo": "honore-de-balzac_father-goriot_ellen-marriage",
+          "title": "Father Goriot",
+          "order": 99
+        },
+        {
+          "repo": "honore-de-balzac_letters-of-two-brides_r-s-scott",
+          "title": "Letters of Two Brides",
+          "order": 99
+        },
+        {
+          "repo": "honore-de-balzac_lost-illusions_ellen-marriage",
+          "title": "Lost Illusions",
+          "order": 99
+        },
+        {
+          "repo": "honore-de-balzac_modeste-mignon_clara-bell",
+          "title": "Modeste Mignon",
+          "order": 99
+        },
+        {
+          "repo": "honore-de-balzac_parisians-in-the-country_ellen-marriage",
+          "title": "Parisians in the Country",
+          "order": 99
+        },
+        {
+          "repo": "honore-de-balzac_shorts-from-scenes-from-private-life_various-translators",
+          "title": "Shorts from Scenes from Private Life",
+          "order": 99
+        },
+        {
+          "repo": "honore-de-balzac_the-jealousies-of-a-country-town_ellen-marriage",
+          "title": "The Jealousies of a Country Town",
+          "order": 99
+        },
+        {
+          "repo": "honore-de-balzac_the-lily-of-the-valley_james-waring",
+          "title": "The Lily of the Valley",
+          "order": 99
+        },
+        {
+          "repo": "honore-de-balzac_ursule-mirouet_clara-bell",
+          "title": "Ursule Mirouët",
+          "order": 99
+        }
+      ],
+      "totalBooks": 17
+    },
+    {
+      "name": "Scarlet Pimpernel Series",
+      "slug": "scarlet-pimpernel-series",
+      "author": "Baroness Orczy",
+      "description": "The complete Scarlet Pimpernel Series collection by Baroness Orczy",
+      "books": [
+        {
+          "repo": "baroness-orczy_the-laughing-cavalier",
+          "title": "The Laughing Cavalier",
+          "order": 1
+        },
+        {
+          "repo": "baroness-orczy_the-first-sir-percy",
+          "title": "The First Sir Percy",
+          "order": 2
+        },
+        {
+          "repo": "baroness-orczy_the-scarlet-pimpernel",
+          "title": "The Scarlet Pimpernel",
+          "order": 3
+        },
+        {
+          "repo": "baroness-orczy_el-dorado",
+          "title": "El Dorado",
+          "order": 4
+        },
+        {
+          "repo": "baroness-orczy_the-league-of-the-scarlet-pimpernel",
+          "title": "The League of the Scarlet Pimpernel",
+          "order": 6
+        },
+        {
+          "repo": "baroness-orczy_i-will-repay",
+          "title": "I Will Repay",
+          "order": 8
+        },
+        {
+          "repo": "baroness-orczy_the-elusive-pimpernel",
+          "title": "The Elusive Pimpernel",
+          "order": 9
+        },
+        {
+          "repo": "baroness-orczy_lord-tonys-wife",
+          "title": "Lord Tony’s Wife",
+          "order": 10
+        },
+        {
+          "repo": "baroness-orczy_sir-percy-hits-back",
+          "title": "Sir Percy Hits Back",
+          "order": 11
+        },
+        {
+          "repo": "baroness-orczy_the-triumph-of-the-scarlet-pimpernel",
+          "title": "The Triumph of the Scarlet Pimpernel",
+          "order": 14
+        },
+        {
+          "repo": "baroness-orczy_pimpernel-and-rosemary",
+          "title": "Pimpernel and Rosemary",
+          "order": 17
+        }
+      ],
+      "totalBooks": 11
+    },
+    {
+      "name": "Tarzan Series",
+      "slug": "tarzan-series",
+      "author": "Edgar Rice Burroughs",
+      "description": "The complete Tarzan Series collection by Edgar Rice Burroughs",
+      "books": [
+        {
+          "repo": "edgar-rice-burroughs_tarzan-of-the-apes",
+          "title": "Tarzan of the Apes",
+          "order": 1
+        },
+        {
+          "repo": "edgar-rice-burroughs_the-return-of-tarzan",
+          "title": "The Return of Tarzan",
+          "order": 2
+        },
+        {
+          "repo": "edgar-rice-burroughs_the-beasts-of-tarzan",
+          "title": "The Beasts of Tarzan",
+          "order": 3
+        },
+        {
+          "repo": "edgar-rice-burroughs_the-son-of-tarzan",
+          "title": "The Son of Tarzan",
+          "order": 4
+        },
+        {
+          "repo": "edgar-rice-burroughs_tarzan-and-the-jewels-of-opar",
+          "title": "Tarzan and the Jewels of Opar",
+          "order": 5
+        },
+        {
+          "repo": "edgar-rice-burroughs_jungle-tales-of-tarzan",
+          "title": "Jungle Tales of Tarzan",
+          "order": 6
+        },
+        {
+          "repo": "edgar-rice-burroughs_tarzan-the-untamed",
+          "title": "Tarzan the Untamed",
+          "order": 7
+        },
+        {
+          "repo": "edgar-rice-burroughs_tarzan-the-terrible",
+          "title": "Tarzan the Terrible",
+          "order": 8
+        },
+        {
+          "repo": "edgar-rice-burroughs_tarzan-and-the-golden-lion",
+          "title": "Tarzan and the Golden Lion",
+          "order": 9
+        },
+        {
+          "repo": "edgar-rice-burroughs_tarzan-and-the-ant-men",
+          "title": "Tarzan and the Ant Men",
+          "order": 10
+        },
+        {
+          "repo": "edgar-rice-burroughs_tarzan-lord-of-the-jungle",
+          "title": "Tarzan, Lord of the Jungle",
+          "order": 11
+        }
+      ],
+      "totalBooks": 11
+    },
+    {
+      "name": "Arsène Lupin Series",
+      "slug": "ars-ne-lupin-series",
+      "author": "Maurice Leblanc",
+      "description": "The complete Arsène Lupin Series collection by Maurice Leblanc",
+      "books": [
+        {
+          "repo": "maurice-leblanc_the-extraordinary-adventures-of-arsene-lupin-gentleman-burglar_george-morehead",
+          "title": "The Extraordinary Adventures of Arsène Lupin, Gentleman-Burglar",
+          "order": 1
+        },
+        {
+          "repo": "maurice-leblanc_arsene-lupin-versus-herlock-sholmes_george-morehead",
+          "title": "Arsène Lupin Versus Herlock Sholmes",
+          "order": 2
+        },
+        {
+          "repo": "maurice-leblanc_the-hollow-needle_alexander-teixeira-de-mattos",
+          "title": "The Hollow Needle",
+          "order": 3
+        },
+        {
+          "repo": "maurice-leblanc_813_alexander-teixeira-de-mattos",
+          "title": "813",
+          "order": 4
+        },
+        {
+          "repo": "maurice-leblanc_the-crystal-stopper_alexander-teixeira-de-mattos",
+          "title": "The Crystal Stopper",
+          "order": 5
+        },
+        {
+          "repo": "maurice-leblanc_the-confessions-of-arsene-lupin_alexander-teixeira-de-mattos",
+          "title": "The Confessions of Arsène Lupin",
+          "order": 6
+        },
+        {
+          "repo": "maurice-leblanc_the-teeth-of-the-tiger_alexander-teixeira-de-mattos",
+          "title": "The Teeth of the Tiger",
+          "order": 7
+        },
+        {
+          "repo": "maurice-leblanc_the-golden-triangle_alexander-teixeira-de-mattos",
+          "title": "The Golden Triangle",
+          "order": 9
+        },
+        {
+          "repo": "maurice-leblanc_the-secret-of-sarek_alexander-teixeira-de-mattos",
+          "title": "The Secret of Sarek",
+          "order": 10
+        },
+        {
+          "repo": "maurice-leblanc_the-eight-strokes-of-the-clock_alexander-teixeira-de-mattos",
+          "title": "The Eight Strokes of the Clock",
+          "order": 11
+        },
+        {
+          "repo": "maurice-leblanc_memoirs-of-arsene-lupin_alexander-teixeira-de-mattos",
+          "title": "Memoirs of Arsène Lupin",
+          "order": 12
+        }
+      ],
+      "totalBooks": 11
+    },
+    {
+      "name": "Sherlock Holmes Series",
+      "slug": "sherlock-holmes-series",
+      "author": "Arthur Conan Doyle",
+      "description": "The complete Sherlock Holmes Series collection by Arthur Conan Doyle",
+      "books": [
+        {
+          "repo": "arthur-conan-doyle_a-study-in-scarlet",
+          "title": "A Study in Scarlet",
+          "order": 1
+        },
+        {
+          "repo": "arthur-conan-doyle_the-sign-of-the-four",
+          "title": "The Sign of the Four",
+          "order": 2
+        },
+        {
+          "repo": "arthur-conan-doyle_the-adventures-of-sherlock-holmes",
+          "title": "The Adventures of Sherlock Holmes",
+          "order": 3
+        },
+        {
+          "repo": "arthur-conan-doyle_the-memoirs-of-sherlock-holmes",
+          "title": "The Memoirs of Sherlock Holmes",
+          "order": 4
+        },
+        {
+          "repo": "arthur-conan-doyle_the-hound-of-the-baskervilles",
+          "title": "The Hound of the Baskervilles",
+          "order": 5
+        },
+        {
+          "repo": "arthur-conan-doyle_the-return-of-sherlock-holmes",
+          "title": "The Return of Sherlock Holmes",
+          "order": 6
+        },
+        {
+          "repo": "arthur-conan-doyle_the-valley-of-fear",
+          "title": "The Valley of Fear",
+          "order": 7
+        },
+        {
+          "repo": "arthur-conan-doyle_his-last-bow",
+          "title": "His Last Bow",
+          "order": 8
+        },
+        {
+          "repo": "arthur-conan-doyle_the-casebook-of-sherlock-holmes",
+          "title": "The Casebook of Sherlock Holmes",
+          "order": 9
+        }
+      ],
+      "totalBooks": 9
+    },
+    {
+      "name": "The Hardy Boys Series",
+      "slug": "the-hardy-boys-series",
+      "author": "Franklin W. Dixon",
+      "description": "The complete The Hardy Boys Series collection by Franklin W. Dixon",
+      "books": [
+        {
+          "repo": "franklin-w-dixon_the-tower-treasure",
+          "title": "The Tower Treasure",
+          "order": 1
+        },
+        {
+          "repo": "franklin-w-dixon_the-house-on-the-cliff",
+          "title": "The House on the Cliff",
+          "order": 2
+        },
+        {
+          "repo": "franklin-w-dixon_the-secret-of-the-old-mill",
+          "title": "The Secret of the Old Mill",
+          "order": 3
+        },
+        {
+          "repo": "franklin-w-dixon_the-missing-chums",
+          "title": "The Missing Chums",
+          "order": 4
+        },
+        {
+          "repo": "franklin-w-dixon_hunting-for-hidden-gold",
+          "title": "Hunting for Hidden Gold",
+          "order": 5
+        },
+        {
+          "repo": "franklin-w-dixon_the-shore-road-mystery",
+          "title": "The Shore Road Mystery",
+          "order": 6
+        },
+        {
+          "repo": "franklin-w-dixon_the-secret-of-the-caves",
+          "title": "The Secret of the Caves",
+          "order": 7
+        },
+        {
+          "repo": "franklin-w-dixon_the-mystery-of-cabin-island",
+          "title": "The Mystery of Cabin Island",
+          "order": 8
+        },
+        {
+          "repo": "franklin-w-dixon_the-great-airport-mystery",
+          "title": "The Great Airport Mystery",
+          "order": 9
+        }
+      ],
+      "totalBooks": 9
+    },
+    {
+      "name": "The Human Comedy: Scenes from Private Life Series",
+      "slug": "the-human-comedy-scenes-from-private-life-series",
+      "author": "Honoré de Balzac",
+      "description": "The complete The Human Comedy: Scenes from Private Life Series collection by Honoré de Balzac",
+      "books": [
+        {
+          "repo": "honore-de-balzac_a-daughter-of-eve_ellen-marriage",
+          "title": "A Daughter of Eve",
+          "order": 99
+        },
+        {
+          "repo": "honore-de-balzac_a-marriage-settlement_clara-bell",
+          "title": "A Marriage Settlement",
+          "order": 99
+        },
+        {
+          "repo": "honore-de-balzac_a-start-in-life_clara-bell",
+          "title": "A Start in Life",
+          "order": 99
+        },
+        {
+          "repo": "honore-de-balzac_a-woman-of-thirty_ellen-marriage",
+          "title": "A Woman of Thirty",
+          "order": 99
+        },
+        {
+          "repo": "honore-de-balzac_albert-savarus_ellen-marriage",
+          "title": "Albert Savarus",
+          "order": 99
+        },
+        {
+          "repo": "honore-de-balzac_beatrix_james-waring",
+          "title": "Béatrix",
+          "order": 99
+        },
+        {
+          "repo": "honore-de-balzac_letters-of-two-brides_r-s-scott",
+          "title": "Letters of Two Brides",
+          "order": 99
+        },
+        {
+          "repo": "honore-de-balzac_modeste-mignon_clara-bell",
+          "title": "Modeste Mignon",
+          "order": 99
+        },
+        {
+          "repo": "honore-de-balzac_shorts-from-scenes-from-private-life_various-translators",
+          "title": "Shorts from Scenes from Private Life",
+          "order": 99
+        }
+      ],
+      "totalBooks": 9
+    },
+    {
+      "name": "Wessex Series",
+      "slug": "wessex-series",
+      "author": "Thomas Hardy",
+      "description": "The complete Wessex Series collection by Thomas Hardy",
+      "books": [
+        {
+          "repo": "thomas-hardy_jude-the-obscure",
+          "title": "Jude the Obscure",
+          "order": 29
+        },
+        {
+          "repo": "thomas-hardy_tess-of-the-durbervilles",
+          "title": "Tess of the d’Urbervilles",
+          "order": 51
+        },
+        {
+          "repo": "thomas-hardy_the-mayor-of-casterbridge",
+          "title": "The Mayor of Casterbridge",
+          "order": 74
+        },
+        {
+          "repo": "thomas-hardy_the-return-of-the-native",
+          "title": "The Return of the Native",
+          "order": 97
+        },
+        {
+          "repo": "thomas-hardy_a-pair-of-blue-eyes",
+          "title": "A Pair of Blue Eyes",
+          "order": 99
+        },
+        {
+          "repo": "thomas-hardy_far-from-the-madding-crowd",
+          "title": "Far from the Madding Crowd",
+          "order": 99
+        },
+        {
+          "repo": "thomas-hardy_short-fiction",
+          "title": "Short Fiction",
+          "order": 99
+        },
+        {
+          "repo": "thomas-hardy_the-woodlanders",
+          "title": "The Woodlanders",
+          "order": 99
+        }
+      ],
+      "totalBooks": 8
+    },
+    {
+      "name": "The Henriad Series",
+      "slug": "the-henriad-series",
+      "author": "William Shakespeare",
+      "description": "The complete The Henriad Series collection by William Shakespeare",
+      "books": [
+        {
+          "repo": "william-shakespeare_richard-ii",
+          "title": "Richard II",
+          "order": 1
+        },
+        {
+          "repo": "william-shakespeare_henry-iv-part-i",
+          "title": "Henry IV, Part I",
+          "order": 2
+        },
+        {
+          "repo": "william-shakespeare_henry-iv-part-ii",
+          "title": "Henry IV, Part II",
+          "order": 3
+        },
+        {
+          "repo": "william-shakespeare_henry-v",
+          "title": "Henry V",
+          "order": 4
+        },
+        {
+          "repo": "william-shakespeare_henry-vi-part-i",
+          "title": "Henry VI, Part I",
+          "order": 5
+        },
+        {
+          "repo": "william-shakespeare_henry-vi-part-ii",
+          "title": "Henry VI, Part II",
+          "order": 6
+        },
+        {
+          "repo": "william-shakespeare_henry-vi-part-iii",
+          "title": "Henry VI, Part III",
+          "order": 7
+        },
+        {
+          "repo": "william-shakespeare_richard-iii",
+          "title": "Richard III",
+          "order": 8
+        }
+      ],
+      "totalBooks": 8
+    },
+    {
+      "name": "Pilgrimage Series",
+      "slug": "pilgrimage-series",
+      "author": "Dorothy M. Richardson",
+      "description": "The complete Pilgrimage Series collection by Dorothy M. Richardson",
+      "books": [
+        {
+          "repo": "dorothy-m-richardson_pointed-roofs",
+          "title": "Pointed Roofs",
+          "order": 1
+        },
+        {
+          "repo": "dorothy-m-richardson_backwater",
+          "title": "Backwater",
+          "order": 2
+        },
+        {
+          "repo": "dorothy-m-richardson_honeycomb",
+          "title": "Honeycomb",
+          "order": 3
+        },
+        {
+          "repo": "dorothy-m-richardson_the-tunnel",
+          "title": "The Tunnel",
+          "order": 4
+        },
+        {
+          "repo": "dorothy-m-richardson_interim",
+          "title": "Interim",
+          "order": 5
+        },
+        {
+          "repo": "dorothy-m-richardson_deadlock",
+          "title": "Deadlock",
+          "order": 6
+        },
+        {
+          "repo": "dorothy-m-richardson_revolving-lights",
+          "title": "Revolving Lights",
+          "order": 7
+        }
+      ],
+      "totalBooks": 7
+    },
+    {
+      "name": "The Human Comedy: Scenes from Provincial Life Series",
+      "slug": "the-human-comedy-scenes-from-provincial-life-series",
+      "author": "Honoré de Balzac",
+      "description": "The complete The Human Comedy: Scenes from Provincial Life Series collection by Honoré de Balzac",
+      "books": [
+        {
+          "repo": "honore-de-balzac_the-celibates_clara-bell",
+          "title": "The Celibates",
+          "order": 12
+        },
+        {
+          "repo": "honore-de-balzac_eugenie-grandet_clara-bell",
+          "title": "Eugénie Grandet",
+          "order": 99
+        },
+        {
+          "repo": "honore-de-balzac_lost-illusions_ellen-marriage",
+          "title": "Lost Illusions",
+          "order": 99
+        },
+        {
+          "repo": "honore-de-balzac_parisians-in-the-country_ellen-marriage",
+          "title": "Parisians in the Country",
+          "order": 99
+        },
+        {
+          "repo": "honore-de-balzac_the-jealousies-of-a-country-town_ellen-marriage",
+          "title": "The Jealousies of a Country Town",
+          "order": 99
+        },
+        {
+          "repo": "honore-de-balzac_the-lily-of-the-valley_james-waring",
+          "title": "The Lily of the Valley",
+          "order": 99
+        },
+        {
+          "repo": "honore-de-balzac_ursule-mirouet_clara-bell",
+          "title": "Ursule Mirouët",
+          "order": 99
+        }
+      ],
+      "totalBooks": 7
+    },
+    {
+      "name": "Biography of the Life of Manuel Series",
+      "slug": "biography-of-the-life-of-manuel-series",
+      "author": "James Branch Cabell",
+      "description": "The complete Biography of the Life of Manuel Series collection by James Branch Cabell",
+      "books": [
+        {
+          "repo": "james-branch-cabell_figures-of-earth",
+          "title": "Figures of Earth",
+          "order": 2
+        },
+        {
+          "repo": "james-branch-cabell_domnei",
+          "title": "Domnei",
+          "order": 4
+        },
+        {
+          "repo": "james-branch-cabell_chivalry",
+          "title": "Chivalry",
+          "order": 5
+        },
+        {
+          "repo": "james-branch-cabell_jurgen",
+          "title": "Jurgen",
+          "order": 6
+        },
+        {
+          "repo": "james-branch-cabell_the-line-of-love",
+          "title": "The Line of Love",
+          "order": 7
+        },
+        {
+          "repo": "james-branch-cabell_the-cords-of-vanity",
+          "title": "The Cords of Vanity",
+          "order": 13
+        },
+        {
+          "repo": "james-branch-cabell_the-cream-of-the-jest",
+          "title": "The Cream of the Jest",
+          "order": 16
+        }
+      ],
+      "totalBooks": 7
+    },
+    {
+      "name": "Poirot Series",
+      "slug": "poirot-series",
+      "author": "Agatha Christie",
+      "description": "The complete Poirot Series collection by Agatha Christie",
+      "books": [
+        {
+          "repo": "agatha-christie_the-mysterious-affair-at-styles",
+          "title": "The Mysterious Affair at Styles",
+          "order": 1
+        },
+        {
+          "repo": "agatha-christie_the-murder-on-the-links",
+          "title": "The Murder on the Links",
+          "order": 2
+        },
+        {
+          "repo": "agatha-christie_poirot-investigates",
+          "title": "Poirot Investigates",
+          "order": 3
+        },
+        {
+          "repo": "agatha-christie_the-murder-of-roger-ackroyd",
+          "title": "The Murder of Roger Ackroyd",
+          "order": 4
+        },
+        {
+          "repo": "agatha-christie_the-big-four",
+          "title": "The Big Four",
+          "order": 5
+        },
+        {
+          "repo": "agatha-christie_the-mystery-of-the-blue-train",
+          "title": "The Mystery of the Blue Train",
+          "order": 6
+        }
+      ],
+      "totalBooks": 6
+    },
+    {
+      "name": "Mr. Gryce Series",
+      "slug": "mr-gryce-series",
+      "author": "Anna Katharine Green",
+      "description": "The complete Mr. Gryce Series collection by Anna Katharine Green",
+      "books": [
+        {
+          "repo": "anna-katharine-green_the-leavenworth-case",
+          "title": "The Leavenworth Case",
+          "order": 1
+        },
+        {
+          "repo": "anna-katharine-green_a-strange-disappearance",
+          "title": "A Strange Disappearance",
+          "order": 2
+        },
+        {
+          "repo": "anna-katharine-green_the-sword-of-damocles",
+          "title": "The Sword of Damocles",
+          "order": 3
+        },
+        {
+          "repo": "anna-katharine-green_hand-and-ring",
+          "title": "Hand and Ring",
+          "order": 4
+        },
+        {
+          "repo": "anna-katharine-green_that-affair-next-door",
+          "title": "That Affair Next Door",
+          "order": 7
+        },
+        {
+          "repo": "anna-katharine-green_lost-mans-lane",
+          "title": "Lost Man’s Lane",
+          "order": 8
+        }
+      ],
+      "totalBooks": 6
+    },
+    {
+      "name": "Chronicles of Barsetshire Series",
+      "slug": "chronicles-of-barsetshire-series",
+      "author": "Anthony Trollope",
+      "description": "The complete Chronicles of Barsetshire Series collection by Anthony Trollope",
+      "books": [
+        {
+          "repo": "anthony-trollope_the-warden",
+          "title": "The Warden",
+          "order": 1
+        },
+        {
+          "repo": "anthony-trollope_barchester-towers",
+          "title": "Barchester Towers",
+          "order": 2
+        },
+        {
+          "repo": "anthony-trollope_doctor-thorne",
+          "title": "Doctor Thorne",
+          "order": 3
+        },
+        {
+          "repo": "anthony-trollope_framley-parsonage",
+          "title": "Framley Parsonage",
+          "order": 4
+        },
+        {
+          "repo": "anthony-trollope_the-small-house-at-allington",
+          "title": "The Small House at Allington",
+          "order": 5
+        },
+        {
+          "repo": "anthony-trollope_the-last-chronicle-of-barset",
+          "title": "The Last Chronicle of Barset",
+          "order": 6
+        }
+      ],
+      "totalBooks": 6
+    },
+    {
+      "name": "Palliser Series",
+      "slug": "palliser-series",
+      "author": "Anthony Trollope",
+      "description": "The complete Palliser Series collection by Anthony Trollope",
+      "books": [
+        {
+          "repo": "anthony-trollope_can-you-forgive-her",
+          "title": "Can You Forgive Her?",
+          "order": 1
+        },
+        {
+          "repo": "anthony-trollope_phineas-finn",
+          "title": "Phineas Finn",
+          "order": 2
+        },
+        {
+          "repo": "anthony-trollope_the-eustace-diamonds",
+          "title": "The Eustace Diamonds",
+          "order": 3
+        },
+        {
+          "repo": "anthony-trollope_phineas-redux",
+          "title": "Phineas Redux",
+          "order": 4
+        },
+        {
+          "repo": "anthony-trollope_the-prime-minister",
+          "title": "The Prime Minister",
+          "order": 5
+        },
+        {
+          "repo": "anthony-trollope_the-dukes-children",
+          "title": "The Duke’s Children",
+          "order": 6
+        }
+      ],
+      "totalBooks": 6
+    },
+    {
+      "name": "Lord Peter Wimsey Series",
+      "slug": "lord-peter-wimsey-series",
+      "author": "Dorothy L. Sayers",
+      "description": "The complete Lord Peter Wimsey Series collection by Dorothy L. Sayers",
+      "books": [
+        {
+          "repo": "dorothy-l-sayers_whose-body",
+          "title": "Whose Body?",
+          "order": 1
+        },
+        {
+          "repo": "dorothy-l-sayers_clouds-of-witness",
+          "title": "Clouds of Witness",
+          "order": 2
+        },
+        {
+          "repo": "dorothy-l-sayers_unnatural-death",
+          "title": "Unnatural Death",
+          "order": 3
+        },
+        {
+          "repo": "dorothy-l-sayers_the-unpleasantness-at-the-bellona-club",
+          "title": "The Unpleasantness at the Bellona Club",
+          "order": 4
+        },
+        {
+          "repo": "dorothy-l-sayers_lord-peter-views-the-body",
+          "title": "Lord Peter Views the Body",
+          "order": 5
+        },
+        {
+          "repo": "dorothy-l-sayers_strong-poison",
+          "title": "Strong Poison",
+          "order": 6
+        }
+      ],
+      "totalBooks": 6
+    },
+    {
+      "name": "Martian Series",
+      "slug": "martian-series",
+      "author": "Edgar Rice Burroughs",
+      "description": "The complete Martian Series collection by Edgar Rice Burroughs",
+      "books": [
+        {
+          "repo": "edgar-rice-burroughs_a-princess-of-mars",
+          "title": "A Princess of Mars",
+          "order": 1
+        },
+        {
+          "repo": "edgar-rice-burroughs_the-gods-of-mars",
+          "title": "The Gods of Mars",
+          "order": 2
+        },
+        {
+          "repo": "edgar-rice-burroughs_the-warlord-of-mars",
+          "title": "The Warlord of Mars",
+          "order": 3
+        },
+        {
+          "repo": "edgar-rice-burroughs_thuvia-maid-of-mars",
+          "title": "Thuvia, Maid of Mars",
+          "order": 4
+        },
+        {
+          "repo": "edgar-rice-burroughs_the-chessmen-of-mars",
+          "title": "The Chessmen of Mars",
+          "order": 5
+        },
+        {
+          "repo": "edgar-rice-burroughs_the-master-mind-of-mars",
+          "title": "The Master Mind of Mars",
+          "order": 6
+        }
+      ],
+      "totalBooks": 6
+    },
+    {
+      "name": "The Four Just Men Series",
+      "slug": "the-four-just-men-series",
+      "author": "Edgar Wallace",
+      "description": "The complete The Four Just Men Series collection by Edgar Wallace",
+      "books": [
+        {
+          "repo": "edgar-wallace_the-four-just-men",
+          "title": "The Four Just Men",
+          "order": 1
+        },
+        {
+          "repo": "edgar-wallace_the-council-of-justice",
+          "title": "The Council of Justice",
+          "order": 2
+        },
+        {
+          "repo": "edgar-wallace_the-just-men-of-cordova",
+          "title": "The Just Men of Cordova",
+          "order": 3
+        },
+        {
+          "repo": "edgar-wallace_the-law-of-the-four-just-men",
+          "title": "The Law of the Four Just Men",
+          "order": 4
+        },
+        {
+          "repo": "edgar-wallace_the-three-just-men",
+          "title": "The Three Just Men",
+          "order": 5
+        }
+      ],
+      "totalBooks": 5
+    },
+    {
+      "name": "Monsieur Lecoq Series",
+      "slug": "monsieur-lecoq-series",
+      "author": "Émile Gaboriau",
+      "description": "The complete Monsieur Lecoq Series collection by Émile Gaboriau",
+      "books": [
+        {
+          "repo": "emile-gaboriau_the-lerouge-case_vizetelly-and-company",
+          "title": "The Lerouge Case",
+          "order": 1
+        },
+        {
+          "repo": "emile-gaboriau_the-mystery-of-orcival_holt-williams",
+          "title": "The Mystery of Orcival",
+          "order": 2
+        },
+        {
+          "repo": "emile-gaboriau_file-no-113_james-r-osgood-co",
+          "title": "File No. 113",
+          "order": 3
+        },
+        {
+          "repo": "emile-gaboriau_the-slaves-of-paris_charles-scribners-sons",
+          "title": "The Slaves of Paris",
+          "order": 4
+        },
+        {
+          "repo": "emile-gaboriau_monsieur-lecoq_laura-e-kendall",
+          "title": "Monsieur Lecoq",
+          "order": 5
+        }
+      ],
+      "totalBooks": 5
+    },
+    {
+      "name": "Inspector French Series",
+      "slug": "inspector-french-series",
+      "author": "Freeman Wills Crofts",
+      "description": "The complete Inspector French Series collection by Freeman Wills Crofts",
+      "books": [
+        {
+          "repo": "freeman-wills-crofts_inspector-frenchs-greatest-case",
+          "title": "Inspector French’s Greatest Case",
+          "order": 1
+        },
+        {
+          "repo": "freeman-wills-crofts_the-cheyne-mystery",
+          "title": "The Cheyne Mystery",
+          "order": 2
+        },
+        {
+          "repo": "freeman-wills-crofts_the-starvel-hollow-tragedy",
+          "title": "The Starvel Hollow Tragedy",
+          "order": 3
+        },
+        {
+          "repo": "freeman-wills-crofts_the-sea-mystery",
+          "title": "The Sea Mystery",
+          "order": 4
+        },
+        {
+          "repo": "freeman-wills-crofts_the-box-office-murders",
+          "title": "The Box Office Murders",
+          "order": 5
+        }
+      ],
+      "totalBooks": 5
+    },
+    {
+      "name": "Oz Series",
+      "slug": "oz-series",
+      "author": "L. Frank Baum",
+      "description": "The complete Oz Series collection by L. Frank Baum",
+      "books": [
+        {
+          "repo": "l-frank-baum_the-wonderful-wizard-of-oz",
+          "title": "The Wonderful Wizard of Oz",
+          "order": 1
+        },
+        {
+          "repo": "l-frank-baum_the-marvelous-land-of-oz",
+          "title": "The Marvelous Land of Oz",
+          "order": 2
+        },
+        {
+          "repo": "l-frank-baum_ozma-of-oz",
+          "title": "Ozma of Oz",
+          "order": 3
+        },
+        {
+          "repo": "l-frank-baum_dorothy-and-the-wizard-in-oz",
+          "title": "Dorothy and the Wizard in Oz",
+          "order": 4
+        },
+        {
+          "repo": "l-frank-baum_the-road-to-oz",
+          "title": "The Road to Oz",
+          "order": 5
+        }
+      ],
+      "totalBooks": 5
+    },
+    {
+      "name": "Chronicles of Carlingford Series",
+      "slug": "chronicles-of-carlingford-series",
+      "author": "Margaret Oliphant",
+      "description": "The complete Chronicles of Carlingford Series collection by Margaret Oliphant",
+      "books": [
+        {
+          "repo": "margaret-oliphant_the-rector-and-the-doctors-family",
+          "title": "The Rector and The Doctor’s Family",
+          "order": 1
+        },
+        {
+          "repo": "margaret-oliphant_salem-chapel",
+          "title": "Salem Chapel",
+          "order": 2
+        },
+        {
+          "repo": "margaret-oliphant_the-perpetual-curate",
+          "title": "The Perpetual Curate",
+          "order": 3
+        },
+        {
+          "repo": "margaret-oliphant_miss-marjoribanks",
+          "title": "Miss Marjoribanks",
+          "order": 4
+        },
+        {
+          "repo": "margaret-oliphant_phoebe-junior",
+          "title": "Phoebe, Junior",
+          "order": 5
+        }
+      ],
+      "totalBooks": 5
+    },
+    {
+      "name": "The D'Artagnan Romances Series",
+      "slug": "d-artagnan-romances-series",
+      "author": "Alexandre Dumas",
+      "description": "The complete Three Musketeers and D'Artagnan saga by Alexandre Dumas",
+      "books": [
+        {
+          "repo": "alexandre-dumas_the-three-musketeers_william-robson",
+          "title": "The Three Musketeers",
+          "order": 1
+        },
+        {
+          "repo": "alexandre-dumas_twenty-years-after_william-robson",
+          "title": "Twenty Years After",
+          "order": 2
+        },
+        {
+          "repo": "alexandre-dumas_twenty-years-after_estes-and-lauriat",
+          "title": "Twenty Years After",
+          "order": 2
+        },
+        {
+          "repo": "alexandre-dumas_the-vicomte-de-bragelonne_george-routledge-and-co",
+          "title": "The Vicomte de Bragelonne",
+          "order": 3
+        }
+      ],
+      "totalBooks": 4
+    },
+    {
+      "name": "Nancy Drew Mystery Stories Series",
+      "slug": "nancy-drew-mystery-stories-series",
+      "author": "Carolyn Keene",
+      "description": "The complete Nancy Drew Mystery Stories Series collection by Carolyn Keene",
+      "books": [
+        {
+          "repo": "carolyn-keene_the-secret-of-the-old-clock",
+          "title": "The Secret of the Old Clock",
+          "order": 1
+        },
+        {
+          "repo": "carolyn-keene_the-hidden-staircase",
+          "title": "The Hidden Staircase",
+          "order": 2
+        },
+        {
+          "repo": "carolyn-keene_the-bungalow-mystery",
+          "title": "The Bungalow Mystery",
+          "order": 3
+        },
+        {
+          "repo": "carolyn-keene_the-mystery-at-lilac-inn",
+          "title": "The Mystery at Lilac Inn",
+          "order": 4
+        }
+      ],
+      "totalBooks": 4
+    },
+    {
+      "name": "Parade’s End Series",
+      "slug": "parade-s-end-series",
+      "author": "Ford Madox Ford",
+      "description": "The complete Parade’s End Series collection by Ford Madox Ford",
+      "books": [
+        {
+          "repo": "ford-madox-ford_some-do-not",
+          "title": "Some Do Not …",
+          "order": 1
+        },
+        {
+          "repo": "ford-madox-ford_no-more-parades",
+          "title": "No More Parades",
+          "order": 2
+        },
+        {
+          "repo": "ford-madox-ford_a-man-could-stand-up",
+          "title": "A Man Could Stand Up—",
+          "order": 3
+        },
+        {
+          "repo": "ford-madox-ford_the-last-post",
+          "title": "The Last Post",
+          "order": 4
+        }
+      ],
+      "totalBooks": 4
+    },
+    {
+      "name": "Father Brown Series",
+      "slug": "father-brown-series",
+      "author": "G. K. Chesterton",
+      "description": "The complete Father Brown Series collection by G. K. Chesterton",
+      "books": [
+        {
+          "repo": "g-k-chesterton_the-innocence-of-father-brown",
+          "title": "The Innocence of Father Brown",
+          "order": 1
+        },
+        {
+          "repo": "g-k-chesterton_the-wisdom-of-father-brown",
+          "title": "The Wisdom of Father Brown",
+          "order": 2
+        },
+        {
+          "repo": "g-k-chesterton_the-incredulity-of-father-brown",
+          "title": "The Incredulity of Father Brown",
+          "order": 3
+        },
+        {
+          "repo": "g-k-chesterton_the-secret-of-father-brown",
+          "title": "The Secret of Father Brown",
+          "order": 4
+        }
+      ],
+      "totalBooks": 4
+    },
+    {
+      "name": "Federation Series",
+      "slug": "federation-series",
+      "author": "H. Beam Piper",
+      "description": "The complete Federation Series collection by H. Beam Piper",
+      "books": [
+        {
+          "repo": "h-beam-piper_uller-uprising",
+          "title": "Uller Uprising",
+          "order": 1
+        },
+        {
+          "repo": "h-beam-piper_four-day-planet",
+          "title": "Four-Day Planet",
+          "order": 2
+        },
+        {
+          "repo": "h-beam-piper_the-cosmic-computer",
+          "title": "The Cosmic Computer",
+          "order": 3
+        },
+        {
+          "repo": "h-beam-piper_space-viking",
+          "title": "Space Viking",
+          "order": 4
+        }
+      ],
+      "totalBooks": 4
+    },
+    {
+      "name": "Allan Quatermain Series",
+      "slug": "allan-quatermain-series",
+      "author": "H. Rider Haggard",
+      "description": "The complete Allan Quatermain Series collection by H. Rider Haggard",
+      "books": [
+        {
+          "repo": "h-rider-haggard_king-solomons-mines",
+          "title": "King Solomon’s Mines",
+          "order": 1
+        },
+        {
+          "repo": "h-rider-haggard_allan-quatermain",
+          "title": "Allan Quatermain",
+          "order": 2
+        },
+        {
+          "repo": "h-rider-haggard_maiwas-revenge",
+          "title": "Maiwa’s Revenge",
+          "order": 3
+        },
+        {
+          "repo": "h-rider-haggard_allan-quatermain-stories",
+          "title": "Allan Quatermain Stories",
+          "order": 99
+        }
+      ],
+      "totalBooks": 4
+    },
+    {
+      "name": "Sir Clinton Driffield Series",
+      "slug": "sir-clinton-driffield-series",
+      "author": "J. J. Connington",
+      "description": "The complete Sir Clinton Driffield Series collection by J. J. Connington",
+      "books": [
+        {
+          "repo": "j-j-connington_murder-in-the-maze",
+          "title": "Murder in the Maze",
+          "order": 1
+        },
+        {
+          "repo": "j-j-connington_tragedy-at-ravensthorpe",
+          "title": "Tragedy at Ravensthorpe",
+          "order": 2
+        },
+        {
+          "repo": "j-j-connington_mystery-at-lynden-sands",
+          "title": "Mystery at Lynden Sands",
+          "order": 3
+        },
+        {
+          "repo": "j-j-connington_the-case-with-nine-solutions",
+          "title": "The Case with Nine Solutions",
+          "order": 4
+        }
+      ],
+      "totalBooks": 4
+    },
+    {
+      "name": "Richard Hannay Series",
+      "slug": "richard-hannay-series",
+      "author": "John Buchan",
+      "description": "The complete Richard Hannay Series collection by John Buchan",
+      "books": [
+        {
+          "repo": "john-buchan_the-thirty-nine-steps",
+          "title": "The Thirty-Nine Steps",
+          "order": 1
+        },
+        {
+          "repo": "john-buchan_greenmantle",
+          "title": "Greenmantle",
+          "order": 2
+        },
+        {
+          "repo": "john-buchan_mr-standfast",
+          "title": "Mr. Standfast",
+          "order": 3
+        },
+        {
+          "repo": "john-buchan_the-three-hostages",
+          "title": "The Three Hostages",
+          "order": 4
+        }
+      ],
+      "totalBooks": 4
+    },
+    {
+      "name": "Psmith Series",
+      "slug": "psmith-series",
+      "author": "P. G. Wodehouse",
+      "description": "The complete Psmith Series collection by P. G. Wodehouse",
+      "books": [
+        {
+          "repo": "p-g-wodehouse_mike",
+          "title": "Mike",
+          "order": 1
+        },
+        {
+          "repo": "p-g-wodehouse_psmith-in-the-city",
+          "title": "Psmith in the City",
+          "order": 2
+        },
+        {
+          "repo": "p-g-wodehouse_psmith-journalist",
+          "title": "Psmith, Journalist",
+          "order": 3
+        },
+        {
+          "repo": "p-g-wodehouse_leave-it-to-psmith",
+          "title": "Leave It to Psmith",
+          "order": 4
+        }
+      ],
+      "totalBooks": 4
+    },
+    {
+      "name": "Doctor Thorndyke Series",
+      "slug": "doctor-thorndyke-series",
+      "author": "R. Austin Freeman",
+      "description": "The complete Doctor Thorndyke Series collection by R. Austin Freeman",
+      "books": [
+        {
+          "repo": "r-austin-freeman_the-red-thumbmark",
+          "title": "The Red Thumbmark",
+          "order": 1
+        },
+        {
+          "repo": "r-austin-freeman_the-eye-of-osiris",
+          "title": "The Eye of Osiris",
+          "order": 2
+        },
+        {
+          "repo": "r-austin-freeman_the-mystery-of-31-new-inn",
+          "title": "The Mystery of 31, New Inn",
+          "order": 3
+        },
+        {
+          "repo": "r-austin-freeman_the-darblay-mystery",
+          "title": "The D’Arblay Mystery",
+          "order": 9
+        }
+      ],
+      "totalBooks": 4
+    },
+    {
+      "name": "Shakespeare’s Second Tetralogy Series",
+      "slug": "shakespeare-s-second-tetralogy-series",
+      "author": "William Shakespeare",
+      "description": "The complete Shakespeare’s Second Tetralogy Series collection by William Shakespeare",
+      "books": [
+        {
+          "repo": "william-shakespeare_richard-ii",
+          "title": "Richard II",
+          "order": 1
+        },
+        {
+          "repo": "william-shakespeare_henry-iv-part-i",
+          "title": "Henry IV, Part I",
+          "order": 2
+        },
+        {
+          "repo": "william-shakespeare_henry-iv-part-ii",
+          "title": "Henry IV, Part II",
+          "order": 3
+        },
+        {
+          "repo": "william-shakespeare_henry-v",
+          "title": "Henry V",
+          "order": 4
+        }
+      ],
+      "totalBooks": 4
+    },
+    {
+      "name": "Shakespeare’s First Tetralogy Series",
+      "slug": "shakespeare-s-first-tetralogy-series",
+      "author": "William Shakespeare",
+      "description": "The complete Shakespeare’s First Tetralogy Series collection by William Shakespeare",
+      "books": [
+        {
+          "repo": "william-shakespeare_henry-vi-part-i",
+          "title": "Henry VI, Part I",
+          "order": 5
+        },
+        {
+          "repo": "william-shakespeare_henry-vi-part-ii",
+          "title": "Henry VI, Part II",
+          "order": 6
+        },
+        {
+          "repo": "william-shakespeare_henry-vi-part-iii",
+          "title": "Henry VI, Part III",
+          "order": 7
+        },
+        {
+          "repo": "william-shakespeare_richard-iii",
+          "title": "Richard III",
+          "order": 8
+        }
+      ],
+      "totalBooks": 4
+    },
+    {
+      "name": "The Oresteia Series",
+      "slug": "the-oresteia-series",
+      "author": "Aeschylus",
+      "description": "The complete The Oresteia Series collection by Aeschylus",
+      "books": [
+        {
+          "repo": "aeschylus_agamemnon_gilbert-murray",
+          "title": "Agamemnon",
+          "order": 1
+        },
+        {
+          "repo": "aeschylus_the-libation-bearers_gilbert-murray",
+          "title": "The Libation Bearers",
+          "order": 2
+        },
+        {
+          "repo": "aeschylus_the-eumenides_gilbert-murray",
+          "title": "The Eumenides",
+          "order": 3
+        }
+      ],
+      "totalBooks": 3
+    },
+    {
+      "name": "Time Traders Series",
+      "slug": "time-traders-series",
+      "author": "Andre Norton",
+      "description": "The complete Time Traders Series collection by Andre Norton",
+      "books": [
+        {
+          "repo": "andre-norton_the-time-traders",
+          "title": "The Time Traders",
+          "order": 1
+        },
+        {
+          "repo": "andre-norton_the-defiant-agents",
+          "title": "The Defiant Agents",
+          "order": 3
+        },
+        {
+          "repo": "andre-norton_key-out-of-time",
+          "title": "Key Out of Time",
+          "order": 4
+        }
+      ],
+      "totalBooks": 3
+    },
+    {
+      "name": "Growth Trilogy Series",
+      "slug": "growth-trilogy-series",
+      "author": "Booth Tarkington",
+      "description": "The complete Growth Trilogy Series collection by Booth Tarkington",
+      "books": [
+        {
+          "repo": "booth-tarkington_the-turmoil",
+          "title": "The Turmoil",
+          "order": 1
+        },
+        {
+          "repo": "booth-tarkington_the-magnificent-ambersons",
+          "title": "The Magnificent Ambersons",
+          "order": 2
+        },
+        {
+          "repo": "booth-tarkington_national-avenue",
+          "title": "National Avenue",
+          "order": 3
+        }
+      ],
+      "totalBooks": 3
+    },
+    {
+      "name": "Continental Op Series",
+      "slug": "continental-op-series",
+      "author": "Dashiell Hammett",
+      "description": "The complete Continental Op Series collection by Dashiell Hammett",
+      "books": [
+        {
+          "repo": "dashiell-hammett_red-harvest",
+          "title": "Red Harvest",
+          "order": 94
+        },
+        {
+          "repo": "dashiell-hammett_continental-op-stories",
+          "title": "Continental Op Stories",
+          "order": 99
+        },
+        {
+          "repo": "dashiell-hammett_the-dain-curse",
+          "title": "The Dain Curse",
+          "order": 99
+        }
+      ],
+      "totalBooks": 3
+    },
+    {
+      "name": "Hawthornden Prize Winners Series",
+      "slug": "hawthornden-prize-winners-series",
+      "author": "David Garnett",
+      "description": "The complete Hawthornden Prize Winners Series collection by David Garnett",
+      "books": [
+        {
+          "repo": "siegfried-sassoon_memoirs-of-a-foxhunting-man",
+          "title": "Memoirs of a Foxhunting Man",
+          "order": 1
+        },
+        {
+          "repo": "david-garnett_lady-into-fox",
+          "title": "Lady Into Fox",
+          "order": 4
+        },
+        {
+          "repo": "geoffrey-dennis_the-end-of-the-world",
+          "title": "The End of the World",
+          "order": 12
+        }
+      ],
+      "totalBooks": 3
+    },
+    {
+      "name": "Psammead Trilogy Series",
+      "slug": "psammead-trilogy-series",
+      "author": "E. Nesbit",
+      "description": "The complete Psammead Trilogy Series collection by E. Nesbit",
+      "books": [
+        {
+          "repo": "e-nesbit_five-children-and-it",
+          "title": "Five Children and It",
+          "order": 1
+        },
+        {
+          "repo": "e-nesbit_the-phoenix-and-the-carpet",
+          "title": "The Phoenix and the Carpet",
+          "order": 2
+        },
+        {
+          "repo": "e-nesbit_the-story-of-the-amulet",
+          "title": "The Story of the Amulet",
+          "order": 3
+        }
+      ],
+      "totalBooks": 3
+    },
+    {
+      "name": "A. J. Raffles Series",
+      "slug": "a-j-raffles-series",
+      "author": "E. W. Hornung",
+      "description": "The complete A. J. Raffles Series collection by E. W. Hornung",
+      "books": [
+        {
+          "repo": "e-w-hornung_the-amateur-cracksman",
+          "title": "The Amateur Cracksman",
+          "order": 1
+        },
+        {
+          "repo": "e-w-hornung_the-black-mask",
+          "title": "The Black Mask",
+          "order": 2
+        },
+        {
+          "repo": "e-w-hornung_a-thief-in-the-night",
+          "title": "A Thief in the Night",
+          "order": 3
+        }
+      ],
+      "totalBooks": 3
+    },
+    {
+      "name": "Charlie Chan Series",
+      "slug": "charlie-chan-series",
+      "author": "Earl Derr Biggers",
+      "description": "The complete Charlie Chan Series collection by Earl Derr Biggers",
+      "books": [
+        {
+          "repo": "earl-derr-biggers_the-house-without-a-key",
+          "title": "The House Without a Key",
+          "order": 1
+        },
+        {
+          "repo": "earl-derr-biggers_the-chinese-parrot",
+          "title": "The Chinese Parrot",
+          "order": 2
+        },
+        {
+          "repo": "earl-derr-biggers_behind-that-curtain",
+          "title": "Behind That Curtain",
+          "order": 3
+        }
+      ],
+      "totalBooks": 3
+    },
+    {
+      "name": "J. G. Reeder Series",
+      "slug": "j-g-reeder-series",
+      "author": "Edgar Wallace",
+      "description": "The complete J. G. Reeder Series collection by Edgar Wallace",
+      "books": [
+        {
+          "repo": "edgar-wallace_room-13",
+          "title": "Room 13",
+          "order": 1
+        },
+        {
+          "repo": "edgar-wallace_the-mind-of-mr-j-g-reeder",
+          "title": "The Mind of Mr. J. G. Reeder",
+          "order": 2
+        },
+        {
+          "repo": "edgar-wallace_terror-keep",
+          "title": "Terror Keep",
+          "order": 3
+        }
+      ],
+      "totalBooks": 3
+    },
+    {
+      "name": "The Fifth Queen Series",
+      "slug": "the-fifth-queen-series",
+      "author": "Ford Madox Ford",
+      "description": "The complete The Fifth Queen Series collection by Ford Madox Ford",
+      "books": [
+        {
+          "repo": "ford-madox-ford_the-fifth-queen",
+          "title": "The Fifth Queen",
+          "order": 1
+        },
+        {
+          "repo": "ford-madox-ford_privy-seal",
+          "title": "Privy Seal",
+          "order": 2
+        },
+        {
+          "repo": "ford-madox-ford_the-fifth-queen-crowned",
+          "title": "The Fifth Queen Crowned",
+          "order": 3
+        }
+      ],
+      "totalBooks": 3
+    },
+    {
+      "name": "Bulldog Drummond Series",
+      "slug": "bulldog-drummond-series",
+      "author": "H. C. McNeile",
+      "description": "The complete Bulldog Drummond Series collection by H. C. McNeile",
+      "books": [
+        {
+          "repo": "h-c-mcneile_bulldog-drummond",
+          "title": "Bulldog Drummond",
+          "order": 1
+        },
+        {
+          "repo": "h-c-mcneile_the-black-gang",
+          "title": "The Black Gang",
+          "order": 2
+        },
+        {
+          "repo": "h-c-mcneile_the-third-round",
+          "title": "The Third Round",
+          "order": 3
+        }
+      ],
+      "totalBooks": 3
+    },
+    {
+      "name": "The Trilogy Series",
+      "slug": "the-trilogy-series",
+      "author": "Henryk Sienkiewicz",
+      "description": "The complete The Trilogy Series collection by Henryk Sienkiewicz",
+      "books": [
+        {
+          "repo": "henryk-sienkiewicz_with-fire-and-sword_jeremiah-curtin",
+          "title": "With Fire and Sword",
+          "order": 1
+        },
+        {
+          "repo": "henryk-sienkiewicz_the-deluge_jeremiah-curtin",
+          "title": "The Deluge",
+          "order": 2
+        },
+        {
+          "repo": "henryk-sienkiewicz_pan-michael_jeremiah-curtin",
+          "title": "Pan Michael",
+          "order": 3
+        }
+      ],
+      "totalBooks": 3
+    },
+    {
+      "name": "Arcot, Morey, and Wade Series",
+      "slug": "arcot-morey-and-wade-series",
+      "author": "John W. Campbell",
+      "description": "The complete Arcot, Morey, and Wade Series collection by John W. Campbell",
+      "books": [
+        {
+          "repo": "john-w-campbell_the-black-star-passes",
+          "title": "The Black Star Passes",
+          "order": 1
+        },
+        {
+          "repo": "john-w-campbell_islands-of-space",
+          "title": "Islands of Space",
+          "order": 2
+        },
+        {
+          "repo": "john-w-campbell_invaders-from-the-infinite",
+          "title": "Invaders from the Infinite",
+          "order": 3
+        }
+      ],
+      "totalBooks": 3
+    },
+    {
+      "name": "Lingard Trilogy Series",
+      "slug": "lingard-trilogy-series",
+      "author": "Joseph Conrad",
+      "description": "The complete Lingard Trilogy Series collection by Joseph Conrad",
+      "books": [
+        {
+          "repo": "joseph-conrad_almayers-folly",
+          "title": "Almayer’s Folly",
+          "order": 1
+        },
+        {
+          "repo": "joseph-conrad_an-outcast-of-the-islands",
+          "title": "An Outcast of the Islands",
+          "order": 2
+        },
+        {
+          "repo": "joseph-conrad_the-rescue",
+          "title": "The Rescue",
+          "order": 3
+        }
+      ],
+      "totalBooks": 3
+    },
+    {
+      "name": "Anne of Green Gables Series",
+      "slug": "anne-of-green-gables-series",
+      "author": "L. M. Montgomery",
+      "description": "The complete Anne of Green Gables Series collection by L. M. Montgomery",
+      "books": [
+        {
+          "repo": "l-m-montgomery_anne-of-green-gables",
+          "title": "Anne of Green Gables",
+          "order": 1
+        },
+        {
+          "repo": "l-m-montgomery_anne-of-avonlea",
+          "title": "Anne of Avonlea",
+          "order": 2
+        },
+        {
+          "repo": "l-m-montgomery_anne-of-the-island",
+          "title": "Anne of the Island",
+          "order": 3
+        }
+      ],
+      "totalBooks": 3
+    },
+    {
+      "name": "Philo Vance Series",
+      "slug": "philo-vance-series",
+      "author": "S. S. Van Dine",
+      "description": "The complete Philo Vance Series collection by S. S. Van Dine",
+      "books": [
+        {
+          "repo": "s-s-van-dine_the-benson-murder-case",
+          "title": "The Benson Murder Case",
+          "order": 1
+        },
+        {
+          "repo": "s-s-van-dine_the-canary-murder-case",
+          "title": "The Canary Murder Case",
+          "order": 2
+        },
+        {
+          "repo": "s-s-van-dine_the-greene-murder-case",
+          "title": "The Greene Murder Case",
+          "order": 3
+        }
+      ],
+      "totalBooks": 3
+    },
+    {
+      "name": "The Theban Plays Series",
+      "slug": "the-theban-plays-series",
+      "author": "Sophocles",
+      "description": "The complete The Theban Plays Series collection by Sophocles",
+      "books": [
+        {
+          "repo": "sophocles_oedipus-rex_francis-storr",
+          "title": "Oedipus Rex",
+          "order": 1
+        },
+        {
+          "repo": "sophocles_oedipus-at-colonus_francis-storr",
+          "title": "Oedipus at Colonus",
+          "order": 2
+        },
+        {
+          "repo": "sophocles_antigone_francis-storr",
+          "title": "Antigone",
+          "order": 3
+        }
+      ],
+      "totalBooks": 3
+    },
+    {
+      "name": "Prairie Trilogy Series",
+      "slug": "prairie-trilogy-series",
+      "author": "Willa Cather",
+      "description": "The complete Prairie Trilogy Series collection by Willa Cather",
+      "books": [
+        {
+          "repo": "willa-cather_o-pioneers",
+          "title": "O Pioneers!",
+          "order": 1
+        },
+        {
+          "repo": "willa-cather_the-song-of-the-lark",
+          "title": "The Song of the Lark",
+          "order": 2
+        },
+        {
+          "repo": "willa-cather_my-antonia",
+          "title": "My Ántonia",
+          "order": 3
+        }
+      ],
+      "totalBooks": 3
+    },
+    {
+      "name": "Alice Series",
+      "slug": "alice-series",
+      "author": "Lewis Carroll",
+      "description": "The complete Alice's Adventures in Wonderland and Through the Looking-Glass saga by Lewis Carroll",
+      "books": [
+        {
+          "repo": "lewis-carroll_alices-adventures-in-wonderland_john-tenniel",
+          "title": "Alice’s Adventures in Wonderland",
+          "order": 1
+        },
+        {
+          "repo": "lewis-carroll_through-the-looking-glass_john-tenniel",
+          "title": "Through the Looking-Glass",
+          "order": 2
+        }
+      ],
+      "totalBooks": 2
+    },
+    {
+      "name": "Doctor Dolittle Series",
+      "slug": "doctor-dolittle-series",
+      "author": "Hugh Lofting",
+      "description": "The complete Doctor Dolittle animal adventures collection by Hugh Lofting",
+      "books": [
+        {
+          "repo": "hugh-lofting_the-story-of-doctor-dolittle",
+          "title": "The Story of Doctor Dolittle",
+          "order": 1
+        },
+        {
+          "repo": "hugh-lofting_the-voyages-of-doctor-dolittle",
+          "title": "The Voyages of Doctor Dolittle",
+          "order": 2
+        }
+      ],
+      "totalBooks": 2
+    },
+    {
+      "name": "Peter Pan Series",
+      "slug": "peter-pan-series",
+      "author": "J. M. Barrie",
+      "description": "The complete Peter Pan and Neverland saga by J. M. Barrie",
+      "books": [
+        {
+          "repo": "j-m-barrie_the-little-white-bird",
+          "title": "The Little White Bird",
+          "order": 1
+        },
+        {
+          "repo": "j-m-barrie_peter-and-wendy",
+          "title": "Peter and Wendy",
+          "order": 2
+        }
+      ],
+      "totalBooks": 2
+    },
+    {
+      "name": "Winnie-the-Pooh Series",
+      "slug": "winnie-the-pooh-series",
+      "author": "A. A. Milne",
+      "description": "The complete Winnie-the-Pooh Series collection by A. A. Milne",
+      "books": [
+        {
+          "repo": "a-a-milne_winnie-the-pooh",
+          "title": "Winnie-the-Pooh",
+          "order": 2
+        },
+        {
+          "repo": "a-a-milne_the-house-at-pooh-corner",
+          "title": "The House at Pooh Corner",
+          "order": 4
+        }
+      ],
+      "totalBooks": 2
+    },
+    {
+      "name": "Tommy and Tuppence Series",
+      "slug": "tommy-and-tuppence-series",
+      "author": "Agatha Christie",
+      "description": "The complete Tommy and Tuppence Series collection by Agatha Christie",
+      "books": [
+        {
+          "repo": "agatha-christie_the-secret-adversary",
+          "title": "The Secret Adversary",
+          "order": 1
+        },
+        {
+          "repo": "agatha-christie_partners-in-crime",
+          "title": "Partners in Crime",
+          "order": 2
+        }
+      ],
+      "totalBooks": 2
+    },
+    {
+      "name": "Superintendent Battle Series",
+      "slug": "superintendent-battle-series",
+      "author": "Agatha Christie",
+      "description": "The complete Superintendent Battle Series collection by Agatha Christie",
+      "books": [
+        {
+          "repo": "agatha-christie_the-secret-of-chimneys",
+          "title": "The Secret of Chimneys",
+          "order": 1
+        },
+        {
+          "repo": "agatha-christie_the-seven-dials-mystery",
+          "title": "The Seven Dials Mystery",
+          "order": 2
+        }
+      ],
+      "totalBooks": 2
+    },
+    {
+      "name": "Solar Queen Series",
+      "slug": "solar-queen-series",
+      "author": "Andre Norton",
+      "description": "The complete Solar Queen Series collection by Andre Norton",
+      "books": [
+        {
+          "repo": "andre-norton_plague-ship",
+          "title": "Plague Ship",
+          "order": 2
+        },
+        {
+          "repo": "andre-norton_voodoo-planet",
+          "title": "Voodoo Planet",
+          "order": 3
+        }
+      ],
+      "totalBooks": 2
+    },
+    {
+      "name": "Amelia Butterworth Series",
+      "slug": "amelia-butterworth-series",
+      "author": "Anna Katharine Green",
+      "description": "The complete Amelia Butterworth Series collection by Anna Katharine Green",
+      "books": [
+        {
+          "repo": "anna-katharine-green_that-affair-next-door",
+          "title": "That Affair Next Door",
+          "order": 7
+        },
+        {
+          "repo": "anna-katharine-green_lost-mans-lane",
+          "title": "Lost Man’s Lane",
+          "order": 8
+        }
+      ],
+      "totalBooks": 2
+    },
+    {
+      "name": "Harper Novel Prize Winners Series",
+      "slug": "harper-novel-prize-winners-series",
+      "author": "Anne Parrish",
+      "description": "The complete Harper Novel Prize Winners Series collection by Anne Parrish",
+      "books": [
+        {
+          "repo": "anne-parrish_the-perennial-bachelor",
+          "title": "The Perennial Bachelor",
+          "order": 2
+        },
+        {
+          "repo": "margaret-wilson_the-able-mclaughlins",
+          "title": "The Able McLaughlins",
+          "order": 6
+        }
+      ],
+      "totalBooks": 2
+    },
+    {
+      "name": "Roger Sheringham Series",
+      "slug": "roger-sheringham-series",
+      "author": "Anthony Berkeley",
+      "description": "The complete Roger Sheringham Series collection by Anthony Berkeley",
+      "books": [
+        {
+          "repo": "anthony-berkeley_the-layton-court-mystery",
+          "title": "The Layton Court Mystery",
+          "order": 1
+        },
+        {
+          "repo": "anthony-berkeley_the-poisoned-chocolates-case",
+          "title": "The Poisoned Chocolates Case",
+          "order": 5
+        }
+      ],
+      "totalBooks": 2
+    },
+    {
+      "name": "National Episodes of Spain Series",
+      "slug": "national-episodes-of-spain-series",
+      "author": "Benito Pérez Galdós",
+      "description": "The complete National Episodes of Spain Series collection by Benito Pérez Galdós",
+      "books": [
+        {
+          "repo": "benito-perez-galdos_trafalgar_clara-bell",
+          "title": "Trafalgar",
+          "order": 1
+        },
+        {
+          "repo": "benito-perez-galdos_saragossa_minna-caroline-smith",
+          "title": "Saragossa",
+          "order": 6
+        }
+      ],
+      "totalBooks": 2
+    },
+    {
+      "name": "Utopian Trilogy Series",
+      "slug": "utopian-trilogy-series",
+      "author": "Charlotte Perkins Gilman",
+      "description": "The complete Utopian Trilogy Series collection by Charlotte Perkins Gilman",
+      "books": [
+        {
+          "repo": "charlotte-perkins-gilman_moving-the-mountain",
+          "title": "Moving the Mountain",
+          "order": 1
+        },
+        {
+          "repo": "charlotte-perkins-gilman_herland",
+          "title": "Herland",
+          "order": 2
+        }
+      ],
+      "totalBooks": 2
+    },
+    {
+      "name": "The Brangwen Family Saga",
+      "slug": "the-brangwen-family-saga",
+      "author": "D. H. Lawrence",
+      "description": "The complete The Brangwen Family Saga collection by D. H. Lawrence",
+      "books": [
+        {
+          "repo": "d-h-lawrence_the-rainbow",
+          "title": "The Rainbow",
+          "order": 1
+        },
+        {
+          "repo": "d-h-lawrence_women-in-love",
+          "title": "Women in Love",
+          "order": 2
+        }
+      ],
+      "totalBooks": 2
+    },
+    {
+      "name": "Richard Chandos Series",
+      "slug": "richard-chandos-series",
+      "author": "Dornford Yates",
+      "description": "The complete Richard Chandos Series collection by Dornford Yates",
+      "books": [
+        {
+          "repo": "dornford-yates_blind-corner",
+          "title": "Blind Corner",
+          "order": 1
+        },
+        {
+          "repo": "dornford-yates_perishable-goods",
+          "title": "Perishable Goods",
+          "order": 2
+        }
+      ],
+      "totalBooks": 2
+    },
+    {
+      "name": "Lensman Series",
+      "slug": "lensman-series",
+      "author": "E. E. Smith",
+      "description": "The complete Lensman Series collection by E. E. Smith",
+      "books": [
+        {
+          "repo": "e-e-smith_triplanetary",
+          "title": "Triplanetary",
+          "order": 1
+        },
+        {
+          "repo": "e-e-smith_first-lensman",
+          "title": "First Lensman",
+          "order": 2
+        }
+      ],
+      "totalBooks": 2
+    },
+    {
+      "name": "House of Arden Series",
+      "slug": "house-of-arden-series",
+      "author": "E. Nesbit",
+      "description": "The complete House of Arden Series collection by E. Nesbit",
+      "books": [
+        {
+          "repo": "e-nesbit_the-house-of-arden",
+          "title": "The House of Arden",
+          "order": 1
+        },
+        {
+          "repo": "e-nesbit_hardings-luck",
+          "title": "Harding’s Luck",
+          "order": 2
+        }
+      ],
+      "totalBooks": 2
+    },
+    {
+      "name": "Pellucidar Series",
+      "slug": "pellucidar-series",
+      "author": "Edgar Rice Burroughs",
+      "description": "The complete Pellucidar Series collection by Edgar Rice Burroughs",
+      "books": [
+        {
+          "repo": "edgar-rice-burroughs_at-the-earths-core",
+          "title": "At the Earth’s Core",
+          "order": 1
+        },
+        {
+          "repo": "edgar-rice-burroughs_pellucidar",
+          "title": "Pellucidar",
+          "order": 2
+        }
+      ],
+      "totalBooks": 2
+    },
+    {
+      "name": "Glad Books Series",
+      "slug": "glad-books-series",
+      "author": "Eleanor H. Porter",
+      "description": "The complete Glad Books Series collection by Eleanor H. Porter",
+      "books": [
+        {
+          "repo": "eleanor-h-porter_pollyanna",
+          "title": "Pollyanna",
+          "order": 1
+        },
+        {
+          "repo": "eleanor-h-porter_pollyanna-grows-up",
+          "title": "Pollyanna Grows Up",
+          "order": 2
+        }
+      ],
+      "totalBooks": 2
+    },
+    {
+      "name": "Rougon-Macquart Series",
+      "slug": "rougon-macquart-series",
+      "author": "Émile Zola",
+      "description": "The complete Rougon-Macquart Series collection by Émile Zola",
+      "books": [
+        {
+          "repo": "emile-zola_germinal_havelock-ellis",
+          "title": "Germinal",
+          "order": 13
+        },
+        {
+          "repo": "emile-zola_his-masterpiece_ernest-alfred-vizetelly",
+          "title": "His Masterpiece",
+          "order": 14
+        }
+      ],
+      "totalBooks": 2
+    },
+    {
+      "name": "The Epic of the Wheat Series",
+      "slug": "the-epic-of-the-wheat-series",
+      "author": "Frank Norris",
+      "description": "The complete The Epic of the Wheat Series collection by Frank Norris",
+      "books": [
+        {
+          "repo": "frank-norris_the-octopus",
+          "title": "The Octopus",
+          "order": 1
+        },
+        {
+          "repo": "frank-norris_the-pit",
+          "title": "The Pit",
+          "order": 2
+        }
+      ],
+      "totalBooks": 2
+    },
+    {
+      "name": "Curdie Series",
+      "slug": "curdie-series",
+      "author": "George MacDonald",
+      "description": "The complete Curdie Series collection by George MacDonald",
+      "books": [
+        {
+          "repo": "george-macdonald_the-princess-and-the-goblin",
+          "title": "The Princess and the Goblin",
+          "order": 1
+        },
+        {
+          "repo": "george-macdonald_the-princess-and-curdie",
+          "title": "The Princess and Curdie",
+          "order": 2
+        }
+      ],
+      "totalBooks": 2
+    },
+    {
+      "name": "Beauvallet Dynasty Series",
+      "slug": "beauvallet-dynasty-series",
+      "author": "Georgette Heyer",
+      "description": "The complete Beauvallet Dynasty Series collection by Georgette Heyer",
+      "books": [
+        {
+          "repo": "georgette-heyer_simon-the-coldheart",
+          "title": "Simon the Coldheart",
+          "order": 1
+        },
+        {
+          "repo": "georgette-heyer_beauvallet",
+          "title": "Beauvallet",
+          "order": 2
+        }
+      ],
+      "totalBooks": 2
+    },
+    {
+      "name": "Newbery Medal Winners Series",
+      "slug": "newbery-medal-winners-series",
+      "author": "Hugh Lofting",
+      "description": "The complete Newbery Medal Winners Series collection by Hugh Lofting",
+      "books": [
+        {
+          "repo": "hugh-lofting_the-voyages-of-doctor-dolittle",
+          "title": "The Voyages of Doctor Dolittle",
+          "order": 2
+        },
+        {
+          "repo": "will-james_smoky-the-cowhorse",
+          "title": "Smoky the Cowhorse",
+          "order": 6
+        }
+      ],
+      "totalBooks": 2
+    },
+    {
+      "name": "Prince Apafi Series",
+      "slug": "prince-apafi-series",
+      "author": "Mór Jókai",
+      "description": "The complete Prince Apafi Series collection by Mór Jókai",
+      "books": [
+        {
+          "repo": "mor-jokai_midst-the-wild-carpathians_robert-nisbet-bain",
+          "title": "’Midst the Wild Carpathians",
+          "order": 1
+        },
+        {
+          "repo": "mor-jokai_the-slaves-of-the-padishah_robert-nisbet-bain",
+          "title": "The Slaves of the Padishah",
+          "order": 2
+        }
+      ],
+      "totalBooks": 2
+    },
+    {
+      "name": "Miles Bredon Series",
+      "slug": "miles-bredon-series",
+      "author": "Ronald A. Knox",
+      "description": "The complete Miles Bredon Series collection by Ronald A. Knox",
+      "books": [
+        {
+          "repo": "ronald-a-knox_the-three-taps",
+          "title": "The Three Taps",
+          "order": 1
+        },
+        {
+          "repo": "ronald-a-knox_the-footsteps-at-the-lock",
+          "title": "The Footsteps at the Lock",
+          "order": 2
+        }
+      ],
+      "totalBooks": 2
+    },
+    {
+      "name": "Erewhon Series",
+      "slug": "erewhon-series",
+      "author": "Samuel Butler",
+      "description": "The complete Erewhon Series collection by Samuel Butler",
+      "books": [
+        {
+          "repo": "samuel-butler_erewhon",
+          "title": "Erewhon",
+          "order": 1
+        },
+        {
+          "repo": "samuel-butler_erewhon-revisited",
+          "title": "Erewhon Revisited",
+          "order": 2
+        }
+      ],
+      "totalBooks": 2
+    },
+    {
+      "name": "Memoirs of George Sherston Series",
+      "slug": "memoirs-of-george-sherston-series",
+      "author": "Siegfried Sassoon",
+      "description": "The complete Memoirs of George Sherston Series collection by Siegfried Sassoon",
+      "books": [
+        {
+          "repo": "siegfried-sassoon_memoirs-of-a-foxhunting-man",
+          "title": "Memoirs of a Foxhunting Man",
+          "order": 1
+        },
+        {
+          "repo": "siegfried-sassoon_memoirs-of-an-infantry-officer",
+          "title": "Memoirs of an Infantry Officer",
+          "order": 2
+        }
+      ],
+      "totalBooks": 2
+    },
+    {
+      "name": "Trilogy of Desire Series",
+      "slug": "trilogy-of-desire-series",
+      "author": "Theodore Dreiser",
+      "description": "The complete Trilogy of Desire Series collection by Theodore Dreiser",
+      "books": [
+        {
+          "repo": "theodore-dreiser_the-financier",
+          "title": "The Financier",
+          "order": 1
+        },
+        {
+          "repo": "theodore-dreiser_the-titan",
+          "title": "The Titan",
+          "order": 2
+        }
+      ],
+      "totalBooks": 2
+    },
+    {
+      "name": "Waverley Series",
+      "slug": "waverley-series",
+      "author": "Walter Scott",
+      "description": "The complete Waverley Series collection by Walter Scott",
+      "books": [
+        {
+          "repo": "walter-scott_waverley",
+          "title": "Waverley",
+          "order": 1
+        },
+        {
+          "repo": "walter-scott_ivanhoe",
+          "title": "Ivanhoe",
+          "order": 10
+        }
+      ],
+      "totalBooks": 2
+    },
+    {
+      "name": "Wolfings Series",
+      "slug": "wolfings-series",
+      "author": "William Morris",
+      "description": "The complete Wolfings Series collection by William Morris",
+      "books": [
+        {
+          "repo": "william-morris_the-house-of-the-wolfings",
+          "title": "The House of the Wolfings",
+          "order": 1
+        },
+        {
+          "repo": "william-morris_the-roots-of-the-mountains",
+          "title": "The Roots of the Mountains",
+          "order": 2
+        }
+      ],
+      "totalBooks": 2
+    }
+  ]
+}

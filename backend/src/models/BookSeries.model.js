@@ -6,6 +6,10 @@ const bookSeriesSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.Mixed,
       required: true,
     },
+    name: {
+      type: String,
+      trim: true,
+    },
     slug: {
       type: String,
       required: true,

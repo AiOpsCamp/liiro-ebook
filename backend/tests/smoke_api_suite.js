@@ -87,9 +87,9 @@ for (const t of tests) {
 
     let cmd = "";
     if (t.method === "GET") {
-      cmd = `curl -s -i ${headerArgs} "${t.url}"`;
+      cmd = `curl -s -i --max-time 20 ${headerArgs} "${t.url}"`;
     } else {
-      cmd = `curl -s -i -X POST -H "Content-Type: application/json" ${headerArgs} -d '${JSON.stringify(t.body || {})}' "${t.url}"`;
+      cmd = `curl -s -i --max-time 20 -X POST -H "Content-Type: application/json" ${headerArgs} -d '${JSON.stringify(t.body || {})}' "${t.url}"`;
     }
 
     const output = execSync(cmd, { maxBuffer: 10 * 1024 * 1024 }).toString();

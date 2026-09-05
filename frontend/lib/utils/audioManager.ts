@@ -106,6 +106,24 @@ export class AudioManager {
     return `${backendHost.replace(/\/$/, "")}/${rawStr.replace(/^\//, "")}`;
   }
 
+  async playAudioSequence(uris: string[], onFinish?: () => void): Promise<boolean> {
+    const validUris = (uris || []).filter(u => u && u.trim() !== "");
+    if (validUris.length === 0) return false;
+    if (validUris.length === 1) return this.playAudio(validUris[0], onFinish);
+
+    const playStep = async (index: number): Promise<boolean> => {
+      if (index >= validUris.length) {
+        onFinish?.();
+        return true;
+      }
+      return this.playAudio(validUris[index], () => {
+        playStep(index + 1);
+      });
+    };
+
+    return playStep(0);
+  }
+
   async playAudio(uri: string, onFinish?: () => void, seekPosition = 0): Promise<boolean> {
     try {
       if (!uri) {
@@ -138,6 +156,9 @@ export class AudioManager {
         };
 
         try {
+          if (seekPosition > 0) {
+            try { this.webAudioEl.currentTime = seekPosition; } catch {}
+          }
           await this.webAudioEl.play();
           if (seekPosition > 0) {
             try { this.webAudioEl.currentTime = seekPosition; } catch {}
@@ -162,6 +183,9 @@ export class AudioManager {
               resolved = true;
               cleanupListeners();
               try {
+                if (seekPosition > 0) {
+                  try { this.webAudioEl.currentTime = seekPosition; } catch {}
+                }
                 await this.webAudioEl.play();
                 if (seekPosition > 0) {
                   try { this.webAudioEl.currentTime = seekPosition; } catch {}
@@ -286,15 +310,23 @@ export class AudioManager {
   }
 
   async seekTo(seconds: number): Promise<void> {
+    const safeSec = Math.max(0, seconds);
+    this.lastKnownPosition = safeSec;
     try {
       if (this.webAudioEl) {
-        this.webAudioEl.currentTime = seconds;
+        this.webAudioEl.currentTime = safeSec;
       }
       if (this.player) {
-        await this.player.seekTo?.(seconds);
+        await this.player.seekTo?.(safeSec);
       }
-      this.lastKnownPosition = seconds;
-    } catch {}
+      this.statusListeners.forEach((listener) => {
+        try {
+          listener({ position: safeSec, duration: this.lastKnownDuration });
+        } catch {}
+      });
+    } catch (e) {
+      console.warn("AudioManager seek error:", e);
+    }
   }
 
   setRate(rate: number): void {

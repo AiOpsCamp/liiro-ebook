@@ -39,4 +39,4 @@ ebookTagSchema.virtual("books", {
   justOne: false,
 });
 
-module.exports = mongoose.models.EbookTag || mongoose.model("EbookTag", ebookTagSchema);
+module.exports = mongoose.models.EbookTag || mongoose.model("EbookTag", ebookTagSchema, "tags");

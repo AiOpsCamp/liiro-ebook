@@ -26,10 +26,11 @@ const connectionOptions = {
 };
 
 function createRedisConnection() {
-  if (process.env.REDIS_URL) {
-    return new Redis(process.env.REDIS_URL, { maxRetriesPerRequest: null });
-  }
-  return new Redis(connectionOptions);
+  const client = process.env.REDIS_URL
+    ? new Redis(process.env.REDIS_URL, { maxRetriesPerRequest: null, lazyConnect: true, enableOfflineQueue: false })
+    : new Redis({ ...connectionOptions, lazyConnect: true, enableOfflineQueue: false });
+  client.on("error", () => {});
+  return client;
 }
 
 module.exports = {

@@ -22,7 +22,33 @@ const s3Client = new S3Client({
   },
 });
 
+const LOCAL_CONTENTS_DIR = path.join(__dirname, "..", "..", "ebook-contents");
+const GUTENBERG_DIR = path.join(__dirname, "..", "..", "gutenberg");
+
+function urlToLocalPath(url) {
+  const match = url.match(/standardebooks\/([^\/]+)\/master\/src\/epub\/(.+)$/);
+  if (match) {
+    const repo = match[1];
+    const subPath = match[2];
+    const localPath = path.join(LOCAL_CONTENTS_DIR, repo, "src", "epub", subPath);
+    if (fs.existsSync(localPath)) {
+      return localPath;
+    }
+    const gutenbergPath = path.join(GUTENBERG_DIR, repo, "src", "epub", subPath);
+    if (fs.existsSync(gutenbergPath)) {
+      return gutenbergPath;
+    }
+  }
+  return null;
+}
+
 function fetchBuffer(url) {
+  const localFile = urlToLocalPath(url);
+  if (localFile) {
+    try {
+      return Promise.resolve(fs.readFileSync(localFile));
+    } catch (e) {}
+  }
   return new Promise((resolve) => {
     https.get(url, (res) => {
       if (res.statusCode !== 200) return resolve(null);
@@ -34,6 +60,12 @@ function fetchBuffer(url) {
 }
 
 function fetchText(url) {
+  const localFile = urlToLocalPath(url);
+  if (localFile) {
+    try {
+      return Promise.resolve(fs.readFileSync(localFile, "utf8"));
+    } catch (e) {}
+  }
   return new Promise((resolve) => {
     https.get(url, (res) => {
       if (res.statusCode !== 200) return resolve(null);
@@ -150,30 +182,51 @@ async function ingestStandardEbook(repoInput) {
     }
   }));
 
-  // 4. Ensure Author document exists or fetch ID
-  let authorObj = await db.collection("authors").findOne({ name: authorName });
-  if (!authorObj) {
-    const authorRes = await db.collection("authors").insertOne({
-      name: authorName,
-      slug: authorSlug || authorName.toLowerCase().replace(/\s+/g, "-"),
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    });
-    authorObj = { _id: authorRes.insertedId, name: authorName };
-  }
+  // 4. Ensure Author document exists in ebookauthors & authors collections
+  const authorSlugNorm = authorSlug || authorName.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  let authorObj = await db.collection("ebookauthors").findOneAndUpdate(
+    { slug: authorSlugNorm },
+    {
+      $set: {
+        name: authorName,
+        slug: authorSlugNorm,
+        updatedAt: new Date()
+      },
+      $setOnInsert: {
+        createdAt: new Date(),
+        bookCount: 0
+      }
+    },
+    { upsert: true, returnDocument: "after" }
+  );
 
-  // 5. Ensure Story document exists or create
-  let story = await db.collection("stories").findOne({ slug });
-  if (!story) {
-    const storyRes = await db.collection("stories").insertOne({
-      slug,
-      title: { en: bookTitle },
-      author: authorObj._id,
-      language: "en",
-      createdAt: new Date(),
-    });
-    story = { _id: storyRes.insertedId, slug, title: { en: bookTitle } };
-  }
+  await db.collection("authors").findOneAndUpdate(
+    { name: authorName },
+    {
+      $set: {
+        name: authorName,
+        slug: authorSlugNorm,
+        updatedAt: new Date()
+      },
+      $setOnInsert: { createdAt: new Date() }
+    },
+    { upsert: true }
+  );
+
+  // 5. Ensure Story document exists or create cleanly
+  let story = await db.collection("stories").findOneAndUpdate(
+    { slug },
+    {
+      $setOnInsert: {
+        slug,
+        title: { en: bookTitle },
+        author: authorObj._id,
+        language: "en",
+        createdAt: new Date(),
+      }
+    },
+    { upsert: true, returnDocument: "after" }
+  );
 
   // 6. Delete old chapter records for pristine fresh import
   await db.collection("storychapters").deleteMany({ storyId: story._id });
@@ -284,27 +337,85 @@ async function ingestStandardEbook(repoInput) {
     chNum++;
   }
 
-  // Update Story metadata
-  const coverCdnUrl = uploadedImageUrls["cover.jpg"] || uploadedImageUrls["cover.svg"] || `${cdnImageBase}/cover.jpg`;
-  await db.collection("stories").updateOne(
-    { _id: story._id },
+  // 5.1 Auto-Assign Category & Tags
+  let categorySlug = "world-literature-masterworks";
+  const opfSubjects = [...opfContent.matchAll(/<dc:subject[^>]*>(.*?)<\/dc:subject>/gi)].map(m => m[1].toLowerCase());
+  const slugLower = slug.toLowerCase();
+
+  if (slugLower.includes("frankenstein") || slugLower.includes("dracula") || slugLower.includes("jekyll") || slugLower.includes("dorian") || slugLower.includes("wallpaper") || slugLower.includes("eyre") || slugLower.includes("heights") || opfSubjects.some(s => s.includes("gothic") || s.includes("horror"))) {
+    categorySlug = "gothic-and-horror-classics";
+  } else if (slugLower.includes("time-machine") || slugLower.includes("war-of-the-worlds") || slugLower.includes("invisible-man") || slugLower.includes("doctor-moreau") || slugLower.includes("verne") || opfSubjects.some(s => s.includes("science fiction") || s.includes("dystopian"))) {
+    categorySlug = "science-fiction";
+  } else if (slugLower.includes("sherlock") || slugLower.includes("detective") || slugLower.includes("mystery") || opfSubjects.some(s => s.includes("mystery") || s.includes("detective"))) {
+    categorySlug = "mystery-and-detective";
+  } else if (slugLower.includes("treasure") || slugLower.includes("wild") || slugLower.includes("crusoe") || slugLower.includes("musketeers") || opfSubjects.some(s => s.includes("adventure") || s.includes("sea stories"))) {
+    categorySlug = "adventure-and-exploration";
+  } else if (slugLower.includes("pride") || slugLower.includes("gatsby") || slugLower.includes("austen") || opfSubjects.some(s => s.includes("romance") || s.includes("manners"))) {
+    categorySlug = "romance-and-society";
+  } else if (slugLower.includes("alice") || slugLower.includes("carol") || slugLower.includes("oz") || opfSubjects.some(s => s.includes("fairy") || s.includes("fantasy"))) {
+    categorySlug = "fantasy-and-magic";
+  } else if (slugLower.includes("siddhartha") || slugLower.includes("meditations") || slugLower.includes("republic") || opfSubjects.some(s => s.includes("philosophy") || s.includes("ethics"))) {
+    categorySlug = "philosophy-and-thought";
+  }
+
+  let categoryDoc = await db.collection("categories").findOneAndUpdate(
+    { slug: categorySlug },
     {
-      $set: {
-        title: { en: bookTitle },
-        coverImageUrl: coverCdnUrl,
-        hasAudio: true,
-        isPublished: true,
-        published: true,
-        contentType: "both",
-        isIllustrated: hasIllustrations || totalEmbeddedIllustrations > 0,
-        illustrationsCount: totalEmbeddedIllustrations,
-        sourceUrl: `https://github.com/standardebooks/${repo}`,
-        updatedAt: new Date(),
-      },
-    }
+      $setOnInsert: {
+        name: categorySlug.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" "),
+        slug: categorySlug,
+        bookCount: 0,
+        createdAt: new Date()
+      }
+    },
+    { upsert: true, returnDocument: "after" }
   );
 
-  // 6. Auto-Seed at least 3 Authentic Goodreads Reviews for Book
+  let classicTag = await db.collection("tags").findOneAndUpdate(
+    { slug: "liiro-masterwork-classic" },
+    { $setOnInsert: { name: "Liiro Masterwork Classic", slug: "liiro-masterwork-classic", color: "#8B5CF6", createdAt: new Date() } },
+    { upsert: true, returnDocument: "after" }
+  );
+
+  let artworkTag = null;
+  if (hasIllustrations || totalEmbeddedIllustrations > 0) {
+    artworkTag = await db.collection("tags").findOneAndUpdate(
+      { slug: "artworks" },
+      { $setOnInsert: { name: "Artworks", slug: "artworks", color: "#EC4899", description: "Illustrated edition with authentic artwork plates", createdAt: new Date() } },
+      { upsert: true, returnDocument: "after" }
+    );
+  }
+
+  const assignedTagIds = [classicTag?._id, artworkTag?._id].filter(Boolean);
+
+  // Check for local feature JSON files inside repo src directory
+  const repoSrcDir = path.join(LOCAL_CONTENTS_DIR, repo, "src");
+  let localSparks = null;
+  let localReviews = null;
+  let localQuotes = null;
+  let localReels = null;
+
+  if (fs.existsSync(path.join(repoSrcDir, "sparks.json"))) {
+    try { localSparks = JSON.parse(fs.readFileSync(path.join(repoSrcDir, "sparks.json"), "utf8")); } catch(e){}
+  } else if (fs.existsSync(path.join(repoSrcDir, "summary.json"))) {
+    try { localSparks = JSON.parse(fs.readFileSync(path.join(repoSrcDir, "summary.json"), "utf8")); } catch(e){}
+  }
+
+  if (fs.existsSync(path.join(repoSrcDir, "reviews.json"))) {
+    try { localReviews = JSON.parse(fs.readFileSync(path.join(repoSrcDir, "reviews.json"), "utf8")); } catch(e){}
+  } else if (fs.existsSync(path.join(repoSrcDir, "goodreads.json"))) {
+    try { localReviews = JSON.parse(fs.readFileSync(path.join(repoSrcDir, "goodreads.json"), "utf8")); } catch(e){}
+  }
+
+  if (fs.existsSync(path.join(repoSrcDir, "quotes.json"))) {
+    try { localQuotes = JSON.parse(fs.readFileSync(path.join(repoSrcDir, "quotes.json"), "utf8")); } catch(e){}
+  }
+
+  if (fs.existsSync(path.join(repoSrcDir, "reels.json"))) {
+    try { localReels = JSON.parse(fs.readFileSync(path.join(repoSrcDir, "reels.json"), "utf8")); } catch(e){}
+  }
+
+  // 6. Auto-Seed at least 3 Authentic Goodreads Reviews for Book if local reviews not present
   const generateReviews = (storyId, tStr, aStr) => {
     const t = typeof tStr === "object" ? tStr.en || Object.values(tStr)[0] || "" : tStr || "this book";
     const a = typeof aStr === "object" ? aStr.en || Object.values(aStr)[0] || "" : aStr || "the author";
@@ -426,6 +537,149 @@ async function ingestStandardEbook(repoInput) {
   const seededReviews = generateReviews(story._id, bookTitle, story.author);
   await db.collection("bookreviews").deleteMany({ storyId: story._id, source: "goodreads" });
   await db.collection("bookreviews").insertMany(seededReviews);
+
+  const activeReviewsList = (localReviews && localReviews.length > 0) ? localReviews : seededReviews;
+  const hasGoodreadsReviewsFlag = activeReviewsList.length > 0;
+  const hasSparksFlag = !!localSparks;
+  const hasQuotesFlag = !!(localQuotes && localQuotes.length > 0);
+  const hasReelsFlag = !!(localReels && localReels.length > 0);
+
+  if (localSparks) {
+    const sparksHeroCdnUrl = uploadedImageUrls["sparks_hero.jpg"] || uploadedImageUrls["sparks_hero.png"] || `https://multicamp-prod-storage.nbg1.your-objectstorage.com/LangoReads-Prod/ebooks/${slug}/images/sparks_hero.jpg`;
+    await db.collection("booksummaries").updateOne(
+      { storyId: story._id },
+      { $set: { storyId: story._id, storySlug: story.slug, heroImageUrl: sparksHeroCdnUrl, sparksCoverUrl: sparksHeroCdnUrl, ...localSparks, updatedAt: new Date() } },
+      { upsert: true }
+    );
+  }
+
+  if (localReels && Array.isArray(localReels)) {
+    for (const r of localReels) {
+      await db.collection("bookreels").updateOne(
+        { storyId: story._id, title: r.title },
+        { $set: { storyId: story._id, storySlug: story.slug, ...r, updatedAt: new Date() } },
+        { upsert: true }
+      );
+    }
+  }
+
+  // Update Story metadata
+  const coverCdnUrl = uploadedImageUrls["cover.jpg"] || uploadedImageUrls["cover.svg"] || `${cdnImageBase}/cover.jpg`;
+  await db.collection("stories").updateOne(
+    { _id: story._id },
+    {
+      $set: {
+        title: { en: bookTitle },
+        author: authorName,
+        authorName: authorName,
+        authorId: authorObj._id,
+        coverImageUrl: coverCdnUrl,
+        categoryId: categoryDoc?._id,
+        categories: categoryDoc ? [categoryDoc._id] : [],
+        tags: assignedTagIds,
+        hasAudio: false,
+        isAudiobook: false,
+        availableVoices: [],
+        voices: [],
+        hasGoodreadsReviews: hasGoodreadsReviewsFlag,
+        hasSparks: hasSparksFlag,
+        hasQuotes: hasQuotesFlag,
+        hasReels: hasReelsFlag,
+        goodreadsRating: 5,
+        goodreadsReviewCount: activeReviewsList.length,
+        goodreadsReviews: activeReviewsList,
+        quotes: localQuotes || [],
+        isPublished: true,
+        published: true,
+        contentType: "ebook",
+        hasArtworks: hasIllustrations || totalEmbeddedIllustrations > 0,
+        isIllustrated: hasIllustrations || totalEmbeddedIllustrations > 0,
+        illustrationsCount: totalEmbeddedIllustrations,
+        sourceUrl: `https://github.com/standardebooks/${repo}`,
+        updatedAt: new Date(),
+      },
+    },
+    { upsert: true }
+  );
+
+  // Extract belongs-to-collection (Series Name) on-the-fly
+  try {
+    const collectionMatch = opfContent.match(/<meta[^>]*property="belongs-to-collection"[^>]*>([^<]+)<\/meta>/i);
+    if (collectionMatch) {
+      const rawSeries = collectionMatch[1].trim();
+      if (
+        rawSeries &&
+        !rawSeries.includes("Guardian") &&
+        !rawSeries.includes("BBC") &&
+        !rawSeries.includes("Britannica") &&
+        !rawSeries.includes("Telegraph") &&
+        !rawSeries.includes("Pulitzer") &&
+        !rawSeries.includes("Haycraft") &&
+        !rawSeries.includes("Cornerstones") &&
+        !rawSeries.includes("Modern Library") &&
+        !rawSeries.includes("Top 100") &&
+        !rawSeries.includes("Harvard Classics") &&
+        !rawSeries.includes("Le Monde")
+      ) {
+        const seriesName = rawSeries.endsWith(" Series") || rawSeries.endsWith(" Saga") ? rawSeries : `${rawSeries} Series`;
+        const seriesSlug = seriesName.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+        
+        const posMatch = opfContent.match(/<meta[^>]*property="group-position"[^>]*>(\d+)<\/meta>/i);
+        const seriesOrder = posMatch ? parseInt(posMatch[1], 10) : 1;
+
+        const seriesDoc = await db.collection("bookseries").findOneAndUpdate(
+          { slug: seriesSlug },
+          {
+            $set: {
+              title: { en: seriesName },
+              name: seriesName,
+              slug: seriesSlug,
+              author: authorName,
+              coverImageUrl: coverCdnUrl,
+              isPublished: true,
+              updatedAt: new Date()
+            },
+            $addToSet: { books: story._id, bookSlugs: story.slug }
+          },
+          { upsert: true, returnDocument: "after" }
+        );
+
+        if (seriesDoc) {
+          const seriesBookCount = (seriesDoc.books || []).length;
+          await db.collection("bookseries").updateOne(
+            { _id: seriesDoc._id },
+            { $set: { bookCount: seriesBookCount, totalBooks: seriesBookCount } }
+          );
+
+          await db.collection("stories").updateOne(
+            { _id: story._id },
+            {
+              $set: {
+                seriesId: seriesDoc._id,
+                seriesName: seriesName,
+                seriesOrder: seriesOrder
+              }
+            }
+          );
+          console.log(`  🔗 On-The-Fly Series Linked: "${bookTitle}" -> Series: "${seriesName}" (Vol ${seriesOrder})`);
+        }
+      }
+    }
+  } catch (e) {
+    console.error("Notice during on-the-fly series extraction:", e.message);
+  }
+
+  // Update Author bookCount in ebookauthors
+  try {
+    const authorBookCount = await db.collection("stories").countDocuments({
+      $or: [{ author: authorName }, { authorName: authorName }, { authorId: authorObj._id }]
+    });
+    await db.collection("ebookauthors").updateOne(
+      { _id: authorObj._id },
+      { $set: { bookCount: authorBookCount, updatedAt: new Date() } }
+    );
+  } catch (e) {}
+
   console.log(`   🌟 Auto-Seeded 3 Authentic Goodreads Reviews for "${bookTitle}"`);
 
   // 7. Post-Import Automated Validation Engine
@@ -512,8 +766,21 @@ async function ingestStandardEbook(repoInput) {
   console.log(`   Cover CDN Image: ${coverCdnUrl}`);
   console.log("=======================================================================");
 
-  mongoose.connection.close();
+  if (require.main === module) {
+    mongoose.connection.close();
+  }
 }
 
 const repoInput = process.argv[2] || "lewis-carroll_alices-adventures-in-wonderland_john-tenniel";
-ingestStandardEbook(repoInput);
+if (require.main === module) {
+  ingestStandardEbook(repoInput)
+    .then(() => {
+      process.exit(0);
+    })
+    .catch((err) => {
+      console.error("Fatal Ingestion Error:", err);
+      process.exit(1);
+    });
+} else {
+  module.exports = { ingestStandardEbook };
+}

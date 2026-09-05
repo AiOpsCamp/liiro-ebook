@@ -1,0 +1,58 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-08-29T23:45:00Z",
+  "series": {
+    "alice-in-wonderland-series": {
+      "seriesSlug": "alice-in-wonderland-series",
+      "title": "Alice in Wonderland Series",
+      "books": [
+        {
+          "slug": "alices-adventures-in-wonderland",
+          "title": "Alice’s Adventures in Wonderland",
+          "chaptersCount": 12
+        },
+        {
+          "slug": "through-the-looking-glass",
+          "title": "Through the Looking-Glass",
+          "chaptersCount": 12
+        }
+      ],
+      "defaultConfig": {
+        "voices": ["ana", "michael"],
+        "qualities": ["standard", "low"],
+        "titlePause": 2.0,
+        "paragraphPause": 0.9,
+        "dialoguePause": 0.65,
+        "sceneBreakPause": 1.6,
+        "parallelChapters": 2,
+        "skipWhisper": true
+      }
+    },
+    "peter-pan-series": {
+      "seriesSlug": "peter-pan-series",
+      "title": "Peter Pan Series",
+      "books": [
+        {
+          "slug": "peter-and-wendy",
+          "title": "Peter and Wendy",
+          "chaptersCount": 17
+        },
+        {
+          "slug": "the-little-white-bird",
+          "title": "The Little White Bird",
+          "chaptersCount": 26
+        }
+      ],
+      "defaultConfig": {
+        "voices": ["ana", "michael"],
+        "qualities": ["standard", "low"],
+        "titlePause": 2.0,
+        "paragraphPause": 0.9,
+        "dialoguePause": 0.65,
+        "sceneBreakPause": 1.6,
+        "parallelChapters": 2,
+        "skipWhisper": true
+      }
+    }
+  }
+}

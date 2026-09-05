@@ -169,6 +169,15 @@ export interface BookSeries {
   books: Story[];
 }
 
+export interface EbookNarrator {
+  name: string;
+  slug: string;
+  bio?: string;
+  avatarUrl?: string;
+  catalogCount?: number;
+  voiceId?: string;
+}
+
 export const storiesApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getStories: builder.query<{ success: boolean; count: number; total: number; data: Story[] }, { limit?: number; page?: number; category?: string; tag?: string; search?: string; difficulty?: string } | void>({
@@ -215,6 +224,10 @@ export const storiesApi = apiSlice.injectEndpoints({
     getBookSeriesBySlug: builder.query<BookSeries, string>({
       query: (slug) => `/stories/series/${slug}`,
       transformResponse: (response: { success: boolean; data: BookSeries }) => response.data,
+    }),
+    getNarrators: builder.query<EbookNarrator[], void>({
+      query: () => "/metadata/narrators",
+      transformResponse: (response: { success: boolean; data: EbookNarrator[] }) => response.data,
     }),
     getStoryBySlug: builder.query<StoryDetailsResponse, string | { slug: string; lang?: string }>({
       query: (arg) => {
@@ -359,8 +372,19 @@ export const storiesApi = apiSlice.injectEndpoints({
       transformResponse: (response: { success: boolean; data: any }) => response.data,
       providesTags: ["UserLibrary"] as any,
     }),
-    getStorySummary: builder.query<any, string>({
-      query: (slug) => `/stories/slug/${slug}/summary`,
+    getStorySummary: builder.query<any, string | { slug: string; lang?: string; voiceId?: string; quality?: string }>({
+      query: (arg) => {
+        const slug = typeof arg === "string" ? arg : arg.slug;
+        const lang = typeof arg === "object" ? arg.lang : undefined;
+        const voiceId = typeof arg === "object" ? arg.voiceId : undefined;
+        const quality = typeof arg === "object" ? arg.quality : undefined;
+        const queryParts = [];
+        if (lang) queryParts.push(`lang=${lang}`);
+        if (voiceId) queryParts.push(`voiceId=${voiceId}`);
+        if (quality) queryParts.push(`quality=${quality}`);
+        const queryStr = queryParts.length > 0 ? `?${queryParts.join("&")}` : "";
+        return `/stories/slug/${slug}/summary${queryStr}`;
+      },
       transformResponse: (res: any) => (res.success ? res.data : null),
     }),
     getReels: builder.query<any[], number | void>({
@@ -372,6 +396,14 @@ export const storiesApi = apiSlice.injectEndpoints({
         url: `/reels/${reelId}/like`,
         method: "POST",
       }),
+    }),
+    getAudiobooks: builder.query<any, { page?: number; limit?: number } | void>({
+      query: (params) => {
+        const page = typeof params === "object" ? params.page || 1 : 1;
+        const limit = typeof params === "object" ? params.limit || 50 : 50;
+        return `/stories/audiobooks?page=${page}&limit=${limit}`;
+      },
+      transformResponse: (res: any) => (res.success ? res : { success: false, data: [] }),
     }),
     getUserActivities: builder.query<any[], number | void>({
       query: (limit = 30) => `/user/activities?limit=${limit}`,
@@ -403,6 +435,7 @@ export const {
   useGetTagBySlugQuery,
   useGetBookSeriesQuery,
   useGetBookSeriesBySlugQuery,
+  useGetNarratorsQuery,
   useGetStoryBySlugQuery,
   useGetChapterContentQuery,
   useSyncStoryProgressMutation,
@@ -419,6 +452,7 @@ export const {
   useGetStorySummaryQuery,
   useGetReelsQuery,
   useLikeReelMutation,
+  useGetAudiobooksQuery,
   useGetUserActivitiesQuery,
   useGetUserStreaksQuery,
   usePingDailyStreakMutation,

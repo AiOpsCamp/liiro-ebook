@@ -4,53 +4,34 @@ const Story = require("../models/Story.model");
 const BookSummary = require("../models/BookSummary.model");
 
 /**
- * Blinkist-Style 15-Minute Key Takeaways Summary Controller
+ * Enterprise Multilingual & Multi-Voice Liiro Sparks Controller
+ * =========================================================================
+ * - Hero Image CDN linkage (Hetzner S3)
+ * - Multilingual text resolution (English default, Bengali, Spanish, etc.)
+ * - Multi-Voice & Multi-Quality Audio Tracks (High 192k, Standard 96k, Low 48k)
+ * - Whispersync sentence timestamp alignment for Sparks audio player
  */
 
-// Sample curated 15-minute Blinks summary data for demonstration
-const SAMPLE_BLINKS = {
-  overview: "Discover how curiosity, imagination, and surreal logic challenge rigid adult conventions in Lewis Carroll's timeless masterpiece.",
-  estimatedReadMinutes: 5,
-  estimatedAudioMinutes: 12,
-  summaryAudioUrl: "https://multicamp-prod-storage.nbg1.your-objectstorage.com/Liiro-Ebook-Prod/audio/alices-adventures-in-wonderland/voices/adam/chapter_1.mp3",
-  keyTakeaways: [
-    {
-      takeawayNumber: 1,
-      title: "Embrace Curiosity and Open-Minded Exploration",
-      content: "Alice's journey down the rabbit hole begins with uninhibited curiosity. By questioning the mundane world, she opens herself to extraordinary growth and creative problem-solving.",
-      quote: "Curiouser and curiouser!",
-    },
-    {
-      takeawayNumber: 2,
-      title: "Challenge Absurd Authority and Unjust Rules",
-      content: "The Queen of Hearts and the Mad Hatter represent dogmatic, arbitrary authority. Alice learns to assert logic and moral courage when faced with nonsensical tyranny.",
-      quote: "Off with their heads! ... Nonsense, said Alice.",
-    },
-    {
-      takeawayNumber: 3,
-      title: "Identity is Fluid and Constantly Evolving",
-      content: "Alice frequently changes size and struggles to answer the Caterpillar's question, 'Who are you?' Growth requires shedding rigid self-definitions and adapting to new environments.",
-      quote: "I can't go back to yesterday because I was a different person then.",
-    },
-    {
-      takeawayNumber: 4,
-      title: "Language and Logic depend on Perspective",
-      content: "Wordplay and riddles in Wonderland show that meaning is constructed socially. True wisdom requires looking past surface words to grasp underlying intent.",
-      quote: "Take care of the sense, and the sounds will take care of themselves.",
-    },
-    {
-      takeawayNumber: 5,
-      title: "Playfulness is Essential for Adult Resilience",
-      content: "Carroll reminds readers that keeping a childlike sense of wonder and humor helps navigate the chaotic absurdities of adult existence.",
-      quote: "Why, sometimes I've believed as many as six impossible things before breakfast.",
-    },
-  ],
+const resolveField = (val, lang = "en", fallback = "en") => {
+  if (!val) return "";
+  if (typeof val === "string") return val;
+  if (typeof val === "object") {
+    return val[lang] || val[fallback] || Object.values(val)[0] || "";
+  }
+  return String(val);
 };
 
 exports.getBookSummary = async (req, res) => {
   try {
     const { slug } = req.params;
-    const story = await Story.findOne({ slug, isPublished: true }).select("_id slug title author coverImageUrl").lean();
+    const reqLang = req.query.lang || "en";
+    const reqVoice = req.query.voiceId || "af_heart";
+    const reqQuality = req.query.quality || "high_192k";
+
+    const story = await Story.findOne({ slug, isPublished: true })
+      .select("_id slug title author coverImageUrl totalDurationSeconds")
+      .lean();
+
     if (!story) {
       return res.status(404).json({ success: false, message: "Story not found" });
     }
@@ -58,19 +39,71 @@ exports.getBookSummary = async (req, res) => {
     let summary = await BookSummary.findOne({ storyId: story._id }).lean();
 
     if (!summary) {
-      summary = await BookSummary.create({
-        storyId: story._id,
-        slug: story.slug,
-        ...SAMPLE_BLINKS,
+      return res.status(404).json({
+        success: false,
+        message: "Liiro Sparks summary not yet generated for this title.",
       });
     }
+
+    // Resolve Multilingual Text
+    const localizedSummary = {
+      _id: summary._id,
+      storyId: summary.storyId,
+      storySlug: summary.storySlug,
+      heroImageUrl: summary.heroImageUrl || summary.sparksCoverUrl || story.coverImageUrl,
+      sparksCoverUrl: summary.sparksCoverUrl || summary.heroImageUrl || story.coverImageUrl,
+      summaryTitle: resolveField(summary.summaryTitle, reqLang),
+      oneSentenceSummary: resolveField(summary.oneSentenceSummary, reqLang),
+      summaryText: resolveField(summary.summaryText, reqLang),
+      overview: resolveField(summary.overview || summary.summaryText, reqLang),
+      estimatedReadingTimeMinutes: summary.estimatedReadingTimeMinutes || 10,
+      estimatedAudioMinutes: summary.estimatedAudioMinutes || 12,
+
+      keyTakeaways: Array.isArray(summary.keyTakeaways)
+        ? summary.keyTakeaways.map((t, idx) => ({
+            takeawayNumber: t.takeawayNumber || idx + 1,
+            title: resolveField(t.title, reqLang),
+            description: resolveField(t.description || t.content, reqLang),
+            content: resolveField(t.description || t.content, reqLang),
+            quote: t.quote ? resolveField(t.quote, reqLang) : null,
+          }))
+        : [],
+
+      chapterBreakdowns: Array.isArray(summary.chapterBreakdowns)
+        ? summary.chapterBreakdowns.map((c) => ({
+            act: resolveField(c.act, reqLang),
+            chapters: resolveField(c.chapters, reqLang),
+            summary: resolveField(c.summary, reqLang),
+          }))
+        : [],
+
+      // Multilingual & Multi-Voice Audio Engine Pipeline
+      audioTracks: summary.audioTracks || [],
+      activeAudioTrack: (summary.audioTracks && summary.audioTracks.length > 0)
+        ? (summary.audioTracks.find((t) => t.lang === reqLang && t.voiceId === reqVoice && t.quality === reqQuality) ||
+           summary.audioTracks.find((t) => t.lang === reqLang) ||
+           summary.audioTracks[0])
+        : {
+            trackId: `sparks_${slug}_${reqLang}_${reqVoice}`,
+            lang: reqLang,
+            voiceId: reqVoice,
+            voiceName: "Heart (Female US)",
+            quality: reqQuality,
+            audioUrl: summary.defaultAudioUrl || `https://multicamp-prod-storage.nbg1.your-objectstorage.com/LangoReads-Prod/ebooks/${slug}/audio/sparks_${reqLang}.mp3`,
+            durationSeconds: (summary.estimatedAudioMinutes || 12) * 60,
+            timestamps: [
+              { sentenceIndex: 0, startTime: 0, endTime: 15, text: resolveField(summary.oneSentenceSummary, reqLang) },
+              { sentenceIndex: 1, startTime: 15, endTime: 120, text: resolveField(summary.summaryText, reqLang).substring(0, 200) }
+            ]
+          }
+    };
 
     res.status(200).json({
       success: true,
       featureName: "Liiro Sparks ⚡",
       data: {
         story,
-        summary,
+        summary: localizedSummary,
       },
     });
   } catch (error) {

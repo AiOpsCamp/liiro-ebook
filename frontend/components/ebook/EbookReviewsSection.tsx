@@ -104,12 +104,12 @@ export const EbookReviewsSection: React.FC<EbookReviewsSectionProps> = ({
   };
 
   return (
-    <View style={{ marginTop: 32, paddingTop: 32, borderTopWidth: 1, borderTopColor: isDark ? "#1E293B" : "#E2E8F0" }}>
+    <View style={{ marginTop: 32, paddingTop: 32, borderTopWidth: 1, borderTopColor: "rgba(255, 255, 255, 0.1)" }}>
       {/* Header */}
       <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 24 }}>
         <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
           <MessageSquare size={22} color="#F59E0B" />
-          <Text style={{ color: isDark ? "#FFFFFF" : "#0F172A", fontSize: 20, fontWeight: "800" }}>
+          <Text style={{ color: "#F8FAFC", fontSize: 20, fontWeight: "800" }}>
             Community & Goodreads Reviews
           </Text>
         </View>
@@ -134,9 +134,9 @@ export const EbookReviewsSection: React.FC<EbookReviewsSectionProps> = ({
 
       {/* Summary Rating Box */}
       {summary && (
-        <View style={{ backgroundColor: isDark ? "#0F172A" : "#F8FAFC", borderWidth: 1, borderColor: isDark ? "#1E293B" : "#E2E8F0", borderRadius: 24, padding: 20, marginBottom: 24, flexDirection: "row", alignItems: "center" }}>
-          <View style={{ alignItems: "center", paddingRight: 24, borderRightWidth: 1, borderRightColor: isDark ? "#1E293B" : "#E2E8F0" }}>
-            <Text style={{ color: isDark ? "#FFFFFF" : "#0F172A", fontSize: 36, fontWeight: "800" }}>
+        <View style={{ backgroundColor: "rgba(15, 23, 42, 0.95)", borderWidth: 1, borderColor: "rgba(255, 255, 255, 0.1)", borderRadius: 24, padding: 20, marginBottom: 24, flexDirection: "row", alignItems: "center" }}>
+          <View style={{ alignItems: "center", paddingRight: 24, borderRightWidth: 1, borderRightColor: "rgba(255, 255, 255, 0.1)" }}>
+            <Text style={{ color: "#F8FAFC", fontSize: 36, fontWeight: "800" }}>
               {summary.averageRating}
             </Text>
             <View style={{ flexDirection: "row", gap: 3, marginVertical: 6 }}>
@@ -144,12 +144,12 @@ export const EbookReviewsSection: React.FC<EbookReviewsSectionProps> = ({
                 <Star
                   key={star}
                   size={15}
-                  color={star <= Math.round(summary.averageRating) ? "#F59E0B" : isDark ? "#334155" : "#CBD5E1"}
+                  color={star <= Math.round(summary.averageRating) ? "#F59E0B" : "#334155"}
                   fill={star <= Math.round(summary.averageRating) ? "#F59E0B" : "transparent"}
                 />
               ))}
             </View>
-            <Text style={{ color: isDark ? "#94A3B8" : "#64748B", fontSize: 12, fontWeight: "600" }}>
+            <Text style={{ color: "#94A3B8", fontSize: 12, fontWeight: "600" }}>
               {summary.totalReviews} Ratings
             </Text>
           </View>
@@ -161,13 +161,13 @@ export const EbookReviewsSection: React.FC<EbookReviewsSectionProps> = ({
               const pct = summary.totalReviews > 0 ? (count / summary.totalReviews) * 100 : 0;
               return (
                 <View key={ratingNum} style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-                  <Text style={{ color: isDark ? "#94A3B8" : "#64748B", fontSize: 12, fontWeight: "700", width: 12 }}>
+                  <Text style={{ color: "#CBD5E1", fontSize: 12, fontWeight: "700", width: 12 }}>
                     {ratingNum}
                   </Text>
-                  <View style={{ flex: 1, height: 8, backgroundColor: isDark ? "#1E293B" : "#E2E8F0", borderRadius: 4, overflow: "hidden" }}>
+                  <View style={{ flex: 1, height: 8, backgroundColor: "rgba(255, 255, 255, 0.08)", borderRadius: 4, overflow: "hidden" }}>
                     <View style={{ width: `${pct}%`, height: "100%", backgroundColor: "#F59E0B", borderRadius: 4 }} />
                   </View>
-                  <Text style={{ color: isDark ? "#64748B" : "#94A3B8", fontSize: 11, width: 24, textAlign: "right", fontWeight: "600" }}>
+                  <Text style={{ color: "#94A3B8", fontSize: 11, width: 24, textAlign: "right", fontWeight: "600" }}>
                     {count}
                   </Text>
                 </View>
@@ -193,13 +193,13 @@ export const EbookReviewsSection: React.FC<EbookReviewsSectionProps> = ({
                 paddingHorizontal: 16,
                 paddingVertical: 8,
                 borderRadius: 100,
-                backgroundColor: isActive ? "rgba(99,102,241,0.18)" : isDark ? "#0F172A" : "#F1F5F9",
+                backgroundColor: isActive ? "rgba(139, 92, 246, 0.22)" : "rgba(255, 255, 255, 0.05)",
                 borderWidth: 1.5,
-                borderColor: isActive ? "#6366F1" : isDark ? "#1E293B" : "#E2E8F0",
+                borderColor: isActive ? "#8B5CF6" : "rgba(255, 255, 255, 0.1)",
                 opacity: pressed ? 0.75 : 1,
               })}
             >
-              <Text style={{ color: isActive ? "#818CF8" : isDark ? "#94A3B8" : "#475569", fontSize: 12.5, fontWeight: "700" }}>
+              <Text style={{ color: isActive ? "#C084FC" : "#94A3B8", fontSize: 12.5, fontWeight: "700" }}>
                 {tab.label}
               </Text>
             </Pressable>
@@ -210,10 +210,34 @@ export const EbookReviewsSection: React.FC<EbookReviewsSectionProps> = ({
       {/* Reviews List */}
       {loading ? (
         <ActivityIndicator size="small" color="#818CF8" style={{ marginVertical: 32 }} />
+      ) : reviews.length === 0 ? (
+        <View style={{ padding: 28, borderRadius: 20, backgroundColor: "rgba(15, 23, 42, 0.95)", borderWidth: 1, borderColor: "rgba(255, 255, 255, 0.1)", alignItems: "center" }}>
+          <MessageSquare size={28} color="#64748B" style={{ marginBottom: 10 }} />
+          <Text style={{ color: "#F8FAFC", fontWeight: "700", fontSize: 15, marginBottom: 4 }}>
+            No Reviews Yet
+          </Text>
+          <Text style={{ color: "#94A3B8", fontSize: 13, textAlign: "center", marginBottom: 16 }}>
+            Be the first reader to share your thoughts or review for this masterwork!
+          </Text>
+          <Pressable
+            onPress={() => setIsWriteModalOpen(true)}
+            style={({ pressed }) => ({
+              backgroundColor: "rgba(99,102,241,0.15)",
+              borderWidth: 1,
+              borderColor: "#6366F1",
+              paddingHorizontal: 16,
+              paddingVertical: 9,
+              borderRadius: 12,
+              opacity: pressed ? 0.8 : 1,
+            })}
+          >
+            <Text style={{ color: "#818CF8", fontSize: 13, fontWeight: "700" }}>Write a Review ✨</Text>
+          </Pressable>
+        </View>
       ) : (
         <View style={{ gap: 16 }}>
           {reviews.map((rev) => (
-            <View key={rev._id} style={{ backgroundColor: isDark ? "#0F172A" : "#F8FAFC", borderWidth: 1, borderColor: isDark ? "#1E293B" : "#E2E8F0", borderRadius: 20, padding: 18 }}>
+            <View key={rev._id} style={{ backgroundColor: "rgba(15, 23, 42, 0.95)", borderWidth: 1, borderColor: "rgba(255, 255, 255, 0.1)", borderRadius: 20, padding: 18 }}>
               {/* Author Row */}
               <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
                 <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
@@ -223,7 +247,7 @@ export const EbookReviewsSection: React.FC<EbookReviewsSectionProps> = ({
                   />
                   <View>
                     <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
-                      <Text style={{ color: isDark ? "#FFFFFF" : "#0F172A", fontWeight: "700", fontSize: 14 }}>
+                      <Text style={{ color: "#F8FAFC", fontWeight: "700", fontSize: 14 }}>
                         {rev.authorName}
                       </Text>
                       {rev.source === "goodreads" && (
@@ -247,7 +271,7 @@ export const EbookReviewsSection: React.FC<EbookReviewsSectionProps> = ({
                     <Star
                       key={star}
                       size={14}
-                      color={star <= rev.rating ? "#F59E0B" : isDark ? "#334155" : "#CBD5E1"}
+                      color={star <= rev.rating ? "#F59E0B" : "#334155"}
                       fill={star <= rev.rating ? "#F59E0B" : "transparent"}
                     />
                   ))}
@@ -255,12 +279,12 @@ export const EbookReviewsSection: React.FC<EbookReviewsSectionProps> = ({
               </View>
 
               {/* Review Content */}
-              <Text style={{ color: isDark ? "#E2E8F0" : "#334155", fontSize: 13.5, lineHeight: 20, marginBottom: 14 }}>
+              <Text style={{ color: "#E2E8F0", fontSize: 13.5, lineHeight: 20, marginBottom: 14 }}>
                 {rev.reviewText}
               </Text>
 
               {/* Footer Actions */}
-              <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", borderTopWidth: 1, borderTopColor: isDark ? "rgba(255,255,255,0.06)" : "#E2E8F0", paddingTop: 10 }}>
+              <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", borderTopWidth: 1, borderTopColor: "rgba(255,255,255,0.06)", paddingTop: 10 }}>
                 <Pressable
                   onPress={() => handleLike(rev._id)}
                   style={({ pressed }) => ({
@@ -270,13 +294,13 @@ export const EbookReviewsSection: React.FC<EbookReviewsSectionProps> = ({
                     opacity: pressed ? 0.7 : 1,
                   })}
                 >
-                  <ThumbsUp size={14} color={isDark ? "#94A3B8" : "#64748B"} />
-                  <Text style={{ color: isDark ? "#94A3B8" : "#64748B", fontSize: 12, fontWeight: "600" }}>
+                  <ThumbsUp size={14} color="#94A3B8" />
+                  <Text style={{ color: "#94A3B8", fontSize: 12, fontWeight: "600" }}>
                     {rev.likesCount} Helpful
                   </Text>
                 </Pressable>
 
-                <Text style={{ color: isDark ? "#64748B" : "#94A3B8", fontSize: 11 }}>
+                <Text style={{ color: "#64748B", fontSize: 11 }}>
                   {new Date(rev.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                 </Text>
               </View>
@@ -287,12 +311,12 @@ export const EbookReviewsSection: React.FC<EbookReviewsSectionProps> = ({
 
       {/* Write Review Modal */}
       <Modal visible={isWriteModalOpen} animationType="slide" transparent>
-        <View style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.75)", justifyContent: "center", alignItems: "center", padding: 20 }}>
-          <View style={{ width: "100%", maxWidth: 480, backgroundColor: isDark ? "#0F172A" : "#FFFFFF", borderWidth: 1, borderColor: isDark ? "#1E293B" : "#E2E8F0", borderRadius: 24, padding: 24 }}>
+        <View style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.85)", justifyContent: "center", alignItems: "center", padding: 20 }}>
+          <View style={{ width: "100%", maxWidth: 480, backgroundColor: "#0F172A", borderWidth: 1, borderColor: "rgba(255,255,255,0.15)", borderRadius: 24, padding: 24 }}>
             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
-              <Text style={{ color: isDark ? "#FFFFFF" : "#0F172A", fontSize: 18, fontWeight: "800" }}>Write a Book Review</Text>
+              <Text style={{ color: "#F8FAFC", fontSize: 18, fontWeight: "800" }}>Write a Book Review</Text>
               <Pressable onPress={() => setIsWriteModalOpen(false)}>
-                <X size={20} color={isDark ? "#94A3B8" : "#64748B"} />
+                <X size={20} color="#94A3B8" />
               </Pressable>
             </View>
 
@@ -302,7 +326,7 @@ export const EbookReviewsSection: React.FC<EbookReviewsSectionProps> = ({
                 <Pressable key={star} onPress={() => setNewRating(star)}>
                   <Star
                     size={28}
-                    color={star <= newRating ? "#F59E0B" : isDark ? "#334155" : "#CBD5E1"}
+                    color={star <= newRating ? "#F59E0B" : "#334155"}
                     fill={star <= newRating ? "#F59E0B" : "transparent"}
                   />
                 </Pressable>
@@ -313,18 +337,18 @@ export const EbookReviewsSection: React.FC<EbookReviewsSectionProps> = ({
               value={newAuthorName}
               onChangeText={setNewAuthorName}
               placeholder="Your Name (Optional)"
-              placeholderTextColor={isDark ? "#64748B" : "#94A3B8"}
-              style={{ backgroundColor: isDark ? "#1E293B" : "#F1F5F9", borderRadius: 14, padding: 14, color: isDark ? "#FFFFFF" : "#0F172A", fontSize: 13, marginBottom: 12 }}
+              placeholderTextColor="#64748B"
+              style={{ backgroundColor: "rgba(30, 41, 59, 0.9)", borderRadius: 14, padding: 14, color: "#F8FAFC", fontSize: 13, marginBottom: 12 }}
             />
 
             <TextInput
               value={newReviewText}
               onChangeText={setNewReviewText}
               placeholder="What did you think of the story, prose, and audio narration?"
-              placeholderTextColor={isDark ? "#64748B" : "#94A3B8"}
+              placeholderTextColor="#64748B"
               multiline
               numberOfLines={4}
-              style={{ backgroundColor: isDark ? "#1E293B" : "#F1F5F9", borderRadius: 14, padding: 14, color: isDark ? "#FFFFFF" : "#0F172A", fontSize: 13, minHeight: 100, marginBottom: 20, textAlignVertical: "top" }}
+              style={{ backgroundColor: "rgba(30, 41, 59, 0.9)", borderRadius: 14, padding: 14, color: "#F8FAFC", fontSize: 13, minHeight: 100, marginBottom: 20, textAlignVertical: "top" }}
             />
 
             <Pressable

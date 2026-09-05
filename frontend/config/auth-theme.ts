@@ -23,6 +23,14 @@ export interface AuthTheme {
   accentLight: string;
   accentSoft: string;       // very subtle accent tint for badges/chips
 
+  /**
+   * Optional accessible accent variants — introduced for WCAG AA text/border
+   * contrast on the `liiro` brand. Falls back to `accentDark` at call sites
+   * when omitted, so the other six environments are unaffected.
+   */
+  accentText?: string;      // darker accent safe for small text/links on light bg (>=4.5:1)
+  accentDeep?: string;      // deepest accent, safe as the dark stop of button gradients
+
   /* Text */
   textPrimary: string;      // main headings & body (dark on light)
   textSecondary: string;    // subtitles, descriptions
@@ -196,23 +204,31 @@ const THEMES: Record<Environment, AuthTheme> = {
     card: "#FFFFFF",
     cardShadow: "rgba(16, 185, 129, 0.06)",
     cardBorder: "rgba(16, 185, 129, 0.06)",
-    dividerColor: "#E6F4EA",
+    dividerColor: "#CFE8DC",
     inputBg: "#F4FBF7",
     inputBgFocus: "#FFFFFF",
-    inputBorder: "#D1EBE0",
-    inputBorderFocus: "#10B981",
+    // Darkened from #D1EBE0 (1.2:1 — effectively invisible) to meet the ~3:1
+    // WCAG 1.4.11 non-text contrast target for default input/button borders.
+    inputBorder: "#6E9280",
+    inputBorderFocus: "#059669",
     accent: "#10B981",
     accentDark: "#059669",
     accentLight: "#34D399",
     accentSoft: "rgba(16, 185, 129, 0.06)",
+    // Text-safe accent variants (see AuthTheme.accentText/accentDeep) — both
+    // clear 4.5:1 against the #F0FDF4 background and white cards.
+    accentText: "#047857",
+    accentDeep: "#065F46",
     textPrimary: "#064E3B",
     textSecondary: "#4B5563",
-    textMuted: "#9CA3AF",
+    // Was #9CA3AF (~2.4:1 on this background — fails AA). Darkened to land
+    // at ~5.3:1 while still reading as a lighter/muted tone than textSecondary.
+    textMuted: "#5B6B76",
     textOnAccent: "#FFFFFF",
     gradientTop: ["rgba(16, 185, 129, 0.04)", "transparent"],
     gradientBottom: ["transparent", "rgba(16, 185, 129, 0.02)"],
     socialBtnBg: "#FFFFFF",
-    socialBtnBorder: "#E5E7EB",
+    socialBtnBorder: "#6E9280",
     socialBtnText: "#374151",
   },
 };

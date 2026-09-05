@@ -1,0 +1,617 @@
+{
+  "active_in_progress_54_count": 57,
+  "active_in_progress_54_slugs": [
+    "a-christmas-carol",
+    "a-marriage-settlement",
+    "a-princess-of-mars",
+    "a-study-in-scarlet",
+    "a-thief-in-the-night",
+    "alices-adventures-in-wonderland",
+    "antigone",
+    "at-the-earths-core",
+    "blind-corner",
+    "candida",
+    "five-children-and-it",
+    "five-weeks-in-a-balloon",
+    "hardings-luck",
+    "herland",
+    "his-last-bow",
+    "lady-into-fox",
+    "memoirs-of-a-foxhunting-man",
+    "memoirs-of-an-infantry-officer",
+    "moving-the-mountain",
+    "mrs-dalloway",
+    "north-of-boston",
+    "oedipus-rex",
+    "on-the-duty-of-civil-disobedience",
+    "ozma-of-oz",
+    "pellucidar",
+    "perishable-goods",
+    "peter-and-wendy",
+    "phaedo",
+    "plague-ship",
+    "songs-of-a-sourdough",
+    "sonnets-from-the-portuguese",
+    "symposium",
+    "the-adventures-of-sherlock-holmes",
+    "the-amateur-cracksman",
+    "the-birds",
+    "the-black-mask",
+    "the-hound-of-the-baskervilles",
+    "the-house-at-pooh-corner",
+    "the-house-of-arden",
+    "the-house-without-windows",
+    "the-innocence-of-father-brown",
+    "the-league-of-the-scarlet-pimpernel",
+    "the-life-of-lazarillo-de-tormes",
+    "the-little-white-bird",
+    "the-marvelous-land-of-oz",
+    "the-memoirs-of-sherlock-holmes",
+    "the-phoenix-and-the-carpet",
+    "the-pursuit-of-god",
+    "the-return-of-sherlock-holmes",
+    "the-sign-of-the-four",
+    "the-story-of-the-amulet",
+    "the-valley-of-fear",
+    "the-warlord-of-mars",
+    "the-wonderful-wizard-of-oz",
+    "through-the-looking-glass",
+    "voodoo-planet",
+    "winnie-the-pooh"
+  ],
+  "next_86_count": 86,
+  "queues": {
+    "mac_p1": {
+      "machine": "Local Mac (Process 1)",
+      "count": 15,
+      "books": [
+        {
+          "slug": "star-hunter",
+          "title": "Star Hunter",
+          "chapters": 13,
+          "rating": 0.0
+        },
+        {
+          "slug": "on-the-art-of-reading",
+          "title": "On the Art of Reading",
+          "chapters": 12,
+          "rating": 0.0
+        },
+        {
+          "slug": "a-general-view-of-positivism",
+          "title": "A General View of Positivism",
+          "chapters": 6,
+          "rating": 0.0
+        },
+        {
+          "slug": "poetry",
+          "title": "Poetry",
+          "chapters": 3,
+          "rating": 0.0
+        },
+        {
+          "slug": "the-water-babies",
+          "title": "The Water-Babies",
+          "chapters": 8,
+          "rating": 0.0
+        },
+        {
+          "slug": "the-old-english-baron",
+          "title": "The Old English Baron",
+          "chapters": 2,
+          "rating": 0.0
+        },
+        {
+          "slug": "sons-and-lovers",
+          "title": "Sons and Lovers",
+          "chapters": 15,
+          "rating": 0.0
+        },
+        {
+          "slug": "the-young-visiters",
+          "title": "The Young Visiters",
+          "chapters": 12,
+          "rating": 0.0
+        },
+        {
+          "slug": "moll-flanders",
+          "title": "Moll Flanders",
+          "chapters": 3,
+          "rating": 0.0
+        },
+        {
+          "slug": "the-lives-and-opinions-of-eminent-philosophers",
+          "title": "The Lives and Opinions of Eminent Philosophers",
+          "chapters": 12,
+          "rating": 0.0
+        },
+        {
+          "slug": "understood-betsy",
+          "title": "Understood Betsy",
+          "chapters": 11,
+          "rating": 0.0
+        },
+        {
+          "slug": "interim",
+          "title": "Interim",
+          "chapters": 11,
+          "rating": 0.0
+        },
+        {
+          "slug": "the-enchanted-castle",
+          "title": "The Enchanted Castle",
+          "chapters": 12,
+          "rating": 0.0
+        },
+        {
+          "slug": "the-magic-city",
+          "title": "The Magic City",
+          "chapters": 12,
+          "rating": 0.0
+        },
+        {
+          "slug": "the-railway-children",
+          "title": "The Railway Children",
+          "chapters": 14,
+          "rating": 0.0
+        }
+      ]
+    },
+    "mac_p2": {
+      "machine": "Local Mac (Process 2)",
+      "count": 15,
+      "books": [
+        {
+          "slug": "wet-magic",
+          "title": "Wet Magic",
+          "chapters": 12,
+          "rating": 0.0
+        },
+        {
+          "slug": "nonsense-books",
+          "title": "Nonsense Books",
+          "chapters": 5,
+          "rating": 0.0
+        },
+        {
+          "slug": "his-masterpiece",
+          "title": "His Masterpiece",
+          "chapters": 12,
+          "rating": 0.0
+        },
+        {
+          "slug": "this-side-of-paradise",
+          "title": "This Side of Paradise",
+          "chapters": 9,
+          "rating": 0.0
+        },
+        {
+          "slug": "little-lord-fauntleroy",
+          "title": "Little Lord Fauntleroy",
+          "chapters": 15,
+          "rating": 0.0
+        },
+        {
+          "slug": "principia-ethica",
+          "title": "Principia Ethica",
+          "chapters": 6,
+          "rating": 0.0
+        },
+        {
+          "slug": "fannys-first-play",
+          "title": "Fanny\u2019s First Play",
+          "chapters": 8,
+          "rating": 0.0
+        },
+        {
+          "slug": "major-barbara",
+          "title": "Major Barbara",
+          "chapters": 5,
+          "rating": 0.0
+        },
+        {
+          "slug": "you-never-can-tell",
+          "title": "You Never Can Tell",
+          "chapters": 5,
+          "rating": 0.0
+        },
+        {
+          "slug": "a-bid-for-fortune",
+          "title": "A Bid for Fortune",
+          "chapters": 15,
+          "rating": 0.0
+        },
+        {
+          "slug": "at-the-mountains-of-madness",
+          "title": "At the Mountains of Madness",
+          "chapters": 12,
+          "rating": 0.0
+        },
+        {
+          "slug": "the-food-of-the-gods",
+          "title": "The Food of the Gods",
+          "chapters": 12,
+          "rating": 0.0
+        },
+        {
+          "slug": "hedda-gabler",
+          "title": "Hedda Gabler",
+          "chapters": 7,
+          "rating": 0.0
+        },
+        {
+          "slug": "darby-ogill-and-the-good-people",
+          "title": "Darby O\u2019Gill and the Good People",
+          "chapters": 7,
+          "rating": 0.0
+        },
+        {
+          "slug": "a-woman-of-thirty",
+          "title": "A Woman of Thirty",
+          "chapters": 6,
+          "rating": 0.0
+        }
+      ]
+    },
+    "hetzner_vm1_p1": {
+      "machine": "Hetzner VM 1 (Process 1)",
+      "count": 14,
+      "books": [
+        {
+          "slug": "lost-face",
+          "title": "Lost Face",
+          "chapters": 7,
+          "rating": 0.0
+        },
+        {
+          "slug": "a-portrait-of-the-artist-as-a-young-man",
+          "title": "A Portrait of the Artist as a Young Man",
+          "chapters": 5,
+          "rating": 0.0
+        },
+        {
+          "slug": "exiles",
+          "title": "Exiles",
+          "chapters": 4,
+          "rating": 0.0
+        },
+        {
+          "slug": "irish-fairy-tales",
+          "title": "Irish Fairy Tales",
+          "chapters": 11,
+          "rating": 0.0
+        },
+        {
+          "slug": "cornelli",
+          "title": "Cornelli",
+          "chapters": 10,
+          "rating": 0.0
+        },
+        {
+          "slug": "the-pilgrims-progress",
+          "title": "The Pilgrim\u2019s Progress",
+          "chapters": 6,
+          "rating": 0.0
+        },
+        {
+          "slug": "some-thoughts-concerning-education",
+          "title": "Some Thoughts Concerning Education",
+          "chapters": 2,
+          "rating": 0.0
+        },
+        {
+          "slug": "ten-days-that-shook-the-world",
+          "title": "Ten Days That Shook the World",
+          "chapters": 12,
+          "rating": 0.0
+        },
+        {
+          "slug": "chance",
+          "title": "Chance",
+          "chapters": 13,
+          "rating": 0.0
+        },
+        {
+          "slug": "the-nigger-of-the-narcissus",
+          "title": "The Nigger of the Narcissus",
+          "chapters": 5,
+          "rating": 0.0
+        },
+        {
+          "slug": "the-wind-in-the-willows",
+          "title": "The Wind in the Willows",
+          "chapters": 12,
+          "rating": 0.0
+        },
+        {
+          "slug": "tao-te-ching",
+          "title": "Tao Te Ching",
+          "chapters": 7,
+          "rating": 0.0
+        },
+        {
+          "slug": "a-tangled-tale",
+          "title": "A Tangled Tale",
+          "chapters": 10,
+          "rating": 0.0
+        },
+        {
+          "slug": "eminent-victorians",
+          "title": "Eminent Victorians",
+          "chapters": 15,
+          "rating": 0.0
+        }
+      ]
+    },
+    "hetzner_vm1_p2": {
+      "machine": "Hetzner VM 1 (Process 2)",
+      "count": 14,
+      "books": [
+        {
+          "slug": "on-a-pincushion",
+          "title": "On a Pincushion",
+          "chapters": 8,
+          "rating": 0.0
+        },
+        {
+          "slug": "the-necklace-of-princess-fiorimonde",
+          "title": "The Necklace of Princess Fiorimonde",
+          "chapters": 7,
+          "rating": 0.0
+        },
+        {
+          "slug": "the-windfairies",
+          "title": "The Windfairies",
+          "chapters": 9,
+          "rating": 0.0
+        },
+        {
+          "slug": "georgette-leblanc",
+          "title": "The Blue Bird",
+          "chapters": 10,
+          "rating": 0.0
+        },
+        {
+          "slug": "the-green-hat",
+          "title": "The Green Hat",
+          "chapters": 11,
+          "rating": 0.0
+        },
+        {
+          "slug": "the-inspector-general",
+          "title": "The Inspector General",
+          "chapters": 7,
+          "rating": 0.0
+        },
+        {
+          "slug": "childrens-stories",
+          "title": "Children\u2019s Stories",
+          "chapters": 9,
+          "rating": 0.0
+        },
+        {
+          "slug": "a-high-wind-in-jamaica",
+          "title": "A High Wind in Jamaica",
+          "chapters": 10,
+          "rating": 0.0
+        },
+        {
+          "slug": "just-william",
+          "title": "Just William",
+          "chapters": 12,
+          "rating": 0.0
+        },
+        {
+          "slug": "fred-gross-stories",
+          "title": "Fred Gross Stories",
+          "chapters": 7,
+          "rating": 0.0
+        },
+        {
+          "slug": "captains-courageous",
+          "title": "Captains Courageous",
+          "chapters": 10,
+          "rating": 0.0
+        },
+        {
+          "slug": "just-so-stories",
+          "title": "Just So Stories",
+          "chapters": 12,
+          "rating": 0.0
+        },
+        {
+          "slug": "the-jungle-book",
+          "title": "The Jungle Book",
+          "chapters": 7,
+          "rating": 0.0
+        },
+        {
+          "slug": "hindu-tales-from-the-sanskrit",
+          "title": "Hindu Tales from the Sanskrit",
+          "chapters": 11,
+          "rating": 0.0
+        }
+      ]
+    },
+    "hetzner_vm2_p1": {
+      "machine": "Hetzner VM 2 (Process 1)",
+      "count": 14,
+      "books": [
+        {
+          "slug": "the-faraway-bride",
+          "title": "The Faraway Bride",
+          "chapters": 14,
+          "rating": 0.0
+        },
+        {
+          "slug": "green-forest-stories",
+          "title": "Green Forest Stories",
+          "chapters": 4,
+          "rating": 0.0
+        },
+        {
+          "slug": "green-meadow-stories",
+          "title": "Green Meadow Stories",
+          "chapters": 4,
+          "rating": 0.0
+        },
+        {
+          "slug": "smoky-the-cowhorse",
+          "title": "Smoky the Cowhorse",
+          "chapters": 14,
+          "rating": 0.0
+        },
+        {
+          "slug": "the-sound-and-the-fury",
+          "title": "The Sound and the Fury",
+          "chapters": 4,
+          "rating": 0.0
+        },
+        {
+          "slug": "romeo-and-juliet",
+          "title": "Romeo and Juliet",
+          "chapters": 7,
+          "rating": 0.0
+        },
+        {
+          "slug": "the-new-freedom",
+          "title": "The New Freedom",
+          "chapters": 12,
+          "rating": 0.0
+        },
+        {
+          "slug": "old-indian-legends",
+          "title": "Old Indian Legends",
+          "chapters": 15,
+          "rating": 0.0
+        },
+        {
+          "slug": "the-luzumiyat",
+          "title": "The Luzumiyat",
+          "chapters": 4,
+          "rating": 0.0
+        },
+        {
+          "slug": "eugene-onegin",
+          "title": "Eugene Onegin",
+          "chapters": 8,
+          "rating": 0.0
+        },
+        {
+          "slug": "idylls-of-the-king",
+          "title": "Idylls of the King",
+          "chapters": 13,
+          "rating": 0.0
+        },
+        {
+          "slug": "john-silence-stories",
+          "title": "John Silence Stories",
+          "chapters": 6,
+          "rating": 0.0
+        },
+        {
+          "slug": "sir-gawain-and-the-green-knight",
+          "title": "Sir Gawain and the Green Knight",
+          "chapters": 8,
+          "rating": 0.0
+        },
+        {
+          "slug": "the-argonautica",
+          "title": "The Argonautica",
+          "chapters": 6,
+          "rating": 0.0
+        }
+      ]
+    },
+    "hetzner_vm2_p2": {
+      "machine": "Hetzner VM 2 (Process 2)",
+      "count": 14,
+      "books": [
+        {
+          "slug": "the-maracot-deep",
+          "title": "The Maracot Deep",
+          "chapters": 7,
+          "rating": 0.0
+        },
+        {
+          "slug": "the-three-impostors",
+          "title": "The Three Impostors",
+          "chapters": 8,
+          "rating": 0.0
+        },
+        {
+          "slug": "the-haunted-bookshop",
+          "title": "The Haunted Bookshop",
+          "chapters": 15,
+          "rating": 0.0
+        },
+        {
+          "slug": "the-divine-comedy",
+          "title": "The Divine Comedy",
+          "chapters": 4,
+          "rating": 0.0
+        },
+        {
+          "slug": "the-book-of-jade",
+          "title": "The Book of Jade",
+          "chapters": 6,
+          "rating": 0.0
+        },
+        {
+          "slug": "lord-peter-views-the-body",
+          "title": "Lord Peter Views the Body",
+          "chapters": 12,
+          "rating": 0.0
+        },
+        {
+          "slug": "master-flea",
+          "title": "Master Flea",
+          "chapters": 7,
+          "rating": 0.0
+        },
+        {
+          "slug": "spoon-river-anthology",
+          "title": "Spoon River Anthology",
+          "chapters": 6,
+          "rating": 0.0
+        },
+        {
+          "slug": "the-master-mind-of-mars",
+          "title": "The Master Mind of Mars",
+          "chapters": 14,
+          "rating": 0.0
+        },
+        {
+          "slug": "the-mind-of-mr-j-g-reeder",
+          "title": "The Mind of Mr. J. G. Reeder",
+          "chapters": 9,
+          "rating": 0.0
+        },
+        {
+          "slug": "the-faerie-queene",
+          "title": "The Faerie Queene",
+          "chapters": 8,
+          "rating": 0.0
+        },
+        {
+          "slug": "all-quiet-on-the-western-front",
+          "title": "All Quiet on the Western Front",
+          "chapters": 12,
+          "rating": 0.0
+        },
+        {
+          "slug": "a-man-could-stand-up",
+          "title": "A Man Could Stand Up\u2014",
+          "chapters": 11,
+          "rating": 0.0
+        },
+        {
+          "slug": "some-do-not",
+          "title": "Some Do Not \u2026",
+          "chapters": 13,
+          "rating": 0.0
+        }
+      ]
+    }
+  }
+}

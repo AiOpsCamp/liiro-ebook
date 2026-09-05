@@ -30,6 +30,14 @@ const badgesController = require("../../user/controllers/badges.controller");
 
 // New Firebase-SDK-first controller (ID token -> backend JWT)
 const firebaseAuthController = require("../controllers/auth.firebase.controller");
+const standaloneAuthController = require("../../../controllers/auth.controller");
+
+/* =========================================================
+   Standard & Standalone Auth Endpoints
+========================================================= */
+router.post("/register", authLimiter, standaloneAuthController.register);
+router.post("/login", authLimiter, standaloneAuthController.login);
+router.delete("/account", standaloneAuthController.deleteAccount);
 
 /* =========================================================
    Legacy Firebase REST auth (backend receives passwords)

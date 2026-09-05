@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { View, Text, Pressable, Modal, Image, ActivityIndicator } from "react-native";
+import { View, Text, Pressable, Modal, Image, ActivityIndicator, useWindowDimensions } from "react-native";
 import { useRouter } from "expo-router";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -17,6 +17,10 @@ import {
   Flame,
   Zap,
   Globe,
+  Users2,
+  Download,
+  Layers,
+  Tag,
 } from "lucide-react-native";
 import { useGlobalContext } from "@/context/GlobalContext";
 import { selectIsDark, selectThemeTokens, setThemeMode } from "@/redux/features/themeSlice";
@@ -25,6 +29,8 @@ export default function ProfileNavbarMenu() {
   const router = useRouter();
   const dispatch = useDispatch();
   const { user, signOut } = useGlobalContext();
+  const { width } = useWindowDimensions();
+  const isMobile = width < 640;
 
   const isDark = useSelector(selectIsDark);
   const tokens = useSelector(selectThemeTokens);
@@ -138,14 +144,21 @@ export default function ProfileNavbarMenu() {
         style={({ pressed }) => ({
           flexDirection: "row",
           alignItems: "center",
-          gap: 8,
-          paddingHorizontal: 10,
-          paddingVertical: 5,
+          gap: isMobile ? 0 : 8,
+          paddingHorizontal: isMobile ? 4 : 12,
+          paddingVertical: isMobile ? 4 : 6,
           borderRadius: 100,
-          backgroundColor: isDark ? "rgba(255,255,255,0.06)" : "rgba(15,23,42,0.05)",
+          backgroundColor: isDark ? "#1E293B" : "#FFFFFF",
           borderWidth: 1,
-          borderColor: isDark ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.08)",
-          opacity: pressed ? 0.75 : 1,
+          borderColor: isDark ? "rgba(255,255,255,0.12)" : "rgba(15,23,42,0.10)",
+          opacity: pressed ? 0.85 : 1,
+          flexShrink: 0,
+          zIndex: 20,
+          shadowColor: "#000000",
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: isDark ? 0.3 : 0.08,
+          shadowRadius: 6,
+          elevation: 3,
         })}
         accessibilityLabel="User profile menu"
       >
@@ -165,8 +178,12 @@ export default function ProfileNavbarMenu() {
             <Text style={{ color: "#FFFFFF", fontWeight: "700", fontSize: 13 }}>{initial}</Text>
           </View>
         )}
-        <Text style={{ color: textColor, fontWeight: "600", fontSize: 13 }}>{name.split(" ")[0]}</Text>
-        <Crown size={13} color="#F59E0B" />
+        {!isMobile && (
+          <>
+            <Text style={{ color: textColor, fontWeight: "600", fontSize: 13 }}>{name.split(" ")[0]}</Text>
+            <Crown size={13} color="#F59E0B" />
+          </>
+        )}
       </Pressable>
 
       {/* ── PROFILE MODAL DIALOG ──────────────────────────────────── */}
@@ -313,7 +330,7 @@ export default function ProfileNavbarMenu() {
               >
                 <View style={{ flexDirection: "row", alignItems: "center", gap: 4, marginBottom: 4 }}>
                   <BookOpen size={14} color="#10B981" />
-                  <Text style={{ fontSize: 15, fontWeight: "700", color: textColor }}>864</Text>
+                  <Text style={{ fontSize: 15, fontWeight: "700", color: textColor }}>1,405</Text>
                 </View>
                 <Text style={{ fontSize: 11, color: textSubColor, fontWeight: "600" }}>Catalog</Text>
               </View>
@@ -370,6 +387,162 @@ export default function ProfileNavbarMenu() {
                 <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
                   <Bookmark size={17} color={accentColor} />
                   <Text style={{ fontSize: 13.5, fontWeight: "600", color: textColor }}>Explore & Saved Books</Text>
+                </View>
+                <ChevronRight size={16} color={textSubColor} />
+              </Pressable>
+
+              {/* Categories Option */}
+              <Pressable
+                onPress={() => {
+                  setIsOpen(false);
+                  router.push("/category");
+                }}
+                style={({ pressed }) => ({
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  paddingVertical: 12,
+                  paddingHorizontal: 14,
+                  borderRadius: 12,
+                  backgroundColor: cardColor,
+                  borderWidth: 1,
+                  borderColor,
+                  opacity: pressed ? 0.75 : 1,
+                })}
+              >
+                <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+                  <BookOpen size={17} color="#38BDF8" />
+                  <Text style={{ fontSize: 13.5, fontWeight: "600", color: textColor }}>All Categories</Text>
+                </View>
+                <ChevronRight size={16} color={textSubColor} />
+              </Pressable>
+
+              {/* Book Series Option */}
+              <Pressable
+                onPress={() => {
+                  setIsOpen(false);
+                  router.push("/series");
+                }}
+                style={({ pressed }) => ({
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  paddingVertical: 12,
+                  paddingHorizontal: 14,
+                  borderRadius: 12,
+                  backgroundColor: cardColor,
+                  borderWidth: 1,
+                  borderColor,
+                  opacity: pressed ? 0.75 : 1,
+                })}
+              >
+                <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+                  <Layers size={17} color="#F59E0B" />
+                  <Text style={{ fontSize: 13.5, fontWeight: "600", color: textColor }}>Book Series Sagas</Text>
+                </View>
+                <ChevronRight size={16} color={textSubColor} />
+              </Pressable>
+
+              {/* Literary Tags Option */}
+              <Pressable
+                onPress={() => {
+                  setIsOpen(false);
+                  router.push("/tag");
+                }}
+                style={({ pressed }) => ({
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  paddingVertical: 12,
+                  paddingHorizontal: 14,
+                  borderRadius: 12,
+                  backgroundColor: cardColor,
+                  borderWidth: 1,
+                  borderColor,
+                  opacity: pressed ? 0.75 : 1,
+                })}
+              >
+                <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+                  <Tag size={17} color="#A855F7" />
+                  <Text style={{ fontSize: 13.5, fontWeight: "600", color: textColor }}>Literary Tags & Topics</Text>
+                </View>
+                <ChevronRight size={16} color={textSubColor} />
+              </Pressable>
+
+              {/* Authors Option */}
+              <Pressable
+                onPress={() => {
+                  setIsOpen(false);
+                  router.push("/author");
+                }}
+                style={({ pressed }) => ({
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  paddingVertical: 12,
+                  paddingHorizontal: 14,
+                  borderRadius: 12,
+                  backgroundColor: cardColor,
+                  borderWidth: 1,
+                  borderColor,
+                  opacity: pressed ? 0.75 : 1,
+                })}
+              >
+                <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+                  <Users2 size={17} color="#10B981" />
+                  <Text style={{ fontSize: 13.5, fontWeight: "600", color: textColor }}>Famous Authors</Text>
+                </View>
+                <ChevronRight size={16} color={textSubColor} />
+              </Pressable>
+
+              {/* Family Profiles Option */}
+              <Pressable
+                onPress={() => {
+                  setIsOpen(false);
+                  router.push("/profiles");
+                }}
+                style={({ pressed }) => ({
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  paddingVertical: 12,
+                  paddingHorizontal: 14,
+                  borderRadius: 12,
+                  backgroundColor: cardColor,
+                  borderWidth: 1,
+                  borderColor,
+                  opacity: pressed ? 0.75 : 1,
+                })}
+              >
+                <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+                  <Users2 size={17} color="#F97316" />
+                  <Text style={{ fontSize: 13.5, fontWeight: "600", color: textColor }}>Family Profiles</Text>
+                </View>
+                <ChevronRight size={16} color={textSubColor} />
+              </Pressable>
+
+              {/* Offline Downloads Option */}
+              <Pressable
+                onPress={() => {
+                  setIsOpen(false);
+                  router.push("/settings/downloads");
+                }}
+                style={({ pressed }) => ({
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  paddingVertical: 12,
+                  paddingHorizontal: 14,
+                  borderRadius: 12,
+                  backgroundColor: cardColor,
+                  borderWidth: 1,
+                  borderColor,
+                  opacity: pressed ? 0.75 : 1,
+                })}
+              >
+                <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+                  <Download size={17} color="#38BDF8" />
+                  <Text style={{ fontSize: 13.5, fontWeight: "600", color: textColor }}>Offline Downloads</Text>
                 </View>
                 <ChevronRight size={16} color={textSubColor} />
               </Pressable>

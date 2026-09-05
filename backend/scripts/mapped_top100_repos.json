@@ -1,0 +1,334 @@
+[
+  {
+    "slug": "the-yellow-wallpaper",
+    "repo": null
+  },
+  {
+    "slug": "jane-eyre",
+    "repo": null
+  },
+  {
+    "slug": "wuthering-heights",
+    "repo": null
+  },
+  {
+    "slug": "the-phantom-of-the-opera",
+    "repo": null
+  },
+  {
+    "slug": "the-legend-of-sleepy-hollow",
+    "repo": null
+  },
+  {
+    "slug": "carmilla",
+    "repo": null
+  },
+  {
+    "slug": "the-fall-of-the-house-of-usher",
+    "repo": null
+  },
+  {
+    "slug": "the-turn-of-the-screw",
+    "repo": null
+  },
+  {
+    "slug": "the-house-of-the-seven-gables",
+    "repo": null
+  },
+  {
+    "slug": "villette",
+    "repo": null
+  },
+  {
+    "slug": "the-tenant-of-wildfell-hall",
+    "repo": null
+  },
+  {
+    "slug": "twenty-thousand-leagues-under-the-seas",
+    "repo": null
+  },
+  {
+    "slug": "around-the-world-in-eighty-days",
+    "repo": null
+  },
+  {
+    "slug": "journey-to-the-center-of-the-earth",
+    "repo": null
+  },
+  {
+    "slug": "a-princess-of-mars",
+    "repo": null
+  },
+  {
+    "slug": "the-gods-of-mars",
+    "repo": null
+  },
+  {
+    "slug": "the-first-men-in-the-moon",
+    "repo": null
+  },
+  {
+    "slug": "looking-backward",
+    "repo": null
+  },
+  {
+    "slug": "news-from-nowhere",
+    "repo": null
+  },
+  {
+    "slug": "the-food-of-the-gods",
+    "repo": null
+  },
+  {
+    "slug": "herland",
+    "repo": null
+  },
+  {
+    "slug": "flatland",
+    "repo": null
+  },
+  {
+    "slug": "the-hound-of-the-baskervilles",
+    "repo": null
+  },
+  {
+    "slug": "a-study-in-scarlet",
+    "repo": null
+  },
+  {
+    "slug": "the-sign-of-the-four",
+    "repo": null
+  },
+  {
+    "slug": "the-memoirs-of-sherlock-holmes",
+    "repo": null
+  },
+  {
+    "slug": "the-return-of-sherlock-holmes",
+    "repo": null
+  },
+  {
+    "slug": "the-moonstone",
+    "repo": null
+  },
+  {
+    "slug": "the-woman-in-white",
+    "repo": null
+  },
+  {
+    "slug": "the-murders-in-the-rue-morgue",
+    "repo": null
+  },
+  {
+    "slug": "the-mystery-of-edwin-drood",
+    "repo": null
+  },
+  {
+    "slug": "arsene-lupin-gentleman-burglar",
+    "repo": null
+  },
+  {
+    "slug": "the-innocence-of-father-brown",
+    "repo": null
+  },
+  {
+    "slug": "the-wisdom-of-father-brown",
+    "repo": null
+  },
+  {
+    "slug": "the-riddle-of-the-sands",
+    "repo": null
+  },
+  {
+    "slug": "the-thirty-nine-steps",
+    "repo": null
+  },
+  {
+    "slug": "white-fang",
+    "repo": null
+  },
+  {
+    "slug": "moby-dick",
+    "repo": null
+  },
+  {
+    "slug": "the-count-of-monte-cristo",
+    "repo": null
+  },
+  {
+    "slug": "the-three-musketeers",
+    "repo": null
+  },
+  {
+    "slug": "twenty-years-after",
+    "repo": null
+  },
+  {
+    "slug": "the-adventures-of-tom-sawyer",
+    "repo": null
+  },
+  {
+    "slug": "adventures-of-huckleberry-finn",
+    "repo": null
+  },
+  {
+    "slug": "robinson-crusoe",
+    "repo": null
+  },
+  {
+    "slug": "king-solomons-mines",
+    "repo": null
+  },
+  {
+    "slug": "she",
+    "repo": null
+  },
+  {
+    "slug": "tarzan-of-the-apes",
+    "repo": null
+  },
+  {
+    "slug": "the-sea-wolf",
+    "repo": null
+  },
+  {
+    "slug": "kidnapped",
+    "repo": null
+  },
+  {
+    "slug": "sense-and-sensibility",
+    "repo": null
+  },
+  {
+    "slug": "emma",
+    "repo": null
+  },
+  {
+    "slug": "mansfield-park",
+    "repo": null
+  },
+  {
+    "slug": "northanger-abbey",
+    "repo": null
+  },
+  {
+    "slug": "persuasion",
+    "repo": null
+  },
+  {
+    "slug": "little-women",
+    "repo": null
+  },
+  {
+    "slug": "anna-karenina",
+    "repo": null
+  },
+  {
+    "slug": "madame-bovary",
+    "repo": null
+  },
+  {
+    "slug": "the-age-of-innocence",
+    "repo": null
+  },
+  {
+    "slug": "the-house-of-mirth",
+    "repo": null
+  },
+  {
+    "slug": "far-from-the-madding-crowd",
+    "repo": null
+  },
+  {
+    "slug": "tess-of-the-durbervilles",
+    "repo": null
+  },
+  {
+    "slug": "the-scarlet-letter",
+    "repo": null
+  },
+  {
+    "slug": "the-metamorphosis",
+    "repo": null
+  },
+  {
+    "slug": "crime-and-punishment",
+    "repo": null
+  },
+  {
+    "slug": "the-brothers-karamazov",
+    "repo": null
+  },
+  {
+    "slug": "les-miserables",
+    "repo": null
+  },
+  {
+    "slug": "a-tale-of-two-cities",
+    "repo": null
+  },
+  {
+    "slug": "great-expectations",
+    "repo": null
+  },
+  {
+    "slug": "the-odyssey",
+    "repo": null
+  },
+  {
+    "slug": "the-iliad",
+    "repo": null
+  },
+  {
+    "slug": "meditations",
+    "repo": null
+  },
+  {
+    "slug": "the-republic",
+    "repo": null
+  },
+  {
+    "slug": "beyond-good-and-evil",
+    "repo": null
+  },
+  {
+    "slug": "the-art-of-war",
+    "repo": null
+  },
+  {
+    "slug": "the-prince",
+    "repo": null
+  },
+  {
+    "slug": "heart-of-darkness",
+    "repo": null
+  },
+  {
+    "slug": "the-wonderful-wizard-of-oz",
+    "repo": null
+  },
+  {
+    "slug": "peter-and-wendy",
+    "repo": null
+  },
+  {
+    "slug": "the-secret-garden",
+    "repo": null
+  },
+  {
+    "slug": "a-little-princess",
+    "repo": null
+  },
+  {
+    "slug": "the-wind-in-the-willows",
+    "repo": null
+  },
+  {
+    "slug": "grimms-fairy-tales",
+    "repo": null
+  },
+  {
+    "slug": "andersens-fairy-tales",
+    "repo": null
+  }
+]

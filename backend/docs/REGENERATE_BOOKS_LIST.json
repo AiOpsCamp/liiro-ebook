@@ -1,0 +1,306 @@
+[
+  {
+    "slug": "a-princess-of-mars",
+    "title": "A Princess of Mars",
+    "chapters": 28,
+    "polluted_chapters_count": 28,
+    "needs_regeneration": true,
+    "current_status": "NEEDS_REGENERATION"
+  },
+  {
+    "slug": "the-marvelous-land-of-oz",
+    "title": "The Marvelous Land of Oz",
+    "chapters": 24,
+    "polluted_chapters_count": 24,
+    "needs_regeneration": true,
+    "current_status": "NEEDS_REGENERATION"
+  },
+  {
+    "slug": "the-wonderful-wizard-of-oz",
+    "title": "The Wonderful Wizard of Oz",
+    "chapters": 24,
+    "polluted_chapters_count": 24,
+    "needs_regeneration": true,
+    "current_status": "NEEDS_REGENERATION"
+  },
+  {
+    "slug": "ozma-of-oz",
+    "title": "Ozma of Oz",
+    "chapters": 21,
+    "polluted_chapters_count": 21,
+    "needs_regeneration": true,
+    "current_status": "NEEDS_REGENERATION"
+  },
+  {
+    "slug": "plague-ship",
+    "title": "Plague Ship",
+    "chapters": 18,
+    "polluted_chapters_count": 18,
+    "needs_regeneration": true,
+    "current_status": "NEEDS_REGENERATION"
+  },
+  {
+    "slug": "the-warlord-of-mars",
+    "title": "The Warlord of Mars",
+    "chapters": 16,
+    "polluted_chapters_count": 16,
+    "needs_regeneration": true,
+    "current_status": "NEEDS_REGENERATION"
+  },
+  {
+    "slug": "the-house-of-arden",
+    "title": "The House of Arden",
+    "chapters": 14,
+    "polluted_chapters_count": 14,
+    "needs_regeneration": true,
+    "current_status": "REGENERATING_NOW"
+  },
+  {
+    "slug": "the-story-of-the-amulet",
+    "title": "The Story of the Amulet",
+    "chapters": 14,
+    "polluted_chapters_count": 14,
+    "needs_regeneration": true,
+    "current_status": "REGENERATING_NOW"
+  },
+  {
+    "slug": "hardings-luck",
+    "title": "Harding\u2019s Luck",
+    "chapters": 12,
+    "polluted_chapters_count": 12,
+    "needs_regeneration": true,
+    "current_status": "REGENERATING_NOW"
+  },
+  {
+    "slug": "moving-the-mountain",
+    "title": "Moving the Mountain",
+    "chapters": 12,
+    "polluted_chapters_count": 12,
+    "needs_regeneration": true,
+    "current_status": "REGENERATING_NOW"
+  },
+  {
+    "slug": "the-adventures-of-sherlock-holmes",
+    "title": "The Adventures of Sherlock Holmes",
+    "chapters": 12,
+    "polluted_chapters_count": 12,
+    "needs_regeneration": true,
+    "current_status": "NEEDS_REGENERATION"
+  },
+  {
+    "slug": "the-innocence-of-father-brown",
+    "title": "The Innocence of Father Brown",
+    "chapters": 12,
+    "polluted_chapters_count": 12,
+    "needs_regeneration": true,
+    "current_status": "REGENERATING_NOW"
+  },
+  {
+    "slug": "the-memoirs-of-sherlock-holmes",
+    "title": "The Memoirs of Sherlock Holmes",
+    "chapters": 12,
+    "polluted_chapters_count": 12,
+    "needs_regeneration": true,
+    "current_status": "NEEDS_REGENERATION"
+  },
+  {
+    "slug": "five-children-and-it",
+    "title": "Five Children and It",
+    "chapters": 11,
+    "polluted_chapters_count": 11,
+    "needs_regeneration": true,
+    "current_status": "REGENERATING_NOW"
+  },
+  {
+    "slug": "the-phoenix-and-the-carpet",
+    "title": "The Phoenix and the Carpet",
+    "chapters": 12,
+    "polluted_chapters_count": 11,
+    "needs_regeneration": true,
+    "current_status": "REGENERATING_NOW"
+  },
+  {
+    "slug": "a-thief-in-the-night",
+    "title": "A Thief in the Night",
+    "chapters": 10,
+    "polluted_chapters_count": 10,
+    "needs_regeneration": true,
+    "current_status": "REGENERATING_NOW"
+  },
+  {
+    "slug": "his-last-bow",
+    "title": "His Last Bow",
+    "chapters": 8,
+    "polluted_chapters_count": 8,
+    "needs_regeneration": true,
+    "current_status": "NEEDS_REGENERATION"
+  },
+  {
+    "slug": "the-black-mask",
+    "title": "The Black Mask",
+    "chapters": 8,
+    "polluted_chapters_count": 8,
+    "needs_regeneration": true,
+    "current_status": "REGENERATING_NOW"
+  },
+  {
+    "slug": "voodoo-planet",
+    "title": "Voodoo Planet",
+    "chapters": 8,
+    "polluted_chapters_count": 8,
+    "needs_regeneration": true,
+    "current_status": "REGENERATING_NOW"
+  },
+  {
+    "slug": "the-amateur-cracksman",
+    "title": "The Amateur Cracksman",
+    "chapters": 8,
+    "polluted_chapters_count": 7,
+    "needs_regeneration": true,
+    "current_status": "REGENERATING_NOW"
+  },
+  {
+    "slug": "alices-adventures-in-wonderland",
+    "title": "Alice\u2019s Adventures in Wonderland",
+    "chapters": 12,
+    "polluted_chapters_count": 0,
+    "needs_regeneration": true,
+    "current_status": "REGENERATING_NOW"
+  },
+  {
+    "slug": "antigone",
+    "title": "Antigone",
+    "chapters": 3,
+    "polluted_chapters_count": 0,
+    "needs_regeneration": true,
+    "current_status": "REGENERATING_NOW"
+  },
+  {
+    "slug": "at-the-earths-core",
+    "title": "At the Earth\u2019s Core",
+    "chapters": 15,
+    "polluted_chapters_count": 0,
+    "needs_regeneration": true,
+    "current_status": "REGENERATING_NOW"
+  },
+  {
+    "slug": "blind-corner",
+    "title": "Blind Corner",
+    "chapters": 9,
+    "polluted_chapters_count": 0,
+    "needs_regeneration": true,
+    "current_status": "REGENERATING_NOW"
+  },
+  {
+    "slug": "herland",
+    "title": "Herland",
+    "chapters": 12,
+    "polluted_chapters_count": 0,
+    "needs_regeneration": true,
+    "current_status": "REGENERATING_NOW"
+  },
+  {
+    "slug": "memoirs-of-a-foxhunting-man",
+    "title": "Memoirs of a Foxhunting Man",
+    "chapters": 10,
+    "polluted_chapters_count": 0,
+    "needs_regeneration": true,
+    "current_status": "REGENERATING_NOW"
+  },
+  {
+    "slug": "memoirs-of-an-infantry-officer",
+    "title": "Memoirs of an Infantry Officer",
+    "chapters": 10,
+    "polluted_chapters_count": 0,
+    "needs_regeneration": true,
+    "current_status": "REGENERATING_NOW"
+  },
+  {
+    "slug": "oedipus-rex",
+    "title": "Oedipus Rex",
+    "chapters": 4,
+    "polluted_chapters_count": 0,
+    "needs_regeneration": true,
+    "current_status": "REGENERATING_NOW"
+  },
+  {
+    "slug": "pellucidar",
+    "title": "Pellucidar",
+    "chapters": 15,
+    "polluted_chapters_count": 0,
+    "needs_regeneration": true,
+    "current_status": "REGENERATING_NOW"
+  },
+  {
+    "slug": "perishable-goods",
+    "title": "Perishable Goods",
+    "chapters": 9,
+    "polluted_chapters_count": 0,
+    "needs_regeneration": true,
+    "current_status": "REGENERATING_NOW"
+  },
+  {
+    "slug": "the-house-at-pooh-corner",
+    "title": "The House at Pooh Corner",
+    "chapters": 10,
+    "polluted_chapters_count": 0,
+    "needs_regeneration": true,
+    "current_status": "REGENERATING_NOW"
+  },
+  {
+    "slug": "through-the-looking-glass",
+    "title": "Through the Looking-Glass",
+    "chapters": 12,
+    "polluted_chapters_count": 0,
+    "needs_regeneration": true,
+    "current_status": "REGENERATING_NOW"
+  },
+  {
+    "slug": "winnie-the-pooh",
+    "title": "Winnie-the-Pooh",
+    "chapters": 10,
+    "polluted_chapters_count": 0,
+    "needs_regeneration": true,
+    "current_status": "REGENERATING_NOW"
+  },
+  {
+    "slug": "a-study-in-scarlet",
+    "title": "A Study in Scarlet",
+    "chapters": 14,
+    "polluted_chapters_count": 0,
+    "needs_regeneration": false,
+    "current_status": "CLEAN_VERIFIED"
+  },
+  {
+    "slug": "north-of-boston",
+    "title": "North of Boston",
+    "chapters": 16,
+    "polluted_chapters_count": 0,
+    "needs_regeneration": false,
+    "current_status": "CLEAN_VERIFIED"
+  },
+  {
+    "slug": "peter-and-wendy",
+    "title": "Peter and Wendy",
+    "chapters": 17,
+    "polluted_chapters_count": 0,
+    "needs_regeneration": false,
+    "current_status": "CLEAN_VERIFIED"
+  },
+  {
+    "slug": "the-little-white-bird",
+    "title": "The Little White Bird",
+    "chapters": 26,
+    "polluted_chapters_count": 0,
+    "needs_regeneration": false,
+    "current_status": "CLEAN_VERIFIED"
+  },
+  {
+    "slug": "the-sign-of-the-four",
+    "title": "The Sign of the Four",
+    "chapters": 12,
+    "polluted_chapters_count": 0,
+    "needs_regeneration": false,
+    "current_status": "CLEAN_VERIFIED"
+  }
+]

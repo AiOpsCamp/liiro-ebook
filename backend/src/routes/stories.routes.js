@@ -6,6 +6,10 @@ const storyController = require("../controllers/story.controller");
 const ebookMetadataController = require("../controllers/ebookMetadata.controller");
 const authMiddleware = require("../middlewares/authMiddleware");
 
+// Home Dashboard Endpoint
+router.get("/home-dashboard", storyController.getHomeDashboardData);
+router.get("/home", storyController.getHomeDashboardData);
+
 // Metadata Routes: Authors, Categories, Tags, Series
 router.get("/authors", ebookMetadataController.getAuthors);
 router.get("/authors/:slug", ebookMetadataController.getAuthorBySlug);
@@ -21,6 +25,8 @@ router.get("/series/:slug", storyController.getBookSeriesBySlug);
 
 // Dedicated Search Endpoint
 router.get("/search", storyController.searchStories);
+router.get("/audiobooks", storyController.getAudiobooks);
+router.get("/audiobooks/featured", storyController.getFeaturedAudiobooks);
 
 // Dedicated User Library & Bookmark Aggregate Endpoints
 router.get("/user/library", authMiddleware, storyController.getUserLibrary);

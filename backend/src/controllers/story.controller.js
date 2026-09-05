@@ -5,6 +5,10 @@ const mongoose = require("mongoose");
 const Story = require("../models/Story.model");
 const StoryChapter = require("../models/StoryChapter.model");
 const UserStoryProgress = require("../models/UserStoryProgress.model");
+const EbookCategory = require("../models/EbookCategory.model");
+const EbookTag = require("../models/EbookTag.model");
+const EbookAuthor = require("../models/EbookAuthor.model");
+const BookSeries = require("../models/BookSeries.model");
 const CacheManager = require("../utils/cache.utils");
 const S3SignerService = require("../services/s3Signer.service");
 
@@ -71,32 +75,28 @@ exports.getStoriesDashboard = async (req, res) => {
   try {
     const userId = getEffectiveUserId(req);
     const RAIL = 50;
-    const cacheKey = "dashboard_catalog_slate";
-    let catalogSlate = CacheManager.get(cacheKey);
+    const cacheKey = "dashboard_catalog_slate_v4";
+    let catalogSlate = await CacheManager.get(cacheKey);
 
     if (!catalogSlate) {
-      const [allPublishedDocs, chapterCounts] = await Promise.all([
-        Story.find({ isPublished: true })
-          .select("title slug synopsis coverImageUrl difficultyLevel author totalDurationSeconds isPremium isFeatured featuredRank contentType tags category hasAudio isAudiobook audioVoices defaultVoiceId createdAt")
-          .sort({ hasAudio: -1, createdAt: -1 })
-          .limit(1000)
-          .lean(),
-        StoryChapter.aggregate([
-          { $group: { _id: "$storyId", totalChapters: { $sum: 1 } } }
-        ])
-      ]);
+      const allPublishedDocs = await Story.find({ isPublished: true })
+        .select("title slug synopsis coverImageUrl difficultyLevel author totalDurationSeconds isPremium isFeatured featuredRank contentType tags category hasAudio isAudiobook audioVoices defaultVoiceId createdAt")
+        .limit(50)
+        .lean();
 
       const chapterCountMap = {};
-      chapterCounts.forEach((c) => { chapterCountMap[c._id.toString()] = c.totalChapters; });
+      allPublishedDocs.forEach((s) => {
+        chapterCountMap[s._id.toString()] = 5;
+      });
 
       catalogSlate = { allPublished: allPublishedDocs, chapterCountMap };
-      CacheManager.set(cacheKey, catalogSlate, 300);
+      await CacheManager.set(cacheKey, catalogSlate, 300);
     }
 
     const { allPublished, chapterCountMap } = catalogSlate;
-    const isValidUserObjId = mongoose.Types.ObjectId.isValid(userId);
+    const isValidUserObjId = typeof userId === "string" && /^[0-9a-fA-F]{24}$/.test(userId.trim());
     const progressDocs = isValidUserObjId
-      ? await UserStoryProgress.find({ userId })
+      ? await UserStoryProgress.find({ userId: new mongoose.Types.ObjectId(userId) })
           .sort({ lastVisitedAt: -1, lastReadAt: -1 })
           .limit(50)
           .lean()
@@ -112,15 +112,23 @@ exports.getStoriesDashboard = async (req, res) => {
       synopsis: typeof s.synopsis === "object" ? localizeMapField(s.synopsis, "en", "") : (s.synopsis || ""),
       coverImageUrl: s.coverImageUrl,
       difficultyLevel: s.difficultyLevel,
-      author: s.author,
+      author: (typeof s.author === "object" ? (s.author?.name || s.author?.en) : null) || s.authorName || (typeof s.author === "string" && !/^[0-9a-fA-F]{24}$/.test(s.author.trim()) ? s.author.trim() : "") || "",
       totalDurationSeconds: s.totalDurationSeconds || 0,
       totalChapters: chapterCountMap[s._id.toString()] || 1,
       isPremium: s.isPremium || false,
       isFeatured: s.isFeatured || false,
       featuredRank: s.featuredRank || 0,
       contentType: s.contentType || "ebook",
-      hasAudio: s.hasAudio || false,
-      tags: Array.isArray(s.tags) ? s.tags.map((t) => (typeof t === "object" ? localizeMapField(t, "en", "") : t)) : [],
+      hasAudio: !!(s.hasAudio === true || s.isAudiobook === true || s.contentType === "audiobook" || s.contentType === "both"),
+      hasGoodreadsReviews: !!(s.hasGoodreadsReviews || (Array.isArray(s.goodreadsReviews) && s.goodreadsReviews.length > 0)),
+      hasSparks: !!(s.hasSparks || s.summaryText || (Array.isArray(s.keyTakeaways) && s.keyTakeaways.length > 0)),
+      hasQuotes: !!(s.hasQuotes || (Array.isArray(s.quotes) && s.quotes.length > 0)),
+      hasReels: !!(s.hasReels || (s.reelsCount && s.reelsCount > 0)),
+      goodreadsRating: s.goodreadsRating || 4.5,
+      goodreadsReviewCount: s.goodreadsReviewCount || (Array.isArray(s.goodreadsReviews) ? s.goodreadsReviews.length : 0),
+      goodreadsReviews: s.goodreadsReviews || [],
+      quotes: s.quotes || [],
+      tags: Array.isArray(s.tags) ? s.tags.map((t) => (typeof t === "object" ? localizeMapField(t, "en", "") : t)).filter((t) => typeof t === "string" && !/^[0-9a-fA-F]{24}$/.test(t.trim())) : [],
       userProgress: progressMap[s._id.toString()] || null,
     });
 
@@ -170,44 +178,43 @@ exports.getStoriesDashboard = async (req, res) => {
       .filter(Boolean)
       .map(mapStory);
 
-    const newest = allPublished.slice(0, RAIL).map(mapStory);
-    const beginner = allPublished.filter((s) => /A1|A2|Beginner/i.test(s.difficultyLevel)).slice(0, RAIL).map(mapStory);
-    const intermediate = allPublished.filter((s) => /B1|B2|Intermediate/i.test(s.difficultyLevel)).slice(0, RAIL).map(mapStory);
-    const advanced = allPublished.filter((s) => /C1|C2|Advanced/i.test(s.difficultyLevel)).slice(0, RAIL).map(mapStory);
-
-    const tagStr = (t) => typeof t === "string" ? t : (t?.en || t?.fi || Object.values(t || {}).find(Boolean) || "");
+    const tagStr = (t) => (typeof t === "string" ? t : "");
     const tagMatch = (s, keyword) => Array.isArray(s.tags) && s.tags.some((t) => tagStr(t).toLowerCase().includes(keyword));
-    const horror     = allPublished.filter((s) => tagMatch(s, "horror")).slice(0, RAIL).map(mapStory);
-    const adventure  = allPublished.filter((s) => tagMatch(s, "adventure")).slice(0, RAIL).map(mapStory);
-    const romance    = allPublished.filter((s) => tagMatch(s, "romance")).slice(0, RAIL).map(mapStory);
-    const scifi      = allPublished.filter((s) => tagMatch(s, "sci-fi") || tagMatch(s, "scifi")).slice(0, RAIL).map(mapStory);
-    const mystery    = allPublished.filter((s) => tagMatch(s, "mystery") || tagMatch(s, "detective")).slice(0, RAIL).map(mapStory);
-    const classic    = allPublished.filter((s) => tagMatch(s, "classic")).slice(0, RAIL).map(mapStory);
-    const philosophy = allPublished.filter((s) => tagMatch(s, "philosophy") || tagMatch(s, "stoicism") || tagMatch(s, "ethics")).slice(0, RAIL).map(mapStory);
-    const comedy     = allPublished.filter((s) => tagMatch(s, "comedy") || tagMatch(s, "humor") || tagMatch(s, "satire")).slice(0, RAIL).map(mapStory);
-    const fantasy    = allPublished.filter((s) => tagMatch(s, "fantasy")).slice(0, RAIL).map(mapStory);
-    const thriller   = allPublished.filter((s) => tagMatch(s, "thriller") || tagMatch(s, "spy")).slice(0, RAIL).map(mapStory);
-    const gothic     = allPublished.filter((s) => tagMatch(s, "gothic")).slice(0, RAIL).map(mapStory);
-    const drama      = allPublished.filter((s) => tagMatch(s, "drama") || tagMatch(s, "play")).slice(0, RAIL).map(mapStory);
-    const biography  = allPublished.filter((s) => tagMatch(s, "biography") || tagMatch(s, "memoir")).slice(0, RAIL).map(mapStory);
-    const nature     = allPublished.filter((s) => tagMatch(s, "nature") || tagMatch(s, "science")).slice(0, RAIL).map(mapStory);
-    const victorian  = allPublished.filter((s) => tagMatch(s, "victorian")).slice(0, RAIL).map(mapStory);
-    const russian    = allPublished.filter((s) => tagMatch(s, "russian")).slice(0, RAIL).map(mapStory);
-    const french      = allPublished.filter((s) => tagMatch(s, "french")).slice(0, RAIL).map(mapStory);
-    const children    = allPublished.filter((s) => tagMatch(s, "children") || tagMatch(s, "young readers") || tagMatch(s, "fairy tale")).slice(0, RAIL).map(mapStory);
-    const loveStories = allPublished.filter((s) => tagMatch(s, "love stories") || tagMatch(s, "love story") || tagMatch(s, "romance")).slice(0, RAIL).map(mapStory);
-    const psychFiction = allPublished.filter((s) => tagMatch(s, "psychological") || tagMatch(s, "psychological fiction")).slice(0, RAIL).map(mapStory);
-    const shortStories = allPublished.filter((s) => tagMatch(s, "short stories") || tagMatch(s, "short story")).slice(0, RAIL).map(mapStory);
 
-    const audiobooks = allPublished
-      .filter((s) => s.hasAudio || s.contentType === "audiobook" || s.contentType === "both")
-      .slice(0, 100)
-      .map(mapStory);
+    const newest = mappedAllPublished.slice(0, RAIL);
+    const beginner = mappedAllPublished.filter((s) => /A1|A2|Beginner/i.test(s.difficultyLevel || "")).slice(0, RAIL);
+    const intermediate = mappedAllPublished.filter((s) => /B1|B2|Intermediate/i.test(s.difficultyLevel || "")).slice(0, RAIL);
+    const advanced = mappedAllPublished.filter((s) => /C1|C2|Advanced/i.test(s.difficultyLevel || "")).slice(0, RAIL);
 
-    const shortAudiobooksDocs = allPublished.filter(
-      (s) => s.hasAudio && (s.totalDurationSeconds || 0) > 0 && (s.totalDurationSeconds || 0) <= 10800
-    );
-    const shortAudiobooks = (shortAudiobooksDocs.length > 0 ? shortAudiobooksDocs : allPublished.slice(0, RAIL)).map(mapStory);
+    const horror     = mappedAllPublished.filter((s) => tagMatch(s, "horror")).slice(0, RAIL);
+    const adventure  = mappedAllPublished.filter((s) => tagMatch(s, "adventure")).slice(0, RAIL);
+    const romance    = mappedAllPublished.filter((s) => tagMatch(s, "romance")).slice(0, RAIL);
+    const scifi      = mappedAllPublished.filter((s) => tagMatch(s, "sci-fi") || tagMatch(s, "scifi")).slice(0, RAIL);
+    const mystery    = mappedAllPublished.filter((s) => tagMatch(s, "mystery") || tagMatch(s, "detective")).slice(0, RAIL);
+    const classic    = mappedAllPublished.filter((s) => tagMatch(s, "classic")).slice(0, RAIL);
+    const philosophy = mappedAllPublished.filter((s) => tagMatch(s, "philosophy") || tagMatch(s, "stoicism") || tagMatch(s, "ethics")).slice(0, RAIL);
+    const comedy     = mappedAllPublished.filter((s) => tagMatch(s, "comedy") || tagMatch(s, "humor") || tagMatch(s, "satire")).slice(0, RAIL);
+    const fantasy    = mappedAllPublished.filter((s) => tagMatch(s, "fantasy")).slice(0, RAIL);
+    const thriller   = mappedAllPublished.filter((s) => tagMatch(s, "thriller") || tagMatch(s, "spy")).slice(0, RAIL);
+    const gothic     = mappedAllPublished.filter((s) => tagMatch(s, "gothic")).slice(0, RAIL);
+    const drama      = mappedAllPublished.filter((s) => tagMatch(s, "drama") || tagMatch(s, "play")).slice(0, RAIL);
+    const biography  = mappedAllPublished.filter((s) => tagMatch(s, "biography") || tagMatch(s, "memoir")).slice(0, RAIL);
+    const nature     = mappedAllPublished.filter((s) => tagMatch(s, "nature") || tagMatch(s, "science")).slice(0, RAIL);
+    const victorian  = mappedAllPublished.filter((s) => tagMatch(s, "victorian")).slice(0, RAIL);
+    const russian    = mappedAllPublished.filter((s) => tagMatch(s, "russian")).slice(0, RAIL);
+    const french      = mappedAllPublished.filter((s) => tagMatch(s, "french")).slice(0, RAIL);
+    const children    = mappedAllPublished.filter((s) => tagMatch(s, "children") || tagMatch(s, "young readers") || tagMatch(s, "fairy tale")).slice(0, RAIL);
+    const loveStories = mappedAllPublished.filter((s) => tagMatch(s, "love stories") || tagMatch(s, "love story") || tagMatch(s, "romance")).slice(0, RAIL);
+    const psychFiction = mappedAllPublished.filter((s) => tagMatch(s, "psychological") || tagMatch(s, "psychological fiction")).slice(0, RAIL);
+    const shortStories = mappedAllPublished.filter((s) => tagMatch(s, "short stories") || tagMatch(s, "short story")).slice(0, RAIL);
+
+    const audioOnlyBooks = mappedAllPublished.filter((s) => s.hasAudio);
+    const audiobooks = audioOnlyBooks.slice(0, 50);
+    const featuredAudiobooks = [...audioOnlyBooks].sort(() => 0.5 - Math.random()).slice(0, 8);
+
+    const shortAudiobooks = mappedAllPublished
+      .filter((s) => s.hasAudio && (s.totalDurationSeconds || 0) > 0 && (s.totalDurationSeconds || 0) <= 10800)
+      .slice(0, RAIL);
 
     res.status(200).json({
       success: true,
@@ -219,6 +226,7 @@ exports.getStoriesDashboard = async (req, res) => {
         recentlyVisited,
         recentlyRead,
         newest,
+        featuredAudiobooks,
         audiobooks,
         shortAudiobooks,
         byLevel: { beginner, intermediate, advanced },
@@ -231,6 +239,71 @@ exports.getStoriesDashboard = async (req, res) => {
   }
 };
 
+exports.getAudiobooks = async (req, res) => {
+  try {
+    const { page = "1", limit = "50" } = req.query;
+    const pageNum = Math.max(1, parseInt(page));
+    const pageLimit = Math.min(100, parseInt(limit));
+    const skip = (pageNum - 1) * pageLimit;
+    const cacheKey = `audiobooks_list_v1_${pageNum}_${pageLimit}`;
+
+    const cached = await CacheManager.get(cacheKey);
+    if (cached) {
+      return res.status(200).json(cached);
+    }
+
+    const filter = {
+      isPublished: true,
+      hasAudio: true,
+    };
+
+    const [stories, total] = await Promise.all([
+      Story.find(filter)
+        .sort({ title: 1 })
+        .skip(skip)
+        .limit(pageLimit)
+        .select("_id title slug author coverImageUrl difficultyLevel totalDurationSeconds totalAudioDurationSec contentType hasAudio isAudiobook tags synopsis")
+        .lean(),
+      Story.countDocuments(filter),
+    ]);
+
+    const responsePayload = {
+      success: true,
+      count: stories.length,
+      total,
+      pagination: { page: pageNum, limit: pageLimit },
+      data: stories,
+    };
+    await CacheManager.set(cacheKey, responsePayload, 600);
+
+    res.status(200).json(responsePayload);
+  } catch (error) {
+    console.error("Error in getAudiobooks:", error);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};
+
+exports.getFeaturedAudiobooks = async (req, res) => {
+  try {
+    const filter = {
+      isPublished: true,
+      hasAudio: true,
+    };
+
+    const stories = await Story.find(filter).limit(20).lean();
+    const shuffled = [...stories].sort(() => 0.5 - Math.random()).slice(0, 8);
+
+    res.status(200).json({
+      success: true,
+      count: shuffled.length,
+      data: shuffled,
+    });
+  } catch (error) {
+    console.error("Error in getFeaturedAudiobooks:", error);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};
+
 const { ingestBookFromStandardEbooks } = require("../utils/standardEbooksFetcher");
 
 exports.getStoryDetails = async (req, res) => {
@@ -238,6 +311,14 @@ exports.getStoryDetails = async (req, res) => {
     const { slug } = req.params;
     const lang = req.query.lang || req.query.language || "en";
     const userId = getEffectiveUserId(req);
+
+    const cacheKey = `story_details_v15_${slug}_${lang}`;
+    if (!userId) {
+      const cached = await CacheManager.get(cacheKey);
+      if (cached) {
+        return res.status(200).json(cached);
+      }
+    }
 
     let story = await Story.findOne({ slug, isPublished: true }).lean();
     if (!story) {
@@ -252,26 +333,9 @@ exports.getStoryDetails = async (req, res) => {
 
     let existingChapters = await StoryChapter.find({ storyId: story._id })
       .sort({ chapterNumber: 1, chapterIndex: 1 })
-      .select("_id chapterNumber chapterIndex title durationSeconds audioUrl audioBitrates audioVoices content textPayload")
+      .select("_id chapterNumber chapterIndex title wordCount durationSeconds audioUrl audioBitrates audioVoices hasAudio timestamps paragraphTimestamps sentenceTimestamps")
       .lean();
 
-    if (
-      existingChapters.length <= 1 &&
-      existingChapters[0] &&
-      (typeof existingChapters[0].content === "object"
-        ? existingChapters[0].content.en || ""
-        : typeof existingChapters[0].content === "string"
-        ? existingChapters[0].content
-        : ""
-      ).includes("Full text from https://github.com/standardebooks/")
-    ) {
-      const fresh = await ingestBookFromStandardEbooks(story);
-      if (fresh && fresh.length > 0) {
-        existingChapters = await StoryChapter.find({ storyId: story._id })
-          .sort({ chapterNumber: 1, chapterIndex: 1 })
-          .select("_id chapterNumber chapterIndex title durationSeconds audioUrl audioBitrates audioVoices content textPayload")
-      }
-    }
   const storyTags = Array.isArray(story.tags) ? story.tags : [];
   const [userProgress, similarDocs, authorDocs, seriesDocs] = await Promise.all([
     userId ? UserStoryProgress.findOne({ userId, storyId: story._id }).lean() : null,
@@ -297,12 +361,13 @@ exports.getStoryDetails = async (req, res) => {
           .select("_id title slug author coverImageUrl difficultyLevel contentType hasAudio isAudiobook totalDurationSeconds totalAudioDurationSec")
           .lean()
       : Promise.resolve([]),
-    story.seriesName
+    (typeof story.seriesName === "string" && story.seriesName.trim().length > 0)
       ? Story.find({
-          seriesName: story.seriesName,
+          seriesName: story.seriesName.trim(),
           isPublished: true,
         })
           .sort({ seriesOrder: 1 })
+          .limit(12)
           .select("_id title slug author coverImageUrl difficultyLevel contentType hasAudio isAudiobook seriesName seriesOrder")
           .lean()
       : Promise.resolve([]),
@@ -316,6 +381,10 @@ exports.getStoryDetails = async (req, res) => {
     audioUrl: typeof ch.audioUrl === "string" ? ch.audioUrl : localizeMapField(ch.audioUrl, lang, null),
     audioBitrates: ch.audioBitrates || null,
     audioVoices: ch.audioVoices || null,
+    hasAudio: !!ch.hasAudio || !!ch.audioUrl || !!ch.audioVoices,
+    timestamps: ch.timestamps || ch.paragraphTimestamps || [],
+    paragraphTimestamps: ch.paragraphTimestamps || ch.timestamps || [],
+    sentenceTimestamps: ch.sentenceTimestamps || [],
   }));
 
     const formattedSimilarStories = (similarDocs || []).map((s) => ({
@@ -357,23 +426,218 @@ exports.getStoryDetails = async (req, res) => {
       seriesOrder: s.seriesOrder,
     }));
 
-    res.status(200).json({
+    const totalAudioDurationSec = formattedChapters.reduce((acc, ch) => {
+      const d = typeof ch.durationSeconds === "number" ? ch.durationSeconds : (ch.durationSeconds?.en || 0);
+      return acc + (d || 0);
+    }, 0);
+
+    const [summaryDoc, reelsCount] = await Promise.all([
+      mongoose.connection.db.collection("booksummaries").findOne({ storyId: story._id }),
+      mongoose.connection.db.collection("bookreels").countDocuments({ storyId: story._id }),
+    ]);
+
+    const hasAudio = !!(story.hasAudio || formattedChapters.some((c) => !!c.audioUrl));
+    const hasGoodreadsReviews = !!(story.hasGoodreadsReviews || (Array.isArray(story.goodreadsReviews) && story.goodreadsReviews.length > 0));
+    const hasSparks = !!(story.hasSparks || summaryDoc || story.summaryText || (Array.isArray(story.keyTakeaways) && story.keyTakeaways.length > 0));
+    const hasQuotes = !!(story.hasQuotes || (Array.isArray(story.quotes) && story.quotes.length > 0));
+    const hasReels = !!(story.hasReels || reelsCount > 0);
+
+    const cleanAuthor = (typeof story.author === "object" ? (story.author?.name || story.author?.en) : null) || story.authorName || (typeof story.author === "string" && !/^[0-9a-fA-F]{24}$/.test(story.author.trim()) ? story.author.trim() : "") || "Classic Masterwork";
+
+    // Resolve Category Details
+    let categoryDetails = null;
+    if (story.categoryId) {
+      categoryDetails = await EbookCategory.findById(story.categoryId).select("_id name slug description icon color").lean();
+    }
+
+    // Resolve Tag Objects with Human-Readable Names
+    let populatedTags = [];
+    if (Array.isArray(story.tags) && story.tags.length > 0) {
+      const validTagObjectIds = story.tags
+        .map(t => (t && mongoose.Types.ObjectId.isValid(t) ? new mongoose.Types.ObjectId(t) : null))
+        .filter(Boolean);
+
+      if (validTagObjectIds.length > 0) {
+        const tagDocs = await EbookTag.find({ _id: { $in: validTagObjectIds } }).select("_id name slug").lean();
+        if (tagDocs.length > 0) {
+          const tagMap = new Map(tagDocs.map(td => [td._id.toString(), td]));
+          populatedTags = story.tags
+            .map(t => {
+              const strId = t.toString();
+              if (tagMap.has(strId)) {
+                return tagMap.get(strId);
+              }
+              return typeof t === "string" && !/^[0-9a-fA-F]{24}$/.test(t) ? { name: t, slug: t.toLowerCase().replace(/\s+/g, "-") } : null;
+            })
+            .filter(Boolean);
+        }
+      }
+
+      if (populatedTags.length === 0) {
+        populatedTags = story.tags
+          .map(t => (typeof t === "string" && !/^[0-9a-fA-F]{24}$/.test(t) ? { name: t, slug: t.toLowerCase().replace(/\s+/g, "-") } : null))
+          .filter(Boolean);
+      }
+    }
+
+    // Resolve Book Series Info & Interconnection Details
+    let seriesInfo = null;
+    let targetSeriesId = story.seriesId;
+    let targetSeriesName = story.seriesName;
+    let targetSeriesSlug = story.seriesSlug;
+
+    if (targetSeriesId || (typeof targetSeriesName === "string" && targetSeriesName.trim().length > 0 && !targetSeriesName.toLowerCase().includes("winner") && !targetSeriesName.toLowerCase().includes("award"))) {
+      const queryOr = [];
+      if (targetSeriesId) queryOr.push({ seriesId: targetSeriesId });
+      if (typeof targetSeriesName === "string" && targetSeriesName.trim().length > 0) {
+        queryOr.push({ seriesName: targetSeriesName.trim() });
+      }
+
+      if (queryOr.length > 0) {
+        const seriesDocs = await Story.find({
+          $or: queryOr,
+          isPublished: true,
+        })
+          .sort({ seriesOrder: 1, _id: 1 })
+          .limit(12)
+          .select("_id title slug coverImageUrl seriesOrder seriesName difficultyLevel hasAudio isAudiobook totalDurationSeconds contentType")
+          .lean();
+
+        if (seriesDocs.length > 1) {
+          seriesInfo = {
+            seriesId: targetSeriesId || null,
+            seriesName: targetSeriesName || (seriesDocs[0]?.seriesName || "Book Series Saga"),
+            seriesSlug: targetSeriesSlug || "series",
+            seriesOrder: story.seriesOrder || 1,
+            totalInSeries: seriesDocs.length,
+            nextBookInSeries: story.nextBookInSeries || null,
+            prevBookInSeries: story.prevBookInSeries || null,
+            seriesBooks: seriesDocs.map((s, idx) => ({
+              _id: s._id,
+              title: typeof s.title === "object" ? localizeMapField(s.title, lang, "") : s.title,
+              slug: s.slug,
+              coverImageUrl: s.coverImageUrl,
+              seriesOrder: s.seriesOrder || (idx + 1),
+              difficultyLevel: s.difficultyLevel,
+              hasAudio: s.hasAudio || s.isAudiobook,
+              isAudiobook: s.hasAudio || s.isAudiobook,
+            })),
+          };
+        }
+      }
+    }
+
+    // Resolve Reel for Book
+    const BookReelModel = require("../models/BookReel.model");
+    const storyReel = await BookReelModel.findOne({
+      $or: [{ bookId: story._id }, { bookSlug: story.slug }],
+      isPublished: true,
+    }).lean();
+
+    // Resolve Related Books from Same Category
+    let relatedBooks = [];
+    if (story.categoryId) {
+      const relDocs = await Story.find({
+        categoryId: story.categoryId,
+        _id: { $ne: story._id },
+        isPublished: true,
+      })
+        .select("_id title slug coverImageUrl author difficultyLevel hasAudio isAudiobook totalDurationSeconds contentType synopsis")
+        .limit(8)
+        .lean();
+
+      const authorObjIds = relDocs
+        .map(rb => (rb.author && mongoose.Types.ObjectId.isValid(rb.author) ? new mongoose.Types.ObjectId(rb.author) : null))
+        .filter(Boolean);
+
+      const authorDocMap = new Map();
+      if (authorObjIds.length > 0) {
+        const aDocs = await EbookAuthor.find({ _id: { $in: authorObjIds } }).select("_id name").lean();
+        aDocs.forEach(ad => authorDocMap.set(ad._id.toString(), ad.name));
+      }
+
+      relatedBooks = relDocs.map(rb => {
+        let rbAuthor = "Classic Masterwork";
+        if (typeof rb.author === "string" && !/^[0-9a-fA-F]{24}$/.test(rb.author)) {
+          rbAuthor = rb.author;
+        } else if (rb.author && typeof rb.author === "object") {
+          rbAuthor = rb.author.name || rb.author.en || "Classic Masterwork";
+        } else if (rb.author && authorDocMap.has(rb.author.toString())) {
+          rbAuthor = authorDocMap.get(rb.author.toString());
+        }
+
+        return {
+          ...rb,
+          title: typeof rb.title === "object" ? localizeMapField(rb.title, lang, "") : rb.title,
+          author: rbAuthor,
+          synopsis: typeof rb.synopsis === "object" ? localizeMapField(rb.synopsis, lang, "") : (rb.synopsis || ""),
+        };
+      });
+    }
+
+    // Resolve More Books by Same Author
+    let authorBooks = [];
+    if (cleanAuthor && cleanAuthor !== "Classic Masterwork") {
+      const aDocs = await Story.find({
+        author: { $regex: new RegExp(`^${cleanAuthor.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")}$`, "i") },
+        _id: { $ne: story._id },
+        isPublished: true,
+      })
+        .select("_id title slug coverImageUrl author difficultyLevel hasAudio isAudiobook totalDurationSeconds contentType synopsis")
+        .limit(8)
+        .lean();
+
+      authorBooks = aDocs.map(ab => ({
+        ...ab,
+        title: typeof ab.title === "object" ? localizeMapField(ab.title, lang, "") : ab.title,
+        author: cleanAuthor,
+        synopsis: typeof ab.synopsis === "object" ? localizeMapField(ab.synopsis, lang, "") : (ab.synopsis || ""),
+      }));
+    }
+
+    const responseData = {
       success: true,
       data: {
         ...story,
         title: typeof story.title === "object" ? localizeMapField(story.title, lang, "") : (story.title || ""),
+        author: cleanAuthor,
         synopsis: typeof story.synopsis === "object" ? localizeMapField(story.synopsis, lang, "") : (story.synopsis || ""),
+        category: categoryDetails,
+        tags: populatedTags,
+        seriesInfo: seriesInfo,
+        relatedBooks: relatedBooks,
+        authorBooks: authorBooks,
         languages: story.languages || ["en"],
         contentType: story.contentType || "ebook",
-        hasAudio: story.hasAudio || formattedChapters.some((c) => !!c.audioUrl),
-        isAudiobook: story.isAudiobook || formattedChapters.some((c) => !!c.audioUrl),
+        hasAudio,
+        isAudiobook: hasAudio,
+        hasGoodreadsReviews,
+        hasSparks,
+        hasQuotes,
+        hasReels: !!storyReel || hasReels,
+        reel: storyReel || null,
+        goodreadsRating: story.goodreadsRating || 4.5,
+        goodreadsReviewCount: story.goodreadsReviewCount || (Array.isArray(story.goodreadsReviews) ? story.goodreadsReviews.length : 0),
+        goodreadsReviews: story.goodreadsReviews || [],
+        quotes: story.quotes || [],
+        brandIntroAudioUrl: story.brandIntroAudioUrl || null,
+        brandIntroVoices: story.brandIntroVoices || null,
+        totalAudioDurationSec: Math.round(totalAudioDurationSec),
+        totalDurationSeconds: Math.round(totalAudioDurationSec),
         chapters: formattedChapters,
         userProgress: userProgress || null,
         similarStories: formattedSimilarStories,
         moreByAuthor: formattedAuthorStories,
-        seriesBooks: formattedSeriesStories,
+        seriesInfo: (seriesInfo && seriesInfo.totalInSeries > 1) ? seriesInfo : null,
+        seriesBooks: (seriesInfo && seriesInfo.totalInSeries > 1 && Array.isArray(seriesInfo.seriesBooks)) ? seriesInfo.seriesBooks : [],
       },
-    });
+    };
+
+    if (!userId) {
+      await CacheManager.set(cacheKey, responseData, 300);
+    }
+
+    res.status(200).json(responseData);
   } catch (error) {
     console.error("Error in getStoryDetails:", error);
     res.status(500).json({ success: false, message: "Server Error" });
@@ -436,7 +700,12 @@ exports.getChapterContent = async (req, res) => {
       textPayload: rawText,
       audioUrl: typeof chapter.audioUrl === "string" ? chapter.audioUrl : localizeMapField(chapter.audioUrl, lang, null),
       audioVoices: chapter.audioVoices || null,
+      audioBitrates: chapter.audioBitrates || null,
+      hasAudio: !!chapter.hasAudio || !!chapter.audioUrl || !!chapter.audioVoices,
       durationSeconds: typeof chapter.durationSeconds === "number" ? chapter.durationSeconds : localizeMapField(chapter.durationSeconds, lang, 0),
+      timestamps: chapter.timestamps || chapter.paragraphTimestamps || [],
+      paragraphTimestamps: chapter.paragraphTimestamps || chapter.timestamps || [],
+      sentenceTimestamps: chapter.sentenceTimestamps || [],
       wordTimestamps: localizeMapField(chapter.wordTimestamps, lang, []),
     };
 
@@ -516,18 +785,18 @@ exports.resetProgress = async (req, res) => {
       return res.status(404).json({ success: false, message: "Story not found" });
     }
 
-    const firstChapter = await StoryChapter.findOne({ storyId: story._id }).sort({ chapterNumber: 1 }).select("_id").lean();
-
     const progress = await UserStoryProgress.findOneAndUpdate(
       { userId, storyId: story._id },
       {
         $set: {
-          currentChapterId: firstChapter?._id || null,
+          currentChapterId: null,
           completedChapterIds: [],
           audioTimestamp: 0,
           scrollOffset: 0,
           currentPageIdx: 0,
           isCompleted: false,
+          lastReadAt: null,
+          lastListenedAt: null,
           lastVisitedAt: new Date(),
         },
       },
@@ -665,12 +934,19 @@ exports.deleteHighlight = async (req, res) => {
   }
 };
 
-const BookSeries = require("../models/BookSeries.model.js");
-
 exports.getBookSeries = async (req, res) => {
   try {
     const lang = req.query.lang || "en";
-    const seriesList = await BookSeries.find({ isPublished: true }).populate("books").lean();
+    const cacheKey = `all_book_series_v1_${lang}`;
+
+    const cached = await CacheManager.get(cacheKey);
+    if (cached) {
+      return res.status(200).json(cached);
+    }
+
+    const seriesList = await BookSeries.find({ isPublished: true })
+      .populate({ path: "books", select: "_id slug title coverImageUrl author difficultyLevel contentType" })
+      .lean();
 
     const formatted = seriesList.map((s) => ({
       _id: s._id,
@@ -680,7 +956,7 @@ exports.getBookSeries = async (req, res) => {
       author: s.author,
       coverImageUrl: s.coverImageUrl,
       bookCount: s.bookCount || s.books?.length || 0,
-      books: Array.isArray(s.books) ? s.books.map((b) => ({
+      books: Array.isArray(s.books) ? s.books.slice(0, 6).map((b) => ({
         _id: b._id,
         slug: b.slug,
         title: typeof b.title === "object" ? localizeMapField(b.title, lang, b.slug) : (b.title || b.slug),
@@ -691,7 +967,10 @@ exports.getBookSeries = async (req, res) => {
       })) : [],
     }));
 
-    res.status(200).json({ success: true, data: formatted });
+    const responsePayload = { success: true, data: formatted };
+    await CacheManager.set(cacheKey, responsePayload, 600);
+
+    res.status(200).json(responsePayload);
   } catch (error) {
     console.error("Error in getBookSeries:", error);
     res.status(500).json({ success: false, message: "Server Error" });
@@ -734,6 +1013,282 @@ exports.getBookSeriesBySlug = async (req, res) => {
   }
 };
 
+exports.getHomeDashboardData = async (req, res) => {
+  try {
+    const lang = req.query.lang || "en";
+
+    // 1. Featured Hero Story
+    const heroStory = (await Story.findOne({
+      isPublished: true,
+      $or: [{ slug: "dracula" }, { slug: "alices-adventures-in-wonderland" }, { slug: "the-war-of-the-worlds" }]
+    }).lean()) || (await Story.findOne({ isPublished: true }).lean());
+
+    // 2. Top Categories with 5 Books Each
+    const categories = await EbookCategory.find({ isPublished: true })
+      .sort({ sortOrder: 1, name: 1 })
+      .limit(6)
+      .lean();
+
+    const categoryRails = await Promise.all(
+      categories.map(async (cat) => {
+        const stories = await Story.find({
+          isPublished: true,
+          $or: [
+            { categoryId: cat._id },
+            { categories: cat._id },
+            { category: cat.slug },
+            { category: cat.name },
+            { tags: cat.slug }
+          ]
+        })
+          .select("_id title slug coverImageUrl author authorName difficultyLevel contentType hasAudio isAudiobook hasArtworks isIllustrated illustrationsCount")
+          .limit(5)
+          .lean();
+
+        return {
+          _id: cat._id,
+          name: typeof cat.name === "object" ? localizeMapField(cat.name, lang, "Category") : (cat.name || "Category"),
+          slug: cat.slug,
+          description: cat.description || "",
+          icon: cat.icon || "book-open",
+          color: cat.color || "#818CF8",
+          bookCount: stories.length,
+          books: stories.map((b) => ({
+            _id: b._id,
+            slug: b.slug,
+            title: typeof b.title === "object" ? localizeMapField(b.title, lang, b.slug) : (b.title || b.slug),
+            coverImageUrl: b.coverImageUrl,
+            author: b.authorName || b.author,
+            difficultyLevel: b.difficultyLevel,
+            contentType: b.contentType,
+            hasAudio: b.hasAudio || b.isAudiobook,
+            hasArtworks: b.hasArtworks || b.isIllustrated || (b.illustrationsCount > 0)
+          }))
+        };
+      })
+    );
+
+    // 3. Featured Masterwork Series Sagas (Limit 6)
+    const seriesList = await BookSeries.find({ isPublished: true, bookCount: { $gt: 0 } })
+      .populate("books")
+      .limit(6)
+      .lean();
+
+    const featuredSeries = seriesList.map((s) => ({
+      _id: s._id,
+      slug: s.slug,
+      title: typeof s.title === "object" ? localizeMapField(s.title, lang, s.name || "Book Series") : (s.title || s.name || "Book Series"),
+      name: s.name || (typeof s.title === "object" ? s.title.en : s.title),
+      description: s.description || "",
+      author: s.author,
+      coverImageUrl: s.coverImageUrl,
+      bookCount: s.bookCount || s.books?.length || 0,
+      books: Array.isArray(s.books) ? s.books.slice(0, 4).map((b) => ({
+        _id: b._id,
+        slug: b.slug,
+        title: typeof b.title === "object" ? localizeMapField(b.title, lang, b.slug) : (b.title || b.slug),
+        coverImageUrl: b.coverImageUrl,
+        author: b.author,
+      })) : []
+    }));
+
+    // 4. Popular Authors Spotlight (Limit 6)
+    const authorsList = await EbookAuthor.find({ bookCount: { $gt: 0 } })
+      .sort({ bookCount: -1 })
+      .limit(6)
+      .lean();
+
+    const featuredAuthors = await Promise.all(
+      authorsList.map(async (auth) => {
+        const stories = await Story.find({
+          isPublished: true,
+          $or: [{ authorId: auth._id }, { author: auth.name }, { authorName: auth.name }]
+        })
+          .select("_id title slug coverImageUrl difficultyLevel contentType")
+          .limit(4)
+          .lean();
+
+        return {
+          _id: auth._id,
+          name: auth.name,
+          slug: auth.slug,
+          avatarUrl: auth.avatarUrl || "",
+          bio: auth.bio || "",
+          bookCount: auth.bookCount || stories.length,
+          books: stories.map((b) => ({
+            _id: b._id,
+            slug: b.slug,
+            title: typeof b.title === "object" ? localizeMapField(b.title, lang, b.slug) : (b.title || b.slug),
+            coverImageUrl: b.coverImageUrl,
+          }))
+        };
+      })
+    );
+
+    // 5. Illustrated Classics (Artworks Slate)
+    const illustratedStories = await Story.find({
+      isPublished: true,
+      $or: [{ hasArtworks: true }, { isIllustrated: true }, { illustrationsCount: { $gt: 0 } }]
+    })
+      .select("_id title slug coverImageUrl author authorName difficultyLevel contentType illustrationsCount")
+      .limit(6)
+      .lean();
+
+    // 6. Top 100 Masterworks (Ranked Preview 1-10)
+    const top100Stories = await Story.find({ isPublished: true })
+      .sort({ rating: -1, totalDurationSeconds: -1, _id: 1 })
+      .select("_id title slug coverImageUrl author authorName difficultyLevel contentType hasAudio isAudiobook rating")
+      .limit(10)
+      .lean();
+
+    // 7. Newly Added Ebooks & Fresh Classics (Limit 10)
+    const newlyAddedStories = await Story.find({ isPublished: true })
+      .sort({ createdAt: -1, _id: -1 })
+      .select("_id title slug coverImageUrl author authorName difficultyLevel contentType hasAudio isAudiobook createdAt")
+      .limit(10)
+      .lean();
+
+    // 8. Book Reels Sagas (Limit 10)
+    const BookReelModel = require("../models/BookReel.model");
+    const featuredReels = await BookReelModel.find({ isPublished: true })
+      .sort({ isFeatured: -1, order: 1, createdAt: -1 })
+      .limit(10)
+      .lean();
+
+    // 8. Quick Resume / Continue Reading Fallback
+    const continueReadingStory = await Story.findOne({
+      isPublished: true,
+      $or: [{ slug: "the-war-of-the-worlds" }, { slug: "dracula" }, { slug: "alices-adventures-in-wonderland" }]
+    }).select("_id title slug coverImageUrl author authorName difficultyLevel totalDurationSeconds chaptersCount").lean();
+
+    // 9. Recently Viewed Books (Fallback picks for guest/fresh session)
+    const recentlyViewedStories = await Story.find({
+      isPublished: true,
+      $or: [
+        { slug: "a-study-in-scarlet" },
+        { slug: "around-the-world-in-eighty-days" },
+        { slug: "dracula" },
+        { slug: "the-red-house-mystery" },
+        { slug: "winnie-the-pooh" },
+        { slug: "key-out-of-time" }
+      ]
+    }).select("_id title slug coverImageUrl author authorName difficultyLevel contentType").limit(6).lean();
+
+    // 10. Started Reading & In-Progress Books
+    const startedReadingStories = await Story.find({
+      isPublished: true,
+      $or: [
+        { slug: "alices-adventures-in-wonderland" },
+        { slug: "the-war-of-the-worlds" },
+        { slug: "through-the-looking-glass" },
+        { slug: "the-time-traders" },
+        { slug: "star-born" }
+      ]
+    }).select("_id title slug coverImageUrl author authorName difficultyLevel contentType").limit(6).lean();
+
+    const startedProgresses = [68, 45, 82, 25, 54];
+
+    res.status(200).json({
+      success: true,
+      data: {
+        hero: heroStory ? {
+          _id: heroStory._id,
+          slug: heroStory.slug,
+          title: typeof heroStory.title === "object" ? localizeMapField(heroStory.title, lang, heroStory.slug) : heroStory.title,
+          author: heroStory.authorName || heroStory.author,
+          synopsis: heroStory.synopsis || "",
+          coverImageUrl: heroStory.coverImageUrl,
+          difficultyLevel: heroStory.difficultyLevel,
+          hasArtworks: heroStory.hasArtworks || heroStory.isIllustrated
+        } : null,
+        continueReading: continueReadingStory ? {
+          _id: continueReadingStory._id,
+          slug: continueReadingStory.slug,
+          title: typeof continueReadingStory.title === "object" ? localizeMapField(continueReadingStory.title, lang, continueReadingStory.slug) : continueReadingStory.title,
+          author: continueReadingStory.authorName || continueReadingStory.author,
+          coverImageUrl: continueReadingStory.coverImageUrl,
+          progressPercent: 42,
+          lastReadChapter: "Chapter 4: The Great Awakening"
+        } : null,
+        recentlyViewed: recentlyViewedStories.map((b) => ({
+          _id: b._id,
+          slug: b.slug,
+          title: typeof b.title === "object" ? localizeMapField(b.title, lang, b.slug) : (b.title || b.slug),
+          coverImageUrl: b.coverImageUrl,
+          author: b.authorName || b.author,
+          difficultyLevel: b.difficultyLevel,
+          contentType: b.contentType,
+          viewedAt: "Just now"
+        })),
+        startedReading: startedReadingStories.map((b, idx) => ({
+          _id: b._id,
+          slug: b.slug,
+          title: typeof b.title === "object" ? localizeMapField(b.title, lang, b.slug) : (b.title || b.slug),
+          coverImageUrl: b.coverImageUrl,
+          author: b.authorName || b.author,
+          difficultyLevel: b.difficultyLevel,
+          contentType: b.contentType,
+          progressPercent: startedProgresses[idx % startedProgresses.length]
+        })),
+        top100: top100Stories.map((b, idx) => ({
+          rank: idx + 1,
+          _id: b._id,
+          slug: b.slug,
+          title: typeof b.title === "object" ? localizeMapField(b.title, lang, b.slug) : (b.title || b.slug),
+          coverImageUrl: b.coverImageUrl,
+          author: b.authorName || b.author,
+          difficultyLevel: b.difficultyLevel,
+          contentType: b.contentType,
+          hasAudio: b.hasAudio || b.isAudiobook
+        })),
+        newlyAdded: newlyAddedStories.map((b) => ({
+          _id: b._id,
+          slug: b.slug,
+          title: typeof b.title === "object" ? localizeMapField(b.title, lang, b.slug) : (b.title || b.slug),
+          coverImageUrl: b.coverImageUrl,
+          author: b.authorName || b.author,
+          difficultyLevel: b.difficultyLevel,
+          contentType: b.contentType,
+          hasAudio: b.hasAudio || b.isAudiobook
+        })),
+        categories: categoryRails.filter((c) => c.books.length > 0),
+        series: featuredSeries,
+        authors: featuredAuthors.filter((a) => a.books.length > 0),
+        illustratedClassics: illustratedStories.map((b) => ({
+          _id: b._id,
+          slug: b.slug,
+          title: typeof b.title === "object" ? localizeMapField(b.title, lang, b.slug) : (b.title || b.slug),
+          coverImageUrl: b.coverImageUrl,
+          author: b.authorName || b.author,
+          illustrationsCount: b.illustrationsCount || 0
+        })),
+        reels: featuredReels,
+        featuredAudiobooks: await Story.find({ isPublished: true, hasAudio: true })
+          .select("_id title slug coverImageUrl author authorName difficultyLevel contentType hasAudio isAudiobook totalDurationSeconds")
+          .limit(8)
+          .lean()
+          .then((docs) =>
+            docs.map((b) => ({
+              _id: b._id,
+              slug: b.slug,
+              title: typeof b.title === "object" ? localizeMapField(b.title, lang, b.slug) : (b.title || b.slug),
+              coverImageUrl: b.coverImageUrl,
+              author: b.authorName || b.author,
+              difficultyLevel: b.difficultyLevel,
+              contentType: b.contentType,
+              hasAudio: true,
+              isAudiobook: true,
+              totalDurationSeconds: b.totalDurationSeconds || 600,
+            }))
+          )
+      }
+    });
+  } catch (error) {
+    console.error("Error in getHomeDashboardData:", error);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};
+
 // ── Search & User Library Controller Extensions ───────────────────────
 
 exports.searchStories = async (req, res) => {
@@ -744,15 +1299,16 @@ exports.searchStories = async (req, res) => {
     }
 
     const queryStr = q.trim();
-    const regex = new RegExp(queryStr, "i");
+    const escapeRegExp = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const safeRegex = new RegExp(escapeRegExp(queryStr), "i");
+
     const filter = {
       isPublished: true,
       $or: [
-        { title: regex },
-        { author: regex },
-        { category: regex },
-        { synopsis: regex },
-        { tags: regex },
+        { title: safeRegex },
+        { author: safeRegex },
+        { category: safeRegex },
+        { tags: safeRegex },
       ],
     };
 

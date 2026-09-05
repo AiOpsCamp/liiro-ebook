@@ -40,18 +40,19 @@ exports.getAuthors = async (req, res) => {
       });
     }
 
-    const cached = CacheManager.get("authors_list");
+    const cached = await CacheManager.get("authors_list");
     if (cached) {
       return res.status(200).json(cached);
     }
 
     const authors = await EbookAuthor.find({})
+      .select("-books")
       .sort({ bookCount: -1, name: 1 })
-      .populate({ path: "books", select: "title slug coverImageUrl author difficultyLevel isPremium contentType tags", strictPopulate: false })
+      .limit(100)
       .lean();
 
     const responseData = { success: true, count: authors.length, data: authors };
-    CacheManager.set("authors_list", responseData, 300);
+    await CacheManager.set("authors_list", responseData, 600);
 
     res.status(200).json(responseData);
   } catch (error) {
@@ -82,22 +83,47 @@ exports.getNarrators = async (req, res) => {
 exports.getAuthorBySlug = async (req, res) => {
   try {
     const { slug } = req.params;
-    const cacheKey = `author_slug_${slug}`;
-    const cached = CacheManager.get(cacheKey);
+    const cacheKey = `author_slug_v3_${slug}`;
+    const cached = await CacheManager.get(cacheKey);
     if (cached) {
       return res.status(200).json(cached);
     }
 
-    const author = await EbookAuthor.findOne({ slug })
-      .populate({ path: "books", select: "title slug coverImageUrl author difficultyLevel totalDurationSeconds isPremium contentType tags synopsis", strictPopulate: false })
+    let author = await EbookAuthor.findOne({ slug }).lean();
+    let authorName = author ? author.name : slug.replace(/-/g, " ");
+
+    const cleanSlug = slug.replace(/-/g, " ");
+    const parts = cleanSlug.split(" ").filter(Boolean);
+    const regexPattern = parts.join(".*");
+    const nameRegex = new RegExp(regexPattern, "i");
+
+    const books = await Story.find({
+      $or: [
+        { author: nameRegex },
+        ...(author ? [{ authorId: author._id }, { author: author.name }] : []),
+      ],
+      isPublished: true,
+    })
+      .select("title slug coverImageUrl author difficultyLevel totalDurationSeconds totalAudioDurationSec isPremium contentType tags synopsis hasAudio isAudiobook")
       .lean();
 
-    if (!author) {
+    if (!author && books.length === 0) {
       return res.status(404).json({ success: false, message: "Author not found" });
     }
 
-    const responseData = { success: true, data: author };
-    CacheManager.set(cacheKey, responseData, 300);
+    const responseData = {
+      success: true,
+      data: {
+        _id: author?._id || null,
+        name: author?.name || authorName.replace(/\b\w/g, l => l.toUpperCase()),
+        slug: slug,
+        avatarUrl: author?.avatarUrl || (books[0]?.coverImageUrl || ""),
+        bio: author?.bio || `Collection of masterworks by ${author?.name || authorName}.`,
+        bookCount: books.length,
+        books,
+      },
+    };
+    await CacheManager.set(cacheKey, responseData, 600);
 
     res.status(200).json(responseData);
   } catch (error) {
@@ -109,18 +135,29 @@ exports.getAuthorBySlug = async (req, res) => {
 // ── Categories ──────────────────────────────────────────────────────────
 exports.getCategories = async (req, res) => {
   try {
-    const cached = CacheManager.get("categories_list");
+    const cached = await CacheManager.get("categories_list_v5");
     if (cached) {
       return res.status(200).json(cached);
     }
 
     const categories = await EbookCategory.find({})
-      .sort({ bookCount: -1, name: 1 })
-      .populate({ path: "books", select: "title slug coverImageUrl author difficultyLevel isPremium contentType tags", strictPopulate: false })
+      .select("-books")
+      .sort({ name: 1 })
       .lean();
 
-    const responseData = { success: true, count: categories.length, data: categories };
-    CacheManager.set("categories_list", responseData, 300);
+    const categoryCounts = await Story.aggregate([
+      { $match: { isPublished: true } },
+      { $group: { _id: "$categoryId", count: { $sum: 1 } } }
+    ]);
+    const countMap = new Map(categoryCounts.map(c => [c._id ? c._id.toString() : "", c.count]));
+
+    const formattedCategories = categories.map((cat) => ({
+      ...cat,
+      bookCount: countMap.get(cat._id.toString()) || 0,
+    }));
+
+    const responseData = { success: true, count: formattedCategories.length, data: formattedCategories };
+    await CacheManager.set("categories_list_v5", responseData, 600);
 
     res.status(200).json(responseData);
   } catch (error) {
@@ -132,22 +169,39 @@ exports.getCategories = async (req, res) => {
 exports.getCategoryBySlug = async (req, res) => {
   try {
     const { slug } = req.params;
-    const cacheKey = `category_slug_${slug}`;
-    const cached = CacheManager.get(cacheKey);
+    const cacheKey = `category_slug_v6_${slug}`;
+    const cached = await CacheManager.get(cacheKey);
     if (cached) {
       return res.status(200).json(cached);
     }
 
-    const category = await EbookCategory.findOne({ slug })
-      .populate({ path: "books", select: "title slug coverImageUrl author difficultyLevel totalDurationSeconds isPremium contentType tags synopsis", strictPopulate: false })
-      .lean();
+    const category = await EbookCategory.findOne({ slug }).lean();
 
     if (!category) {
       return res.status(404).json({ success: false, message: "Category not found" });
     }
 
-    const responseData = { success: true, data: category };
-    CacheManager.set(cacheKey, responseData, 300);
+    const books = await Story.find({
+      isPublished: true,
+      $or: [
+        { categoryId: category._id },
+        { category: category.slug },
+        { category: category.name },
+        { tags: category.slug }
+      ]
+    })
+      .select("title slug coverImageUrl author authorName difficultyLevel totalDurationSeconds totalAudioDurationSec isPremium contentType tags synopsis hasAudio isAudiobook hasArtworks isIllustrated illustrationsCount")
+      .lean();
+
+    const responseData = {
+      success: true,
+      data: {
+        ...category,
+        bookCount: books.length,
+        books,
+      },
+    };
+    await CacheManager.set(cacheKey, responseData, 300);
 
     res.status(200).json(responseData);
   } catch (error) {
@@ -159,18 +213,19 @@ exports.getCategoryBySlug = async (req, res) => {
 // ── Tags ────────────────────────────────────────────────────────────────
 exports.getTags = async (req, res) => {
   try {
-    const cached = CacheManager.get("tags_list");
+    const cached = await CacheManager.get("tags_list_v5");
     if (cached) {
       return res.status(200).json(cached);
     }
 
     const tags = await EbookTag.find({})
+      .select("-books")
       .sort({ bookCount: -1, name: 1 })
-      .populate({ path: "books", select: "title slug coverImageUrl author difficultyLevel isPremium contentType tags", strictPopulate: false })
+      .limit(300)
       .lean();
 
     const responseData = { success: true, count: tags.length, data: tags };
-    CacheManager.set("tags_list", responseData, 300);
+    await CacheManager.set("tags_list_v5", responseData, 600);
 
     res.status(200).json(responseData);
   } catch (error) {
@@ -182,22 +237,43 @@ exports.getTags = async (req, res) => {
 exports.getTagBySlug = async (req, res) => {
   try {
     const { slug } = req.params;
-    const cacheKey = `tag_slug_${slug}`;
-    const cached = CacheManager.get(cacheKey);
+    const cacheKey = `tag_slug_v5_${slug}`;
+    const cached = await CacheManager.get(cacheKey);
     if (cached) {
       return res.status(200).json(cached);
     }
 
-    const tag = await EbookTag.findOne({ slug })
-      .populate({ path: "books", select: "title slug coverImageUrl author difficultyLevel totalDurationSeconds isPremium contentType tags synopsis", strictPopulate: false })
-      .lean();
-
+    let tag = await EbookTag.findOne({ slug }).lean();
     if (!tag) {
-      return res.status(404).json({ success: false, message: "Tag not found" });
+      const nameFromSlug = slug.replace(/-/g, " ");
+      tag = await EbookTag.findOne({
+        $or: [
+          { slug: slug },
+          { name: { $regex: new RegExp(`^${nameFromSlug.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")}$`, "i") } }
+        ]
+      }).lean();
     }
 
-    const responseData = { success: true, data: tag };
-    CacheManager.set(cacheKey, responseData, 300);
+    const tagIdentifier = tag ? tag.name : slug.replace(/-/g, " ");
+    const matchTargets = [slug, tagIdentifier];
+    if (tag && tag._id) matchTargets.push(tag._id);
+
+    const books = await Story.find({
+      isPublished: true,
+      tags: { $in: matchTargets }
+    })
+      .select("title slug coverImageUrl author authorName difficultyLevel totalDurationSeconds totalAudioDurationSec isPremium contentType tags synopsis hasAudio isAudiobook hasArtworks isIllustrated illustrationsCount")
+      .lean();
+
+    const responseData = {
+      success: true,
+      data: {
+        tag: tag || { name: tagIdentifier, slug },
+        bookCount: books.length,
+        books,
+      },
+    };
+    await CacheManager.set(cacheKey, responseData, 300);
 
     res.status(200).json(responseData);
   } catch (error) {
@@ -209,7 +285,7 @@ exports.getTagBySlug = async (req, res) => {
 // ── Stats ───────────────────────────────────────────────────────────────
 exports.getStats = async (req, res) => {
   try {
-    const cached = CacheManager.get("stats_summary");
+    const cached = await CacheManager.get("stats_summary");
     if (cached) {
       return res.status(200).json(cached);
     }
@@ -230,7 +306,7 @@ exports.getStats = async (req, res) => {
         totalTags,
       },
     };
-    CacheManager.set("stats_summary", responseData, 300);
+    await CacheManager.set("stats_summary", responseData, 300);
 
     return res.status(200).json(responseData);
   } catch (error) {

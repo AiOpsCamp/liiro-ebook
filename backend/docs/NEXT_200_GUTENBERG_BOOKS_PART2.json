@@ -1,0 +1,1802 @@
+[
+  {
+    "rank": 1,
+    "pg_id": 50461,
+    "title": "Herman Melville, Mariner and Mystic",
+    "author": "Raymond M. Weaver",
+    "genre": "Classic Literature",
+    "downloads": 23183,
+    "source_url": "https://www.gutenberg.org/ebooks/50461"
+  },
+  {
+    "rank": 2,
+    "pg_id": 44646,
+    "title": "Memoirs of the Duchesse de Dino (Afterwards Duchesse de Talleyrand et de Sagan), 1836-1840",
+    "author": "duchesse de Dorothée Dino",
+    "genre": "Historical & Epic",
+    "downloads": 23174,
+    "source_url": "https://www.gutenberg.org/ebooks/44646"
+  },
+  {
+    "rank": 3,
+    "pg_id": 1279,
+    "title": "Poems and Songs of Robert Burns",
+    "author": "Robert Burns",
+    "genre": "Classic Literature",
+    "downloads": 23070,
+    "source_url": "https://www.gutenberg.org/ebooks/1279"
+  },
+  {
+    "rank": 4,
+    "pg_id": 23745,
+    "title": "Aladdin &amp; Co.: A Romance of Yankee Magic",
+    "author": "Herbert Quick",
+    "genre": "Romance & Society",
+    "downloads": 23014,
+    "source_url": "https://www.gutenberg.org/ebooks/23745"
+  },
+  {
+    "rank": 5,
+    "pg_id": 23789,
+    "title": "Cruel as the grave",
+    "author": "Emma Dorothy Eliza Nevitte Southworth",
+    "genre": "Classic Literature",
+    "downloads": 22990,
+    "source_url": "https://www.gutenberg.org/ebooks/23789"
+  },
+  {
+    "rank": 6,
+    "pg_id": 40143,
+    "title": "France and England in North America, Part III: La Salle, Discovery of The Great West",
+    "author": "Francis Parkman",
+    "genre": "Classic Literature",
+    "downloads": 22983,
+    "source_url": "https://www.gutenberg.org/ebooks/40143"
+  },
+  {
+    "rank": 7,
+    "pg_id": 18787,
+    "title": "Life of St. Francis of Assisi",
+    "author": "Paul Sabatier",
+    "genre": "Classic Literature",
+    "downloads": 22959,
+    "source_url": "https://www.gutenberg.org/ebooks/18787"
+  },
+  {
+    "rank": 8,
+    "pg_id": 14860,
+    "title": "The Journal of Sir Walter Scott",
+    "author": "Walter Scott",
+    "genre": "Classic Literature",
+    "downloads": 22949,
+    "source_url": "https://www.gutenberg.org/ebooks/14860"
+  },
+  {
+    "rank": 9,
+    "pg_id": 34320,
+    "title": "Project Daedalus",
+    "author": "Thomas Hoover",
+    "genre": "Classic Literature",
+    "downloads": 22737,
+    "source_url": "https://www.gutenberg.org/ebooks/34320"
+  },
+  {
+    "rank": 10,
+    "pg_id": 30201,
+    "title": "In Praise of Folly",
+    "author": "Desiderius Erasmus",
+    "genre": "Classic Literature",
+    "downloads": 22685,
+    "source_url": "https://www.gutenberg.org/ebooks/30201"
+  },
+  {
+    "rank": 11,
+    "pg_id": 78102,
+    "title": "The wheel of earth",
+    "author": "Helga Sandburg",
+    "genre": "Classic Literature",
+    "downloads": 22633,
+    "source_url": "https://www.gutenberg.org/ebooks/78102"
+  },
+  {
+    "rank": 12,
+    "pg_id": 26593,
+    "title": "The Place of Honeymoons",
+    "author": "Harold MacGrath",
+    "genre": "Science Fiction",
+    "downloads": 22575,
+    "source_url": "https://www.gutenberg.org/ebooks/26593"
+  },
+  {
+    "rank": 13,
+    "pg_id": 63754,
+    "title": "All in the Day's Work: An Autobiography",
+    "author": "Ida M. Tarbell",
+    "genre": "Historical & Epic",
+    "downloads": 22533,
+    "source_url": "https://www.gutenberg.org/ebooks/63754"
+  },
+  {
+    "rank": 14,
+    "pg_id": 78084,
+    "title": "The mysterious Mr. Quin",
+    "author": "Agatha Christie",
+    "genre": "Classic Literature",
+    "downloads": 22524,
+    "source_url": "https://www.gutenberg.org/ebooks/78084"
+  },
+  {
+    "rank": 15,
+    "pg_id": 17851,
+    "title": "The History of Mary Prince, a West Indian Slave",
+    "author": "Mary Prince",
+    "genre": "Historical & Epic",
+    "downloads": 22440,
+    "source_url": "https://www.gutenberg.org/ebooks/17851"
+  },
+  {
+    "rank": 16,
+    "pg_id": 50439,
+    "title": "English Eccentrics and Eccentricities",
+    "author": "John Timbs",
+    "genre": "Classic Literature",
+    "downloads": 22398,
+    "source_url": "https://www.gutenberg.org/ebooks/50439"
+  },
+  {
+    "rank": 17,
+    "pg_id": 47262,
+    "title": "Old Times on the Upper Mississippi",
+    "author": "George Byron Merrick",
+    "genre": "Science Fiction",
+    "downloads": 22356,
+    "source_url": "https://www.gutenberg.org/ebooks/47262"
+  },
+  {
+    "rank": 18,
+    "pg_id": 34319,
+    "title": "Project Cyclops",
+    "author": "Thomas Hoover",
+    "genre": "Classic Literature",
+    "downloads": 22314,
+    "source_url": "https://www.gutenberg.org/ebooks/34319"
+  },
+  {
+    "rank": 19,
+    "pg_id": 28384,
+    "title": "As I Remember",
+    "author": "Marian Gouverneur",
+    "genre": "Classic Literature",
+    "downloads": 22295,
+    "source_url": "https://www.gutenberg.org/ebooks/28384"
+  },
+  {
+    "rank": 20,
+    "pg_id": 49402,
+    "title": "The Black Hawk War Including a Review of Black Hawk's Life",
+    "author": "Frank Everett Stevens",
+    "genre": "Historical & Epic",
+    "downloads": 22200,
+    "source_url": "https://www.gutenberg.org/ebooks/49402"
+  },
+  {
+    "rank": 21,
+    "pg_id": 50508,
+    "title": "The Memoirs of Admiral Lord Beresford",
+    "author": "Baron Charles William De la Poer Beresford Beresford",
+    "genre": "Classic Literature",
+    "downloads": 22185,
+    "source_url": "https://www.gutenberg.org/ebooks/50508"
+  },
+  {
+    "rank": 22,
+    "pg_id": 26951,
+    "title": "'Firebrand' Trevison",
+    "author": "Charles Alden Seltzer",
+    "genre": "Classic Literature",
+    "downloads": 22180,
+    "source_url": "https://www.gutenberg.org/ebooks/26951"
+  },
+  {
+    "rank": 23,
+    "pg_id": 78009,
+    "title": "A guide to the history of physical education",
+    "author": "Fred Eugene Leonard",
+    "genre": "Historical & Epic",
+    "downloads": 22161,
+    "source_url": "https://www.gutenberg.org/ebooks/78009"
+  },
+  {
+    "rank": 24,
+    "pg_id": 20717,
+    "title": "The Girl on the Boat",
+    "author": "P. G. Wodehouse",
+    "genre": "Children's & Fairy Tales",
+    "downloads": 22158,
+    "source_url": "https://www.gutenberg.org/ebooks/20717"
+  },
+  {
+    "rank": 25,
+    "pg_id": 78065,
+    "title": "The anatomy of revolution",
+    "author": "Crane Brinton",
+    "genre": "Historical & Epic",
+    "downloads": 22134,
+    "source_url": "https://www.gutenberg.org/ebooks/78065"
+  },
+  {
+    "rank": 26,
+    "pg_id": 25001,
+    "title": "An Old Man's Love",
+    "author": "Anthony Trollope",
+    "genre": "Romance & Society",
+    "downloads": 22132,
+    "source_url": "https://www.gutenberg.org/ebooks/25001"
+  },
+  {
+    "rank": 27,
+    "pg_id": 25132,
+    "title": "The Candidate: A Political Romance",
+    "author": "Joseph A. Altsheler",
+    "genre": "Romance & Society",
+    "downloads": 22118,
+    "source_url": "https://www.gutenberg.org/ebooks/25132"
+  },
+  {
+    "rank": 28,
+    "pg_id": 47434,
+    "title": "Infatuation",
+    "author": "Lloyd Osbourne",
+    "genre": "Classic Literature",
+    "downloads": 22084,
+    "source_url": "https://www.gutenberg.org/ebooks/47434"
+  },
+  {
+    "rank": 29,
+    "pg_id": 50657,
+    "title": "The Satires of Juvenal, Persius, Sulpicia, and Lucilius",
+    "author": "Gaius Lucilius, Juvenal, and Sulpicia Persius",
+    "genre": "Classic Literature",
+    "downloads": 22058,
+    "source_url": "https://www.gutenberg.org/ebooks/50657"
+  },
+  {
+    "rank": 30,
+    "pg_id": 49555,
+    "title": "The Hermit Doctor of Gaya: A Love Story of Modern India",
+    "author": "I. A. R. Wylie",
+    "genre": "Romance & Society",
+    "downloads": 22029,
+    "source_url": "https://www.gutenberg.org/ebooks/49555"
+  },
+  {
+    "rank": 31,
+    "pg_id": 78016,
+    "title": "Herman Melville",
+    "author": "Lewis Mumford",
+    "genre": "Classic Literature",
+    "downloads": 22027,
+    "source_url": "https://www.gutenberg.org/ebooks/78016"
+  },
+  {
+    "rank": 32,
+    "pg_id": 18547,
+    "title": "Madame Flirt",
+    "author": "Charles Edward Pearce",
+    "genre": "Classic Literature",
+    "downloads": 22020,
+    "source_url": "https://www.gutenberg.org/ebooks/18547"
+  },
+  {
+    "rank": 33,
+    "pg_id": 9701,
+    "title": "I. Beowulf: an Anglo-Saxon poem. II. The fight at Finnsburh: a fragment. (Old English (ca. 450-1100))",
+    "author": "E. A. Wyke-Smith",
+    "genre": "Classic Literature",
+    "downloads": 21935,
+    "source_url": "https://www.gutenberg.org/ebooks/9701"
+  },
+  {
+    "rank": 34,
+    "pg_id": 50498,
+    "title": "The Raft",
+    "author": "Coningsby Dawson",
+    "genre": "Classic Literature",
+    "downloads": 21930,
+    "source_url": "https://www.gutenberg.org/ebooks/50498"
+  },
+  {
+    "rank": 35,
+    "pg_id": 15721,
+    "title": "The Hawk of Egypt",
+    "author": "Joan Conquest",
+    "genre": "Classic Literature",
+    "downloads": 21927,
+    "source_url": "https://www.gutenberg.org/ebooks/15721"
+  },
+  {
+    "rank": 36,
+    "pg_id": 76553,
+    "title": "Three millions! :  or, The way of the world",
+    "author": "Oliver Optic",
+    "genre": "Classic Literature",
+    "downloads": 21912,
+    "source_url": "https://www.gutenberg.org/ebooks/76553"
+  },
+  {
+    "rank": 37,
+    "pg_id": 49806,
+    "title": "Addie's Husband; or, Through clouds to sunshine",
+    "author": "Mrs. Gordon Smythies",
+    "genre": "Classic Literature",
+    "downloads": 21887,
+    "source_url": "https://www.gutenberg.org/ebooks/49806"
+  },
+  {
+    "rank": 38,
+    "pg_id": 9774,
+    "title": "Alice, or the Mysteries — Complete",
+    "author": "Baron Edward Bulwer Lytton Lytton",
+    "genre": "Classic Literature",
+    "downloads": 21859,
+    "source_url": "https://www.gutenberg.org/ebooks/9774"
+  },
+  {
+    "rank": 39,
+    "pg_id": 78105,
+    "title": "Tales grotesque and curious",
+    "author": "Ryūnosuke Akutagawa",
+    "genre": "Children's & Fairy Tales",
+    "downloads": 21850,
+    "source_url": "https://www.gutenberg.org/ebooks/78105"
+  },
+  {
+    "rank": 40,
+    "pg_id": 78119,
+    "title": "Humanism and America :  Essays on the outlook of modern civilisation",
+    "author": "Great Britain. War Office",
+    "genre": "Classic Literature",
+    "downloads": 21824,
+    "source_url": "https://www.gutenberg.org/ebooks/78119"
+  },
+  {
+    "rank": 41,
+    "pg_id": 5700,
+    "title": "Love and Life: An Old Story in Eighteenth Century Costume",
+    "author": "Charlotte M. Yonge",
+    "genre": "Romance & Society",
+    "downloads": 21807,
+    "source_url": "https://www.gutenberg.org/ebooks/5700"
+  },
+  {
+    "rank": 42,
+    "pg_id": 78025,
+    "title": "Main currents in American thought :  An interpretation of American literature from the beginnings to 1920",
+    "author": "Vernon Louis Parrington",
+    "genre": "Philosophy & Thought",
+    "downloads": 21778,
+    "source_url": "https://www.gutenberg.org/ebooks/78025"
+  },
+  {
+    "rank": 43,
+    "pg_id": 78044,
+    "title": "Claribel :  or, Rest at last",
+    "author": "Lucy Ellen Guernsey",
+    "genre": "Classic Literature",
+    "downloads": 21777,
+    "source_url": "https://www.gutenberg.org/ebooks/78044"
+  },
+  {
+    "rank": 44,
+    "pg_id": 78039,
+    "title": "Boston :  a novel",
+    "author": "Upton Sinclair",
+    "genre": "Classic Literature",
+    "downloads": 21762,
+    "source_url": "https://www.gutenberg.org/ebooks/78039"
+  },
+  {
+    "rank": 45,
+    "pg_id": 7895,
+    "title": "A Terrible Temptation: A Story of To-Day",
+    "author": "Charles Reade",
+    "genre": "Classic Literature",
+    "downloads": 21759,
+    "source_url": "https://www.gutenberg.org/ebooks/7895"
+  },
+  {
+    "rank": 46,
+    "pg_id": 78013,
+    "title": "Arrian on coursing :  the Cynegeticus of the younger Xenophon, translated from the Greek, with classical and practical annotations, and a brief sketch of the life and writings of the author. To which is added an appendix, containing some account of the Canes Venatici of classical antiquity",
+    "author": "Arrian",
+    "genre": "Classic Literature",
+    "downloads": 21754,
+    "source_url": "https://www.gutenberg.org/ebooks/78013"
+  },
+  {
+    "rank": 47,
+    "pg_id": 64836,
+    "title": "Jane Seton; or, The King's Advocate: A Scottish Historical Romance",
+    "author": "James Grant",
+    "genre": "Romance & Society",
+    "downloads": 21740,
+    "source_url": "https://www.gutenberg.org/ebooks/64836"
+  },
+  {
+    "rank": 48,
+    "pg_id": 21394,
+    "title": "Priscilla's Spies",
+    "author": "George A. Birmingham",
+    "genre": "Classic Literature",
+    "downloads": 21715,
+    "source_url": "https://www.gutenberg.org/ebooks/21394"
+  },
+  {
+    "rank": 49,
+    "pg_id": 4206,
+    "title": "The Letters of Franklin K. Lane, Personal and Political",
+    "author": "Franklin K. Lane",
+    "genre": "Classic Literature",
+    "downloads": 21695,
+    "source_url": "https://www.gutenberg.org/ebooks/4206"
+  },
+  {
+    "rank": 50,
+    "pg_id": 75643,
+    "title": "The Black Abbot",
+    "author": "Edgar Wallace",
+    "genre": "Classic Literature",
+    "downloads": 21686,
+    "source_url": "https://www.gutenberg.org/ebooks/75643"
+  },
+  {
+    "rank": 51,
+    "pg_id": 78022,
+    "title": "Præraphaelite diaries and letters",
+    "author": "Ford Madox Brown, and Gabriele Rossetti Dante Gabriel Rossetti",
+    "genre": "Classic Literature",
+    "downloads": 21682,
+    "source_url": "https://www.gutenberg.org/ebooks/78022"
+  },
+  {
+    "rank": 52,
+    "pg_id": 3823,
+    "title": "Thelma",
+    "author": "Marie Corelli",
+    "genre": "Classic Literature",
+    "downloads": 21679,
+    "source_url": "https://www.gutenberg.org/ebooks/3823"
+  },
+  {
+    "rank": 53,
+    "pg_id": 78077,
+    "title": "Cartels :  challenge to a free world",
+    "author": "Wendell Berge",
+    "genre": "Classic Literature",
+    "downloads": 21678,
+    "source_url": "https://www.gutenberg.org/ebooks/78077"
+  },
+  {
+    "rank": 54,
+    "pg_id": 78011,
+    "title": "Three sevens :  A detective story",
+    "author": "Perley Poore Sheehan",
+    "genre": "Mystery & Detective",
+    "downloads": 21677,
+    "source_url": "https://www.gutenberg.org/ebooks/78011"
+  },
+  {
+    "rank": 55,
+    "pg_id": 78046,
+    "title": "Joan and Co.",
+    "author": "Frederick Orin Bartlett",
+    "genre": "Classic Literature",
+    "downloads": 21674,
+    "source_url": "https://www.gutenberg.org/ebooks/78046"
+  },
+  {
+    "rank": 56,
+    "pg_id": 35079,
+    "title": "The Rustle of Silk",
+    "author": "Cosmo Hamilton",
+    "genre": "Classic Literature",
+    "downloads": 21664,
+    "source_url": "https://www.gutenberg.org/ebooks/35079"
+  },
+  {
+    "rank": 57,
+    "pg_id": 30228,
+    "title": "Officer 666",
+    "author": "Barton Wood Currie and Augustin McHugh",
+    "genre": "Classic Literature",
+    "downloads": 21660,
+    "source_url": "https://www.gutenberg.org/ebooks/30228"
+  },
+  {
+    "rank": 58,
+    "pg_id": 44827,
+    "title": "Under the Witches' Moon: A Romantic Tale of Mediaeval Rome",
+    "author": "Nathan Gallizier",
+    "genre": "Science Fiction",
+    "downloads": 21639,
+    "source_url": "https://www.gutenberg.org/ebooks/44827"
+  },
+  {
+    "rank": 59,
+    "pg_id": 78075,
+    "title": "The eclipse of Russia",
+    "author": "Emile Joseph Dillon",
+    "genre": "Classic Literature",
+    "downloads": 21610,
+    "source_url": "https://www.gutenberg.org/ebooks/78075"
+  },
+  {
+    "rank": 60,
+    "pg_id": 34181,
+    "title": "Irene Iddesleigh",
+    "author": "Amanda McKittrick Ros",
+    "genre": "Classic Literature",
+    "downloads": 21609,
+    "source_url": "https://www.gutenberg.org/ebooks/34181"
+  },
+  {
+    "rank": 61,
+    "pg_id": 78047,
+    "title": "The dogaressas of Venice (the wives of the doges)",
+    "author": "Edgcumbe Staley",
+    "genre": "Classic Literature",
+    "downloads": 21604,
+    "source_url": "https://www.gutenberg.org/ebooks/78047"
+  },
+  {
+    "rank": 62,
+    "pg_id": 1680,
+    "title": "At the Sign of the Cat and Racket",
+    "author": "Honoré de Balzac",
+    "genre": "Classic Literature",
+    "downloads": 21596,
+    "source_url": "https://www.gutenberg.org/ebooks/1680"
+  },
+  {
+    "rank": 63,
+    "pg_id": 8883,
+    "title": "A Love Story",
+    "author": "William Harvey Christie",
+    "genre": "Romance & Society",
+    "downloads": 21585,
+    "source_url": "https://www.gutenberg.org/ebooks/8883"
+  },
+  {
+    "rank": 64,
+    "pg_id": 19441,
+    "title": "My Friend the Chauffeur",
+    "author": "C. N. Williamson and A. M. Williamson",
+    "genre": "Classic Literature",
+    "downloads": 21582,
+    "source_url": "https://www.gutenberg.org/ebooks/19441"
+  },
+  {
+    "rank": 65,
+    "pg_id": 78126,
+    "title": "The weird of the wanderer :  Being the papyrus records of some incidents in one of the previous lives of  Mr. Nicholas Crabbe",
+    "author": "Frederick Rolfe and C. H. C. Pirie-Gordon",
+    "genre": "Classic Literature",
+    "downloads": 21580,
+    "source_url": "https://www.gutenberg.org/ebooks/78126"
+  },
+  {
+    "rank": 66,
+    "pg_id": 50685,
+    "title": "The Story of Genesis and Exodus: An Early English Song, about 1250 A.D.",
+    "author": "Unknown",
+    "genre": "Classic Literature",
+    "downloads": 21578,
+    "source_url": "https://www.gutenberg.org/ebooks/50685"
+  },
+  {
+    "rank": 67,
+    "pg_id": 78107,
+    "title": "Body-build and its inheritance",
+    "author": "Charles Benedict Davenport",
+    "genre": "Classic Literature",
+    "downloads": 21575,
+    "source_url": "https://www.gutenberg.org/ebooks/78107"
+  },
+  {
+    "rank": 68,
+    "pg_id": 78078,
+    "title": "The adventures of an ensign",
+    "author": "Valentine Williams",
+    "genre": "Adventure & Exploration",
+    "downloads": 21570,
+    "source_url": "https://www.gutenberg.org/ebooks/78078"
+  },
+  {
+    "rank": 69,
+    "pg_id": 48963,
+    "title": "The Viper of Milan: A Romance of Lombardy",
+    "author": "Marjorie Bowen",
+    "genre": "Romance & Society",
+    "downloads": 21565,
+    "source_url": "https://www.gutenberg.org/ebooks/48963"
+  },
+  {
+    "rank": 70,
+    "pg_id": 67804,
+    "title": "The First of the English: A Novel",
+    "author": "Archibald Clavering Gunter",
+    "genre": "Classic Literature",
+    "downloads": 21563,
+    "source_url": "https://www.gutenberg.org/ebooks/67804"
+  },
+  {
+    "rank": 71,
+    "pg_id": 78087,
+    "title": "The black pearl",
+    "author": "Marie Lion",
+    "genre": "Classic Literature",
+    "downloads": 21556,
+    "source_url": "https://www.gutenberg.org/ebooks/78087"
+  },
+  {
+    "rank": 72,
+    "pg_id": 78124,
+    "title": "1066 and all that :  A memorable history of England, comprising all the parts you can remember, including 103 good things, 5 bad kings and 2 genuine dates",
+    "author": "Walter Carruthers Sellar and Robert Julian Yeatman",
+    "genre": "Historical & Epic",
+    "downloads": 21543,
+    "source_url": "https://www.gutenberg.org/ebooks/78124"
+  },
+  {
+    "rank": 73,
+    "pg_id": 26704,
+    "title": "A Woman at Bay; Or, A Fiend in Skirts",
+    "author": "Nicholas Carter",
+    "genre": "Classic Literature",
+    "downloads": 21538,
+    "source_url": "https://www.gutenberg.org/ebooks/26704"
+  },
+  {
+    "rank": 74,
+    "pg_id": 36346,
+    "title": "The Mandarin's Fan",
+    "author": "Fergus Hume",
+    "genre": "Classic Literature",
+    "downloads": 21535,
+    "source_url": "https://www.gutenberg.org/ebooks/36346"
+  },
+  {
+    "rank": 75,
+    "pg_id": 11618,
+    "title": "From Chaucer to Tennyson",
+    "author": "Henry A. Beers",
+    "genre": "Classic Literature",
+    "downloads": 21532,
+    "source_url": "https://www.gutenberg.org/ebooks/11618"
+  },
+  {
+    "rank": 76,
+    "pg_id": 78029,
+    "title": "The dangerous game",
+    "author": "William Le Queux",
+    "genre": "Classic Literature",
+    "downloads": 21522,
+    "source_url": "https://www.gutenberg.org/ebooks/78029"
+  },
+  {
+    "rank": 77,
+    "pg_id": 34232,
+    "title": "From Kingdom to Colony",
+    "author": "Mary Devereux",
+    "genre": "Classic Literature",
+    "downloads": 21511,
+    "source_url": "https://www.gutenberg.org/ebooks/34232"
+  },
+  {
+    "rank": 78,
+    "pg_id": 33733,
+    "title": "The Guarded Heights",
+    "author": "Wadsworth Camp",
+    "genre": "Classic Literature",
+    "downloads": 21502,
+    "source_url": "https://www.gutenberg.org/ebooks/33733"
+  },
+  {
+    "rank": 79,
+    "pg_id": 36360,
+    "title": "Faithful Margaret: A Novel",
+    "author": "Mrs. J. M. Simpson",
+    "genre": "Classic Literature",
+    "downloads": 21489,
+    "source_url": "https://www.gutenberg.org/ebooks/36360"
+  },
+  {
+    "rank": 80,
+    "pg_id": 4923,
+    "title": "King Midas: a Romance",
+    "author": "Upton Sinclair",
+    "genre": "Romance & Society",
+    "downloads": 21487,
+    "source_url": "https://www.gutenberg.org/ebooks/4923"
+  },
+  {
+    "rank": 81,
+    "pg_id": 78043,
+    "title": "Bushy :  a romance founded on fact",
+    "author": "Cynthia May Westover Alden",
+    "genre": "Romance & Society",
+    "downloads": 21468,
+    "source_url": "https://www.gutenberg.org/ebooks/78043"
+  },
+  {
+    "rank": 82,
+    "pg_id": 39970,
+    "title": "The Hill of Venus",
+    "author": "Nathan Gallizier",
+    "genre": "Classic Literature",
+    "downloads": 21467,
+    "source_url": "https://www.gutenberg.org/ebooks/39970"
+  },
+  {
+    "rank": 83,
+    "pg_id": 35249,
+    "title": "A Japanese Boy",
+    "author": "Shigemi Shiukichi",
+    "genre": "Children's & Fairy Tales",
+    "downloads": 21463,
+    "source_url": "https://www.gutenberg.org/ebooks/35249"
+  },
+  {
+    "rank": 84,
+    "pg_id": 78032,
+    "title": "Twelve years in the army :  or, The incidents of a soldier's life",
+    "author": "John G. Gollan",
+    "genre": "Classic Literature",
+    "downloads": 21428,
+    "source_url": "https://www.gutenberg.org/ebooks/78032"
+  },
+  {
+    "rank": 85,
+    "pg_id": 78095,
+    "title": "Great rivers of the world :  as seen and described by famous writers",
+    "author": "Unknown Author",
+    "genre": "Classic Literature",
+    "downloads": 21425,
+    "source_url": "https://www.gutenberg.org/ebooks/78095"
+  },
+  {
+    "rank": 86,
+    "pg_id": 78112,
+    "title": "Astronomy for beginners",
+    "author": "Hereward Carrington",
+    "genre": "Classic Literature",
+    "downloads": 21400,
+    "source_url": "https://www.gutenberg.org/ebooks/78112"
+  },
+  {
+    "rank": 87,
+    "pg_id": 78005,
+    "title": "The Green Dolphin",
+    "author": "Sara Ware Bassett",
+    "genre": "Classic Literature",
+    "downloads": 21394,
+    "source_url": "https://www.gutenberg.org/ebooks/78005"
+  },
+  {
+    "rank": 88,
+    "pg_id": 32101,
+    "title": "The Crimson Gardenia and Other Tales of Adventure",
+    "author": "Rex Beach",
+    "genre": "Children's & Fairy Tales",
+    "downloads": 21393,
+    "source_url": "https://www.gutenberg.org/ebooks/32101"
+  },
+  {
+    "rank": 89,
+    "pg_id": 78067,
+    "title": "Joe Strong and his wings of steel :  or, A young acrobat in the clouds",
+    "author": "Vance Barnum",
+    "genre": "Classic Literature",
+    "downloads": 21383,
+    "source_url": "https://www.gutenberg.org/ebooks/78067"
+  },
+  {
+    "rank": 90,
+    "pg_id": 78040,
+    "title": "Kate Mulhall :  A romance of the Oregon Trail",
+    "author": "Ezra Meeker",
+    "genre": "Romance & Society",
+    "downloads": 21375,
+    "source_url": "https://www.gutenberg.org/ebooks/78040"
+  },
+  {
+    "rank": 91,
+    "pg_id": 52734,
+    "title": "The Scourge of God: A Romance of Religious Persecution",
+    "author": "John Bloundelle-Burton",
+    "genre": "Romance & Society",
+    "downloads": 21335,
+    "source_url": "https://www.gutenberg.org/ebooks/52734"
+  },
+  {
+    "rank": 92,
+    "pg_id": 38250,
+    "title": "The Honour of Savelli: A Romance",
+    "author": "S. Levett Yeats",
+    "genre": "Romance & Society",
+    "downloads": 21330,
+    "source_url": "https://www.gutenberg.org/ebooks/38250"
+  },
+  {
+    "rank": 93,
+    "pg_id": 42283,
+    "title": "The San Rosario Ranch",
+    "author": "Maud Howe Elliott",
+    "genre": "Classic Literature",
+    "downloads": 21328,
+    "source_url": "https://www.gutenberg.org/ebooks/42283"
+  },
+  {
+    "rank": 94,
+    "pg_id": 20131,
+    "title": "The Mask: A Story of Love and Adventure",
+    "author": "Arthur Hornblow",
+    "genre": "Adventure & Exploration",
+    "downloads": 21327,
+    "source_url": "https://www.gutenberg.org/ebooks/20131"
+  },
+  {
+    "rank": 95,
+    "pg_id": 78024,
+    "title": "The woman of Andros",
+    "author": "Thornton Wilder",
+    "genre": "Classic Literature",
+    "downloads": 21313,
+    "source_url": "https://www.gutenberg.org/ebooks/78024"
+  },
+  {
+    "rank": 96,
+    "pg_id": 78051,
+    "title": "Borrowed feathers",
+    "author": "Ruth Lamb",
+    "genre": "Classic Literature",
+    "downloads": 21305,
+    "source_url": "https://www.gutenberg.org/ebooks/78051"
+  },
+  {
+    "rank": 97,
+    "pg_id": 78060,
+    "title": "A young man's story",
+    "author": "Sarah Doudney",
+    "genre": "Classic Literature",
+    "downloads": 21287,
+    "source_url": "https://www.gutenberg.org/ebooks/78060"
+  },
+  {
+    "rank": 98,
+    "pg_id": 78073,
+    "title": "The winner and new...",
+    "author": "Ib Melchior",
+    "genre": "Classic Literature",
+    "downloads": 21264,
+    "source_url": "https://www.gutenberg.org/ebooks/78073"
+  },
+  {
+    "rank": 99,
+    "pg_id": 59931,
+    "title": "The Love-Story of Aliette Brunton",
+    "author": "Gilbert Frankau",
+    "genre": "Romance & Society",
+    "downloads": 21263,
+    "source_url": "https://www.gutenberg.org/ebooks/59931"
+  },
+  {
+    "rank": 100,
+    "pg_id": 78108,
+    "title": "The bitter tea of General Yen",
+    "author": "Grace Zaring Stone",
+    "genre": "Classic Literature",
+    "downloads": 21233,
+    "source_url": "https://www.gutenberg.org/ebooks/78108"
+  },
+  {
+    "rank": 101,
+    "pg_id": 78010,
+    "title": "The unknown seven :  A detective story",
+    "author": "Herman Landon",
+    "genre": "Mystery & Detective",
+    "downloads": 21232,
+    "source_url": "https://www.gutenberg.org/ebooks/78010"
+  },
+  {
+    "rank": 102,
+    "pg_id": 4918,
+    "title": "The Lilac Sunbonnet: A Love Story",
+    "author": "S. R. Crockett",
+    "genre": "Romance & Society",
+    "downloads": 21227,
+    "source_url": "https://www.gutenberg.org/ebooks/4918"
+  },
+  {
+    "rank": 103,
+    "pg_id": 78106,
+    "title": "Things near &amp; far",
+    "author": "Arthur Machen",
+    "genre": "Classic Literature",
+    "downloads": 21217,
+    "source_url": "https://www.gutenberg.org/ebooks/78106"
+  },
+  {
+    "rank": 104,
+    "pg_id": 78045,
+    "title": "The happiness of Hazelbrook",
+    "author": "Charlotte Grace O'Brien",
+    "genre": "Classic Literature",
+    "downloads": 21216,
+    "source_url": "https://www.gutenberg.org/ebooks/78045"
+  },
+  {
+    "rank": 105,
+    "pg_id": 78103,
+    "title": "The trouble at Pinelands :  A detective story",
+    "author": "Ernest M. Poate",
+    "genre": "Mystery & Detective",
+    "downloads": 21210,
+    "source_url": "https://www.gutenberg.org/ebooks/78103"
+  },
+  {
+    "rank": 106,
+    "pg_id": 78127,
+    "title": "The golden journey of Mr. Paradyne",
+    "author": "William John Locke",
+    "genre": "Adventure & Exploration",
+    "downloads": 21210,
+    "source_url": "https://www.gutenberg.org/ebooks/78127"
+  },
+  {
+    "rank": 107,
+    "pg_id": 78012,
+    "title": "Success",
+    "author": "Una L. Silberrad",
+    "genre": "Classic Literature",
+    "downloads": 21199,
+    "source_url": "https://www.gutenberg.org/ebooks/78012"
+  },
+  {
+    "rank": 108,
+    "pg_id": 78062,
+    "title": "The flower and the leaf",
+    "author": "Jane G. Austin",
+    "genre": "Classic Literature",
+    "downloads": 21188,
+    "source_url": "https://www.gutenberg.org/ebooks/78062"
+  },
+  {
+    "rank": 109,
+    "pg_id": 78023,
+    "title": "Ash-Wednesday",
+    "author": "T. S. Eliot",
+    "genre": "Classic Literature",
+    "downloads": 21187,
+    "source_url": "https://www.gutenberg.org/ebooks/78023"
+  },
+  {
+    "rank": 110,
+    "pg_id": 36034,
+    "title": "White nights, and other stories",
+    "author": "Fyodor Dostoyevsky",
+    "genre": "Classic Literature",
+    "downloads": 21187,
+    "source_url": "https://www.gutenberg.org/ebooks/36034"
+  },
+  {
+    "rank": 111,
+    "pg_id": 5610,
+    "title": "The Cardinal's snuff-box",
+    "author": "Henry Harland",
+    "genre": "Classic Literature",
+    "downloads": 21170,
+    "source_url": "https://www.gutenberg.org/ebooks/5610"
+  },
+  {
+    "rank": 112,
+    "pg_id": 78076,
+    "title": "Robert Frost :  A study in sensibility and good sense",
+    "author": "Gorham Bert Munson",
+    "genre": "Classic Literature",
+    "downloads": 21155,
+    "source_url": "https://www.gutenberg.org/ebooks/78076"
+  },
+  {
+    "rank": 113,
+    "pg_id": 78114,
+    "title": "Miniatures of French history",
+    "author": "Hilaire Belloc",
+    "genre": "Historical & Epic",
+    "downloads": 21142,
+    "source_url": "https://www.gutenberg.org/ebooks/78114"
+  },
+  {
+    "rank": 114,
+    "pg_id": 76411,
+    "title": "The last dragon",
+    "author": "Dan Totheroh",
+    "genre": "Classic Literature",
+    "downloads": 21135,
+    "source_url": "https://www.gutenberg.org/ebooks/76411"
+  },
+  {
+    "rank": 115,
+    "pg_id": 29868,
+    "title": "Love and Lucy",
+    "author": "Maurice Hewlett",
+    "genre": "Romance & Society",
+    "downloads": 21125,
+    "source_url": "https://www.gutenberg.org/ebooks/29868"
+  },
+  {
+    "rank": 116,
+    "pg_id": 78121,
+    "title": "The servant's behaviour book :  or, Hints on manners and dress for maid servants in small households",
+    "author": "Emily A. Patmore",
+    "genre": "Classic Literature",
+    "downloads": 21117,
+    "source_url": "https://www.gutenberg.org/ebooks/78121"
+  },
+  {
+    "rank": 117,
+    "pg_id": 78061,
+    "title": "Household words, No. 26, September 21, 1850 :  A weekly journal",
+    "author": "Williams Haynes",
+    "genre": "Classic Literature",
+    "downloads": 21117,
+    "source_url": "https://www.gutenberg.org/ebooks/78061"
+  },
+  {
+    "rank": 118,
+    "pg_id": 78088,
+    "title": "The hand of God",
+    "author": "Murray Leinster",
+    "genre": "Classic Literature",
+    "downloads": 21096,
+    "source_url": "https://www.gutenberg.org/ebooks/78088"
+  },
+  {
+    "rank": 119,
+    "pg_id": 78085,
+    "title": "The Catholic Church and history",
+    "author": "Hilaire Belloc",
+    "genre": "Historical & Epic",
+    "downloads": 21095,
+    "source_url": "https://www.gutenberg.org/ebooks/78085"
+  },
+  {
+    "rank": 120,
+    "pg_id": 78055,
+    "title": "The white rain came",
+    "author": "Jr. Sam Merwin",
+    "genre": "Classic Literature",
+    "downloads": 21085,
+    "source_url": "https://www.gutenberg.org/ebooks/78055"
+  },
+  {
+    "rank": 121,
+    "pg_id": 78115,
+    "title": "The story of Nelson",
+    "author": "Edmund Francis Sellar",
+    "genre": "Classic Literature",
+    "downloads": 21027,
+    "source_url": "https://www.gutenberg.org/ebooks/78115"
+  },
+  {
+    "rank": 122,
+    "pg_id": 78116,
+    "title": "The bar act",
+    "author": "Bud La Mar",
+    "genre": "Classic Literature",
+    "downloads": 21010,
+    "source_url": "https://www.gutenberg.org/ebooks/78116"
+  },
+  {
+    "rank": 123,
+    "pg_id": 78086,
+    "title": "A municipal feud",
+    "author": "Ernest Haycox",
+    "genre": "Classic Literature",
+    "downloads": 20977,
+    "source_url": "https://www.gutenberg.org/ebooks/78086"
+  },
+  {
+    "rank": 124,
+    "pg_id": 78099,
+    "title": "Household words, No. 2, April 6, 1850 :  A weekly journal",
+    "author": "Lloyd E. Smith",
+    "genre": "Classic Literature",
+    "downloads": 20936,
+    "source_url": "https://www.gutenberg.org/ebooks/78099"
+  },
+  {
+    "rank": 125,
+    "pg_id": 78057,
+    "title": "The vidiot",
+    "author": "Ib Melchior",
+    "genre": "Classic Literature",
+    "downloads": 20929,
+    "source_url": "https://www.gutenberg.org/ebooks/78057"
+  },
+  {
+    "rank": 126,
+    "pg_id": 10,
+    "title": "The King James Version of the Bible",
+    "author": "Freiherr de Friedrich Heinrich Karl La Motte-Fouqué",
+    "genre": "Classic Literature",
+    "downloads": 20898,
+    "source_url": "https://www.gutenberg.org/ebooks/10"
+  },
+  {
+    "rank": 127,
+    "pg_id": 76871,
+    "title": "The magnificent possession",
+    "author": "Isaac Asimov",
+    "genre": "Classic Literature",
+    "downloads": 20823,
+    "source_url": "https://www.gutenberg.org/ebooks/76871"
+  },
+  {
+    "rank": 128,
+    "pg_id": 76927,
+    "title": "Only a clod",
+    "author": "M. E. Braddon",
+    "genre": "Classic Literature",
+    "downloads": 20770,
+    "source_url": "https://www.gutenberg.org/ebooks/76927"
+  },
+  {
+    "rank": 129,
+    "pg_id": 78035,
+    "title": "The Old Lady flies",
+    "author": "Raoul Whitfield",
+    "genre": "Classic Literature",
+    "downloads": 20760,
+    "source_url": "https://www.gutenberg.org/ebooks/78035"
+  },
+  {
+    "rank": 130,
+    "pg_id": 76503,
+    "title": "The man who mastered time",
+    "author": "Ray Cummings",
+    "genre": "Science Fiction",
+    "downloads": 20684,
+    "source_url": "https://www.gutenberg.org/ebooks/76503"
+  },
+  {
+    "rank": 131,
+    "pg_id": 76116,
+    "title": "The blue scarab",
+    "author": "R. Austin Freeman",
+    "genre": "Classic Literature",
+    "downloads": 20641,
+    "source_url": "https://www.gutenberg.org/ebooks/76116"
+  },
+  {
+    "rank": 132,
+    "pg_id": 76358,
+    "title": "They return at evening :  A book of ghost stories",
+    "author": "Herbert Russell Wakefield",
+    "genre": "Gothic Horror & Supernatural",
+    "downloads": 20621,
+    "source_url": "https://www.gutenberg.org/ebooks/76358"
+  },
+  {
+    "rank": 133,
+    "pg_id": 76521,
+    "title": "The Hunniwell boys and the platinum mystery",
+    "author": "L. P. Wyman",
+    "genre": "Children's & Fairy Tales",
+    "downloads": 20591,
+    "source_url": "https://www.gutenberg.org/ebooks/76521"
+  },
+  {
+    "rank": 134,
+    "pg_id": 78228,
+    "title": "Two happy years in Ceylon",
+    "author": "C. F. Gordon Cumming",
+    "genre": "Classic Literature",
+    "downloads": 20584,
+    "source_url": "https://www.gutenberg.org/ebooks/78228"
+  },
+  {
+    "rank": 135,
+    "pg_id": 76049,
+    "title": "Dancing Devil range",
+    "author": "W. C. Tuttle",
+    "genre": "Classic Literature",
+    "downloads": 20564,
+    "source_url": "https://www.gutenberg.org/ebooks/76049"
+  },
+  {
+    "rank": 136,
+    "pg_id": 76812,
+    "title": "Fighting for fortune :  or, Making a place for himself",
+    "author": "Roy Franklin",
+    "genre": "Classic Literature",
+    "downloads": 20541,
+    "source_url": "https://www.gutenberg.org/ebooks/76812"
+  },
+  {
+    "rank": 137,
+    "pg_id": 76995,
+    "title": "Law-star for an outlaw",
+    "author": "W. C. Tuttle",
+    "genre": "Classic Literature",
+    "downloads": 20522,
+    "source_url": "https://www.gutenberg.org/ebooks/76995"
+  },
+  {
+    "rank": 138,
+    "pg_id": 76689,
+    "title": "Snow-blind",
+    "author": "Albert M. Treynor",
+    "genre": "Classic Literature",
+    "downloads": 20515,
+    "source_url": "https://www.gutenberg.org/ebooks/76689"
+  },
+  {
+    "rank": 139,
+    "pg_id": 76435,
+    "title": "The black kiss",
+    "author": "Robert Bloch and Henry Kuttner",
+    "genre": "Classic Literature",
+    "downloads": 20493,
+    "source_url": "https://www.gutenberg.org/ebooks/76435"
+  },
+  {
+    "rank": 140,
+    "pg_id": 76919,
+    "title": "The magic casket",
+    "author": "R. Austin Freeman",
+    "genre": "Classic Literature",
+    "downloads": 20478,
+    "source_url": "https://www.gutenberg.org/ebooks/76919"
+  },
+  {
+    "rank": 141,
+    "pg_id": 76914,
+    "title": "The mystery of the missing eyebrows",
+    "author": "Stephen Rudd",
+    "genre": "Mystery & Detective",
+    "downloads": 20476,
+    "source_url": "https://www.gutenberg.org/ebooks/76914"
+  },
+  {
+    "rank": 142,
+    "pg_id": 76084,
+    "title": "The Nowadays Girls in the Adirondacks :  or, The deserted bungalow on Saranac Lake",
+    "author": "Gertrude Hall Brownell",
+    "genre": "Children's & Fairy Tales",
+    "downloads": 20461,
+    "source_url": "https://www.gutenberg.org/ebooks/76084"
+  },
+  {
+    "rank": 143,
+    "pg_id": 77016,
+    "title": "The trail of deception",
+    "author": "W. C. Tuttle",
+    "genre": "Classic Literature",
+    "downloads": 20454,
+    "source_url": "https://www.gutenberg.org/ebooks/77016"
+  },
+  {
+    "rank": 144,
+    "pg_id": 76950,
+    "title": "The ghost of Charlotte Cray, and other stories",
+    "author": "Florence Marryat",
+    "genre": "Gothic Horror & Supernatural",
+    "downloads": 20448,
+    "source_url": "https://www.gutenberg.org/ebooks/76950"
+  },
+  {
+    "rank": 145,
+    "pg_id": 76759,
+    "title": "The strange house :  or, A moment's mistake",
+    "author": "Catharine Shaw",
+    "genre": "Classic Literature",
+    "downloads": 20429,
+    "source_url": "https://www.gutenberg.org/ebooks/76759"
+  },
+  {
+    "rank": 146,
+    "pg_id": 76857,
+    "title": "I, Mars",
+    "author": "Ray Bradbury",
+    "genre": "Science Fiction",
+    "downloads": 20425,
+    "source_url": "https://www.gutenberg.org/ebooks/76857"
+  },
+  {
+    "rank": 147,
+    "pg_id": 76462,
+    "title": "The adventures of Heine",
+    "author": "Edgar Wallace",
+    "genre": "Adventure & Exploration",
+    "downloads": 20417,
+    "source_url": "https://www.gutenberg.org/ebooks/76462"
+  },
+  {
+    "rank": 148,
+    "pg_id": 76222,
+    "title": "The valley of eyes unseen",
+    "author": "Gilbert Collins",
+    "genre": "Classic Literature",
+    "downloads": 20414,
+    "source_url": "https://www.gutenberg.org/ebooks/76222"
+  },
+  {
+    "rank": 149,
+    "pg_id": 76621,
+    "title": "Sergeant Dick of the Royal Mounted Police :  A thrilling story of the Canadian woods",
+    "author": "John G. Rowe",
+    "genre": "Classic Literature",
+    "downloads": 20408,
+    "source_url": "https://www.gutenberg.org/ebooks/76621"
+  },
+  {
+    "rank": 150,
+    "pg_id": 54213,
+    "title": "Military Equipment [1917]",
+    "author": "Roebuck and Company Sears",
+    "genre": "Classic Literature",
+    "downloads": 20397,
+    "source_url": "https://www.gutenberg.org/ebooks/54213"
+  },
+  {
+    "rank": 151,
+    "pg_id": 75790,
+    "title": "Cursed be the treasure",
+    "author": "H. B. Drake",
+    "genre": "Classic Literature",
+    "downloads": 20394,
+    "source_url": "https://www.gutenberg.org/ebooks/75790"
+  },
+  {
+    "rank": 152,
+    "pg_id": 76072,
+    "title": "The mystery of Angelina Frood",
+    "author": "R. Austin Freeman",
+    "genre": "Mystery & Detective",
+    "downloads": 20388,
+    "source_url": "https://www.gutenberg.org/ebooks/76072"
+  },
+  {
+    "rank": 153,
+    "pg_id": 76849,
+    "title": "This star shall be free",
+    "author": "Murray Leinster",
+    "genre": "Classic Literature",
+    "downloads": 20388,
+    "source_url": "https://www.gutenberg.org/ebooks/76849"
+  },
+  {
+    "rank": 154,
+    "pg_id": 76983,
+    "title": "Skeeter Bill comes to town",
+    "author": "W. C. Tuttle",
+    "genre": "Classic Literature",
+    "downloads": 20385,
+    "source_url": "https://www.gutenberg.org/ebooks/76983"
+  },
+  {
+    "rank": 155,
+    "pg_id": 76764,
+    "title": "Landscape with figures",
+    "author": "Ronald Fraser",
+    "genre": "Classic Literature",
+    "downloads": 20373,
+    "source_url": "https://www.gutenberg.org/ebooks/76764"
+  },
+  {
+    "rank": 156,
+    "pg_id": 76247,
+    "title": "How joy was found :  a fantasy",
+    "author": "Isobel Wylie Hutchison",
+    "genre": "Classic Literature",
+    "downloads": 20366,
+    "source_url": "https://www.gutenberg.org/ebooks/76247"
+  },
+  {
+    "rank": 157,
+    "pg_id": 77022,
+    "title": "The porcelain mask :  A detective story",
+    "author": "John Jay Chichester",
+    "genre": "Mystery & Detective",
+    "downloads": 20353,
+    "source_url": "https://www.gutenberg.org/ebooks/77022"
+  },
+  {
+    "rank": 158,
+    "pg_id": 76929,
+    "title": "Maugis, ye sorcerer :  from ye ancient French : a wonderful tale from ye writings of ye mad savant of ye Maison Maugis in ye olde citie of Mouzon, France",
+    "author": "Lord Gilhooley",
+    "genre": "Children's & Fairy Tales",
+    "downloads": 20350,
+    "source_url": "https://www.gutenberg.org/ebooks/76929"
+  },
+  {
+    "rank": 159,
+    "pg_id": 76603,
+    "title": "Karl Grier :  The strange story of a man with a sixth sense",
+    "author": "Louis Tracy",
+    "genre": "Classic Literature",
+    "downloads": 20348,
+    "source_url": "https://www.gutenberg.org/ebooks/76603"
+  },
+  {
+    "rank": 160,
+    "pg_id": 77056,
+    "title": "The dream detective",
+    "author": "Sax Rohmer",
+    "genre": "Mystery & Detective",
+    "downloads": 20344,
+    "source_url": "https://www.gutenberg.org/ebooks/77056"
+  },
+  {
+    "rank": 161,
+    "pg_id": 76858,
+    "title": "The spirit-rapper; an autobiography",
+    "author": "Orestes Augustus Brownson",
+    "genre": "Historical & Epic",
+    "downloads": 20323,
+    "source_url": "https://www.gutenberg.org/ebooks/76858"
+  },
+  {
+    "rank": 162,
+    "pg_id": 76804,
+    "title": "Wanted—?",
+    "author": "Eugene Cunningham",
+    "genre": "Classic Literature",
+    "downloads": 20322,
+    "source_url": "https://www.gutenberg.org/ebooks/76804"
+  },
+  {
+    "rank": 163,
+    "pg_id": 76418,
+    "title": "The tomb of Ts'in",
+    "author": "Edgar Wallace",
+    "genre": "Classic Literature",
+    "downloads": 20320,
+    "source_url": "https://www.gutenberg.org/ebooks/76418"
+  },
+  {
+    "rank": 164,
+    "pg_id": 75967,
+    "title": "Dr. Mabuse, master of mystery :  a novel",
+    "author": "Norbert Jacques",
+    "genre": "Mystery & Detective",
+    "downloads": 20318,
+    "source_url": "https://www.gutenberg.org/ebooks/75967"
+  },
+  {
+    "rank": 165,
+    "pg_id": 72679,
+    "title": "The lesser Key of Solomon, Goetia, the book of evil spirits :  contains two hundred diagrams and seals for invocation and convocation of spirits, necromancy, witchcraft and black art",
+    "author": "Edgar Wallace",
+    "genre": "Adventure & Exploration",
+    "downloads": 20296,
+    "source_url": "https://www.gutenberg.org/ebooks/72679"
+  },
+  {
+    "rank": 166,
+    "pg_id": 75858,
+    "title": "The strange countess",
+    "author": "Edgar Wallace",
+    "genre": "Classic Literature",
+    "downloads": 20294,
+    "source_url": "https://www.gutenberg.org/ebooks/75858"
+  },
+  {
+    "rank": 167,
+    "pg_id": 76131,
+    "title": "The mark of the monster",
+    "author": "Jack Williamson",
+    "genre": "Classic Literature",
+    "downloads": 20285,
+    "source_url": "https://www.gutenberg.org/ebooks/76131"
+  },
+  {
+    "rank": 168,
+    "pg_id": 75998,
+    "title": "Daredevil",
+    "author": "Leslie Charteris",
+    "genre": "Classic Literature",
+    "downloads": 20284,
+    "source_url": "https://www.gutenberg.org/ebooks/75998"
+  },
+  {
+    "rank": 169,
+    "pg_id": 77109,
+    "title": "A journey to the world under-ground",
+    "author": "Ludvig Holberg",
+    "genre": "Adventure & Exploration",
+    "downloads": 20271,
+    "source_url": "https://www.gutenberg.org/ebooks/77109"
+  },
+  {
+    "rank": 170,
+    "pg_id": 76960,
+    "title": "The corsair; or, the little fairy at the bottom of the sea :  A new Christmas burlesque and pantomime, founded upon the ballet of \"Le corsair\"",
+    "author": "William Brough",
+    "genre": "Children's & Fairy Tales",
+    "downloads": 20268,
+    "source_url": "https://www.gutenberg.org/ebooks/76960"
+  },
+  {
+    "rank": 171,
+    "pg_id": 76685,
+    "title": "The Sign of the Seven Sins",
+    "author": "William Le Queux",
+    "genre": "Classic Literature",
+    "downloads": 20266,
+    "source_url": "https://www.gutenberg.org/ebooks/76685"
+  },
+  {
+    "rank": 172,
+    "pg_id": 77001,
+    "title": "Moon of madness",
+    "author": "Sax Rohmer",
+    "genre": "Science Fiction",
+    "downloads": 20240,
+    "source_url": "https://www.gutenberg.org/ebooks/77001"
+  },
+  {
+    "rank": 173,
+    "pg_id": 77033,
+    "title": "The sinister mark",
+    "author": "Lee Thayer",
+    "genre": "Classic Literature",
+    "downloads": 20191,
+    "source_url": "https://www.gutenberg.org/ebooks/77033"
+  },
+  {
+    "rank": 174,
+    "pg_id": 76539,
+    "title": "The life-eater",
+    "author": "Harold Ward",
+    "genre": "Classic Literature",
+    "downloads": 20182,
+    "source_url": "https://www.gutenberg.org/ebooks/76539"
+  },
+  {
+    "rank": 175,
+    "pg_id": 76533,
+    "title": "Limanora :  the island of progress",
+    "author": "Godfrey Sweven",
+    "genre": "Adventure & Exploration",
+    "downloads": 20179,
+    "source_url": "https://www.gutenberg.org/ebooks/76533"
+  },
+  {
+    "rank": 176,
+    "pg_id": 76541,
+    "title": "Red aces :  Being three cases of Mr. Reeder",
+    "author": "Edgar Wallace",
+    "genre": "Classic Literature",
+    "downloads": 20178,
+    "source_url": "https://www.gutenberg.org/ebooks/76541"
+  },
+  {
+    "rank": 177,
+    "pg_id": 76059,
+    "title": "The thing in the woods",
+    "author": "Harper Williams",
+    "genre": "Classic Literature",
+    "downloads": 20151,
+    "source_url": "https://www.gutenberg.org/ebooks/76059"
+  },
+  {
+    "rank": 178,
+    "pg_id": 75909,
+    "title": "The double dagger :  or, Nat Ridley's Mexican trail",
+    "author": "Nat Ridley",
+    "genre": "Classic Literature",
+    "downloads": 20140,
+    "source_url": "https://www.gutenberg.org/ebooks/75909"
+  },
+  {
+    "rank": 179,
+    "pg_id": 75922,
+    "title": "The amazing adventures of Letitia Carberry",
+    "author": "Mary Roberts Rinehart",
+    "genre": "Adventure & Exploration",
+    "downloads": 20137,
+    "source_url": "https://www.gutenberg.org/ebooks/75922"
+  },
+  {
+    "rank": 180,
+    "pg_id": 76998,
+    "title": "Jonah",
+    "author": "Robert Nathan",
+    "genre": "Classic Literature",
+    "downloads": 20109,
+    "source_url": "https://www.gutenberg.org/ebooks/76998"
+  },
+  {
+    "rank": 181,
+    "pg_id": 76200,
+    "title": "Only seven were hanged",
+    "author": "Stuart Martin",
+    "genre": "Classic Literature",
+    "downloads": 20097,
+    "source_url": "https://www.gutenberg.org/ebooks/76200"
+  },
+  {
+    "rank": 182,
+    "pg_id": 76981,
+    "title": "Saved from herself :  or, On the edge of doom",
+    "author": "Adelaide Stirling",
+    "genre": "Classic Literature",
+    "downloads": 20093,
+    "source_url": "https://www.gutenberg.org/ebooks/76981"
+  },
+  {
+    "rank": 183,
+    "pg_id": 76903,
+    "title": "The Copper House :  A detective story",
+    "author": "Julius Regis",
+    "genre": "Mystery & Detective",
+    "downloads": 20088,
+    "source_url": "https://www.gutenberg.org/ebooks/76903"
+  },
+  {
+    "rank": 184,
+    "pg_id": 76493,
+    "title": "The new terror",
+    "author": "Gaston Leroux",
+    "genre": "Classic Literature",
+    "downloads": 20085,
+    "source_url": "https://www.gutenberg.org/ebooks/76493"
+  },
+  {
+    "rank": 185,
+    "pg_id": 77069,
+    "title": "Murder in the Gilded Cage",
+    "author": "Samuel Spewack",
+    "genre": "Mystery & Detective",
+    "downloads": 20083,
+    "source_url": "https://www.gutenberg.org/ebooks/77069"
+  },
+  {
+    "rank": 186,
+    "pg_id": 76659,
+    "title": "The seventh shot :  A detective story",
+    "author": "Herman Landon",
+    "genre": "Mystery & Detective",
+    "downloads": 20075,
+    "source_url": "https://www.gutenberg.org/ebooks/76659"
+  },
+  {
+    "rank": 187,
+    "pg_id": 76442,
+    "title": "The dryad :  a novel",
+    "author": "Justin H. McCarthy",
+    "genre": "Classic Literature",
+    "downloads": 20046,
+    "source_url": "https://www.gutenberg.org/ebooks/76442"
+  },
+  {
+    "rank": 188,
+    "pg_id": 76546,
+    "title": "The Corbin necklace",
+    "author": "Henry Kitchell Webster",
+    "genre": "Classic Literature",
+    "downloads": 20029,
+    "source_url": "https://www.gutenberg.org/ebooks/76546"
+  },
+  {
+    "rank": 189,
+    "pg_id": 76082,
+    "title": "One jump ahead",
+    "author": "Ray Humphreys",
+    "genre": "Classic Literature",
+    "downloads": 19998,
+    "source_url": "https://www.gutenberg.org/ebooks/76082"
+  },
+  {
+    "rank": 190,
+    "pg_id": 76737,
+    "title": "The sociable ghost :  Being the adventures of a reporter who was invited by the sociable ghost to a grand banquet, ball, and convention under the ground of old Trinity churchyard. A true tale of the things he saw and did not see while he was not there.",
+    "author": "Olive Harper",
+    "genre": "Gothic Horror & Supernatural",
+    "downloads": 19989,
+    "source_url": "https://www.gutenberg.org/ebooks/76737"
+  },
+  {
+    "rank": 191,
+    "pg_id": 76634,
+    "title": "Lillian's vow :  or, The mystery of Raleigh House",
+    "author": "Mrs. E. Burke Collins",
+    "genre": "Mystery & Detective",
+    "downloads": 19978,
+    "source_url": "https://www.gutenberg.org/ebooks/76634"
+  },
+  {
+    "rank": 192,
+    "pg_id": 75808,
+    "title": "Four square Jane",
+    "author": "Edgar Wallace",
+    "genre": "Classic Literature",
+    "downloads": 19959,
+    "source_url": "https://www.gutenberg.org/ebooks/75808"
+  },
+  {
+    "rank": 193,
+    "pg_id": 76476,
+    "title": "Missing men",
+    "author": "Vincent Starrett",
+    "genre": "Classic Literature",
+    "downloads": 19945,
+    "source_url": "https://www.gutenberg.org/ebooks/76476"
+  },
+  {
+    "rank": 194,
+    "pg_id": 76931,
+    "title": "False face",
+    "author": "Ernest Haycox",
+    "genre": "Classic Literature",
+    "downloads": 19941,
+    "source_url": "https://www.gutenberg.org/ebooks/76931"
+  },
+  {
+    "rank": 195,
+    "pg_id": 76409,
+    "title": "Marigold :  A story",
+    "author": "Edith Allonby",
+    "genre": "Classic Literature",
+    "downloads": 19915,
+    "source_url": "https://www.gutenberg.org/ebooks/76409"
+  },
+  {
+    "rank": 196,
+    "pg_id": 76208,
+    "title": "His brother's keeper",
+    "author": "W. C. Tuttle",
+    "genre": "Classic Literature",
+    "downloads": 19914,
+    "source_url": "https://www.gutenberg.org/ebooks/76208"
+  },
+  {
+    "rank": 197,
+    "pg_id": 76413,
+    "title": "Slighted love :  or, At her heart's expense",
+    "author": "Mrs. Alex. McVeigh Miller",
+    "genre": "Romance & Society",
+    "downloads": 19901,
+    "source_url": "https://www.gutenberg.org/ebooks/76413"
+  },
+  {
+    "rank": 198,
+    "pg_id": 76592,
+    "title": "Murder mask",
+    "author": "Edgar Daniel Kramer",
+    "genre": "Mystery & Detective",
+    "downloads": 19900,
+    "source_url": "https://www.gutenberg.org/ebooks/76592"
+  },
+  {
+    "rank": 199,
+    "pg_id": 77031,
+    "title": "Just a bit too fast",
+    "author": "Hal Moore",
+    "genre": "Classic Literature",
+    "downloads": 19861,
+    "source_url": "https://www.gutenberg.org/ebooks/77031"
+  },
+  {
+    "rank": 200,
+    "pg_id": 76834,
+    "title": "The Arctic legions",
+    "author": "A. De Herries Smith",
+    "genre": "Classic Literature",
+    "downloads": 19826,
+    "source_url": "https://www.gutenberg.org/ebooks/76834"
+  }
+]

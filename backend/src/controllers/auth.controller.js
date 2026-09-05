@@ -127,8 +127,54 @@ async function getMe(req, res) {
   }
 }
 
+/**
+ * DELETE /api/v1/auth/account
+ * GDPR Right to Erasure / Account Deletion
+ */
+async function deleteAccount(req, res) {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({ success: false, message: "Authentication required to delete account" });
+    }
+
+    const token = authHeader.split(" ")[1];
+    const decoded = jwt.verify(token, JWT_SECRET);
+    const userId = decoded.id;
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User account not found" });
+    }
+
+    // Cascade delete across all related collections in parallel
+    const mongoose = require("mongoose");
+    const db = mongoose.connection.db;
+
+    await Promise.allSettled([
+      db.collection("userprogresses")?.deleteMany({ userId: user._id }),
+      db.collection("bookmarks")?.deleteMany({ userId: user._id }),
+      db.collection("highlights")?.deleteMany({ userId: user._id }),
+      db.collection("useractivities")?.deleteMany({ userId: user._id }),
+      db.collection("userstreaks")?.deleteMany({ userId: user._id }),
+      db.collection("reviews")?.deleteMany({ userId: user._id }),
+      db.collection("usernotifications")?.deleteMany({ userId: user._id }),
+      User.findByIdAndDelete(userId)
+    ]);
+
+    return res.status(200).json({
+      success: true,
+      message: "User account and all associated reading, progress, bookmarks, and activity data have been permanently deleted in accordance with GDPR regulations."
+    });
+  } catch (err) {
+    console.error("Error in deleteAccount:", err);
+    return res.status(500).json({ success: false, message: err.message || "Failed to process GDPR account erasure" });
+  }
+}
+
 module.exports = {
   register,
   login,
   getMe,
+  deleteAccount
 };

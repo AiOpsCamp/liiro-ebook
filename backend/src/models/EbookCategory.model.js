@@ -59,4 +59,4 @@ ebookCategorySchema.virtual("books", {
   justOne: false,
 });
 
-module.exports = mongoose.models.EbookCategory || mongoose.model("EbookCategory", ebookCategorySchema);
+module.exports = mongoose.models.EbookCategory || mongoose.model("EbookCategory", ebookCategorySchema, "categories");

@@ -1,0 +1,67 @@
+name: Liiro Ebook Production CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  backend-test:
+    name: Backend Lint, Test & Security Audit
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+
+    services:
+      mongodb:
+        image: mongo:7.0
+        ports:
+          - 27017:27017
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+          cache-dependency-path: backend/package.json
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Syntax & Lint Verification
+        run: node -c server.js
+
+      - name: Run Multi-Scenario API & Security Integration Test Suite
+        run: npm test
+        env:
+          MONGO_URL: mongodb://127.0.0.1:27017/liiro_test
+          PORT: 5012
+          JWT_SECRET: test_ci_jwt_secret_key_2026
+
+  docker-build:
+    name: Build & Validate Production Container Image
+    needs: backend-test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Backend Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          push: false
+          tags: liiro/ebook-backend:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

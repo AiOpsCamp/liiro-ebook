@@ -2,7 +2,7 @@
 
 const mongoose = require("mongoose");
 
-const DEFAULT_MONGO_URL = "mongodb://127.0.0.1:27017/liiro_prod";
+const DEFAULT_MONGO_URL = "mongodb://admin:PROD_PASSWORD_2026@127.0.0.1:27018/liiro_prod?authSource=admin&directConnection=true";
 let isConnected = false;
 
 async function connectDB(url) {
@@ -29,12 +29,12 @@ async function connectDB(url) {
   try {
     const conn = await mongoose.connect(mongoUrl, {
       autoIndex: true,
-      serverSelectionTimeoutMS: 3000,
+      serverSelectionTimeoutMS: 5000,
     });
     isConnected = true;
     return conn;
   } catch (err) {
-    console.warn(`⚠️ Cluster hostname resolution (${mongoUrl}) failed locally. Connecting to Hetzner local instance on 127.0.0.1:27017...`);
+    console.warn(`⚠️ Primary MongoDB connection failed (${err.message}). Retrying default 127.0.0.1:27018...`);
     const conn = await mongoose.connect(DEFAULT_MONGO_URL, {
       autoIndex: true,
       serverSelectionTimeoutMS: 5000,

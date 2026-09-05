@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { View, Pressable, Image } from "react-native";
+import { View, Pressable, Image, Platform } from "react-native";
 import { useSelector } from "react-redux";
-import { BookOpen, Play, Lock, Sparkles, Star } from "lucide-react-native";
+import { BookOpen, Play, Lock, Sparkles, Star, Headphones } from "lucide-react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
 import { AppText as Text } from "@/components/ui/AppText";
@@ -56,6 +56,7 @@ const ContinueReadingCard: React.FC<Omit<StoryCardProps, "variant">> = ({ story,
   const cover = httpsUrl(story.coverImageUrl);
   const progress = getProgressPercent(story);
   const levelColor = getLevelColor(story.difficultyLevel);
+  const authorName = getLocalizedText(story.author) || (story as any).authorName || (story as any).authorDetails?.name || "";
 
   return (
     <Pressable
@@ -102,9 +103,9 @@ const ContinueReadingCard: React.FC<Omit<StoryCardProps, "variant">> = ({ story,
             <Text weight="Bold" numberOfLines={2} style={{ color: isDark ? "#F1F5F9" : "#0F172A", fontSize: 15, lineHeight: 21, marginBottom: 3 }}>
               {getLocalizedText(story.title)}
             </Text>
-            {story.author ? (
+            {authorName ? (
               <Text weight="Regular" numberOfLines={1} style={{ color: isDark ? "#94A3B8" : "#64748B", fontSize: 12 }}>
-                {story.author}
+                {authorName}
               </Text>
             ) : null}
           </View>
@@ -137,98 +138,134 @@ const StandardCard: React.FC<Omit<StoryCardProps, "variant">> = ({ story, onPres
   const isDark = useSelector(selectIsDark);
   const [imageError, setImageError] = useState(false);
   const cover = httpsUrl(story.coverImageUrl);
-  const levelColor = getLevelColor(story.difficultyLevel);
   const levelLabel = getLevelLabel(story.difficultyLevel);
-  const hasProgress = !!story.userProgress;
-  const progress = getProgressPercent(story);
+
+  const authorName = getLocalizedText(story.author) || (story as any).authorName || (story as any).authorDetails?.name || "";
+  const isAudioAvailable = !!(story.hasAudio === true || story.isAudiobook === true || story.contentType === "audiobook" || story.contentType === "both");
 
   return (
     <Pressable
       onPress={() => onPress(story.slug)}
       style={({ pressed, hovered }: any) => ({
         width: "100%",
-        opacity: pressed ? 0.88 : 1,
+        backgroundColor: hovered ? "rgba(30, 41, 59, 0.9)" : "rgba(15, 23, 42, 0.85)",
+        borderWidth: 1,
+        borderColor: hovered ? "rgba(129, 140, 248, 0.5)" : "rgba(255, 255, 255, 0.08)",
+        borderRadius: 18,
+        padding: 12,
         transform: [{ translateY: hovered ? -4 : 0 }, { scale: pressed ? 0.98 : 1 }],
+        opacity: pressed ? 0.88 : 1,
+        boxShadow: hovered ? "0 10px 25px rgba(0,0,0,0.4)" : "none",
       })}
       accessibilityLabel={`Read ${getLocalizedText(story.title)}`}
     >
+      {/* Cover Image Container Box */}
       <View
         style={{
           width: "100%",
           aspectRatio: 2 / 3,
-          borderRadius: 16,
+          borderRadius: 14,
           overflow: "hidden",
           backgroundColor: isDark ? "#1E293B" : "#CBD5E1",
-          shadowColor: "#000",
-          shadowOffset: { width: 0, height: 6 },
-          shadowOpacity: isDark ? 0.4 : 0.14,
-          shadowRadius: 16,
-          elevation: 6,
+          position: "relative",
+          marginBottom: 10,
         }}
       >
-        {/* Cover */}
         {cover && !imageError ? (
           <Image
             source={{ uri: cover }}
             onError={() => setImageError(true)}
-            style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, width: "100%", height: "100%" }}
+            style={{ width: "100%", height: "100%" }}
             resizeMode="cover"
           />
         ) : (
           <LinearGradient
-            colors={isDark ? ["#0F172A", "#1E293B", "#334155"] : ["#334155", "#475569", "#64748B"]}
-            style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, padding: 14, justifyContent: "center", alignItems: "center" }}
+            colors={["#0F172A", "#1E293B", "#334155"]}
+            style={{ width: "100%", height: "100%", padding: 14, justifyContent: "center", alignItems: "center" }}
           >
             <BookOpen size={32} color="#38BDF8" style={{ marginBottom: 8 }} />
             <Text weight="Bold" numberOfLines={3} style={{ color: "#FFFFFF", fontSize: 13, textAlign: "center", lineHeight: 17 }}>
               {getLocalizedText(story.title)}
             </Text>
-            {story.author ? (
-              <Text weight="Medium" numberOfLines={1} style={{ color: "#94A3B8", fontSize: 10, textAlign: "center", marginTop: 4 }}>
-                {story.author}
-              </Text>
-            ) : null}
           </LinearGradient>
         )}
 
-        {/* Top sheen */}
-        <LinearGradient
-          colors={["rgba(255,255,255,0.1)", "transparent"]}
-          locations={[0, 0.5]}
-          style={{ position: "absolute", top: 0, left: 0, right: 0, height: "45%" }}
-        />
+        {/* Top-Left Format Badges: [📖 Ebook] + [🎧 Audio] */}
+        <View
+          style={{
+            position: "absolute",
+            top: 8,
+            left: 8,
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 4,
+            zIndex: 10,
+          }}
+        >
+          {/* Default Ebook Pill */}
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 3,
+              paddingHorizontal: 6,
+              paddingVertical: 2.5,
+              borderRadius: 6,
+              backgroundColor: "rgba(2, 6, 23, 0.85)",
+              borderWidth: 1,
+              borderColor: "rgba(14, 165, 233, 0.6)",
+            }}
+          >
+            <BookOpen size={9} color="#38BDF8" />
+            <Text weight="Bold" style={{ color: "#38BDF8", fontSize: 8.5, letterSpacing: 0.2 }}>
+              Ebook
+            </Text>
+          </View>
 
-        {/* Bottom overlay */}
-        <LinearGradient
-          colors={["transparent", "rgba(0,0,0,0.18)", "rgba(0,0,0,0.92)"]}
-          locations={[0, 0.38, 1]}
-          style={{ position: "absolute", bottom: 0, left: 0, right: 0, top: "28%" }}
-        />
+          {/* Audio Pill */}
+          {isAudioAvailable ? (
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                gap: 3,
+                paddingHorizontal: 6,
+                paddingVertical: 2.5,
+                borderRadius: 6,
+                backgroundColor: "rgba(2, 6, 23, 0.85)",
+                borderWidth: 1,
+                borderColor: "rgba(139, 92, 246, 0.6)",
+              }}
+            >
+              <Headphones size={9} color="#C084FC" />
+              <Text weight="Bold" style={{ color: "#C084FC", fontSize: 8.5, letterSpacing: 0.2 }}>
+                Audio
+              </Text>
+            </View>
+          ) : null}
+        </View>
 
-        {/* Top 100 Featured Badge — top right */}
+        {/* Top-Right Badge: TOP 100 or CEFR Level */}
         {story.isFeatured ? (
           <View
             style={{
               position: "absolute",
-              top: 10,
-              right: 10,
+              top: 8,
+              right: 8,
               flexDirection: "row",
               alignItems: "center",
               gap: 3,
-              paddingHorizontal: 7,
-              paddingVertical: 3,
+              paddingHorizontal: 6,
+              paddingVertical: 2.5,
               borderRadius: 6,
               backgroundColor: "rgba(245, 158, 11, 0.95)",
               borderWidth: 1,
               borderColor: "#FDE68A",
-              shadowColor: "#F59E0B",
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.5,
-              shadowRadius: 4,
+              zIndex: 10,
             }}
           >
-            <Sparkles size={9} color="#FFFFFF" />
-            <Text weight="Bold" style={{ color: "#FFFFFF", fontSize: 8.5, letterSpacing: 0.4 }}>
+            <Sparkles size={8.5} color="#FFFFFF" />
+            <Text weight="Bold" style={{ color: "#FFFFFF", fontSize: 8, letterSpacing: 0.3 }}>
               TOP 100
             </Text>
           </View>
@@ -236,143 +273,45 @@ const StandardCard: React.FC<Omit<StoryCardProps, "variant">> = ({ story, onPres
           <View
             style={{
               position: "absolute",
-              top: 10,
-              right: 10,
-              paddingHorizontal: 7,
-              paddingVertical: 3,
-              borderRadius: 5,
-              backgroundColor: levelColor,
+              top: 8,
+              right: 8,
+              paddingHorizontal: 6,
+              paddingVertical: 2.5,
+              borderRadius: 6,
+              backgroundColor: "rgba(2, 6, 23, 0.85)",
+              borderWidth: 1,
+              borderColor: "rgba(16, 185, 129, 0.5)",
+              zIndex: 10,
             }}
           >
-            <Text weight="Bold" style={{ color: "#FFFFFF", fontSize: 8.5, letterSpacing: 0.6, textTransform: "uppercase" }}>
+            <Text weight="Bold" style={{ color: "#10B981", fontSize: 8.5, letterSpacing: 0.3 }}>
               {levelLabel}
             </Text>
           </View>
         ) : null}
-
-        {/* Genre tag — top left */}
-        {story.tags && story.tags.length > 0 ? (
-          <View
-            style={{
-              position: "absolute",
-              top: 10,
-              left: 10,
-              paddingHorizontal: 7,
-              paddingVertical: 3,
-              borderRadius: 5,
-              backgroundColor: "rgba(10,18,36,0.72)",
-            }}
-          >
-            <Text weight="SemiBold" style={{ color: "#7DD3FC", fontSize: 9.5 }}>
-              {getLocalizedText(story.tags[0])}
-            </Text>
-          </View>
-        ) : null}
-
-        {/* Premium badge */}
-        {story.isPremium ? (
-          <View
-            style={{
-              position: "absolute",
-              top: story.tags && story.tags.length > 0 ? 36 : 10,
-              left: 10,
-              width: 22,
-              height: 22,
-              borderRadius: 11,
-              backgroundColor: "rgba(234,179,8,0.92)",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Lock size={11} color="#FFFFFF" />
-          </View>
-        ) : null}
-
-        {/* Title + author */}
-        <View
-          style={{
-            position: "absolute",
-            bottom: hasProgress ? 7 : 0,
-            left: 0,
-            right: 0,
-            paddingHorizontal: 11,
-            paddingBottom: hasProgress ? 7 : 13,
-            paddingTop: 8,
-          }}
-        >
-          {/* Multi-Language Badges */}
-          {story.languages && story.languages.length > 0 && (
-            <View style={{ flexDirection: "row", gap: 4, marginBottom: 5, flexWrap: "wrap" }}>
-              {story.languages.map((lCode) => {
-                const flag = lCode === "es" ? "🇪🇸" : lCode === "fr" ? "🇫🇷" : lCode === "de" ? "🇩🇪" : lCode === "bn" ? "🇧🇩" : "🇬🇧";
-                return (
-                  <View
-                    key={lCode}
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      paddingHorizontal: 5,
-                      paddingVertical: 1.5,
-                      borderRadius: 4,
-                      backgroundColor: "rgba(15,23,42,0.85)",
-                      borderWidth: 0.5,
-                      borderColor: "rgba(255,255,255,0.2)",
-                      gap: 2,
-                    }}
-                  >
-                    <Text style={{ fontSize: 9 }}>{flag}</Text>
-                    <Text weight="Bold" style={{ color: "#7DD3FC", fontSize: 8 }}>
-                      {lCode.toUpperCase()}
-                    </Text>
-                  </View>
-                );
-              })}
-            </View>
-          )}
-
-          <Text
-            weight="Bold"
-            numberOfLines={2}
-            style={{ color: "#FFFFFF", fontSize: 13.5, lineHeight: 19, letterSpacing: -0.2, marginBottom: 3 }}
-          >
-            {getLocalizedText(story.title)}
-          </Text>
-          {story.author ? (
-            <Text weight="Medium" numberOfLines={1} style={{ color: "rgba(255,255,255,0.6)", fontSize: 11 }}>
-              {story.author}
-            </Text>
-          ) : null}
-
-          {/* Social Proof Rating Badge */}
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 4, marginTop: 4 }}>
-            <Star size={10} color="#F59E0B" fill="#F59E0B" />
-            <Text weight="Bold" style={{ color: "#FDE68A", fontSize: 10 }}>
-              4.9
-            </Text>
-            <Text style={{ color: "rgba(255,255,255,0.5)", fontSize: 9.5 }}>
-              • {story.hasAudio || story.isAudiobook ? "Audiobook" : "Ebook"}
-            </Text>
-          </View>
-        </View>
-
-        {/* Border */}
-        <View
-          style={{
-            position: "absolute",
-            top: 0, left: 0, right: 0, bottom: 0,
-            borderRadius: 16,
-            borderWidth: 1,
-            borderColor: isDark ? "rgba(255,255,255,0.09)" : "rgba(255,255,255,0.22)",
-          }}
-        />
-
-        {/* Progress bar */}
-        {hasProgress && (
-          <View style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 3, backgroundColor: "rgba(0,0,0,0.5)" }}>
-            <View style={{ height: "100%", backgroundColor: "#38BDF8", width: `${progress}%`, borderRadius: 1.5 }} />
-          </View>
-        )}
       </View>
+
+      {/* Book Title & Author */}
+      <Text
+        weight="Bold"
+        numberOfLines={2}
+        style={{
+          color: "#FFFFFF",
+          fontSize: 13.5,
+          fontWeight: "700",
+          lineHeight: 18,
+          marginBottom: 4,
+          fontFamily: Platform.OS === "web" ? "Playfair Display, Georgia, serif" : undefined,
+        }}
+      >
+        {getLocalizedText(story.title)}
+      </Text>
+
+      {authorName ? (
+        <Text weight="Medium" numberOfLines={1} style={{ color: "#94A3B8", fontSize: 11.5, fontWeight: "500" }}>
+          {authorName}
+        </Text>
+      ) : null}
     </Pressable>
   );
 };

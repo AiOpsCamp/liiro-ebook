@@ -46,23 +46,25 @@ const storyChapterSchema = new mongoose.Schema(
       type: String,
       default: "en",
     },
+    hasAudio: {
+      type: Boolean,
+      default: false,
+    },
+    audioBitrates: {
+      type: mongoose.Schema.Types.Mixed,
+    },
+    paragraphTimestamps: {
+      type: mongoose.Schema.Types.Mixed,
+    },
+    sentenceTimestamps: {
+      type: mongoose.Schema.Types.Mixed,
+    },
     wordTimestamps: {
       type: mongoose.Schema.Types.Mixed,
     },
-    timestamps: [
-      {
-        text: String,
-        startSec: Number,
-        endSec: Number,
-        words: [
-          {
-            word: String,
-            startSec: Number,
-            endSec: Number,
-          },
-        ],
-      },
-    ],
+    timestamps: {
+      type: mongoose.Schema.Types.Mixed,
+    },
   },
   { timestamps: true }
 );

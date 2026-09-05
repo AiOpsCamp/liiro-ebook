@@ -6,14 +6,15 @@
     "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "web": "cross-env EXPO_PUBLIC_API_URL=http://localhost:5012/api/v1 NODE_OPTIONS=--max_old_space_size=12288 expo start --web --port 8086",
-    "web-prod": "cross-env EXPO_PUBLIC_API_URL=https://app.langoread.io/aiopscamp-langoreads-api/api/v1 NODE_OPTIONS=--max_old_space_size=12288 expo start --web --port 8085 --clear",
+    "web": "cross-env EXPO_PUBLIC_API_URL=http://localhost:5012/api/v1 NODE_OPTIONS=--max-old-space-size=12288 expo start --web --port 8086",
+    "web-prod": "cross-env EXPO_PUBLIC_API_URL=https://app.langoread.io/aiopscamp-langoreads-api/api/v1 NODE_OPTIONS=--max-old-space-size=12288 expo start --web --port 8085 --clear",
     "lint": "expo lint"
   },
   "dependencies": {
     "@expo-google-fonts/jetbrains-mono": "^0.4.1",
     "@expo-google-fonts/lora": "^0.4.2",
     "@expo-google-fonts/playfair-display": "^0.4.2",
+    "@expo-google-fonts/raleway": "^0.4.2",
     "@expo/vector-icons": "^15.0.3",
     "@gorhom/bottom-sheet": "^5.2.14",
     "@react-native-async-storage/async-storage": "2.2.0",

@@ -12,6 +12,7 @@ import {
   useWindowDimensions
 } from "react-native";
 import { Image as ExpoImage } from "expo-image";
+import { SvgUri } from "react-native-svg";
 import { StatusBar } from "expo-status-bar";
 import Animated, {
   FadeInUp,
@@ -62,6 +63,22 @@ import { AppColors } from "@/constants/Colors";
 import GoogleAuthService from "@/services/google-auth.service";
 
 const V = getAuthTheme();
+
+// Bundled, full-color Google "G" mark — replaces the previous flaticon.com
+// hotlink (a production liability: third-party dependency, no offline
+// guarantee, brand risk). Mirrors the same asset used on the login screen.
+const rawGoogleAsset = require("../../assets/images/google.svg");
+let GOOGLE_SVG_URI = "";
+if (typeof rawGoogleAsset === "string") {
+  GOOGLE_SVG_URI = rawGoogleAsset;
+} else if (rawGoogleAsset && rawGoogleAsset.uri) {
+  GOOGLE_SVG_URI = rawGoogleAsset.uri;
+} else if (typeof (ExpoImage as any).resolveAssetSource === "function") {
+  GOOGLE_SVG_URI = (ExpoImage as any).resolveAssetSource(rawGoogleAsset).uri;
+}
+const GoogleIcon = memo(function GoogleIcon() {
+  return <SvgUri uri={GOOGLE_SVG_URI} width={19} height={19} />;
+});
 
 // Safe hex-to-rgba converter to prevent React Native Android blank white card rendering bugs
 const toRgba = (hex: string, alpha: number) => {
@@ -282,7 +299,7 @@ const TactileCheckbox = ({ checked, onToggle }: { checked: boolean; onToggle: ()
 };
 
 // Tactile Executive Social Button — High-contrast human minimalism (ZERO SHADOWS!)
-const TactileSocialButton = ({ title, imageSource, onPress, disabled }: any) => {
+const TactileSocialButton = ({ title, imageSource, leftIcon, onPress, disabled }: any) => {
   const scale = useSharedValue(1);
 
   const animatedStyle = useAnimatedStyle(() => ({
@@ -326,13 +343,17 @@ const TactileSocialButton = ({ title, imageSource, onPress, disabled }: any) => 
           } as any,
         ] as any}
       >
-        <ExpoImage
-          source={{ uri: imageSource }}
-          style={{ width: 20, height: 20, marginRight: 12 }}
-          contentFit="contain"
-          cachePolicy="memory-disk"
-          transition={200}
-        />
+        {leftIcon ? (
+          <View style={{ marginRight: 12 }}>{leftIcon}</View>
+        ) : imageSource ? (
+          <ExpoImage
+            source={{ uri: imageSource }}
+            style={{ width: 20, height: 20, marginRight: 12 }}
+            contentFit="contain"
+            cachePolicy="memory-disk"
+            transition={200}
+          />
+        ) : null}
         <Text weight="SemiBold" style={{ color: V.textPrimary, fontSize: 15.5 }}>
           {title}
         </Text>
@@ -787,7 +808,7 @@ export default function RegisterScreen() {
       <View style={{ gap: 12 }}>
         <TactileSocialButton
           title="Continue with Google"
-          imageSource="https://cdn-icons-png.flaticon.com/512/2991/2991148.png"
+          leftIcon={<GoogleIcon />}
           onPress={handleGoogleSignup}
           disabled={anyLoading}
         />

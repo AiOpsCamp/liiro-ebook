@@ -1,2342 +1,2310 @@
-import React, { useState, useMemo, useCallback, useEffect, useRef } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   View,
+  Text,
   ScrollView,
-  Pressable,
-  useWindowDimensions,
-  TextInput,
+  TouchableOpacity,
+  ActivityIndicator,
   Image,
   Platform,
+  useWindowDimensions,
+  Pressable
 } from "react-native";
-import { useSelector } from "react-redux";
-import { selectIsDark, selectThemeTokens } from "@/redux/features/themeSlice";
 import { useRouter } from "expo-router";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { EbookStreakBanner } from "./dashboard/EbookStreakBanner";
-import { EbookMiniAudioPlayer } from "./dashboard/EbookMiniAudioPlayer";
-import { EbookNotificationsModal } from "./EbookNotificationsModal";
-import { EbookSubscriptionModal } from "./EbookSubscriptionModal";
-import { StreakFlameBadge } from "./streaks/StreakFlameBadge";
-import { AchievementBadgesModal } from "./streaks/AchievementBadgesModal";
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withRepeat,
-  withTiming,
-  withDelay,
-  Easing,
-  FadeInUp,
-} from "react-native-reanimated";
-import { LinearGradient } from "expo-linear-gradient";
-import { getLocalizedText } from "@/utils/getLocalizedText";
-import { useWebHorizontalDrag } from "@/hooks/useWebHorizontalDrag";
 import {
-  ArrowLeft,
-  Search,
-  X,
   BookOpen,
-  Sparkles,
-  Layers,
-  Award,
   Headphones,
-  Compass,
+  Layers,
+  User,
+  Sparkles,
   Flame,
-  ChevronRight,
+  Search,
+  Star,
+  Compass,
+  Award,
+  ArrowRight,
+  Play,
   Clock,
-  Globe,
-  Users,
-  FolderGit2,
-  Home,
-  Tag,
-  Heart,
-  Brain,
-  Baby,
-  GraduationCap,
+  PlusCircle,
   TrendingUp,
+  Bookmark,
+  Eye,
+  Video,
+  ChevronRight,
+  Quote as QuoteIcon,
+  Library
 } from "lucide-react-native";
-import ProfileNavbarMenu from "./ProfileNavbarMenu";
+import { LinearGradient } from "expo-linear-gradient";
+import ProfileNavbarMenu from "@/components/ebook/ProfileNavbarMenu";
+import StoryCard from "@/components/ebook/StoryCard";
+import { QuoteCardShareModal, QuoteCardData } from "@/components/ebook/social/QuoteCardShareModal";
+import { AnnualReadingGoalCard } from "@/components/ebook/goals/AnnualReadingGoalCard";
 
-import { AppText as Text } from "@/components/ui/AppText";
-import StoryCard from "./StoryCard";
-import ContinueCard from "./ContinueCard";
-import {
-  useGetStoriesDashboardQuery,
-  useGetAuthorsQuery,
-  useGetCategoriesQuery,
-  useGetTagsQuery,
-  useGetBookSeriesQuery,
-  DashboardResponse,
-  Story,
-  EbookAuthor,
-  EbookCategory,
-  EbookTag,
-  BookSeries,
-} from "@/api/storiesQuery";
-
-/* ── Types ───────────────────────────────────────────── */
-
-interface Props {
-  data?: DashboardResponse | undefined;
-  dashboardData?: DashboardResponse | undefined;
-  colors?: any;
-  onStoryPress?: (slug: string, preferAudio?: boolean) => void;
-  insets?: any;
-  onBackPress?: () => void;
-  onRefresh?: () => void;
-}
-
-type CategoryKey =
-  | "all"
-  | "spanish"
-  | "french"
-  | "multilingual"
-  | "audiobooks"
-  | "children"
-  | "philosophy"
-  | "comedy"
-  | "fantasy"
-  | "horror"
-  | "adventure"
-  | "romance"
-  | "scifi"
-  | "mystery"
-  | "thriller"
-  | "gothic"
-  | "drama"
-  | "biography"
-  | "nature"
-  | "victorian"
-  | "russian"
-  | "classic"
-  | "lovestories"
-  | "psychfiction"
-  | "beginner"
-  | "intermediate"
-  | "advanced";
-
-const CATEGORIES: { key: CategoryKey; label: string; icon: any; color: string }[] = [
-  { key: "all",          label: "All Books",            icon: Compass,      color: "#0EA5E9" },
-  { key: "children",     label: "For Young Readers",    icon: Baby,         color: "#F97316" },
-  { key: "audiobooks",   label: "Audiobooks",           icon: Headphones,   color: "#9333EA" },
-  { key: "philosophy",   label: "Philosophy & Thought", icon: Sparkles,     color: "#F59E0B" },
-  { key: "comedy",       label: "Comedy & Satire",      icon: Flame,        color: "#EF4444" },
-  { key: "fantasy",      label: "Fantasy & Magic",      icon: Layers,       color: "#8B5CF6" },
-  { key: "horror",       label: "Horror & Weird",       icon: Flame,        color: "#A855F7" },
-  { key: "thriller",     label: "Spy & Mystery",        icon: Search,       color: "#3B82F6" },
-  { key: "gothic",       label: "Gothic Classics",      icon: Sparkles,     color: "#6366F1" },
-  { key: "drama",        label: "Drama & Plays",        icon: BookOpen,     color: "#10B981" },
-  { key: "biography",    label: "Biographies & History",icon: Award,        color: "#EC4899" },
-  { key: "nature",       label: "Science & Nature",     icon: Compass,      color: "#84CC16" },
-  { key: "victorian",    label: "Victorian Classics",   icon: Award,        color: "#EAB308" },
-  { key: "russian",      label: "Russian Classics 🇷🇺", icon: Globe,        color: "#DC2626" },
-  { key: "french",       label: "French Classics 🇫🇷",  icon: Globe,        color: "#2563EB" },
-  { key: "adventure",    label: "High Adventure",       icon: Compass,      color: "#059669" },
-  { key: "romance",      label: "Romance",              icon: Heart,        color: "#F43F5E" },
-  { key: "lovestories",  label: "Love Stories",         icon: Heart,        color: "#EC4899" },
-  { key: "psychfiction", label: "Psychological Fiction",icon: Brain,        color: "#7C3AED" },
-  { key: "scifi",        label: "Sci-Fi & Dystopian",   icon: Layers,       color: "#0891B2" },
-  { key: "beginner",     label: "Beginner (A1-A2)",     icon: GraduationCap,color: "#10B981" },
-  { key: "intermediate", label: "Intermediate (B1-B2)", icon: GraduationCap,color: "#3B82F6" },
-  { key: "advanced",     label: "Advanced (C1-C2)",     icon: GraduationCap,color: "#F43F5E" },
-];
-
-/* ── Skeleton ────────────────────────────────────────── */
-
-const SkeletonPulse: React.FC<{
-  w: number | string;
-  h: number;
-  r?: number;
-  isDark: boolean;
-  style?: any;
-  delay?: number;
-}> = ({ w, h, r = 12, isDark, style, delay = 0 }) => {
-  const opacity = useSharedValue(0.3);
-  useEffect(() => {
-    opacity.value = withDelay(
-      delay,
-      withRepeat(withTiming(0.75, { duration: 850, easing: Easing.inOut(Easing.ease) }), -1, true)
-    );
-  }, [delay, opacity]);
-  const anim = useAnimatedStyle(() => ({ opacity: opacity.value }));
-  return (
-    <Animated.View
-      style={[
-        {
-          width: w, height: h, borderRadius: r,
-          backgroundColor: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.05)",
-        },
-        anim, style,
-      ]}
-    />
-  );
-};
-
-const DashboardSkeleton: React.FC<{ isDark: boolean; insets?: any }> = ({ isDark, insets }) => {
-  const topInset = insets?.top ?? 0;
-  return (
-    <View style={{ paddingTop: Math.max(topInset + 8, 20), paddingBottom: 60 }}>
-    <View style={{ paddingHorizontal: 20, gap: 10, marginBottom: 24 }}>
-      <SkeletonPulse w="100%" h={180} r={24} isDark={isDark} />
-    </View>
-    <View style={{ paddingHorizontal: 20, gap: 10, marginBottom: 20 }}>
-      <SkeletonPulse w="100%" h={46} r={14} isDark={isDark} delay={80} />
-      <View style={{ flexDirection: "row", gap: 8 }}>
-        {[80, 95, 110, 90].map((w, i) => (
-          <SkeletonPulse key={i} w={w} h={34} r={100} isDark={isDark} delay={i * 50 + 120} />
-        ))}
-      </View>
-    </View>
-    <View style={{ flexDirection: "row", gap: 14, paddingHorizontal: 20, flexWrap: "wrap" }}>
-      {[0, 1, 2, 3, 4, 5].map((i) => (
-        <SkeletonPulse key={i} w="47%" h={220} r={14} isDark={isDark} delay={i * 60 + 180} />
-      ))}
-    </View>
-  </View>
-);
-};
-
-/* ── Stat Badge (used in hero) ───────────────────────── */
-
-const StatBadge: React.FC<{ icon: any; label: string }> = ({ icon: Icon, label }) => (
-  <View
-    style={{
-      flexDirection: "row",
-      alignItems: "center",
-      backgroundColor: "rgba(255,255,255,0.1)",
-      paddingHorizontal: 10,
-      paddingVertical: 5,
-      borderRadius: 100,
-      gap: 5,
-    }}
-  >
-    <Icon size={11} color="rgba(255,255,255,0.65)" />
-    <Text weight="Medium" style={{ color: "rgba(255,255,255,0.82)", fontSize: 11 }}>
-      {label}
-    </Text>
-  </View>
-);
-
-/* ── Activity Card Rail ────────────────────────────────────────── */
-
-const ActivityCardRail: React.FC<{
-  title: string;
-  icon: any;
-  color: string;
-  stories: Story[];
-  variant: "reading" | "listening" | "visit";
-  onStoryPress: (slug: string, preferAudio?: boolean) => void;
-  textColor: string;
-}> = ({ title, icon: Icon, color, stories, variant, onStoryPress, textColor }) => {
-  const scrollRef = useRef<any>(null);
-  const dragProps = useWebHorizontalDrag(scrollRef);
-  if (!stories || stories.length === 0) return null;
-
-  return (
-    <View style={{ marginBottom: 28 }}>
-      <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: 16, marginBottom: 12 }}>
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-          <View style={{ width: 28, height: 28, borderRadius: 14, backgroundColor: color + "20", alignItems: "center", justifyContent: "center" }}>
-            <Icon size={15} color={color} />
-          </View>
-          <Text weight="Bold" style={{ fontSize: 18, color: textColor, letterSpacing: -0.3 }}>
-            {title}
-          </Text>
-        </View>
-      </View>
-
-      <ScrollView ref={scrollRef} {...dragProps} horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 16 }}>
-        {stories.map((story) => (
-          <ContinueCard key={story._id} story={story} onPress={onStoryPress} variant={variant} />
-        ))}
-      </ScrollView>
-    </View>
-  );
-};
-
-/* ── Section Rail ────────────────────────────────────── */
-
-interface SectionRailProps {
-  title: string;
-  color?: string;
-  stories: Story[];
-  onStoryPress: (slug: string) => void;
-  onSeeAllPress?: () => void;
-  isDark: boolean;
-  textColor: string;
-}
-
-const SectionRail: React.FC<SectionRailProps> = ({
-  title,
-  color = "#0EA5E9",
-  stories,
-  onStoryPress,
-  onSeeAllPress,
-  isDark,
-  textColor,
-}) => {
-  const scrollRef = useRef<any>(null);
-  const dragProps = useWebHorizontalDrag(scrollRef);
-  if (!stories || stories.length === 0) return null;
-
-  return (
-    <View style={{ marginBottom: 36 }}>
-      {/* Header */}
-      <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: 20, marginBottom: 14 }}>
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <View style={{ width: 3, height: 20, borderRadius: 1.5, backgroundColor: color, marginRight: 10 }} />
-          <Text weight="Bold" style={{ fontSize: 17, letterSpacing: -0.3, color: textColor }}>
-            {title}
-          </Text>
-        </View>
-        {onSeeAllPress ? (
-          <Pressable
-            onPress={onSeeAllPress}
-            style={({ pressed }) => ({ opacity: pressed ? 0.7 : 1, flexDirection: "row", alignItems: "center", gap: 2 })}
-          >
-            <Text weight="SemiBold" style={{ fontSize: 13, color }}>See all</Text>
-            <ChevronRight size={14} color={color} />
-          </Pressable>
-        ) : (
-          <Text weight="Regular" style={{ fontSize: 12, color: isDark ? "#475569" : "#94A3B8" }}>
-            {stories.length} books
-          </Text>
-        )}
-      </View>
-
-      <ScrollView
-        ref={scrollRef}
-        {...dragProps}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ paddingHorizontal: 20, gap: 12 }}
-      >
-        {stories.map((story) => (
-          <View key={story._id} style={{ width: 148 }}>
-            <StoryCard story={story} onPress={onStoryPress} variant="standard" />
-          </View>
-        ))}
-      </ScrollView>
-    </View>
-  );
-};
-
-/* ── Main Component ──────────────────────────────────── */
-
-const EbookDashboardContent: React.FC<Props> = ({
-  data: propData,
-  dashboardData,
-  onStoryPress,
-  insets,
-  onBackPress,
-}) => {
+export default function EbookDashboardContent() {
   const router = useRouter();
-  const hookInsets = useSafeAreaInsets();
-  const safeInsets = insets || hookInsets || { top: 0, bottom: 0, left: 0, right: 0 };
-  const isDark = useSelector(selectIsDark);
-  const tokens = useSelector(selectThemeTokens);
   const { width } = useWindowDimensions();
-  const maxW = Math.min(width, 1200);
+  const isWeb = Platform.OS === "web";
+  const contentWidth = Math.min(width, 1140);
+  const cardWidth = isWeb ? (width > 1024 ? 180 : width > 640 ? 160 : 140) : 140;
 
-  const [searchQuery, setSearchQuery] = useState("");
-  const [activeCategory, setActiveCategory] = useState<CategoryKey>("all");
-  const [searchFocused, setSearchFocused] = useState(false);
-  const [activeNavTab, setActiveNavTab] = useState<"home" | "authors" | "categories" | "tags" | "top100" | "series">("home");
-  const [authorSearch, setAuthorSearch] = useState("");
-  const [tagSearch, setTagSearch] = useState("");
-  const [top100Search, setTop100Search] = useState("");
-  const [seriesSearch, setSeriesSearch] = useState("");
-  const [selectedAuthor, setSelectedAuthor] = useState<EbookAuthor | null>(null);
-  const [isNotifModalOpen, setIsNotifModalOpen] = useState(false);
-  const [isSubModalOpen, setIsSubModalOpen] = useState(false);
-  const [isAchievementModalOpen, setIsAchievementModalOpen] = useState(false);
-  const [streakData, setStreakData] = useState<any>(null);
+  const [dashboardData, setDashboardData] = useState<any>(null);
+  const [featuredQuotes, setFeaturedQuotes] = useState<any[]>([]);
+  const [shelves, setShelves] = useState<any[]>([]);
+  const [shareQuoteData, setShareQuoteData] = useState<QuoteCardData | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    let isMounted = true;
-    const fetchStreak = async () => {
-      try {
-        const token = await AsyncStorage.getItem("userToken");
-        const apiBase = process.env.EXPO_PUBLIC_API_URL || "http://localhost:5012/api/v1";
-        const headers: any = {};
-        if (token) headers["Authorization"] = `Bearer ${token}`;
-        const res = await fetch(`${apiBase}/user/streaks`, { headers });
-        const json = await res.json();
-        if (isMounted && json.success) {
-          setStreakData(json.data);
-        }
-      } catch (e) {}
-    };
-    fetchStreak();
-    return () => { isMounted = false; };
+    fetchDashboardData();
   }, []);
 
-  const { data: authorsData = [] } = useGetAuthorsQuery();
-  const { data: categoriesData = [] } = useGetCategoriesQuery();
-  const { data: tagsData = [] } = useGetTagsQuery();
-  const { data: seriesData = [] } = useGetBookSeriesQuery();
+  const fetchDashboardData = async () => {
+    try {
+      setLoading(true);
+      const apiBase = process.env.EXPO_PUBLIC_API_URL || "http://localhost:5012/api/v1";
+      const res = await fetch(`${apiBase}/stories/home-dashboard`);
+      const json = await res.json();
+      if (json.success && json.data) {
+        let data = json.data;
+        if (!data.reels || data.reels.length === 0) {
+          try {
+            const reelsRes = await fetch(`${apiBase}/reels`);
+            const reelsJson = await reelsRes.json();
+            if (reelsJson.success && reelsJson.data) {
+              data.reels = reelsJson.data;
+            }
+          } catch {}
+        }
 
-  const handleStoryPress = useCallback(
-    (slug: string, preferAudio?: boolean) => {
-      if (onStoryPress) {
-        onStoryPress(slug, preferAudio);
-      } else if (preferAudio) {
-        router.push(`/read/${slug}?audio=1`);
-      } else {
-        router.push(`/details/${slug}`);
+        try {
+          const quotesRes = await fetch(`${apiBase}/quotes?featured=true&limit=10`);
+          const quotesJson = await quotesRes.json();
+          if (quotesJson.success && quotesJson.data) {
+            setFeaturedQuotes(quotesJson.data);
+          }
+        } catch {}
+
+        try {
+          const colRes = await fetch(`${apiBase}/collections`);
+          const colJson = await colRes.json();
+          if (colJson.success && colJson.data) {
+            setShelves(colJson.data);
+          }
+        } catch {}
+
+        setDashboardData(data);
       }
-    },
-    [onStoryPress, router]
-  );
-
-  const handleBack = useCallback(() => {
-    if (onBackPress) {
-      onBackPress();
-    } else if (router.canGoBack()) {
-      if (router.canGoBack()) {
-        router.back();
-      } else {
-        router.replace("/");
-      }
-    } else {
-      router.push("/home");
+    } catch (e) {
+      console.warn("Failed to fetch dashboard data:", e);
+    } finally {
+      setLoading(false);
     }
-  }, [onBackPress, router]);
+  };
 
-  const data = useMemo(() => {
-    const raw = propData || dashboardData;
-    if (!raw) return null;
-    return (raw as any).data ? (raw as any).data : raw;
-  }, [propData, dashboardData]);
+  const getTitleText = (titleObj: any) => {
+    if (!titleObj) return "Untitled Book";
+    if (typeof titleObj === "string") return titleObj;
+    return titleObj.en || titleObj.bn || Object.values(titleObj)[0] || "Untitled Book";
+  };
 
-  const continueStory = useMemo(() => data?.recentlyRead?.[0] ?? null, [data]);
-
-  const featuredCovers = useMemo(() => {
-    return (data?.newest || [])
-      .filter((s) => !!s.coverImageUrl)
-      .slice(0, 3)
-      .map((s) => ({ ...s, coverImageUrl: s.coverImageUrl?.replace(/^http:\/\//, "https://") }));
-  }, [data]);
-
-  const allStories = useMemo(() => {
-    if (!data) return [];
-    if (data.allPublished && Array.isArray(data.allPublished) && data.allPublished.length > 0) {
-      return data.allPublished;
-    }
-    const map = new Map<string, Story>();
-    const add = (list?: Story[]) => list?.forEach((s) => (s._id || s.slug) && map.set(s._id || s.slug, s));
-    add(data.topFeatured);
-    add(data.recentlyRead);
-    add(data.newest);
-    add(data.audiobooks);
-    add(data.byLevel?.beginner);
-    add(data.byLevel?.intermediate);
-    add(data.byLevel?.advanced);
-    if (data.byGenre) {
-      Object.values(data.byGenre).forEach((list: any) => add(list));
-    }
-    return Array.from(map.values());
-  }, [data]);
-
-  const categoryStories = useMemo(() => {
-    if (!data) return allStories;
-    const matchTag = (s: any, tagStr: string) =>
-      s.tags?.some((t: any) => getLocalizedText(t).toLowerCase().includes(tagStr));
-
-    if (activeCategory === "all") return allStories;
-    if (activeCategory === "spanish") return allStories.filter((s) => s.languages?.includes("es"));
-    if (activeCategory === "french") return allStories.filter((s) => s.languages?.includes("fr"));
-    if (activeCategory === "multilingual") return allStories.filter((s) => s.languages && s.languages.length > 1);
-    if (activeCategory === "audiobooks") return (data.audiobooks && data.audiobooks.length > 0) ? data.audiobooks : allStories.filter((s: any) => s.hasAudio || s.contentType === "audiobook" || s.contentType === "both");
-    if (activeCategory === "children") return data.byGenre?.children || allStories.filter((s) => matchTag(s, "children") || matchTag(s, "fairy tale") || matchTag(s, "young"));
-    if (activeCategory === "lovestories") return data.byGenre?.loveStories || allStories.filter((s) => matchTag(s, "love stories") || matchTag(s, "romance"));
-    if (activeCategory === "psychfiction") return data.byGenre?.psychFiction || allStories.filter((s) => matchTag(s, "psychological"));
-    if (activeCategory === "beginner") return data.byLevel?.beginner || [];
-    if (activeCategory === "intermediate") return data.byLevel?.intermediate || [];
-    if (activeCategory === "advanced") return data.byLevel?.advanced || [];
-
-    if (activeCategory === "philosophy") return data.byGenre?.philosophy || allStories.filter((s) => matchTag(s, "philosophy") || matchTag(s, "stoicism") || matchTag(s, "ethics"));
-    if (activeCategory === "comedy") return data.byGenre?.comedy || allStories.filter((s) => matchTag(s, "comedy") || matchTag(s, "humor") || matchTag(s, "satire"));
-    if (activeCategory === "fantasy") return data.byGenre?.fantasy || allStories.filter((s) => matchTag(s, "fantasy"));
-    if (activeCategory === "horror") return data.byGenre?.horror || allStories.filter((s) => matchTag(s, "horror") || matchTag(s, "weird"));
-    if (activeCategory === "thriller") return data.byGenre?.thriller || allStories.filter((s) => matchTag(s, "thriller") || matchTag(s, "spy") || matchTag(s, "detective") || matchTag(s, "mystery"));
-    if (activeCategory === "gothic") return data.byGenre?.gothic || allStories.filter((s) => matchTag(s, "gothic"));
-    if (activeCategory === "drama") return data.byGenre?.drama || allStories.filter((s) => matchTag(s, "drama") || matchTag(s, "play"));
-    if (activeCategory === "biography") return data.byGenre?.biography || allStories.filter((s) => matchTag(s, "biography") || matchTag(s, "memoir") || matchTag(s, "history"));
-    if (activeCategory === "nature") return data.byGenre?.nature || allStories.filter((s) => matchTag(s, "nature") || matchTag(s, "science"));
-    if (activeCategory === "victorian") return data.byGenre?.victorian || allStories.filter((s) => matchTag(s, "victorian"));
-    if (activeCategory === "russian") return data.byGenre?.russian || allStories.filter((s) => matchTag(s, "russian"));
-    if (activeCategory === "adventure") return data.byGenre?.adventure || allStories.filter((s) => matchTag(s, "adventure") || matchTag(s, "sea"));
-    if (activeCategory === "romance") return data.byGenre?.romance || allStories.filter((s) => matchTag(s, "romance"));
-    if (activeCategory === "scifi") return data.byGenre?.scifi || allStories.filter((s) => matchTag(s, "sci-fi") || matchTag(s, "scifi") || matchTag(s, "dystopian"));
-    if (activeCategory === "mystery") return data.byGenre?.mystery || allStories.filter((s) => matchTag(s, "mystery"));
-    if (activeCategory === "classic") return data.byGenre?.classic || allStories.filter((s) => matchTag(s, "classic"));
-    return allStories;
-  }, [data, activeCategory, allStories]);
-
-  const displayStories = useMemo(() => {
-    if (!searchQuery.trim()) return categoryStories;
-    const q = searchQuery.toLowerCase().trim();
-    return allStories.filter(
-      (s) =>
-        getLocalizedText(s.title).toLowerCase().includes(q) ||
-        (s.author && s.author.toLowerCase().includes(q)) ||
-        (s.tags && s.tags.some((t) => getLocalizedText(t).toLowerCase().includes(q)))
-    );
-  }, [categoryStories, allStories, searchQuery]);
-
-  const spanishStories = useMemo(() => allStories.filter((s) => s.languages?.includes("es")), [allStories]);
-  const frenchStories = useMemo(() => allStories.filter((s) => s.languages?.includes("fr")), [allStories]);
-  const multilingualStories = useMemo(() => allStories.filter((s) => s.languages && s.languages.length > 1), [allStories]);
-  const childrenStories = useMemo(() => data?.byGenre?.children || allStories.filter((s) => s.tags?.some((t) => /children|fairy tale|young readers/i.test(t))), [data, allStories]);
-  const loveStoriesStories = useMemo(() => data?.byGenre?.loveStories || allStories.filter((s) => s.tags?.some((t) => /love stories|love story/i.test(t))), [data, allStories]);
-  const psychFictionStories = useMemo(() => data?.byGenre?.psychFiction || allStories.filter((s) => s.tags?.some((t) => /psychological/i.test(t))), [data, allStories]);
-  const beginnerStories = useMemo(() => data?.byLevel?.beginner || [], [data]);
-  const intermediateStories = useMemo(() => data?.byLevel?.intermediate || [], [data]);
-  const advancedStories = useMemo(() => data?.byLevel?.advanced || [], [data]);
-
-  if (!data) return <DashboardSkeleton isDark={isDark} insets={safeInsets} />;
-
-  const surfaceBg = isDark ? "#080E1A" : "#F5F6FA";
-  const textColor = isDark ? "#F1F5F9" : "#0F172A";
-  const textSubColor = isDark ? "#64748B" : "#94A3B8";
-  const accentColor = tokens.accentPrimary || "#0EA5E9";
-  const isSectionRailMode = activeCategory === "all" && !searchQuery.trim();
-
-  const isWeb = Platform.OS === "web";
-  const safeAnim = (anim: any) => (isWeb ? undefined : anim);
-
-  /* Cover fan positions */
-  const FAN_OFFSETS = [
-    { left: 0, top: 14, rotate: "-10deg", opacity: 0.55, zIndex: 1 },
-    { left: 22, top: 4, rotate: "3deg",  opacity: 0.78, zIndex: 2 },
-    { left: 10, top: 22, rotate: "-2deg", opacity: 1,   zIndex: 3 },
-  ];
+  const featuredAudiobooksList = useMemo(() => {
+    if (!dashboardData) return [];
+    const list = dashboardData.featuredAudiobooks || dashboardData.audiobooks || dashboardData.allPublished || [];
+    const audioOnly = list.filter((s: any) => !!(s.hasAudio || s.isAudiobook));
+    return audioOnly.slice(0, 8);
+  }, [dashboardData]);
 
   return (
-    <View style={{ flex: 1, width: "100%", height: "100%", backgroundColor: surfaceBg }}>
-      <ScrollView
-        showsVerticalScrollIndicator={true}
-        style={{ flex: 1, width: "100%", height: "100%" }}
-        contentContainerStyle={{
-          paddingTop: Math.max((safeInsets?.top ?? 0) + 4, 12),
-          paddingBottom: Math.max((safeInsets?.bottom ?? 0) + 48, 56),
+    <View style={{ flex: 1, backgroundColor: "#020617" }}>
+      {/* ───────────────────────────────────────────────────────────── */}
+      {/* TOP FLOATING / STICKY NAVBAR HEADER */}
+      {/* ───────────────────────────────────────────────────────────── */}
+      <View
+        style={{
+          width: "100%",
+          backgroundColor: "rgba(15, 23, 42, 0.95)",
+          borderBottomWidth: 1,
+          borderColor: "rgba(255, 255, 255, 0.1)",
+          paddingVertical: 14,
+          paddingHorizontal: isWeb ? 32 : 16,
+          zIndex: 100,
+          alignItems: "center",
         }}
       >
-        <View style={{ width: "100%", maxWidth: maxW, alignSelf: "center" }}>
-        {/* ── 1. Professional Nav Bar ─────────────────────────────────── */}
-        <Animated.View
-          entering={safeAnim(FadeInUp.duration(350))}
+        <View
           style={{
+            width: "100%",
+            maxWidth: contentWidth,
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "space-between",
-            paddingHorizontal: 20,
-            marginBottom: 20,
-            gap: 16,
-            width: "100%",
           }}
         >
-          {/* ── Liiro Branding Logo ────────────────────────── */}
-          <Pressable
-            onPress={() => router.push("/")}
-            style={({ pressed }) => ({
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 10,
-              flexShrink: 0,
-              opacity: pressed ? 0.8 : 1,
-            })}
-            accessibilityLabel="Liiro Ebook Home"
-          >
-            <LinearGradient
-              colors={["#0EA5E9", "#6366F1"]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
+          {/* Brand Logo & Title */}
+          <Pressable onPress={() => router.push("/")} style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+            <View
               style={{
-                width: 36,
-                height: 36,
-                borderRadius: 10,
-                alignItems: "center",
+                width: 40,
+                height: 40,
+                borderRadius: 12,
+                backgroundColor: "rgba(129, 140, 248, 0.2)",
+                borderWidth: 1,
+                borderColor: "rgba(129, 140, 248, 0.4)",
                 justifyContent: "center",
+                alignItems: "center",
               }}
             >
-              <BookOpen size={19} color="#FFFFFF" strokeWidth={2.5} />
-            </LinearGradient>
-
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
-              <Text weight="Bold" style={{ fontSize: 22, color: textColor, letterSpacing: -0.6 }}>
-                Liiro
-              </Text>
-              <View
+              <BookOpen size={20} color="#818CF8" />
+            </View>
+            <View>
+              <Text
                 style={{
-                  paddingHorizontal: 7,
-                  paddingVertical: 2,
-                  borderRadius: 6,
-                  backgroundColor: isDark ? "rgba(14, 165, 233, 0.15)" : "rgba(14, 165, 233, 0.10)",
-                  borderWidth: 1,
-                  borderColor: "rgba(14, 165, 233, 0.3)",
+                  color: "#FFFFFF",
+                  fontSize: 19,
+                  fontWeight: "900",
+                  letterSpacing: 0.5,
+                  fontFamily: Platform.OS === "web" ? "Playfair Display, Georgia, serif" : undefined,
                 }}
               >
-                <Text weight="Bold" style={{ fontSize: 10, color: "#0EA5E9", letterSpacing: 0.5 }}>
-                  EBOOK
-                </Text>
-              </View>
+                LIIRO EBOOK
+              </Text>
+              <Text style={{ color: "#94A3B8", fontSize: 10, fontWeight: "600" }}>
+                Public Domain Classics
+              </Text>
             </View>
           </Pressable>
 
-          {/* Navigation Tabs Container */}
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 10, flex: 1, justifyContent: "flex-end" }}>
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              style={{ flexShrink: 1 }}
-              contentContainerStyle={{
-                flexDirection: "row",
-                alignItems: "center",
-                padding: 4,
-                borderRadius: 100,
-                backgroundColor: isDark ? "rgba(255,255,255,0.06)" : "rgba(15,23,42,0.05)",
+          {/* Desktop Web Navigation Links */}
+          {isWeb ? (
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 20 }}>
+              <TouchableOpacity onPress={() => router.push("/")}>
+                <Text style={{ color: "#818CF8", fontSize: 13.5, fontWeight: "700" }}>Home</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => router.push("/explore")}>
+                <Text style={{ color: "#CBD5E1", fontSize: 13.5, fontWeight: "600" }}>Explore Catalog</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => router.push("/category")}>
+                <Text style={{ color: "#CBD5E1", fontSize: 13.5, fontWeight: "600" }}>Categories</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => router.push("/series")}>
+                <Text style={{ color: "#CBD5E1", fontSize: 13.5, fontWeight: "600" }}>Book Series</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => router.push("/author")}>
+                <Text style={{ color: "#CBD5E1", fontSize: 13.5, fontWeight: "600" }}>Authors</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => router.push("/reels")}>
+                <Text style={{ color: "#CBD5E1", fontSize: 13.5, fontWeight: "600" }}>Book Reels</Text>
+              </TouchableOpacity>
+            </View>
+          ) : null}
+
+          {/* User Controls: Search, Streak, Profile */}
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+            <TouchableOpacity
+              onPress={() => router.push("/explore")}
+              style={{
+                width: 36,
+                height: 36,
+                borderRadius: 18,
+                backgroundColor: "rgba(255, 255, 255, 0.08)",
                 borderWidth: 1,
-                borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)",
-                gap: 4,
+                borderColor: "rgba(255, 255, 255, 0.12)",
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
-              <Pressable
-                onPress={() => setActiveNavTab("home")}
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  paddingHorizontal: 14,
-                  paddingVertical: 7,
-                  borderRadius: 100,
-                  backgroundColor: activeNavTab === "home" ? accentColor : "transparent",
-                  gap: 6,
-                }}
-              >
-                <Home size={13} color={activeNavTab === "home" ? "#FFFFFF" : textSubColor} />
-                <Text weight="SemiBold" style={{ fontSize: 12.5, color: activeNavTab === "home" ? "#FFFFFF" : textColor }}>
-                  Home
-                </Text>
-              </Pressable>
+              <Search size={16} color="#CBD5E1" />
+            </TouchableOpacity>
 
-              <Pressable
-                onPress={() => setActiveNavTab("authors")}
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  paddingHorizontal: 14,
-                  paddingVertical: 7,
-                  borderRadius: 100,
-                  backgroundColor: activeNavTab === "authors" ? accentColor : "transparent",
-                  gap: 6,
-                }}
-              >
-                <Users size={13} color={activeNavTab === "authors" ? "#FFFFFF" : textSubColor} />
-                <Text weight="SemiBold" style={{ fontSize: 12.5, color: activeNavTab === "authors" ? "#FFFFFF" : textColor }}>
-                  Authors ({authorsData.length})
-                </Text>
-              </Pressable>
-
-              <Pressable
-                onPress={() => setActiveNavTab("categories")}
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  paddingHorizontal: 14,
-                  paddingVertical: 7,
-                  borderRadius: 100,
-                  backgroundColor: activeNavTab === "categories" ? accentColor : "transparent",
-                  gap: 6,
-                }}
-              >
-                <FolderGit2 size={13} color={activeNavTab === "categories" ? "#FFFFFF" : textSubColor} />
-                <Text weight="SemiBold" style={{ fontSize: 12.5, color: activeNavTab === "categories" ? "#FFFFFF" : textColor }}>
-                  Categories ({categoriesData.length})
-                </Text>
-              </Pressable>
-
-              <Pressable
-                onPress={() => setActiveNavTab("tags")}
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  paddingHorizontal: 14,
-                  paddingVertical: 7,
-                  borderRadius: 100,
-                  backgroundColor: activeNavTab === "tags" ? accentColor : "transparent",
-                  gap: 6,
-                }}
-              >
-                <Tag size={13} color={activeNavTab === "tags" ? "#FFFFFF" : textSubColor} />
-                <Text weight="SemiBold" style={{ fontSize: 12.5, color: activeNavTab === "tags" ? "#FFFFFF" : textColor }}>
-                  Tags ({tagsData.length})
-                </Text>
-              </Pressable>
-
-              <Pressable
-                onPress={() => setActiveNavTab("top100")}
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  paddingHorizontal: 14,
-                  paddingVertical: 7,
-                  borderRadius: 100,
-                  backgroundColor: activeNavTab === "top100" ? "#F59E0B" : "transparent",
-                  gap: 6,
-                }}
-              >
-                <Sparkles size={13} color={activeNavTab === "top100" ? "#FFFFFF" : "#F59E0B"} />
-                <Text weight="Bold" style={{ fontSize: 12.5, color: activeNavTab === "top100" ? "#FFFFFF" : textColor }}>
-                  Top 100 Picks ⭐
-                </Text>
-              </Pressable>
-
-              <Pressable
-                onPress={() => setActiveNavTab("series")}
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  paddingHorizontal: 14,
-                  paddingVertical: 7,
-                  borderRadius: 100,
-                  backgroundColor: activeNavTab === "series" ? "#8B5CF6" : "transparent",
-                  gap: 6,
-                }}
-              >
-                <Layers size={13} color={activeNavTab === "series" ? "#FFFFFF" : "#8B5CF6"} />
-                <Text weight="Bold" style={{ fontSize: 12.5, color: activeNavTab === "series" ? "#FFFFFF" : textColor }}>
-                  Book Series ({seriesData.length}) 📚
-                </Text>
-              </Pressable>
-
-              <Pressable
-                onPress={() => router.push("/ebook/explore")}
-                style={({ pressed }) => ({
-                  flexDirection: "row",
-                  alignItems: "center",
-                  paddingHorizontal: 14,
-                  paddingVertical: 7,
-                  borderRadius: 100,
-                  backgroundColor: "transparent",
-                  gap: 6,
-                  opacity: pressed ? 0.6 : 1,
-                })}
-              >
-                <Compass size={13} color={accentColor} />
-                <Text weight="Bold" style={{ fontSize: 12.5, color: accentColor }}>
-                  Explore All
-                </Text>
-                <ChevronRight size={13} color={accentColor} />
-              </Pressable>
-            </ScrollView>
-
-            {/* Pinned Profile Avatar Menu (Never Clipped) */}
-            <ProfileNavbarMenu />
-          </View>
-        </Animated.View>
-
-        {activeNavTab === "authors" ? (
-          /* ── AUTHORS VIEW ────────────────────────────────────────── */
-          <Animated.View entering={safeAnim(FadeInUp.duration(350))} style={{ paddingHorizontal: 16 }}>
-            <View style={{ marginBottom: 16 }}>
-              <Text weight="Bold" style={{ fontSize: 22, color: textColor, marginBottom: 4 }}>
-                Classic Authors Directory
-              </Text>
-              <Text style={{ fontSize: 13, color: textSubColor }}>
-                Browse {authorsData.length} master authors and their complete literary collections
-              </Text>
-            </View>
-
-            {/* Author Search Bar */}
             <View
               style={{
                 flexDirection: "row",
                 alignItems: "center",
-                paddingHorizontal: 16,
-                paddingVertical: 12,
-                borderRadius: 16,
-                backgroundColor: isDark ? "rgba(255,255,255,0.05)" : "#FFFFFF",
+                gap: 5,
+                paddingHorizontal: 10,
+                paddingVertical: 6,
+                borderRadius: 18,
+                backgroundColor: "rgba(245, 158, 11, 0.15)",
                 borderWidth: 1,
-                borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
-                marginBottom: 20,
+                borderColor: "rgba(245, 158, 11, 0.35)",
               }}
             >
-              <Search size={16} color={textSubColor} />
-              <TextInput
-                placeholder="Search authors (e.g. Maurice Leblanc, H. Rider Haggard, Jane Austen)…"
-                placeholderTextColor={textSubColor}
-                value={authorSearch}
-                onChangeText={setAuthorSearch}
-                style={{ flex: 1, fontSize: 14, color: textColor, marginLeft: 10, padding: 0 }}
-              />
-              {authorSearch.length > 0 && (
-                <Pressable onPress={() => setAuthorSearch("")}>
-                  <X size={14} color={textSubColor} />
-                </Pressable>
-              )}
+              <Flame size={14} color="#F59E0B" />
+              <Text style={{ color: "#FDE68A", fontSize: 11.5, fontWeight: "800" }}>5 STREAK</Text>
             </View>
 
-            {/* Authors Grid */}
-            <View style={{ flexDirection: "row", flexWrap: "wrap", marginHorizontal: -6 }}>
-              {authorsData
-                .filter((a) => a.name.toLowerCase().includes(authorSearch.toLowerCase().trim()))
-                .map((author) => {
-                  const isSelected = selectedAuthor?.slug === author.slug;
-                  const cols = width >= 1024 ? 3 : width >= 640 ? 2 : 1;
-                  return (
-                    <View key={author._id} style={{ width: `${100 / cols}%`, paddingHorizontal: 6, paddingBottom: 14 }}>
-                      <Pressable
-                        onPress={() => router.push(`/ebook/author/${author.slug}`)}
-                        style={({ pressed }) => ({
-                          padding: 16,
-                          borderRadius: 20,
-                          backgroundColor: isDark ? "rgba(255,255,255,0.04)" : "#FFFFFF",
+            <ProfileNavbarMenu />
+          </View>
+        </View>
+      </View>
+
+      {/* Main Content Body */}
+      <ScrollView
+        contentContainerStyle={{
+          alignItems: "center",
+          paddingHorizontal: isWeb ? 24 : 16,
+          paddingTop: 24,
+          paddingBottom: 80,
+        }}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={{ width: "100%", maxWidth: contentWidth }}>
+          {loading ? (
+            <View style={{ paddingVertical: 120, alignItems: "center" }}>
+              <ActivityIndicator size="large" color="#818CF8" />
+              <Text style={{ color: "#94A3B8", marginTop: 16, fontSize: 14 }}>
+                Loading Liiro master classic library...
+              </Text>
+            </View>
+          ) : !dashboardData ? (
+            <View style={{ paddingVertical: 60, alignItems: "center" }}>
+              <Text style={{ color: "#F87171", fontSize: 16, fontWeight: "600" }}>
+                Failed to load library catalog.
+              </Text>
+            </View>
+          ) : (
+            <>
+              {/* ───────────────────────────────────────────────────────────── */}
+              {/* FACEBOOK / INSTAGRAM STORIES STYLE BOOK REELS BAR */}
+              {/* ───────────────────────────────────────────────────────────── */}
+              {dashboardData.reels && dashboardData.reels.length > 0 ? (
+                <View style={{ marginBottom: 28 }}>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      marginBottom: 12,
+                      paddingHorizontal: 4,
+                    }}
+                  >
+                    <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+                      <View
+                        style={{
+                          width: 30,
+                          height: 30,
+                          borderRadius: 10,
+                          backgroundColor: "rgba(244, 63, 94, 0.2)",
                           borderWidth: 1,
-                          borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
-                          opacity: pressed ? 0.8 : 1,
+                          borderColor: "rgba(244, 63, 94, 0.5)",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Video size={16} color="#F43F5E" />
+                      </View>
+                      <Text
+                        style={{
+                          color: "#FFFFFF",
+                          fontSize: 17,
+                          fontWeight: "800",
+                          fontFamily: Platform.OS === "web" ? "Playfair Display, Georgia, serif" : undefined,
+                        }}
+                      >
+                        Book Stories & Reels 🎬
+                      </Text>
+                    </View>
+
+                    <TouchableOpacity
+                      onPress={() => router.push("/reels")}
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        gap: 4,
+                        paddingHorizontal: 12,
+                        paddingVertical: 5,
+                        borderRadius: 20,
+                        backgroundColor: "rgba(244, 63, 94, 0.15)",
+                        borderWidth: 1,
+                        borderColor: "rgba(244, 63, 94, 0.35)",
+                      }}
+                    >
+                      <Text style={{ color: "#F43F5E", fontSize: 12, fontWeight: "800" }}>
+                        Watch All ({dashboardData.reels.length})
+                      </Text>
+                      <ArrowRight size={13} color="#F43F5E" />
+                    </TouchableOpacity>
+                  </View>
+
+                  {/* Facebook Story Card Horizontal Bubble List */}
+                  <ScrollView
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={{ gap: 14, paddingHorizontal: 2 }}
+                  >
+                    {dashboardData.reels.map((reel: any, idx: number) => (
+                      <Pressable
+                        key={reel._id || idx}
+                        onPress={() => router.push(`/reels?index=${idx}`)}
+                        style={({ hovered }: any) => ({
+                          width: isWeb ? 110 : 96,
+                          height: isWeb ? 160 : 140,
+                          borderRadius: 18,
+                          backgroundColor: "#0F172A",
+                          borderWidth: 2,
+                          borderColor: hovered ? "#F43F5E" : "#A855F7",
+                          overflow: "hidden",
+                          position: "relative",
+                          transform: hovered ? [{ translateY: -4 }, { scale: 1.03 }] : [],
+                          shadowColor: "#F43F5E",
+                          shadowOffset: { width: 0, height: 4 },
+                          shadowOpacity: hovered ? 0.4 : 0.1,
+                          shadowRadius: 8,
                         })}
                       >
-                        <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
+                        {/* Background Story Cover Image */}
+                        {reel.coverImageUrl ? (
+                          <Image
+                            source={{ uri: reel.coverImageUrl }}
+                            style={{
+                              position: "absolute",
+                              width: "100%",
+                              height: "100%",
+                              opacity: 0.85,
+                            }}
+                            resizeMode="cover"
+                          />
+                        ) : null}
+
+                        {/* Story Vignette Gradient Overlay */}
+                        <LinearGradient
+                          colors={["rgba(244, 63, 94, 0.3)", "transparent", "rgba(2, 6, 23, 0.95)"]}
+                          style={{ position: "absolute", inset: 0 }}
+                        />
+
+                        {/* Top Story Avatar Circle */}
+                        <View style={{ position: "absolute", top: 8, left: 8 }}>
                           <View
                             style={{
-                              width: 44,
-                              height: 44,
-                              borderRadius: 22,
-                              backgroundColor: accentColor + "25",
-                              alignItems: "center",
+                              width: 28,
+                              height: 28,
+                              borderRadius: 14,
+                              backgroundColor: "#F43F5E",
+                              borderWidth: 1.5,
+                              borderColor: "#FFFFFF",
                               justifyContent: "center",
+                              alignItems: "center",
                             }}
                           >
-                            <Text weight="Bold" style={{ color: accentColor, fontSize: 16 }}>
-                              {author.name.charAt(0)}
-                            </Text>
+                            <Play size={11} color="#FFFFFF" style={{ marginLeft: 1 }} />
                           </View>
+                        </View>
 
-                          <View style={{ flex: 1 }}>
-                            <Text weight="Bold" style={{ fontSize: 15, color: textColor }} numberOfLines={1}>
-                              {author.name}
-                            </Text>
-                            <Text style={{ fontSize: 12, color: textSubColor, marginTop: 2 }}>
-                              {author.bookCount} {author.bookCount === 1 ? "Masterwork" : "Masterworks"}
-                            </Text>
-                          </View>
-
-                          <ChevronRight size={16} color={textSubColor} />
+                        {/* Bottom Story Title */}
+                        <View style={{ position: "absolute", bottom: 8, left: 6, right: 6 }}>
+                          <Text
+                            numberOfLines={2}
+                            style={{
+                              color: "#FFFFFF",
+                              fontSize: 11,
+                              fontWeight: "800",
+                              lineHeight: 14,
+                              textShadowColor: "rgba(0,0,0,0.8)",
+                              textShadowOffset: { width: 0, height: 1 },
+                              textShadowRadius: 3,
+                            }}
+                          >
+                            {reel.title || reel.bookTitle}
+                          </Text>
                         </View>
                       </Pressable>
-                    </View>
-                  );
-                })}
-            </View>
-          </Animated.View>
-        ) : activeNavTab === "categories" ? (
-          /* ── CATEGORIES VIEW ─────────────────────────────────────── */
-          <Animated.View entering={safeAnim(FadeInUp.duration(350))} style={{ paddingHorizontal: 16 }}>
-            <View style={{ marginBottom: 16 }}>
-              <Text weight="Bold" style={{ fontSize: 22, color: textColor, marginBottom: 4 }}>
-                Browse by Category & Genre
-              </Text>
-              <Text style={{ fontSize: 13, color: textSubColor }}>
-                Explore {categoriesData.length} curated literary genres
-              </Text>
-            </View>
+                    ))}
+                  </ScrollView>
+                </View>
+              ) : null}
 
-            <View style={{ flexDirection: "row", flexWrap: "wrap", marginHorizontal: -6 }}>
-              {categoriesData.map((cat) => {
-                const cols = width >= 1024 ? 3 : width >= 640 ? 2 : 1;
-                return (
-                  <View key={cat._id} style={{ width: `${100 / cols}%`, paddingHorizontal: 6, paddingBottom: 14 }}>
-                    <Pressable
-                      onPress={() => router.push(`/ebook/category/${cat.slug}`)}
-                      style={({ pressed }) => ({
-                        padding: 20,
-                        borderRadius: 22,
-                        backgroundColor: isDark ? "rgba(255,255,255,0.04)" : "#FFFFFF",
-                        borderWidth: 1,
-                        borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
-                        gap: 12,
-                        opacity: pressed ? 0.8 : 1,
-                      })}
-                    >
-                      <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-                        <View
+              {/* ───────────────────────────────────────────────────────────── */}
+              {/* FEATURED AUDIOBOOKS RAIL (TOP DASHBOARD HIGHLIGHT) */}
+              {/* ───────────────────────────────────────────────────────────── */}
+              {featuredAudiobooksList.length > 0 ? (
+                <View style={{ marginBottom: 32 }}>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      marginBottom: 16,
+                      paddingHorizontal: 4,
+                    }}
+                  >
+                    <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+                      <View
+                        style={{
+                          width: 34,
+                          height: 34,
+                          borderRadius: 12,
+                          backgroundColor: "rgba(168, 85, 247, 0.2)",
+                          borderWidth: 1.5,
+                          borderColor: "rgba(168, 85, 247, 0.6)",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          boxShadow: "0 0 15px rgba(168, 85, 247, 0.4)",
+                        }}
+                      >
+                        <Headphones size={18} color="#C084FC" />
+                      </View>
+                      <View>
+                        <Text
                           style={{
-                            width: 44,
-                            height: 44,
-                            borderRadius: 22,
-                            backgroundColor: (cat.color || "#0EA5E9") + "20",
-                            alignItems: "center",
-                            justifyContent: "center",
+                            color: "#FFFFFF",
+                            fontSize: 18,
+                            fontWeight: "800",
+                            fontFamily: Platform.OS === "web" ? "Playfair Display, Georgia, serif" : undefined,
                           }}
                         >
-                          <BookOpen size={20} color={cat.color || "#0EA5E9"} />
+                          Featured Audiobooks 🎧
+                        </Text>
+                        <Text style={{ color: "#CBD5E1", fontSize: 11.5, fontWeight: "500" }}>
+                          Curated masterworks with full audio narration
+                        </Text>
+                      </View>
+                    </View>
+
+                    <TouchableOpacity
+                      onPress={() => router.push("/audiobooks")}
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        gap: 4,
+                        paddingHorizontal: 12,
+                        paddingVertical: 6,
+                        borderRadius: 100,
+                        backgroundColor: "rgba(168, 85, 247, 0.15)",
+                        borderWidth: 1,
+                        borderColor: "rgba(168, 85, 247, 0.35)",
+                      }}
+                    >
+                      <Text style={{ color: "#E9D5FF", fontSize: 12, fontWeight: "700" }}>View All</Text>
+                      <ChevronRight size={14} color="#C084FC" />
+                    </TouchableOpacity>
+                  </View>
+
+                  <ScrollView
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={{ gap: 16 }}
+                  >
+                    {featuredAudiobooksList.map((story: any) => (
+                      <View key={story._id || story.slug} style={{ width: cardWidth }}>
+                        <StoryCard
+                          story={story}
+                          onPress={(sSlug) => router.push(`/details/${sSlug}`)}
+                          variant="standard"
+                        />
+                      </View>
+                    ))}
+                  </ScrollView>
+                </View>
+              ) : null}
+
+              {/* ───────────────────────────────────────────────────────────── */}
+              {/* ANNUAL READING GOAL & CHALLENGE WIDGET (GOODREADS-STYLE) */}
+              {/* ───────────────────────────────────────────────────────────── */}
+              <AnnualReadingGoalCard />
+
+              {/* ───────────────────────────────────────────────────────────── */}
+              {/* 1. CONTINUE READING & QUICK RESUME RAIL */}
+              {/* ───────────────────────────────────────────────────────────── */}
+              {dashboardData.continueReading ? (
+                <View
+                  style={{
+                    borderRadius: 22,
+                    backgroundColor: "rgba(30, 41, 59, 0.7)",
+                    borderWidth: 1,
+                    borderColor: "rgba(129, 140, 248, 0.3)",
+                    padding: 16,
+                    marginBottom: 28,
+                    flexDirection: isWeb ? "row" : "column",
+                    alignItems: isWeb ? "center" : "flex-start",
+                    justifyContent: "space-between",
+                    gap: 16,
+                  }}
+                >
+                  <View style={{ flexDirection: "row", alignItems: "center", gap: 14, flex: 1 }}>
+                    {dashboardData.continueReading.coverImageUrl ? (
+                      <Image
+                        source={{ uri: dashboardData.continueReading.coverImageUrl }}
+                        style={{ width: 48, height: 70, borderRadius: 8, backgroundColor: "#1E293B" }}
+                        resizeMode="cover"
+                      />
+                    ) : null}
+
+                    <View style={{ flex: 1 }}>
+                      <View style={{ flexDirection: "row", alignItems: "center", gap: 6, marginBottom: 4 }}>
+                        <Clock size={13} color="#818CF8" />
+                        <Text style={{ color: "#818CF8", fontSize: 11, fontWeight: "700" }}>
+                          CONTINUE READING
+                        </Text>
+                      </View>
+
+                      <Text
+                        numberOfLines={1}
+                        style={{
+                          color: "#FFFFFF",
+                          fontSize: 16,
+                          fontWeight: "700",
+                          fontFamily: Platform.OS === "web" ? "Playfair Display, Georgia, serif" : undefined,
+                        }}
+                      >
+                        {dashboardData.continueReading.title}
+                      </Text>
+
+                      <Text style={{ color: "#94A3B8", fontSize: 12, marginBottom: 6 }}>
+                        {dashboardData.continueReading.lastReadChapter || "Chapter 1: The Adventure Begins"}
+                      </Text>
+
+                      {/* Progress Bar */}
+                      <View
+                        style={{
+                          width: "100%",
+                          maxWidth: 260,
+                          height: 4,
+                          borderRadius: 2,
+                          backgroundColor: "rgba(255, 255, 255, 0.1)",
+                          overflow: "hidden",
+                        }}
+                      >
+                        <View
+                          style={{
+                            width: `${dashboardData.continueReading.progressPercent || 42}%`,
+                            height: "100%",
+                            backgroundColor: "#818CF8",
+                          }}
+                        />
+                      </View>
+                    </View>
+                  </View>
+
+                  <TouchableOpacity
+                    onPress={() => router.push(`/read/${dashboardData.continueReading.slug}`)}
+                    style={{
+                      paddingHorizontal: 18,
+                      paddingVertical: 10,
+                      borderRadius: 14,
+                      backgroundColor: "#6366F1",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      gap: 6,
+                    }}
+                  >
+                    <Play size={14} color="#FFFFFF" fill="#FFFFFF" />
+                    <Text style={{ color: "#FFFFFF", fontSize: 13, fontWeight: "700" }}>Resume</Text>
+                  </TouchableOpacity>
+                </View>
+              ) : null}
+
+              {/* ───────────────────────────────────────────────────────────── */}
+              {/* STARTED READING & IN-PROGRESS RAIL */}
+              {/* ───────────────────────────────────────────────────────────── */}
+              {dashboardData.startedReading && dashboardData.startedReading.length > 0 ? (
+                <View style={{ marginBottom: 36 }}>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      marginBottom: 16,
+                    }}
+                  >
+                    <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+                      <View
+                        style={{
+                          width: 36,
+                          height: 36,
+                          borderRadius: 12,
+                          backgroundColor: "rgba(99, 102, 241, 0.18)",
+                          borderWidth: 1,
+                          borderColor: "rgba(99, 102, 241, 0.4)",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Play size={18} color="#6366F1" fill="#6366F1" />
+                      </View>
+                      <View>
+                        <Text
+                          style={{
+                            color: "#FFFFFF",
+                            fontSize: 19,
+                            fontWeight: "800",
+                            fontFamily: Platform.OS === "web" ? "Playfair Display, Georgia, serif" : undefined,
+                          }}
+                        >
+                          Started Reading & In Progress
+                        </Text>
+                        <Text style={{ color: "#64748B", fontSize: 12 }}>
+                          Pick up right where you left off
+                        </Text>
+                      </View>
+                    </View>
+
+                    <TouchableOpacity
+                      onPress={() => router.push("/explore")}
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        gap: 4,
+                        paddingHorizontal: 12,
+                        paddingVertical: 6,
+                        borderRadius: 20,
+                        backgroundColor: "rgba(99, 102, 241, 0.15)",
+                        borderWidth: 1,
+                        borderColor: "rgba(99, 102, 241, 0.3)",
+                      }}
+                    >
+                      <Text style={{ color: "#818CF8", fontSize: 12.5, fontWeight: "700" }}>
+                        View Progress
+                      </Text>
+                      <ArrowRight size={14} color="#818CF8" />
+                    </TouchableOpacity>
+                  </View>
+
+                  <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 16 }}>
+                    {dashboardData.startedReading.map((book: any) => (
+                      <Pressable
+                        key={book._id || book.slug}
+                        onPress={() => router.push(`/read/${book.slug}`)}
+                        style={({ hovered }: any) => ({
+                          width: isWeb ? 170 : 140,
+                          backgroundColor: hovered ? "rgba(30, 41, 59, 0.9)" : "rgba(15, 23, 42, 0.8)",
+                          borderWidth: 1,
+                          borderColor: hovered ? "rgba(99, 102, 241, 0.5)" : "rgba(255, 255, 255, 0.08)",
+                          borderRadius: 18,
+                          padding: 12,
+                          transform: hovered ? [{ translateY: -4 }] : [],
+                        })}
+                      >
+                        <View style={{ position: "relative", width: "100%", height: isWeb ? 230 : 190, borderRadius: 12, overflow: "hidden", marginBottom: 10 }}>
+                          {book.coverImageUrl ? (
+                            <Image
+                              source={{ uri: book.coverImageUrl }}
+                              style={{
+                                width: "100%",
+                                height: "100%",
+                                backgroundColor: "#1E293B",
+                              }}
+                              resizeMode="cover"
+                            />
+                          ) : null}
+
+                          {/* Top-Left Format Badges: [📖 Ebook] + [🎧 Audio] */}
+                          <View style={{ position: "absolute", top: 8, left: 8, flexDirection: "row", alignItems: "center", gap: 4, zIndex: 10 }}>
+                            <View style={{ flexDirection: "row", alignItems: "center", gap: 3, paddingHorizontal: 6, paddingVertical: 2.5, borderRadius: 6, backgroundColor: "rgba(2, 6, 23, 0.85)", borderWidth: 1, borderColor: "rgba(14, 165, 233, 0.6)" }}>
+                              <BookOpen size={9} color="#38BDF8" />
+                              <Text style={{ color: "#38BDF8", fontSize: 8.5, fontWeight: "800", letterSpacing: 0.2 }}>Ebook</Text>
+                            </View>
+                            {(book.hasAudio || book.isAudiobook || book.contentType === "both" || book.contentType === "audiobook" || (book.totalDurationSeconds && book.totalDurationSeconds > 0)) ? (
+                              <View style={{ flexDirection: "row", alignItems: "center", gap: 3, paddingHorizontal: 6, paddingVertical: 2.5, borderRadius: 6, backgroundColor: "rgba(2, 6, 23, 0.85)", borderWidth: 1, borderColor: "rgba(139, 92, 246, 0.6)" }}>
+                                <Headphones size={9} color="#C084FC" />
+                                <Text style={{ color: "#C084FC", fontSize: 8.5, fontWeight: "800", letterSpacing: 0.2 }}>Audio</Text>
+                              </View>
+                            ) : null}
+                          </View>
                         </View>
 
+                        {/* Progress bar */}
+                        <View
+                          style={{
+                            width: "100%",
+                            height: 4,
+                            borderRadius: 2,
+                            backgroundColor: "rgba(255, 255, 255, 0.1)",
+                            overflow: "hidden",
+                            marginBottom: 8,
+                          }}
+                        >
+                          <View
+                            style={{
+                              width: `${book.progressPercent || 50}%`,
+                              height: "100%",
+                              backgroundColor: "#6366F1",
+                            }}
+                          />
+                        </View>
+
+                        <Text
+                          numberOfLines={2}
+                          style={{
+                            color: "#FFFFFF",
+                            fontSize: 13.5,
+                            fontWeight: "700",
+                            lineHeight: 18,
+                            marginBottom: 4,
+                          }}
+                        >
+                          {getTitleText(book.title)}
+                        </Text>
+
+                        <Text numberOfLines={1} style={{ color: "#94A3B8", fontSize: 11.5, fontWeight: "500" }}>
+                          {book.progressPercent}% completed
+                        </Text>
+                      </Pressable>
+                    ))}
+                  </ScrollView>
+                </View>
+              ) : null}
+
+              {/* ───────────────────────────────────────────────────────────── */}
+              {/* BOOK REELS SAGAS CAROUSEL RAIL */}
+              {/* ───────────────────────────────────────────────────────────── */}
+              {dashboardData.reels && dashboardData.reels.length > 0 ? (
+                <View style={{ marginBottom: 40 }}>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      marginBottom: 16,
+                    }}
+                  >
+                    <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+                      <View
+                        style={{
+                          width: 36,
+                          height: 36,
+                          borderRadius: 12,
+                          backgroundColor: "rgba(244, 63, 94, 0.18)",
+                          borderWidth: 1,
+                          borderColor: "rgba(244, 63, 94, 0.4)",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Video size={18} color="#F43F5E" />
+                      </View>
+                      <View>
+                        <Text
+                          style={{
+                            color: "#FFFFFF",
+                            fontSize: 19,
+                            fontWeight: "800",
+                            fontFamily: Platform.OS === "web" ? "Playfair Display, Georgia, serif" : undefined,
+                          }}
+                        >
+                          Book Reels Sagas 🎬
+                        </Text>
+                        <Text style={{ color: "#64748B", fontSize: 12 }}>
+                          Short cinematic quotes & visual teasers of classic stories
+                        </Text>
+                      </View>
+                    </View>
+
+                    <TouchableOpacity
+                      onPress={() => router.push("/reels")}
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        gap: 4,
+                        paddingHorizontal: 12,
+                        paddingVertical: 6,
+                        borderRadius: 20,
+                        backgroundColor: "rgba(244, 63, 94, 0.15)",
+                        borderWidth: 1,
+                        borderColor: "rgba(244, 63, 94, 0.3)",
+                      }}
+                    >
+                      <Text style={{ color: "#F43F5E", fontSize: 12.5, fontWeight: "700" }}>
+                        Watch All Reels
+                      </Text>
+                      <ArrowRight size={14} color="#F43F5E" />
+                    </TouchableOpacity>
+                  </View>
+
+                  <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 16 }}>
+                    {dashboardData.reels.map((reel: any, idx: number) => (
+                      <Pressable
+                        key={reel._id || idx}
+                        onPress={() => router.push(`/reels?index=${idx}`)}
+                        style={({ hovered }: any) => ({
+                          width: isWeb ? 200 : 160,
+                          height: isWeb ? 300 : 250,
+                          borderRadius: 20,
+                          backgroundColor: "rgba(15, 23, 42, 0.9)",
+                          borderWidth: 1,
+                          borderColor: hovered ? "rgba(244, 63, 94, 0.6)" : "rgba(255, 255, 255, 0.12)",
+                          overflow: "hidden",
+                          position: "relative",
+                          transform: hovered ? [{ translateY: -4 }] : [],
+                        })}
+                      >
+                        {/* Background Cover Image */}
+                        {reel.coverImageUrl ? (
+                          <Image
+                            source={{ uri: reel.coverImageUrl }}
+                            style={{
+                              position: "absolute",
+                              width: "100%",
+                              height: "100%",
+                              opacity: 0.55,
+                            }}
+                            resizeMode="cover"
+                          />
+                        ) : null}
+
+                        <LinearGradient
+                          colors={["transparent", "rgba(2, 6, 23, 0.6)", "rgba(2, 6, 23, 0.95)"]}
+                          style={{ position: "absolute", inset: 0 }}
+                        />
+
+                        {/* Top Play Badge */}
+                        <View style={{ position: "absolute", top: 12, right: 12 }}>
+                          <View
+                            style={{
+                              width: 32,
+                              height: 32,
+                              borderRadius: 16,
+                              backgroundColor: "rgba(244, 63, 94, 0.9)",
+                              justifyContent: "center",
+                              alignItems: "center",
+                            }}
+                          >
+                            <Play size={14} color="#FFFFFF" style={{ marginLeft: 2 }} />
+                          </View>
+                        </View>
+
+                        {/* Bottom Reel Details */}
+                        <View style={{ position: "absolute", bottom: 12, left: 12, right: 12 }}>
+                          <Text
+                            numberOfLines={2}
+                            style={{
+                              color: "#FFFFFF",
+                              fontSize: 13,
+                              fontWeight: "800",
+                              lineHeight: 17,
+                              marginBottom: 4,
+                            }}
+                          >
+                            {reel.title || reel.caption}
+                          </Text>
+                          <Text numberOfLines={1} style={{ color: "#FDA4AF", fontSize: 11, fontWeight: "600" }}>
+                            {reel.bookTitle}
+                          </Text>
+                        </View>
+                      </Pressable>
+                    ))}
+                  </ScrollView>
+                </View>
+              ) : null}
+
+              {/* ───────────────────────────────────────────────────────────── */}
+              {/* MY BOOKSHELVES & READING LISTS RAIL */}
+              {/* ───────────────────────────────────────────────────────────── */}
+              {shelves && shelves.length > 0 ? (
+                <View style={{ marginBottom: 36 }}>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      marginBottom: 16,
+                    }}
+                  >
+                    <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+                      <View
+                        style={{
+                          width: 36,
+                          height: 36,
+                          borderRadius: 12,
+                          backgroundColor: "rgba(56, 189, 248, 0.18)",
+                          borderWidth: 1,
+                          borderColor: "rgba(56, 189, 248, 0.4)",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Library size={18} color="#38BDF8" />
+                      </View>
+                      <View>
+                        <Text
+                          style={{
+                            color: "#FFFFFF",
+                            fontSize: 19,
+                            fontWeight: "800",
+                            fontFamily: Platform.OS === "web" ? "Playfair Display, Georgia, serif" : undefined,
+                          }}
+                        >
+                          My Bookshelves & Shelves
+                        </Text>
+                        <Text style={{ color: "#64748B", fontSize: 12 }}>
+                          Your curated reading queues, favorites, and custom lists
+                        </Text>
+                      </View>
+                    </View>
+
+                    <TouchableOpacity
+                      onPress={() => router.push("/shelves" as any)}
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        gap: 4,
+                        paddingHorizontal: 12,
+                        paddingVertical: 6,
+                        borderRadius: 20,
+                        backgroundColor: "rgba(56, 189, 248, 0.15)",
+                        borderWidth: 1,
+                        borderColor: "rgba(56, 189, 248, 0.3)",
+                      }}
+                    >
+                      <Text style={{ color: "#38BDF8", fontSize: 12.5, fontWeight: "700" }}>
+                        View All Shelves
+                      </Text>
+                      <ChevronRight size={14} color="#38BDF8" />
+                    </TouchableOpacity>
+                  </View>
+
+                  <ScrollView
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={{ gap: 14, paddingVertical: 4 }}
+                  >
+                    {shelves.map((sh) => (
+                      <TouchableOpacity
+                        key={sh._id}
+                        onPress={() => router.push(`/shelves/${sh.slug}` as any)}
+                        style={{
+                          width: isWeb ? 230 : 200,
+                          backgroundColor: "#0F172A",
+                          borderRadius: 18,
+                          borderWidth: 1,
+                          borderColor: `${sh.color}40`,
+                          padding: 16,
+                          justifyContent: "space-between"
+                        }}
+                      >
+                        <View style={{ flexDirection: "row", alignItems: "center", gap: 10, marginBottom: 8 }}>
+                          <View style={{ width: 34, height: 34, borderRadius: 10, backgroundColor: `${sh.color}20`, alignItems: "center", justifyContent: "center" }}>
+                            <Bookmark size={16} color={sh.color} />
+                          </View>
+                          <View style={{ flex: 1 }}>
+                            <Text numberOfLines={1} style={{ color: "#FFFFFF", fontSize: 14, fontWeight: "700" }}>{sh.name}</Text>
+                            <Text style={{ color: "#94A3B8", fontSize: 11 }}>{sh.totalBooks} {sh.totalBooks === 1 ? "Book" : "Books"}</Text>
+                          </View>
+                        </View>
+                        <Text numberOfLines={2} style={{ color: "#64748B", fontSize: 11.5, lineHeight: 16 }}>
+                          {sh.description || "Curated bookshelf"}
+                        </Text>
+                      </TouchableOpacity>
+                    ))}
+                  </ScrollView>
+                </View>
+              ) : null}
+
+              {/* ───────────────────────────────────────────────────────────── */}
+              {/* VIRAL LITERARY QUOTES & SHARE CARDS RAIL */}
+              {/* ───────────────────────────────────────────────────────────── */}
+              {featuredQuotes && featuredQuotes.length > 0 ? (
+                <View style={{ marginBottom: 36 }}>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      marginBottom: 16,
+                    }}
+                  >
+                    <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+                      <View
+                        style={{
+                          width: 36,
+                          height: 36,
+                          borderRadius: 12,
+                          backgroundColor: "rgba(245, 158, 11, 0.18)",
+                          borderWidth: 1,
+                          borderColor: "rgba(245, 158, 11, 0.4)",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Sparkles size={18} color="#F59E0B" />
+                      </View>
+                      <View>
+                        <Text
+                          style={{
+                            color: "#FFFFFF",
+                            fontSize: 19,
+                            fontWeight: "800",
+                            fontFamily: Platform.OS === "web" ? "Playfair Display, Georgia, serif" : undefined,
+                          }}
+                        >
+                          Inspiring Quotes & Share Cards
+                        </Text>
+                        <Text style={{ color: "#64748B", fontSize: 12 }}>
+                          Timeless wisdom from world classics — tap to create quote card
+                        </Text>
+                      </View>
+                    </View>
+
+                    <TouchableOpacity
+                      onPress={() => router.push("/quotes" as any)}
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        gap: 4,
+                        paddingHorizontal: 12,
+                        paddingVertical: 6,
+                        borderRadius: 20,
+                        backgroundColor: "rgba(245, 158, 11, 0.15)",
+                        borderWidth: 1,
+                        borderColor: "rgba(245, 158, 11, 0.3)",
+                      }}
+                    >
+                      <Text style={{ color: "#F59E0B", fontSize: 12.5, fontWeight: "700" }}>
+                        View All
+                      </Text>
+                      <ChevronRight size={14} color="#F59E0B" />
+                    </TouchableOpacity>
+                  </View>
+
+                  <ScrollView
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={{ gap: 16, paddingVertical: 4 }}
+                  >
+                    {featuredQuotes.map((q) => (
+                      <TouchableOpacity
+                        key={q._id}
+                        onPress={() =>
+                          setShareQuoteData({
+                            quoteText: q.quoteText,
+                            storyTitle: q.storyTitle,
+                            storySlug: q.storySlug,
+                            authorName: q.authorName,
+                            category: q.category,
+                            coverUrl: q.coverUrl
+                          })
+                        }
+                        style={{
+                          width: isWeb ? 290 : 250,
+                          backgroundColor: "#0F172A",
+                          borderRadius: 20,
+                          borderWidth: 1,
+                          borderColor: "rgba(245, 158, 11, 0.25)",
+                          padding: 18,
+                          justifyContent: "space-between",
+                          position: "relative"
+                        }}
+                      >
+                        <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                          <View style={{ backgroundColor: "rgba(245, 158, 11, 0.15)", paddingHorizontal: 8, paddingVertical: 3, borderRadius: 6 }}>
+                            <Text style={{ color: "#F59E0B", fontSize: 10.5, fontWeight: "700" }}>{q.category || "Wisdom"}</Text>
+                          </View>
+                          <QuoteIcon size={16} color="#F59E0B" opacity={0.6} />
+                        </View>
+
+                        <Text
+                          numberOfLines={3}
+                          style={{
+                            color: "#F8FAFC",
+                            fontSize: 14,
+                            fontWeight: "600",
+                            fontStyle: "italic",
+                            lineHeight: 20,
+                            marginBottom: 12
+                          }}
+                        >
+                          "{q.quoteText}"
+                        </Text>
+
+                        <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", borderTopWidth: 1, borderTopColor: "rgba(255, 255, 255, 0.08)", paddingTop: 10 }}>
+                          <View style={{ flex: 1, paddingRight: 6 }}>
+                            <Text numberOfLines={1} style={{ color: "#FFFFFF", fontSize: 12, fontWeight: "700" }}>{q.authorName}</Text>
+                            <Text numberOfLines={1} style={{ color: "#94A3B8", fontSize: 10.5 }}>{q.storyTitle}</Text>
+                          </View>
+                          <View style={{ backgroundColor: "#0284C7", paddingHorizontal: 10, paddingVertical: 5, borderRadius: 10 }}>
+                            <Text style={{ color: "#FFFFFF", fontSize: 11, fontWeight: "700" }}>Share</Text>
+                          </View>
+                        </View>
+                      </TouchableOpacity>
+                    ))}
+                  </ScrollView>
+                </View>
+              ) : null}
+
+              {/* Social Quote Card Share Modal */}
+              <QuoteCardShareModal
+                visible={!!shareQuoteData}
+                onClose={() => setShareQuoteData(null)}
+                quoteData={shareQuoteData}
+              />
+
+              {/* ───────────────────────────────────────────────────────────── */}
+              {/* RECENTLY VIEWED CLASSICS RAIL */}
+              {/* ───────────────────────────────────────────────────────────── */}
+              {dashboardData.recentlyViewed && dashboardData.recentlyViewed.length > 0 ? (
+                <View style={{ marginBottom: 36 }}>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      marginBottom: 16,
+                    }}
+                  >
+                    <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+                      <View
+                        style={{
+                          width: 36,
+                          height: 36,
+                          borderRadius: 12,
+                          backgroundColor: "rgba(56, 189, 248, 0.18)",
+                          borderWidth: 1,
+                          borderColor: "rgba(56, 189, 248, 0.4)",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Eye size={18} color="#38BDF8" />
+                      </View>
+                      <View>
+                        <Text
+                          style={{
+                            color: "#FFFFFF",
+                            fontSize: 19,
+                            fontWeight: "800",
+                            fontFamily: Platform.OS === "web" ? "Playfair Display, Georgia, serif" : undefined,
+                          }}
+                        >
+                          Recently Viewed Classics
+                        </Text>
+                        <Text style={{ color: "#64748B", fontSize: 12 }}>
+                          Books you recently opened or explored
+                        </Text>
+                      </View>
+                    </View>
+
+                    <TouchableOpacity
+                      onPress={() => router.push("/explore")}
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        gap: 4,
+                        paddingHorizontal: 12,
+                        paddingVertical: 6,
+                        borderRadius: 20,
+                        backgroundColor: "rgba(56, 189, 248, 0.15)",
+                        borderWidth: 1,
+                        borderColor: "rgba(56, 189, 248, 0.3)",
+                      }}
+                    >
+                      <Text style={{ color: "#38BDF8", fontSize: 12.5, fontWeight: "700" }}>
+                        View History
+                      </Text>
+                      <ArrowRight size={14} color="#38BDF8" />
+                    </TouchableOpacity>
+                  </View>
+
+                  <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 16 }}>
+                    {dashboardData.recentlyViewed.map((book: any) => (
+                      <Pressable
+                        key={book._id || book.slug}
+                        onPress={() => router.push(`/details/${book.slug}`)}
+                        style={({ hovered }: any) => ({
+                          width: isWeb ? 170 : 140,
+                          backgroundColor: hovered ? "rgba(30, 41, 59, 0.9)" : "rgba(15, 23, 42, 0.8)",
+                          borderWidth: 1,
+                          borderColor: hovered ? "rgba(56, 189, 248, 0.5)" : "rgba(255, 255, 255, 0.08)",
+                          borderRadius: 18,
+                          padding: 12,
+                          transform: hovered ? [{ translateY: -4 }] : [],
+                        })}
+                      >
+                        <View style={{ position: "relative", width: "100%", height: isWeb ? 230 : 190, borderRadius: 12, overflow: "hidden", marginBottom: 10 }}>
+                          {book.coverImageUrl ? (
+                            <Image
+                              source={{ uri: book.coverImageUrl }}
+                              style={{
+                                width: "100%",
+                                height: "100%",
+                                backgroundColor: "#1E293B",
+                              }}
+                              resizeMode="cover"
+                            />
+                          ) : null}
+
+                          {/* Top-Left Format Badges: [📖 Ebook] + [🎧 Audio] */}
+                          <View style={{ position: "absolute", top: 8, left: 8, flexDirection: "row", alignItems: "center", gap: 4, zIndex: 10 }}>
+                            <View style={{ flexDirection: "row", alignItems: "center", gap: 3, paddingHorizontal: 6, paddingVertical: 2.5, borderRadius: 6, backgroundColor: "rgba(2, 6, 23, 0.85)", borderWidth: 1, borderColor: "rgba(14, 165, 233, 0.6)" }}>
+                              <BookOpen size={9} color="#38BDF8" />
+                              <Text style={{ color: "#38BDF8", fontSize: 8.5, fontWeight: "800", letterSpacing: 0.2 }}>Ebook</Text>
+                            </View>
+                            {(book.hasAudio || book.isAudiobook || book.contentType === "both" || book.contentType === "audiobook" || (book.totalDurationSeconds && book.totalDurationSeconds > 0)) ? (
+                              <View style={{ flexDirection: "row", alignItems: "center", gap: 3, paddingHorizontal: 6, paddingVertical: 2.5, borderRadius: 6, backgroundColor: "rgba(2, 6, 23, 0.85)", borderWidth: 1, borderColor: "rgba(139, 92, 246, 0.6)" }}>
+                                <Headphones size={9} color="#C084FC" />
+                                <Text style={{ color: "#C084FC", fontSize: 8.5, fontWeight: "800", letterSpacing: 0.2 }}>Audio</Text>
+                              </View>
+                            ) : null}
+                          </View>
+                        </View>
+
+                        <Text
+                          numberOfLines={2}
+                          style={{
+                            color: "#FFFFFF",
+                            fontSize: 13.5,
+                            fontWeight: "700",
+                            lineHeight: 18,
+                            marginBottom: 4,
+                          }}
+                        >
+                          {getTitleText(book.title)}
+                        </Text>
+
+                        <Text numberOfLines={1} style={{ color: "#94A3B8", fontSize: 11.5, fontWeight: "500" }}>
+                          {book.author}
+                        </Text>
+                      </Pressable>
+                    ))}
+                  </ScrollView>
+                </View>
+              ) : null}
+              {/* ───────────────────────────────────────────────────────────── */}
+              {/* 7. CATEGORY MENTION QUICK SLIDER (2 ROWS OF CATEGORIES) */}
+              {/* ───────────────────────────────────────────────────────────── */}
+              {dashboardData.categories && dashboardData.categories.length > 0 ? (
+                <View style={{ marginBottom: 40 }}>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      marginBottom: 16,
+                    }}
+                  >
+                    <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+                      <View
+                        style={{
+                          width: 36,
+                          height: 36,
+                          borderRadius: 12,
+                          backgroundColor: "rgba(129, 140, 248, 0.18)",
+                          borderWidth: 1,
+                          borderColor: "rgba(129, 140, 248, 0.4)",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Compass size={18} color="#818CF8" />
+                      </View>
+                      <View>
+                        <Text
+                          style={{
+                            color: "#FFFFFF",
+                            fontSize: 19,
+                            fontWeight: "800",
+                            fontFamily: Platform.OS === "web" ? "Playfair Display, Georgia, serif" : undefined,
+                          }}
+                        >
+                          Explore Book Categories
+                        </Text>
+                        <Text style={{ color: "#64748B", fontSize: 12 }}>
+                          Browse classics by genre, theme & literary period
+                        </Text>
+                      </View>
+                    </View>
+
+                    <TouchableOpacity
+                      onPress={() => router.push("/category")}
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        gap: 4,
+                        paddingHorizontal: 12,
+                        paddingVertical: 6,
+                        borderRadius: 20,
+                        backgroundColor: "rgba(129, 140, 248, 0.15)",
+                        borderWidth: 1,
+                        borderColor: "rgba(129, 140, 248, 0.3)",
+                      }}
+                    >
+                      <Text style={{ color: "#818CF8", fontSize: 12.5, fontWeight: "700" }}>
+                        All Categories
+                      </Text>
+                      <ArrowRight size={14} color="#818CF8" />
+                    </TouchableOpacity>
+                  </View>
+
+                  {/* 2-ROW HORIZONTAL SCROLLABLE CATEGORY SLIDER */}
+                  <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                    <View style={{ flexDirection: "column", gap: 12 }}>
+                      {/* Row 1 */}
+                      <View style={{ flexDirection: "row", gap: 12 }}>
+                        {dashboardData.categories.slice(0, Math.ceil(dashboardData.categories.length / 2)).map((cat: any) => (
+                          <Pressable
+                            key={`row1-${cat._id || cat.slug}`}
+                            onPress={() => router.push(`/category/${cat.slug}`)}
+                            style={({ hovered }: any) => ({
+                              flexDirection: "row",
+                              alignItems: "center",
+                              gap: 10,
+                              paddingHorizontal: 16,
+                              paddingVertical: 12,
+                              borderRadius: 16,
+                              backgroundColor: hovered ? "rgba(30, 41, 59, 0.9)" : "rgba(15, 23, 42, 0.85)",
+                              borderWidth: 1,
+                              borderColor: hovered ? "rgba(129, 140, 248, 0.5)" : "rgba(255, 255, 255, 0.1)",
+                              transform: hovered ? [{ translateY: -2 }] : [],
+                            })}
+                          >
+                            <View
+                              style={{
+                                width: 32,
+                                height: 32,
+                                borderRadius: 10,
+                                backgroundColor: "rgba(129, 140, 248, 0.2)",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
+                              <BookOpen size={16} color="#818CF8" />
+                            </View>
+                            <View>
+                              <Text style={{ color: "#FFFFFF", fontSize: 14, fontWeight: "700" }}>
+                                {cat.name}
+                              </Text>
+                              <Text style={{ color: "#94A3B8", fontSize: 11 }}>
+                                {cat.bookCount || 5} Books
+                              </Text>
+                            </View>
+                          </Pressable>
+                        ))}
+                      </View>
+
+                      {/* Row 2 */}
+                      <View style={{ flexDirection: "row", gap: 12 }}>
+                        {dashboardData.categories.slice(Math.ceil(dashboardData.categories.length / 2)).map((cat: any) => (
+                          <Pressable
+                            key={`row2-${cat._id || cat.slug}`}
+                            onPress={() => router.push(`/category/${cat.slug}`)}
+                            style={({ hovered }: any) => ({
+                              flexDirection: "row",
+                              alignItems: "center",
+                              gap: 10,
+                              paddingHorizontal: 16,
+                              paddingVertical: 12,
+                              borderRadius: 16,
+                              backgroundColor: hovered ? "rgba(30, 41, 59, 0.9)" : "rgba(15, 23, 42, 0.85)",
+                              borderWidth: 1,
+                              borderColor: hovered ? "rgba(56, 189, 248, 0.5)" : "rgba(255, 255, 255, 0.1)",
+                              transform: hovered ? [{ translateY: -2 }] : [],
+                            })}
+                          >
+                            <View
+                              style={{
+                                width: 32,
+                                height: 32,
+                                borderRadius: 10,
+                                backgroundColor: "rgba(56, 189, 248, 0.2)",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
+                              <Layers size={16} color="#38BDF8" />
+                            </View>
+                            <View>
+                              <Text style={{ color: "#FFFFFF", fontSize: 14, fontWeight: "700" }}>
+                                {cat.name}
+                              </Text>
+                              <Text style={{ color: "#94A3B8", fontSize: 11 }}>
+                                {cat.bookCount || 5} Books
+                              </Text>
+                            </View>
+                          </Pressable>
+                        ))}
+                      </View>
+                    </View>
+                  </ScrollView>
+                </View>
+              ) : null}
+
+              {/* ───────────────────────────────────────────────────────────── */}
+              {/* 2. HERO SHOWCASE BANNER */}
+              {/* ───────────────────────────────────────────────────────────── */}
+              {dashboardData.hero ? (
+                <View
+                  style={{
+                    borderRadius: 28,
+                    backgroundColor: "rgba(15, 23, 42, 0.9)",
+                    borderWidth: 1,
+                    borderColor: "rgba(255, 255, 255, 0.12)",
+                    padding: isWeb ? 32 : 20,
+                    marginBottom: 36,
+                    overflow: "hidden",
+                    position: "relative",
+                  }}
+                >
+                  <LinearGradient
+                    colors={["rgba(129, 140, 248, 0.25)", "rgba(139, 92, 246, 0.08)", "transparent"]}
+                    style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}
+                  />
+
+                  <View
+                    style={{
+                      flexDirection: isWeb ? "row" : "column",
+                      alignItems: isWeb ? "center" : "flex-start",
+                      gap: isWeb ? 32 : 20,
+                    }}
+                  >
+                    {dashboardData.hero.coverImageUrl ? (
+                      <Image
+                        source={{ uri: dashboardData.hero.coverImageUrl }}
+                        style={{
+                          width: isWeb ? 150 : 120,
+                          height: isWeb ? 225 : 180,
+                          borderRadius: 16,
+                          backgroundColor: "#1E293B",
+                        }}
+                        resizeMode="cover"
+                      />
+                    ) : null}
+
+                    <View style={{ flex: 1 }}>
+                      <View style={{ flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 10 }}>
                         <View
                           style={{
                             paddingHorizontal: 10,
                             paddingVertical: 4,
-                            borderRadius: 100,
-                            backgroundColor: (cat.color || "#0EA5E9") + "15",
+                            borderRadius: 20,
+                            backgroundColor: "rgba(129, 140, 248, 0.2)",
+                            borderWidth: 1,
+                            borderColor: "rgba(129, 140, 248, 0.4)",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            gap: 5,
                           }}
                         >
-                          <Text weight="Bold" style={{ fontSize: 11, color: cat.color || "#0EA5E9" }}>
-                            {cat.bookCount} Books
+                          <Sparkles size={13} color="#818CF8" />
+                          <Text style={{ color: "#C7D2FE", fontSize: 11, fontWeight: "700", letterSpacing: 0.5 }}>
+                            FEATURED CLASSIC
                           </Text>
                         </View>
+
+                        {dashboardData.hero.hasArtworks ? (
+                          <View
+                            style={{
+                              paddingHorizontal: 10,
+                              paddingVertical: 4,
+                              borderRadius: 20,
+                              backgroundColor: "rgba(236, 72, 153, 0.2)",
+                              borderWidth: 1,
+                              borderColor: "rgba(236, 72, 153, 0.4)",
+                            }}
+                          >
+                            <Text style={{ color: "#F472B6", fontSize: 11, fontWeight: "700" }}>
+                              🎨 ARTWORKS EDITION
+                            </Text>
+                          </View>
+                        ) : null}
                       </View>
 
-                      <View>
-                        <Text weight="Bold" style={{ fontSize: 17, color: textColor, marginBottom: 2 }}>
-                          {cat.name}
-                        </Text>
-                        <Text style={{ fontSize: 12.5, color: textSubColor }}>
-                          Explore {cat.bookCount} masterworks in {cat.name}
-                        </Text>
-                      </View>
-
-                      <View style={{ flexDirection: "row", alignItems: "center", gap: 4 }}>
-                        <Text weight="Bold" style={{ fontSize: 12, color: cat.color || "#0EA5E9" }}>
-                          View Collection
-                        </Text>
-                        <ChevronRight size={13} color={cat.color || "#0EA5E9"} />
-                      </View>
-                    </Pressable>
-                  </View>
-                );
-              })}
-            </View>
-          </Animated.View>
-        ) : activeNavTab === "tags" ? (
-          /* ── TAGS DIRECTORY VIEW ─────────────────────────────────── */
-          <Animated.View entering={safeAnim(FadeInUp.duration(350))} style={{ paddingHorizontal: 16 }}>
-            <View style={{ marginBottom: 16 }}>
-              <Text weight="Bold" style={{ fontSize: 22, color: textColor, marginBottom: 4 }}>
-                Literary Tags & Topics Directory
-              </Text>
-              <Text style={{ fontSize: 13, color: textSubColor }}>
-                Browse {tagsData.length} searchable literary tags and subjects across the library
-              </Text>
-            </View>
-
-            {/* Tag Search Bar */}
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                paddingHorizontal: 16,
-                paddingVertical: 12,
-                borderRadius: 16,
-                backgroundColor: isDark ? "rgba(255,255,255,0.05)" : "#FFFFFF",
-                borderWidth: 1,
-                borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
-                marginBottom: 20,
-              }}
-            >
-              <Search size={16} color={textSubColor} />
-              <TextInput
-                placeholder="Search tags (e.g. gothic, detective, sci-fi, time-travel, satire)…"
-                placeholderTextColor={textSubColor}
-                value={tagSearch}
-                onChangeText={setTagSearch}
-                style={{ flex: 1, fontSize: 14, color: textColor, marginLeft: 10, padding: 0 }}
-              />
-              {tagSearch.length > 0 && (
-                <Pressable onPress={() => setTagSearch("")}>
-                  <X size={14} color={textSubColor} />
-                </Pressable>
-              )}
-            </View>
-
-            {/* Tag Pills Cloud */}
-            <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
-              {tagsData
-                .filter((t) => t.name.toLowerCase().includes(tagSearch.toLowerCase().trim()))
-                .map((tag) => (
-                  <Pressable
-                    key={tag._id}
-                    onPress={() => router.push(`/ebook/explore?search=${encodeURIComponent(tag.name)}`)}
-                    style={({ pressed }) => ({
-                      flexDirection: "row",
-                      alignItems: "center",
-                      paddingHorizontal: 14,
-                      paddingVertical: 8,
-                      borderRadius: 100,
-                      backgroundColor: isDark ? "rgba(255,255,255,0.06)" : "#FFFFFF",
-                      borderWidth: 1,
-                      borderColor: isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.08)",
-                      gap: 6,
-                      opacity: pressed ? 0.7 : 1,
-                    })}
-                  >
-                    <Tag size={12} color={accentColor} />
-                    <Text weight="Bold" style={{ fontSize: 13, color: textColor }}>
-                      #{tag.name}
-                    </Text>
-                    <View
-                      style={{
-                        paddingHorizontal: 8,
-                        paddingVertical: 2,
-                        borderRadius: 100,
-                        backgroundColor: accentColor + "20",
-                      }}
-                    >
-                      <Text weight="Bold" style={{ fontSize: 11, color: accentColor }}>
-                        {tag.bookCount}
-                      </Text>
-                    </View>
-                  </Pressable>
-                ))}
-            </View>
-          </Animated.View>
-        ) : activeNavTab === "top100" ? (
-          /* ── TOP 100 PICKS VIEW ──────────────────────────────────── */
-          <Animated.View entering={safeAnim(FadeInUp.duration(350))} style={{ paddingHorizontal: 16 }}>
-            <View style={{ marginBottom: 20 }}>
-              <View style={{ flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 4 }}>
-                <Sparkles size={20} color="#F59E0B" />
-                <Text weight="Bold" style={{ fontSize: 24, color: textColor, letterSpacing: -0.4 }}>
-                  Top 100 Masterwork Picks
-                </Text>
-              </View>
-              <Text style={{ fontSize: 13, color: textSubColor, lineHeight: 18 }}>
-                Curated collection of the 100 most iconic classics, masterworks, and world literature
-              </Text>
-            </View>
-
-            {/* Top 100 Search Bar */}
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                paddingHorizontal: 16,
-                paddingVertical: 12,
-                borderRadius: 16,
-                backgroundColor: isDark ? "rgba(255,255,255,0.05)" : "#FFFFFF",
-                borderWidth: 1,
-                borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
-                marginBottom: 20,
-              }}
-            >
-              <Search size={16} color="#F59E0B" />
-              <TextInput
-                placeholder="Search Top 100 Masterworks (e.g. Alice, Dracula, Gatsby, Sherlock)…"
-                placeholderTextColor={textSubColor}
-                value={top100Search}
-                onChangeText={setTop100Search}
-                style={{
-                  flex: 1,
-                  marginLeft: 10,
-                  fontSize: 14,
-                  color: textColor,
-                  padding: 0,
-                }}
-              />
-              {top100Search.length > 0 && (
-                <Pressable onPress={() => setTop100Search("")}>
-                  <X size={15} color={textSubColor} />
-                </Pressable>
-              )}
-            </View>
-
-            {/* Top 100 Grid */}
-            <View style={{ flexDirection: "row", flexWrap: "wrap", marginHorizontal: -6 }}>
-              {(data?.topFeatured || [])
-                .filter((s) => {
-                  if (!top100Search.trim()) return true;
-                  const query = top100Search.toLowerCase();
-                  const title = getLocalizedText(s.title).toLowerCase();
-                  const author = (s.author || "").toLowerCase();
-                  return title.includes(query) || author.includes(query);
-                })
-                .map((story, idx) => {
-                  const cols = width >= 1024 ? 5 : width >= 768 ? 4 : width >= 480 ? 3 : 2;
-                  return (
-                    <View key={story._id} style={{ width: `${100 / cols}%`, paddingHorizontal: 6, paddingBottom: 16 }}>
-                      <StoryCard story={story} onPress={onStoryPress} variant="standard" />
-                    </View>
-                  );
-                })}
-            </View>
-          </Animated.View>
-        ) : activeNavTab === "series" ? (
-          /* ── BOOK SERIES VIEW ─────────────────────────────────────── */
-          <Animated.View entering={safeAnim(FadeInUp.duration(350))} style={{ paddingHorizontal: 16 }}>
-            <View style={{ marginBottom: 20 }}>
-              <View style={{ flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 4 }}>
-                <Layers size={20} color="#8B5CF6" />
-                <Text weight="Bold" style={{ fontSize: 24, color: textColor, letterSpacing: -0.4 }}>
-                  Curated Book Series & Sagas
-                </Text>
-              </View>
-              <Text style={{ fontSize: 13, color: textSubColor, lineHeight: 18 }}>
-                Explore {seriesData.length} iconic literary sagas and grouped masterwork collections
-              </Text>
-            </View>
-
-            {/* Series Search Bar */}
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                paddingHorizontal: 16,
-                paddingVertical: 12,
-                borderRadius: 16,
-                backgroundColor: isDark ? "rgba(255,255,255,0.05)" : "#FFFFFF",
-                borderWidth: 1,
-                borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
-                marginBottom: 20,
-              }}
-            >
-              <Search size={16} color="#8B5CF6" />
-              <TextInput
-                placeholder="Search Book Series (e.g. Sherlock, Oz, Barsoom, Tarzan, Jeeves)…"
-                placeholderTextColor={textSubColor}
-                value={seriesSearch}
-                onChangeText={setSeriesSearch}
-                style={{
-                  flex: 1,
-                  marginLeft: 10,
-                  fontSize: 14,
-                  color: textColor,
-                  padding: 0,
-                }}
-              />
-              {seriesSearch.length > 0 && (
-                <Pressable onPress={() => setSeriesSearch("")}>
-                  <X size={15} color={textSubColor} />
-                </Pressable>
-              )}
-            </View>
-
-            {/* Series Cards */}
-            <View style={{ flexDirection: "row", flexWrap: "wrap", marginHorizontal: -6 }}>
-              {seriesData
-                .filter((s) => {
-                  if (!seriesSearch.trim()) return true;
-                  const query = seriesSearch.toLowerCase();
-                  const title = getLocalizedText(s.title).toLowerCase();
-                  const author = (s.author || "").toLowerCase();
-                  return title.includes(query) || author.includes(query);
-                })
-                .map((series) => {
-                  const cols = width >= 1024 ? 3 : width >= 640 ? 2 : 1;
-                  return (
-                    <View key={series._id} style={{ width: `${100 / cols}%`, paddingHorizontal: 6, paddingBottom: 16 }}>
-                      <View
+                      <Text
                         style={{
-                          padding: 20,
-                          borderRadius: 22,
-                          backgroundColor: isDark ? "rgba(255,255,255,0.04)" : "#FFFFFF",
-                          borderWidth: 1,
-                          borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
-                          gap: 14,
+                          color: "#FFFFFF",
+                          fontSize: isWeb ? 32 : 24,
+                          fontWeight: "900",
+                          fontFamily: Platform.OS === "web" ? "Playfair Display, Georgia, serif" : undefined,
+                          marginBottom: 6,
                         }}
                       >
-                        <View style={{ flexDirection: "row", gap: 14, alignItems: "center" }}>
-                          {series.coverImageUrl ? (
+                        {getTitleText(dashboardData.hero.title)}
+                      </Text>
+
+                      <Text style={{ color: "#94A3B8", fontSize: 15, fontWeight: "600", marginBottom: 12 }}>
+                        By {dashboardData.hero.author}
+                      </Text>
+
+                      {dashboardData.hero.synopsis ? (
+                        <Text
+                          numberOfLines={3}
+                          style={{ color: "#CBD5E1", fontSize: 13.5, lineHeight: 22, marginBottom: 20 }}
+                        >
+                          {dashboardData.hero.synopsis}
+                        </Text>
+                      ) : null}
+
+                      <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 12 }}>
+                        <TouchableOpacity
+                          onPress={() => router.push(`/read/${dashboardData.hero.slug}`)}
+                          style={{
+                            paddingHorizontal: 22,
+                            paddingVertical: 12,
+                            borderRadius: 16,
+                            backgroundColor: "#6366F1",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            gap: 8,
+                          }}
+                        >
+                          <BookOpen size={16} color="#FFFFFF" />
+                          <Text style={{ color: "#FFFFFF", fontSize: 14, fontWeight: "700" }}>
+                            Start Reading Now
+                          </Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                          onPress={() => router.push(`/details/${dashboardData.hero.slug}`)}
+                          style={{
+                            paddingHorizontal: 20,
+                            paddingVertical: 12,
+                            borderRadius: 16,
+                            backgroundColor: "rgba(255, 255, 255, 0.08)",
+                            borderWidth: 1,
+                            borderColor: "rgba(255, 255, 255, 0.15)",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            gap: 8,
+                          }}
+                        >
+                          <Headphones size={16} color="#38BDF8" />
+                          <Text style={{ color: "#E2E8F0", fontSize: 14, fontWeight: "600" }}>
+                            Audiobook Details
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              ) : null}
+
+              {/* ───────────────────────────────────────────────────────────── */}
+              {/* 3. TOP 100 EBOOKS MASTERWORKS RANKED RAIL */}
+              {/* ───────────────────────────────────────────────────────────── */}
+              {dashboardData.top100 && dashboardData.top100.length > 0 ? (
+                <View style={{ marginBottom: 40 }}>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      marginBottom: 16,
+                    }}
+                  >
+                    <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+                      <View
+                        style={{
+                          width: 36,
+                          height: 36,
+                          borderRadius: 12,
+                          backgroundColor: "rgba(245, 158, 11, 0.18)",
+                          borderWidth: 1,
+                          borderColor: "rgba(245, 158, 11, 0.4)",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Award size={18} color="#F59E0B" />
+                      </View>
+                      <View>
+                        <Text
+                          style={{
+                            color: "#FFFFFF",
+                            fontSize: 19,
+                            fontWeight: "800",
+                            fontFamily: Platform.OS === "web" ? "Playfair Display, Georgia, serif" : undefined,
+                          }}
+                        >
+                          Top 100 Ebooks & Ranked Masterworks
+                        </Text>
+                        <Text style={{ color: "#64748B", fontSize: 12 }}>
+                          Highest Rated World Literature & All-Time Classics
+                        </Text>
+                      </View>
+                    </View>
+
+                    <TouchableOpacity
+                      onPress={() => router.push("/explore")}
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        gap: 4,
+                        paddingHorizontal: 12,
+                        paddingVertical: 6,
+                        borderRadius: 20,
+                        backgroundColor: "rgba(245, 158, 11, 0.15)",
+                        borderWidth: 1,
+                        borderColor: "rgba(245, 158, 11, 0.3)",
+                      }}
+                    >
+                      <Text style={{ color: "#F59E0B", fontSize: 12.5, fontWeight: "700" }}>
+                        View All Top 100
+                      </Text>
+                      <ArrowRight size={14} color="#F59E0B" />
+                    </TouchableOpacity>
+                  </View>
+
+                  <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 16 }}>
+                    {dashboardData.top100.map((book: any) => (
+                      <Pressable
+                        key={book._id || book.slug}
+                        onPress={() => router.push(`/details/${book.slug}`)}
+                        style={({ hovered }: any) => ({
+                          width: isWeb ? 170 : 140,
+                          backgroundColor: hovered ? "rgba(30, 41, 59, 0.9)" : "rgba(15, 23, 42, 0.8)",
+                          borderWidth: 1,
+                          borderColor: hovered ? "rgba(245, 158, 11, 0.5)" : "rgba(255, 255, 255, 0.08)",
+                          borderRadius: 18,
+                          padding: 12,
+                          position: "relative",
+                          transform: hovered ? [{ translateY: -4 }] : [],
+                        })}
+                      >
+                        {/* Rank Badge */}
+                        <View
+                          style={{
+                            position: "absolute",
+                            top: 18,
+                            left: 18,
+                            zIndex: 10,
+                            paddingHorizontal: 8,
+                            paddingVertical: 4,
+                            borderRadius: 10,
+                            backgroundColor: "#F59E0B",
+                            shadowColor: "#000",
+                            shadowOffset: { width: 0, height: 2 },
+                            shadowOpacity: 0.5,
+                            shadowRadius: 4,
+                          }}
+                        >
+                          <Text style={{ color: "#0F172A", fontSize: 11, fontWeight: "900" }}>
+                            #{book.rank}
+                          </Text>
+                        </View>
+
+                        <View style={{ position: "relative", width: "100%", height: isWeb ? 230 : 190, borderRadius: 12, overflow: "hidden", marginBottom: 10 }}>
+                          {book.coverImageUrl ? (
                             <Image
-                              source={{ uri: series.coverImageUrl }}
-                              style={{ width: 60, height: 86, borderRadius: 10 }}
+                              source={{ uri: book.coverImageUrl }}
+                              style={{
+                                width: "100%",
+                                height: "100%",
+                                backgroundColor: "#1E293B",
+                              }}
                               resizeMode="cover"
                             />
-                          ) : (
-                            <View
-                              style={{
-                                width: 60,
-                                height: 86,
-                                borderRadius: 10,
-                                backgroundColor: "#8B5CF620",
-                                alignItems: "center",
-                                justifyContent: "center",
-                              }}
-                            >
-                              <Layers size={24} color="#8B5CF6" />
-                            </View>
-                          )}
+                          ) : null}
 
-                          <View style={{ flex: 1 }}>
-                            <View style={{ flexDirection: "row", alignItems: "center", gap: 6, marginBottom: 4 }}>
-                              <View style={{ paddingHorizontal: 8, paddingVertical: 2, borderRadius: 100, backgroundColor: "rgba(139, 92, 246, 0.15)" }}>
-                                <Text weight="Bold" style={{ fontSize: 10, color: "#8B5CF6" }}>
-                                  {series.bookCount} {series.bookCount === 1 ? "Book" : "Books"}
-                                </Text>
-                              </View>
+                          {/* Top-Left Format Badges: [📖 Ebook] + [🎧 Audio] */}
+                          <View style={{ position: "absolute", top: 8, left: 8, flexDirection: "row", alignItems: "center", gap: 4, zIndex: 10 }}>
+                            <View style={{ flexDirection: "row", alignItems: "center", gap: 3, paddingHorizontal: 6, paddingVertical: 2.5, borderRadius: 6, backgroundColor: "rgba(2, 6, 23, 0.85)", borderWidth: 1, borderColor: "rgba(14, 165, 233, 0.6)" }}>
+                              <BookOpen size={9} color="#38BDF8" />
+                              <Text style={{ color: "#38BDF8", fontSize: 8.5, fontWeight: "800", letterSpacing: 0.2 }}>Ebook</Text>
                             </View>
-                            <Text weight="Bold" style={{ fontSize: 16, color: textColor, marginBottom: 2 }} numberOfLines={1}>
-                              {getLocalizedText(series.title)}
-                            </Text>
-                            <Text style={{ fontSize: 12, color: textSubColor }} numberOfLines={1}>
-                              by {series.author}
-                            </Text>
+                            {(book.hasAudio || book.isAudiobook || book.contentType === "both" || book.contentType === "audiobook" || (book.totalDurationSeconds && book.totalDurationSeconds > 0)) ? (
+                              <View style={{ flexDirection: "row", alignItems: "center", gap: 3, paddingHorizontal: 6, paddingVertical: 2.5, borderRadius: 6, backgroundColor: "rgba(2, 6, 23, 0.85)", borderWidth: 1, borderColor: "rgba(139, 92, 246, 0.6)" }}>
+                                <Headphones size={9} color="#C084FC" />
+                                <Text style={{ color: "#C084FC", fontSize: 8.5, fontWeight: "800", letterSpacing: 0.2 }}>Audio</Text>
+                              </View>
+                            ) : null}
                           </View>
                         </View>
 
-                        {series.description ? (
-                          <Text style={{ fontSize: 12.5, color: textSubColor, lineHeight: 17 }} numberOfLines={2}>
-                            {getLocalizedText(series.description)}
-                          </Text>
-                        ) : null}
+                        <Text
+                          numberOfLines={2}
+                          style={{
+                            color: "#FFFFFF",
+                            fontSize: 13.5,
+                            fontWeight: "700",
+                            lineHeight: 18,
+                            marginBottom: 4,
+                          }}
+                        >
+                          {getTitleText(book.title)}
+                        </Text>
 
-                        {/* Series Books horizontal preview */}
-                        {series.books && series.books.length > 0 && (
-                          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8 }}>
-                            {series.books.map((b) => (
-                              <Pressable
-                                key={b._id}
-                                onPress={() => onStoryPress(b.slug)}
-                                style={({ pressed }) => ({
-                                  flexDirection: "row",
-                                  alignItems: "center",
-                                  gap: 6,
-                                  paddingHorizontal: 10,
-                                  paddingVertical: 5,
-                                  borderRadius: 8,
-                                  backgroundColor: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.04)",
-                                  opacity: pressed ? 0.7 : 1,
-                                })}
-                              >
-                                <BookOpen size={11} color="#8B5CF6" />
-                                <Text weight="Medium" style={{ fontSize: 11, color: textColor }} numberOfLines={1}>
-                                  {getLocalizedText(b.title)}
-                                </Text>
-                              </Pressable>
-                            ))}
-                          </ScrollView>
-                        )}
+                        <Text numberOfLines={1} style={{ color: "#94A3B8", fontSize: 11.5, fontWeight: "500" }}>
+                          {book.author}
+                        </Text>
+                      </Pressable>
+                    ))}
+                  </ScrollView>
+                </View>
+              ) : null}
+
+              {/* ───────────────────────────────────────────────────────────── */}
+              {/* 4. NEWLY ADDED EBOOKS & FRESH CLASSICS RAIL */}
+              {/* ───────────────────────────────────────────────────────────── */}
+              {dashboardData.newlyAdded && dashboardData.newlyAdded.length > 0 ? (
+                <View style={{ marginBottom: 40 }}>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      marginBottom: 16,
+                    }}
+                  >
+                    <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+                      <View
+                        style={{
+                          width: 36,
+                          height: 36,
+                          borderRadius: 12,
+                          backgroundColor: "rgba(16, 185, 129, 0.18)",
+                          borderWidth: 1,
+                          borderColor: "rgba(16, 185, 129, 0.4)",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <PlusCircle size={18} color="#10B981" />
+                      </View>
+                      <View>
+                        <Text
+                          style={{
+                            color: "#FFFFFF",
+                            fontSize: 19,
+                            fontWeight: "800",
+                            fontFamily: Platform.OS === "web" ? "Playfair Display, Georgia, serif" : undefined,
+                          }}
+                        >
+                          Newly Added Ebooks & Fresh Ingestions
+                        </Text>
+                        <Text style={{ color: "#64748B", fontSize: 12 }}>
+                          Recently Processed Standard Ebooks Repositories
+                        </Text>
                       </View>
                     </View>
-                  );
-                })}
-            </View>
-          </Animated.View>
-        ) : (
-          /* ── HOME DASHBOARD VIEW ──────────────────────────────────── */
-          <View style={{ width: "100%" }}>
-        {/* Daily Reading Streak & Goal Banner */}
-        <Animated.View entering={safeAnim(FadeInUp.delay(30).duration(400))} style={{ paddingHorizontal: 16 }}>
-          <EbookStreakBanner
-            currentStreak={7}
-            xpScore={450}
-            dailyGoalMinutes={15}
-            completedMinutesToday={12}
-            isDark={isDark}
-            onPressDetails={() => {}}
-          />
-        </Animated.View>
 
-        {/* ── 2. Editorial Hero ──────────────────────────── */}
-        <Animated.View entering={safeAnim(FadeInUp.delay(60).duration(480))} style={{ paddingHorizontal: 16, marginBottom: 24 }}>
-          <LinearGradient
-            colors={["#0A1628", "#12233E", "#162B4E"]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={{ borderRadius: 28, padding: 28, overflow: "hidden", minHeight: 190 }}
-          >
-            {/* Ambient glow */}
-            <View
-              style={{
-                position: "absolute",
-                top: -60,
-                right: 30,
-                width: 220,
-                height: 220,
-                borderRadius: 110,
-                backgroundColor: "rgba(56,189,248,0.07)",
-              }}
-            />
-            <View
-              style={{
-                position: "absolute",
-                bottom: -40,
-                left: -30,
-                width: 160,
-                height: 160,
-                borderRadius: 80,
-                backgroundColor: "rgba(99,102,241,0.06)",
-              }}
-            />
+                    <TouchableOpacity
+                      onPress={() => router.push("/explore")}
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        gap: 4,
+                        paddingHorizontal: 12,
+                        paddingVertical: 6,
+                        borderRadius: 20,
+                        backgroundColor: "rgba(16, 185, 129, 0.15)",
+                        borderWidth: 1,
+                        borderColor: "rgba(16, 185, 129, 0.3)",
+                      }}
+                    >
+                      <Text style={{ color: "#10B981", fontSize: 12.5, fontWeight: "700" }}>
+                        View All New
+                      </Text>
+                      <ArrowRight size={14} color="#10B981" />
+                    </TouchableOpacity>
+                  </View>
 
-            <View style={{ flexDirection: "row", alignItems: "flex-start", justifyContent: "space-between" }}>
-              {/* Left: text */}
-              <View style={{ flex: 1, paddingRight: 8 }}>
-                {/* Eyebrow Greeting */}
-                <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 10 }}>
-                  <View style={{ width: 18, height: 2, borderRadius: 1, backgroundColor: "#F59E0B", marginRight: 8 }} />
-                  <Text weight="Bold" style={{ color: "#F59E0B", fontSize: 11, letterSpacing: 1.5, textTransform: "uppercase" }}>
-                    LIIRO EBOOK & AUDIOBOOKS 🎧
-                  </Text>
+                  <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 16 }}>
+                    {dashboardData.newlyAdded.map((book: any) => (
+                      <Pressable
+                        key={book._id || book.slug}
+                        onPress={() => router.push(`/details/${book.slug}`)}
+                        style={({ hovered }: any) => ({
+                          width: isWeb ? 170 : 140,
+                          backgroundColor: hovered ? "rgba(30, 41, 59, 0.9)" : "rgba(15, 23, 42, 0.8)",
+                          borderWidth: 1,
+                          borderColor: hovered ? "rgba(16, 185, 129, 0.5)" : "rgba(255, 255, 255, 0.08)",
+                          borderRadius: 18,
+                          padding: 12,
+                          position: "relative",
+                          transform: hovered ? [{ translateY: -4 }] : [],
+                        })}
+                      >
+                        <View
+                          style={{
+                            position: "absolute",
+                            top: 18,
+                            right: 18,
+                            zIndex: 10,
+                            paddingHorizontal: 6,
+                            paddingVertical: 2,
+                            borderRadius: 6,
+                            backgroundColor: "#10B981",
+                          }}
+                        >
+                          <Text style={{ color: "#FFFFFF", fontSize: 9, fontWeight: "900" }}>NEW</Text>
+                        </View>
+
+                        <View style={{ position: "relative", width: "100%", height: isWeb ? 230 : 190, borderRadius: 12, overflow: "hidden", marginBottom: 10 }}>
+                          {book.coverImageUrl ? (
+                            <Image
+                              source={{ uri: book.coverImageUrl }}
+                              style={{
+                                width: "100%",
+                                height: "100%",
+                                backgroundColor: "#1E293B",
+                              }}
+                              resizeMode="cover"
+                            />
+                          ) : null}
+
+                          {/* Top-Left Format Badges: [📖 Ebook] + [🎧 Audio] */}
+                          <View style={{ position: "absolute", top: 8, left: 8, flexDirection: "row", alignItems: "center", gap: 4, zIndex: 10 }}>
+                            <View style={{ flexDirection: "row", alignItems: "center", gap: 3, paddingHorizontal: 6, paddingVertical: 2.5, borderRadius: 6, backgroundColor: "rgba(2, 6, 23, 0.85)", borderWidth: 1, borderColor: "rgba(14, 165, 233, 0.6)" }}>
+                              <BookOpen size={9} color="#38BDF8" />
+                              <Text style={{ color: "#38BDF8", fontSize: 8.5, fontWeight: "800", letterSpacing: 0.2 }}>Ebook</Text>
+                            </View>
+                            {(book.hasAudio || book.isAudiobook || book.contentType === "both" || book.contentType === "audiobook" || (book.totalDurationSeconds && book.totalDurationSeconds > 0)) ? (
+                              <View style={{ flexDirection: "row", alignItems: "center", gap: 3, paddingHorizontal: 6, paddingVertical: 2.5, borderRadius: 6, backgroundColor: "rgba(2, 6, 23, 0.85)", borderWidth: 1, borderColor: "rgba(139, 92, 246, 0.6)" }}>
+                                <Headphones size={9} color="#C084FC" />
+                                <Text style={{ color: "#C084FC", fontSize: 8.5, fontWeight: "800", letterSpacing: 0.2 }}>Audio</Text>
+                              </View>
+                            ) : null}
+                          </View>
+                        </View>
+
+                        <Text
+                          numberOfLines={2}
+                          style={{
+                            color: "#FFFFFF",
+                            fontSize: 13.5,
+                            fontWeight: "700",
+                            lineHeight: 18,
+                            marginBottom: 4,
+                          }}
+                        >
+                          {getTitleText(book.title)}
+                        </Text>
+
+                        <Text numberOfLines={1} style={{ color: "#94A3B8", fontSize: 11.5, fontWeight: "500" }}>
+                          {book.author}
+                        </Text>
+                      </Pressable>
+                    ))}
+                  </ScrollView>
                 </View>
+              ) : null}
 
-                {/* Headline */}
-                <Text weight="Bold" style={{ color: "#FFFFFF", fontSize: 26, lineHeight: 33, letterSpacing: -0.6, marginBottom: 12 }}>
-                  Experience Unabridged{"\n"}Classics with Whispersync{"\n"}& Ambient Soundscapes
-                </Text>
-
-                {/* Interactive Quick-Access Feature Bar */}
-                <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8, marginBottom: 16 }}>
-                  <Pressable
-                    onPress={() => router.push("/reels")}
-                    style={({ pressed }) => ({
-                      backgroundColor: "rgba(245,158,11,0.2)",
-                      borderWidth: 1,
-                      borderColor: "#F59E0B",
-                      paddingHorizontal: 12,
-                      paddingVertical: 7,
-                      borderRadius: 100,
-                      flexDirection: "row",
-                      alignItems: "center",
-                      gap: 6,
-                      opacity: pressed ? 0.8 : 1,
-                    })}
-                  >
-                    <Text weight="Bold" style={{ color: "#F59E0B", fontSize: 11.5 }}>🎥 Book Reels</Text>
-                  </Pressable>
-
-                  <Pressable
-                    onPress={() => router.push("/summary/the-strange-case-of-dr-jekyll-and-mr-hyde")}
-                    style={({ pressed }) => ({
-                      backgroundColor: "rgba(99,102,241,0.2)",
-                      borderWidth: 1,
-                      borderColor: "#818CF8",
-                      paddingHorizontal: 12,
-                      paddingVertical: 7,
-                      borderRadius: 100,
-                      flexDirection: "row",
-                      alignItems: "center",
-                      gap: 6,
-                      opacity: pressed ? 0.8 : 1,
-                    })}
-                  >
-                    <Text weight="Bold" style={{ color: "#818CF8", fontSize: 11.5 }}>⚡ 15-Min Summary</Text>
-                  </Pressable>
-
-                  <Pressable
-                    onPress={() => router.push("/car-mode/the-strange-case-of-dr-jekyll-and-mr-hyde")}
-                    style={({ pressed }) => ({
-                      backgroundColor: "rgba(16,185,129,0.2)",
-                      borderWidth: 1,
-                      borderColor: "#10B981",
-                      paddingHorizontal: 12,
-                      paddingVertical: 7,
-                      borderRadius: 100,
-                      flexDirection: "row",
-                      alignItems: "center",
-                      gap: 6,
-                      opacity: pressed ? 0.8 : 1,
-                    })}
-                  >
-                    <Text weight="Bold" style={{ color: "#10B981", fontSize: 11.5 }}>🚗 Car Mode</Text>
-                  </Pressable>
-
-                  <Pressable
-                    onPress={() => router.push("/activity")}
-                    style={({ pressed }) => ({
-                      backgroundColor: "rgba(56,189,248,0.2)",
-                      borderWidth: 1,
-                      borderColor: "#38BDF8",
-                      paddingHorizontal: 12,
-                      paddingVertical: 7,
-                      borderRadius: 100,
-                      flexDirection: "row",
-                      alignItems: "center",
-                      gap: 6,
-                      opacity: pressed ? 0.8 : 1,
-                    })}
-                  >
-                    <Text weight="Bold" style={{ color: "#38BDF8", fontSize: 11.5 }}>📊 Activity History</Text>
-                  </Pressable>
-                </View>
-
-                {/* Stat badges */}
-                <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 7, marginBottom: 12 }}>
-                  <StatBadge icon={BookOpen}   label={`${allStories.length}+ Unabridged Books`} />
-                  <StatBadge icon={Headphones} label="Audio + Whispersync" />
-                </View>
-
-                {/* Animated Reading Streak Flame Badge */}
-                {streakData && (
-                  <StreakFlameBadge
-                    currentStreak={streakData.currentStreak}
-                    todayMinutesRead={streakData.todayMinutesRead}
-                    dailyGoalMinutes={streakData.dailyGoalMinutes}
-                    goalPercent={streakData.goalPercent}
-                    onPress={() => setIsAchievementModalOpen(true)}
-                  />
-                )}
-              </View>
-
-              {/* Right: fanned book covers */}
-              {featuredCovers.length >= 2 && (
-                <View style={{ width: 110, height: 160, position: "relative", marginLeft: 4 }}>
-                  {featuredCovers.slice(0, 3).map((book, i) => {
-                    const fan = FAN_OFFSETS[i];
-                    return (
-                      <Image
-                        key={book._id}
-                        source={{ uri: book.coverImageUrl }}
-                        style={{
-                          position: "absolute",
-                          width: 68,
-                          height: 92,
-                          borderRadius: 9,
-                          left: fan.left,
-                          top: fan.top,
-                          opacity: fan.opacity,
-                          zIndex: fan.zIndex,
-                          transform: [{ rotate: fan.rotate }],
-                          shadowColor: "#000",
-                          shadowOffset: { width: 0, height: 4 },
-                          shadowOpacity: 0.5,
-                          shadowRadius: 10,
-                        }}
-                        resizeMode="cover"
-                      />
-                    );
-                  })}
-                </View>
-              )}
-            </View>
-          </LinearGradient>
-        </Animated.View>
-
-        {/* ── 2. Daily Streak Banner ───────────────────── */}
-        <Animated.View entering={safeAnim(FadeInUp.delay(100).duration(450))} style={{ paddingHorizontal: 16, marginBottom: 20 }}>
-          <EbookStreakBanner
-            currentStreak={7}
-            xpScore={450}
-            isDark={isDark}
-            onPressBell={() => setIsNotifModalOpen(true)}
-            onPressUpgrade={() => setIsSubModalOpen(true)}
-          />
-        </Animated.View>
-
-        {/* ── 3. Continue Reading ───────────────────────── */}
-        {continueStory && !searchQuery.trim() && (
-          <Animated.View entering={safeAnim(FadeInUp.delay(120).duration(450))} style={{ paddingHorizontal: 16, marginBottom: 24 }}>
-            <StoryCard story={continueStory} onPress={onStoryPress} variant="continue" />
-          </Animated.View>
-        )}
-
-        {/* ── 4. Search ─────────────────────────────────── */}
-        <Animated.View entering={safeAnim(FadeInUp.delay(160).duration(450))} style={{ paddingHorizontal: 16, marginBottom: 16 }}>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              paddingHorizontal: 18,
-              paddingVertical: 13,
-              borderRadius: 16,
-              backgroundColor: isDark ? "rgba(255,255,255,0.05)" : "#FFFFFF",
-              borderWidth: 1.5,
-              borderColor: searchFocused
-                ? accentColor + "60"
-                : isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.07)",
-              shadowColor: searchFocused ? accentColor : "#000",
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: searchFocused ? 0.15 : 0.04,
-              shadowRadius: 8,
-            }}
-          >
-            <Search size={16} color={searchFocused ? accentColor : textSubColor} />
-            <TextInput
-              placeholder="Search by title, author, or genre…"
-              placeholderTextColor={textSubColor}
-              value={searchQuery}
-              onChangeText={setSearchQuery}
-              onFocus={() => setSearchFocused(true)}
-              onBlur={() => setSearchFocused(false)}
-              style={{ flex: 1, fontSize: 14, color: textColor, marginLeft: 10, padding: 0 }}
-              accessibilityLabel="Search ebook catalog"
-            />
-            {searchQuery.length > 0 && (
-              <Pressable onPress={() => setSearchQuery("")} hitSlop={12} accessibilityLabel="Clear search">
-                <View
-                  style={{
-                    width: 22,
-                    height: 22,
-                    borderRadius: 11,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    backgroundColor: isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.08)",
-                    marginLeft: 8,
-                  }}
-                >
-                  <X size={12} color={textSubColor} />
-                </View>
-              </Pressable>
-            )}
-          </View>
-        </Animated.View>
-
-        {/* ── 5. Category Pills ─────────────────────────── */}
-        {!searchQuery.trim() && (
-          <Animated.View entering={safeAnim(FadeInUp.delay(190).duration(450))} style={{ marginBottom: 28 }}>
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={{ paddingHorizontal: 16, gap: 8 }}
-            >
-              {CATEGORIES.map((cat) => {
-                const isActive = activeCategory === cat.key;
-                const CatIcon = cat.icon;
-                return (
-                  <Pressable
-                    key={cat.key}
-                    onPress={() => setActiveCategory(cat.key)}
-                    style={({ pressed }) => ({ opacity: pressed ? 0.8 : 1 })}
-                    accessibilityLabel={`Filter by ${cat.label}`}
-                    accessibilityState={{ selected: isActive }}
-                  >
+              {/* ───────────────────────────────────────────────────────────── */}
+              {/* 5. CATEGORY-WISE BOOK RAILS (Top Categories) */}
+              {/* ───────────────────────────────────────────────────────────── */}
+              {dashboardData.categories && dashboardData.categories.length > 0 ? (
+                dashboardData.categories.map((category: any) => (
+                  <View key={category._id || category.slug} style={{ marginBottom: 36 }}>
                     <View
                       style={{
                         flexDirection: "row",
                         alignItems: "center",
-                        paddingHorizontal: 14,
-                        paddingVertical: 8,
-                        borderRadius: 100,
-                        backgroundColor: isActive ? cat.color : isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)",
-                        borderWidth: isActive ? 0 : 1,
-                        borderColor: isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.07)",
-                        gap: 6,
+                        justifyContent: "space-between",
+                        marginBottom: 16,
                       }}
                     >
-                      <CatIcon size={12} color={isActive ? "#FFFFFF" : isDark ? "#64748B" : "#94A3B8"} />
-                      <Text
-                        weight="SemiBold"
+                      <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+                        <View
+                          style={{
+                            width: 36,
+                            height: 36,
+                            borderRadius: 12,
+                            backgroundColor: "rgba(129, 140, 248, 0.15)",
+                            borderWidth: 1,
+                            borderColor: "rgba(129, 140, 248, 0.3)",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <BookOpen size={18} color="#818CF8" />
+                        </View>
+                        <View>
+                          <Text
+                            style={{
+                              color: "#FFFFFF",
+                              fontSize: 19,
+                              fontWeight: "800",
+                              fontFamily: Platform.OS === "web" ? "Playfair Display, Georgia, serif" : undefined,
+                            }}
+                          >
+                            {category.name}
+                          </Text>
+                          <Text style={{ color: "#64748B", fontSize: 12 }}>
+                            {category.bookCount || category.books?.length || 5} Masterwork Volumes
+                          </Text>
+                        </View>
+                      </View>
+
+                      <TouchableOpacity
+                        onPress={() => router.push(`/category/${category.slug}`)}
                         style={{
-                          fontSize: 12.5,
-                          color: isActive ? "#FFFFFF" : isDark ? "#94A3B8" : "#64748B",
-                          letterSpacing: 0.1,
+                          flexDirection: "row",
+                          alignItems: "center",
+                          gap: 4,
+                          paddingHorizontal: 12,
+                          paddingVertical: 6,
+                          borderRadius: 20,
+                          backgroundColor: "rgba(255, 255, 255, 0.06)",
+                          borderWidth: 1,
+                          borderColor: "rgba(255, 255, 255, 0.12)",
                         }}
                       >
-                        {cat.label}
-                      </Text>
-                    </View>
-                  </Pressable>
-                );
-              })}
-            </ScrollView>
-          </Animated.View>
-        )}
-
-        {/* ── 6. Main Content: Rails or Grid ────────────── */}
-        {isSectionRailMode ? (
-          <Animated.View entering={safeAnim(FadeInUp.delay(220).duration(450))}>
-            {/* Top 100 Featured Masterworks Showcase Rail */}
-            {data?.topFeatured && data.topFeatured.length > 0 && (
-              <SectionRail
-                title="⭐ Editor's Top 100 Picks"
-                color="#F59E0B"
-                stories={data.topFeatured}
-                onStoryPress={onStoryPress}
-                onSeeAllPress={() => setActiveNavTab("top100")}
-                textColor={textColor}
-                isDark={isDark}
-              />
-            )}
-
-            {/* 💎 Liiro 7 Signature Feature Pillars Grid */}
-            <View style={{ marginHorizontal: 20, marginBottom: 36, backgroundColor: isDark ? "#0F172A" : "#F8FAFC", borderWidth: 1, borderColor: isDark ? "#1E293B" : "#E2E8F0", borderRadius: 28, padding: 22 }}>
-              <View style={{ flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 6 }}>
-                <View style={{ width: 4, height: 18, borderRadius: 2, backgroundColor: "#F59E0B" }} />
-                <Text weight="Bold" style={{ color: "#F59E0B", fontSize: 11, letterSpacing: 1.2 }}>
-                  WHY LIIRO IS UNIQUE 💎
-                </Text>
-              </View>
-              <Text weight="Bold" style={{ color: isDark ? "#FFFFFF" : "#0F172A", fontSize: 22, marginBottom: 16 }}>
-                Built for Ultimate Ebook & Audiobook Lovers
-              </Text>
-
-              <View style={{ gap: 14 }}>
-                {/* Feature 1: Blinkist Mode */}
-                <Pressable
-                  onPress={() => router.push("/summary/the-strange-case-of-dr-jekyll-and-mr-hyde")}
-                  style={({ pressed }) => ({
-                    backgroundColor: isDark ? "rgba(99,102,241,0.12)" : "#EEF2FF",
-                    borderWidth: 1,
-                    borderColor: isDark ? "rgba(99,102,241,0.3)" : "#C7D2FE",
-                    borderRadius: 18,
-                    padding: 16,
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    opacity: pressed ? 0.85 : 1,
-                  })}
-                >
-                  <View style={{ flex: 1, paddingRight: 12 }}>
-                    <Text weight="Bold" style={{ color: "#818CF8", fontSize: 15, marginBottom: 2 }}>
-                      ⚡ 15-Min Blinkist Key Takeaways
-                    </Text>
-                    <Text style={{ color: isDark ? "#CBD5E1" : "#475569", fontSize: 12, lineHeight: 17 }}>
-                      Master masterworks in 15 mins with 5-7 key insight cards and summary audio!
-                    </Text>
-                  </View>
-                  <Text weight="Bold" style={{ color: "#818CF8", fontSize: 12 }}>Try Now ❯</Text>
-                </Pressable>
-
-                {/* Feature 2: Book Reels */}
-                <Pressable
-                  onPress={() => router.push("/reels")}
-                  style={({ pressed }) => ({
-                    backgroundColor: isDark ? "rgba(245,158,11,0.12)" : "#FEF3C7",
-                    borderWidth: 1,
-                    borderColor: isDark ? "rgba(245,158,11,0.3)" : "#FDE68A",
-                    borderRadius: 18,
-                    padding: 16,
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    opacity: pressed ? 0.85 : 1,
-                  })}
-                >
-                  <View style={{ flex: 1, paddingRight: 12 }}>
-                    <Text weight="Bold" style={{ color: "#F59E0B", fontSize: 15, marginBottom: 2 }}>
-                      🎥 Short Video Book Reels Feed
-                    </Text>
-                    <Text style={{ color: isDark ? "#CBD5E1" : "#475569", fontSize: 12, lineHeight: 17 }}>
-                      Swipe 60fps vertical book clips and 1-tap jump straight into reading!
-                    </Text>
-                  </View>
-                  <Text weight="Bold" style={{ color: "#F59E0B", fontSize: 12 }}>Watch ❯</Text>
-                </Pressable>
-
-                {/* Feature 3: Audible Car Mode */}
-                <Pressable
-                  onPress={() => router.push("/car-mode/the-strange-case-of-dr-jekyll-and-mr-hyde")}
-                  style={({ pressed }) => ({
-                    backgroundColor: isDark ? "rgba(16,185,129,0.12)" : "#ECFDF5",
-                    borderWidth: 1,
-                    borderColor: isDark ? "rgba(16,185,129,0.3)" : "#A7F3D0",
-                    borderRadius: 18,
-                    padding: 16,
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    opacity: pressed ? 0.85 : 1,
-                  })}
-                >
-                  <View style={{ flex: 1, paddingRight: 12 }}>
-                    <Text weight="Bold" style={{ color: "#10B981", fontSize: 15, marginBottom: 2 }}>
-                      🚗 Audible-Style Driving Car Mode
-                    </Text>
-                    <Text style={{ color: isDark ? "#CBD5E1" : "#475569", fontSize: 12, lineHeight: 17 }}>
-                      Giant 96px targets & 1-tap bookmarks for safe hands-free driving playback.
-                    </Text>
-                  </View>
-                  <Text weight="Bold" style={{ color: "#10B981", fontSize: 12 }}>Drive ❯</Text>
-                </Pressable>
-
-                {/* Feature 4: Activity Timeline */}
-                <Pressable
-                  onPress={() => router.push("/activity")}
-                  style={({ pressed }) => ({
-                    backgroundColor: isDark ? "rgba(56,189,248,0.12)" : "#E0F2FE",
-                    borderWidth: 1,
-                    borderColor: isDark ? "rgba(56,189,248,0.3)" : "#BAE6FD",
-                    borderRadius: 18,
-                    padding: 16,
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    opacity: pressed ? 0.85 : 1,
-                  })}
-                >
-                  <View style={{ flex: 1, paddingRight: 12 }}>
-                    <Text weight="Bold" style={{ color: "#38BDF8", fontSize: 15, marginBottom: 2 }}>
-                      📊 Real-Time Activity & Notifications
-                    </Text>
-                    <Text style={{ color: isDark ? "#CBD5E1" : "#475569", fontSize: 12, lineHeight: 17 }}>
-                      Audit reading timestamps, language changes, and milestone achievements.
-                    </Text>
-                  </View>
-                  <Text weight="Bold" style={{ color: "#38BDF8", fontSize: 12 }}>View ❯</Text>
-                </Pressable>
-              </View>
-            </View>
-
-            {/* 🎥 Book Reels (Short Video Teasers Feed) Banner */}
-            <Pressable
-              onPress={() => router.push("/reels")}
-              style={({ pressed }) => ({
-                marginHorizontal: 20,
-                marginBottom: 32,
-                borderRadius: 24,
-                padding: 20,
-                backgroundColor: isDark ? "rgba(245,158,11,0.12)" : "#FEF3C7",
-                borderWidth: 1.5,
-                borderColor: isDark ? "#F59E0B" : "#FCD34D",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-                opacity: pressed ? 0.85 : 1,
-              })}
-            >
-              <View style={{ flex: 1, paddingRight: 16 }}>
-                <View style={{ flexDirection: "row", alignItems: "center", gap: 6, marginBottom: 4 }}>
-                  <Text weight="Bold" style={{ color: "#F59E0B", fontSize: 11, letterSpacing: 1 }}>NEW FEATURE 🎥</Text>
-                </View>
-                <Text weight="Bold" style={{ color: isDark ? "#FFFFFF" : "#0F172A", fontSize: 18, marginBottom: 4 }}>
-                  Explore Book Reels Feed
-                </Text>
-                <Text style={{ color: isDark ? "#CBD5E1" : "#475569", fontSize: 12.5, lineHeight: 18 }}>
-                  Watch short video teasers, ambient quote visuals, and 1-tap jump straight into reading!
-                </Text>
-              </View>
-              <View style={{ backgroundColor: "#F59E0B", paddingHorizontal: 16, paddingVertical: 12, borderRadius: 100 }}>
-                <Text weight="Bold" style={{ color: "#0F172A", fontSize: 13 }}>Watch Reels ❯</Text>
-              </View>
-            </Pressable>
-
-            {/* ⚡ Quick Listens (< 3 Hours) Rail */}
-            {data?.shortAudiobooks && data.shortAudiobooks.length > 0 && (
-              <SectionRail
-                title="⚡ Quick Listens (< 3 Hours)"
-                color="#06B6D4"
-                stories={data.shortAudiobooks}
-                onStoryPress={onStoryPress}
-                onSeeAllPress={() => router.push("/ebook/explore")}
-                textColor={textColor}
-                isDark={isDark}
-              />
-            )}
-
-            {/* Children's Books Rail */}
-            {childrenStories.length > 0 && (
-              <View style={{ marginBottom: 36 }}>
-                <View style={{ paddingHorizontal: 20, marginBottom: 14 }}>
-                  <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-                    <View style={{ flexDirection: "row", alignItems: "center" }}>
-                      <View style={{ width: 3, height: 20, borderRadius: 1.5, backgroundColor: "#F97316", marginRight: 10 }} />
-                      <Text weight="Bold" style={{ fontSize: 17, letterSpacing: -0.3, color: textColor }}>
-                        🧒 For Young Readers
-                      </Text>
-                    </View>
-                    <Pressable
-                      onPress={() => setActiveCategory("children")}
-                      style={({ pressed }) => ({ opacity: pressed ? 0.7 : 1, flexDirection: "row", alignItems: "center", gap: 2 })}
-                    >
-                      <Text weight="SemiBold" style={{ fontSize: 13, color: "#F97316" }}>See all</Text>
-                      <ChevronRight size={14} color="#F97316" />
-                    </Pressable>
-                  </View>
-                  <Text style={{ fontSize: 12, color: textSubColor, marginTop: 4, marginLeft: 13 }}>
-                    Classic tales & fairy stories for young readers of all ages
-                  </Text>
-                </View>
-                <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 20, gap: 12 }}>
-                  {childrenStories.map((story) => (
-                    <View key={story._id} style={{ width: 148 }}>
-                      <StoryCard story={story} onPress={onStoryPress} variant="standard" />
-                    </View>
-                  ))}
-                </ScrollView>
-              </View>
-            )}
-
-            {/* Continue Reading Rail */}
-            <ActivityCardRail
-              title="Continue Reading"
-              icon={BookOpen}
-              color="#3B82F6"
-              stories={data?.continueReading || []}
-              variant="reading"
-              onStoryPress={onStoryPress}
-              textColor={textColor}
-            />
-
-            {/* Continue Listening Rail */}
-            <ActivityCardRail
-              title="Continue Listening"
-              icon={Headphones}
-              color="#8B5CF6"
-              stories={data?.continueListening || []}
-              variant="listening"
-              onStoryPress={onStoryPress}
-              textColor={textColor}
-            />
-
-            {/* Your Last Visit Rail */}
-            <ActivityCardRail
-              title="Your Last Visit"
-              icon={Clock}
-              color="#10B981"
-              stories={data?.recentlyVisited || []}
-              variant="visit"
-              onStoryPress={onStoryPress}
-              textColor={textColor}
-            />
-
-            {/* ── Popular Categories Showcase Block ── */}
-            <View style={{ paddingHorizontal: 16, marginBottom: 32 }}>
-              <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
-                <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-                  <View style={{ width: 28, height: 28, borderRadius: 14, backgroundColor: accentColor + "20", alignItems: "center", justifyContent: "center" }}>
-                    <FolderGit2 size={15} color={accentColor} />
-                  </View>
-                  <Text weight="Bold" style={{ fontSize: 18, color: textColor, letterSpacing: -0.3 }}>
-                    Popular Categories
-                  </Text>
-                </View>
-
-                <Pressable
-                  onPress={() => setActiveNavTab("categories")}
-                  style={({ pressed }) => ({
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: 4,
-                    opacity: pressed ? 0.6 : 1,
-                  })}
-                >
-                  <Text weight="Bold" style={{ fontSize: 13, color: accentColor }}>
-                    View All ({categoriesData.length})
-                  </Text>
-                  <ChevronRight size={14} color={accentColor} />
-                </Pressable>
-              </View>
-
-              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 12 }}>
-                {categoriesData.slice(0, 8).map((cat) => (
-                  <Pressable
-                    key={cat._id}
-                    onPress={() => router.push(`/ebook/category/${cat.slug}`)}
-                    style={({ pressed }) => ({
-                      width: 170,
-                      padding: 16,
-                      borderRadius: 20,
-                      backgroundColor: isDark ? "rgba(255,255,255,0.05)" : "#FFFFFF",
-                      borderWidth: 1,
-                      borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
-                      gap: 10,
-                      opacity: pressed ? 0.8 : 1,
-                    })}
-                  >
-                    <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-                      <View style={{ width: 36, height: 36, borderRadius: 18, backgroundColor: (cat.color || accentColor) + "20", alignItems: "center", justifyContent: "center" }}>
-                        <BookOpen size={16} color={cat.color || accentColor} />
-                      </View>
-                      <View style={{ paddingHorizontal: 8, paddingVertical: 3, borderRadius: 100, backgroundColor: (cat.color || accentColor) + "18" }}>
-                        <Text weight="Bold" style={{ fontSize: 10.5, color: cat.color || accentColor }}>
-                          {cat.bookCount} Books
+                        <Text style={{ color: "#38BDF8", fontSize: 12.5, fontWeight: "700" }}>
+                          View All
                         </Text>
-                      </View>
+                        <ArrowRight size={14} color="#38BDF8" />
+                      </TouchableOpacity>
                     </View>
 
-                    <Text weight="Bold" style={{ fontSize: 15, color: textColor }} numberOfLines={1}>
-                      {cat.name}
-                    </Text>
-                  </Pressable>
-                ))}
-              </ScrollView>
-            </View>
+                    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 16 }}>
+                      {category.books.map((book: any) => {
+                        const title = getTitleText(book.title);
+                        const isAudio = !!(book.hasAudio || book.isAudiobook);
 
-            {/* ── Popular Master Authors Showcase Block ── */}
-            <View style={{ paddingHorizontal: 16, marginBottom: 32 }}>
-              <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
-                <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-                  <View style={{ width: 28, height: 28, borderRadius: 14, backgroundColor: "#8B5CF620", alignItems: "center", justifyContent: "center" }}>
-                    <Users size={15} color="#8B5CF6" />
-                  </View>
-                  <Text weight="Bold" style={{ fontSize: 18, color: textColor, letterSpacing: -0.3 }}>
-                    Popular Master Authors
-                  </Text>
-                </View>
+                        return (
+                          <Pressable
+                            key={book._id || book.slug}
+                            onPress={() => router.push(`/details/${book.slug}`)}
+                            style={({ hovered }: any) => ({
+                              width: isWeb ? 170 : 140,
+                              backgroundColor: hovered ? "rgba(30, 41, 59, 0.9)" : "rgba(15, 23, 42, 0.8)",
+                              borderWidth: 1,
+                              borderColor: hovered ? "rgba(129, 140, 248, 0.4)" : "rgba(255, 255, 255, 0.08)",
+                              borderRadius: 18,
+                              padding: 12,
+                              transform: hovered ? [{ translateY: -4 }] : [],
+                            })}
+                          >
+                            <View style={{ position: "relative", width: "100%", height: isWeb ? 230 : 190, borderRadius: 12, overflow: "hidden", marginBottom: 10 }}>
+                              {book.coverImageUrl ? (
+                                <Image
+                                  source={{ uri: book.coverImageUrl }}
+                                  style={{
+                                    width: "100%",
+                                    height: "100%",
+                                    backgroundColor: "#1E293B",
+                                  }}
+                                  resizeMode="cover"
+                                />
+                              ) : null}
 
-                <Pressable
-                  onPress={() => setActiveNavTab("authors")}
-                  style={({ pressed }) => ({
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: 4,
-                    opacity: pressed ? 0.6 : 1,
-                  })}
-                >
-                  <Text weight="Bold" style={{ fontSize: 13, color: "#8B5CF6" }}>
-                    View All ({authorsData.length})
-                  </Text>
-                  <ChevronRight size={14} color="#8B5CF6" />
-                </Pressable>
-              </View>
+                              {/* Top-Left Format Badges: [📖 Ebook] + [🎧 Audio] */}
+                              <View style={{ position: "absolute", top: 8, left: 8, flexDirection: "row", alignItems: "center", gap: 4, zIndex: 10 }}>
+                                <View style={{ flexDirection: "row", alignItems: "center", gap: 3, paddingHorizontal: 6, paddingVertical: 2.5, borderRadius: 6, backgroundColor: "rgba(2, 6, 23, 0.85)", borderWidth: 1, borderColor: "rgba(14, 165, 233, 0.6)" }}>
+                                  <BookOpen size={9} color="#38BDF8" />
+                                  <Text style={{ color: "#38BDF8", fontSize: 8.5, fontWeight: "800", letterSpacing: 0.2 }}>Ebook</Text>
+                                </View>
+                                {isAudio ? (
+                                  <View style={{ flexDirection: "row", alignItems: "center", gap: 3, paddingHorizontal: 6, paddingVertical: 2.5, borderRadius: 6, backgroundColor: "rgba(2, 6, 23, 0.85)", borderWidth: 1, borderColor: "rgba(139, 92, 246, 0.6)" }}>
+                                    <Headphones size={9} color="#C084FC" />
+                                    <Text style={{ color: "#C084FC", fontSize: 8.5, fontWeight: "800", letterSpacing: 0.2 }}>Audio</Text>
+                                  </View>
+                                ) : null}
+                              </View>
+                            </View>
 
-              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 12 }}>
-                {authorsData.slice(0, 10).map((author) => (
-                  <Pressable
-                    key={author._id}
-                    onPress={() => router.push(`/ebook/author/${author.slug}`)}
-                    style={({ pressed }) => ({
-                      flexDirection: "row",
-                      alignItems: "center",
-                      padding: 14,
-                      borderRadius: 20,
-                      backgroundColor: isDark ? "rgba(255,255,255,0.05)" : "#FFFFFF",
-                      borderWidth: 1,
-                      borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
-                      gap: 12,
-                      minWidth: 190,
-                      opacity: pressed ? 0.8 : 1,
-                    })}
-                  >
-                    <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: "#8B5CF625", alignItems: "center", justifyContent: "center" }}>
-                      <Text weight="Bold" style={{ color: "#8B5CF6", fontSize: 15 }}>
-                        {author.name.charAt(0)}
-                      </Text>
-                    </View>
-                    <View style={{ flex: 1 }}>
-                      <Text weight="Bold" style={{ fontSize: 14, color: textColor }} numberOfLines={1}>
-                        {author.name}
-                      </Text>
-                      <Text style={{ fontSize: 12, color: textSubColor, marginTop: 1 }}>
-                        {author.bookCount} {author.bookCount === 1 ? "Book" : "Books"}
-                      </Text>
-                    </View>
-                  </Pressable>
-                ))}
-              </ScrollView>
-            </View>
+                            <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 4, marginBottom: 6 }}>
+                              <View
+                                style={{
+                                  paddingHorizontal: 5,
+                                  paddingVertical: 1.5,
+                                  borderRadius: 4,
+                                  backgroundColor: isAudio ? "rgba(139, 92, 246, 0.2)" : "rgba(56, 189, 248, 0.15)",
+                                  borderWidth: 0.5,
+                                  borderColor: isAudio ? "rgba(139, 92, 246, 0.4)" : "rgba(56, 189, 248, 0.3)",
+                                }}
+                              >
+                                <Text
+                                  style={{
+                                    color: isAudio ? "#C084FC" : "#38BDF8",
+                                    fontSize: 8.5,
+                                    fontWeight: "700",
+                                  }}
+                                >
+                                  {isAudio ? "AUDIOBOOK" : "EBOOK"}
+                                </Text>
+                              </View>
 
-            {/* ── Popular Ebook Tags Showcase Block ── */}
-            <View style={{ paddingHorizontal: 16, marginBottom: 32 }}>
-              <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
-                <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-                  <View style={{ width: 28, height: 28, borderRadius: 14, backgroundColor: "#10B98120", alignItems: "center", justifyContent: "center" }}>
-                    <Tag size={15} color="#10B981" />
-                  </View>
-                  <Text weight="Bold" style={{ fontSize: 18, color: textColor, letterSpacing: -0.3 }}>
-                    Popular Ebook Tags
-                  </Text>
-                </View>
+                              {book.hasArtworks ? (
+                                <View
+                                  style={{
+                                    paddingHorizontal: 5,
+                                    paddingVertical: 1.5,
+                                    borderRadius: 4,
+                                    backgroundColor: "rgba(236, 72, 153, 0.2)",
+                                    borderWidth: 0.5,
+                                    borderColor: "rgba(236, 72, 153, 0.4)",
+                                  }}
+                                >
+                                  <Text style={{ color: "#F472B6", fontSize: 8.5, fontWeight: "700" }}>
+                                    ARTWORKS
+                                  </Text>
+                                </View>
+                              ) : null}
+                            </View>
 
-                <Pressable
-                  onPress={() => setActiveNavTab("tags")}
-                  style={({ pressed }) => ({
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: 4,
-                    opacity: pressed ? 0.6 : 1,
-                  })}
-                >
-                  <Text weight="Bold" style={{ fontSize: 13, color: "#10B981" }}>
-                    View All ({tagsData.length})
-                  </Text>
-                  <ChevronRight size={14} color="#10B981" />
-                </Pressable>
-              </View>
+                            <Text
+                              numberOfLines={2}
+                              style={{
+                                color: "#FFFFFF",
+                                fontSize: 13.5,
+                                fontWeight: "700",
+                                lineHeight: 18,
+                                marginBottom: 4,
+                              }}
+                            >
+                              {title}
+                            </Text>
 
-              <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
-                {tagsData.slice(0, 16).map((tag) => (
-                  <Pressable
-                    key={tag._id}
-                    onPress={() => router.push(`/ebook/explore?search=${encodeURIComponent(tag.name)}`)}
-                    style={({ pressed }) => ({
-                      flexDirection: "row",
-                      alignItems: "center",
-                      paddingHorizontal: 12,
-                      paddingVertical: 7,
-                      borderRadius: 100,
-                      backgroundColor: isDark ? "rgba(255,255,255,0.06)" : "#FFFFFF",
-                      borderWidth: 1,
-                      borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
-                      gap: 6,
-                      opacity: pressed ? 0.7 : 1,
-                    })}
-                  >
-                    <Tag size={11} color="#10B981" />
-                    <Text weight="Bold" style={{ fontSize: 12.5, color: textColor }}>
-                      #{tag.name}
-                    </Text>
-                    <View style={{ paddingHorizontal: 6, paddingVertical: 1.5, borderRadius: 100, backgroundColor: "#10B98118" }}>
-                      <Text weight="Bold" style={{ fontSize: 10, color: "#10B981" }}>
-                        {tag.bookCount}
-                      </Text>
-                    </View>
-                  </Pressable>
-                ))}
-              </View>
-            </View>
-
-            <SectionRail
-              title="New Arrivals"
-              color="#F59E0B"
-              stories={data?.newest || []}
-              onStoryPress={onStoryPress}
-              isDark={isDark}
-              textColor={textColor}
-            />
-
-            {/* Reading Levels Block */}
-            {(beginnerStories.length > 0 || intermediateStories.length > 0 || advancedStories.length > 0) && (
-              <View style={{ paddingHorizontal: 16, marginBottom: 36 }}>
-                <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
-                  <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-                    <View style={{ width: 28, height: 28, borderRadius: 14, backgroundColor: "#10B98120", alignItems: "center", justifyContent: "center" }}>
-                      <GraduationCap size={15} color="#10B981" />
-                    </View>
-                    <Text weight="Bold" style={{ fontSize: 18, color: textColor, letterSpacing: -0.3 }}>
-                      Browse by Reading Level
-                    </Text>
-                  </View>
-                </View>
-                <View style={{ flexDirection: "row", gap: 12 }}>
-                  {[
-                    { label: "Beginner", sub: "A1 – A2", stories: beginnerStories, color: "#10B981", cat: "beginner" as CategoryKey },
-                    { label: "Intermediate", sub: "B1 – B2", stories: intermediateStories, color: "#3B82F6", cat: "intermediate" as CategoryKey },
-                    { label: "Advanced", sub: "C1 – C2", stories: advancedStories, color: "#F43F5E", cat: "advanced" as CategoryKey },
-                  ].map((level) => (
-                    <Pressable
-                      key={level.cat}
-                      onPress={() => setActiveCategory(level.cat)}
-                      style={({ pressed }) => ({
-                        flex: 1,
-                        padding: 16,
-                        borderRadius: 20,
-                        backgroundColor: isDark ? "rgba(255,255,255,0.04)" : "#FFFFFF",
-                        borderWidth: 1.5,
-                        borderColor: level.color + "40",
-                        alignItems: "center",
-                        gap: 8,
-                        opacity: pressed ? 0.8 : 1,
+                            {book.author ? (
+                              <Text numberOfLines={1} style={{ color: "#94A3B8", fontSize: 11.5, fontWeight: "500" }}>
+                                {book.author}
+                              </Text>
+                            ) : null}
+                          </Pressable>
+                        );
                       })}
-                    >
-                      <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: level.color + "20", alignItems: "center", justifyContent: "center" }}>
-                        <GraduationCap size={18} color={level.color} />
+                    </ScrollView>
+                  </View>
+                ))
+              ) : null}
+
+              {/* ───────────────────────────────────────────────────────────── */}
+              {/* 6. EXPLORE BOOK SERIES SAGAS */}
+              {/* ───────────────────────────────────────────────────────────── */}
+              {dashboardData.series && dashboardData.series.length > 0 ? (
+                <View style={{ marginBottom: 40 }}>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      marginBottom: 16,
+                    }}
+                  >
+                    <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+                      <View
+                        style={{
+                          width: 36,
+                          height: 36,
+                          borderRadius: 12,
+                          backgroundColor: "rgba(245, 158, 11, 0.15)",
+                          borderWidth: 1,
+                          borderColor: "rgba(245, 158, 11, 0.35)",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Layers size={18} color="#F59E0B" />
                       </View>
-                      <Text weight="Bold" style={{ fontSize: 13, color: textColor, textAlign: "center" }}>
-                        {level.label}
-                      </Text>
-                      <Text style={{ fontSize: 11, color: textSubColor, textAlign: "center" }}>
-                        {level.sub}
-                      </Text>
-                      <View style={{ paddingHorizontal: 8, paddingVertical: 3, borderRadius: 100, backgroundColor: level.color + "18" }}>
-                        <Text weight="Bold" style={{ fontSize: 10.5, color: level.color }}>
-                          {level.stories.length} Books
+                      <View>
+                        <Text
+                          style={{
+                            color: "#FFFFFF",
+                            fontSize: 19,
+                            fontWeight: "800",
+                            fontFamily: Platform.OS === "web" ? "Playfair Display, Georgia, serif" : undefined,
+                          }}
+                        >
+                          Explore Masterwork Book Series
+                        </Text>
+                        <Text style={{ color: "#64748B", fontSize: 12 }}>
+                          Chronological Multivolume Sagas & Collections
                         </Text>
                       </View>
-                    </Pressable>
-                  ))}
-                </View>
-              </View>
-            )}
-
-            {/* Books in Spanish Rail */}
-            {spanishStories.length > 0 && (
-              <SectionRail
-                title="Libros en Español 🇪🇸"
-                color="#EF4444"
-                stories={spanishStories}
-                onStoryPress={onStoryPress}
-                onSeeAllPress={() => setActiveCategory("spanish")}
-                isDark={isDark}
-                textColor={textColor}
-              />
-            )}
-
-            {/* Books in French Rail */}
-            {frenchStories.length > 0 && (
-              <SectionRail
-                title="Livres en Français 🇫🇷"
-                color="#3B82F6"
-                stories={frenchStories}
-                onStoryPress={onStoryPress}
-                onSeeAllPress={() => setActiveCategory("french")}
-                isDark={isDark}
-                textColor={textColor}
-              />
-            )}
-
-            {/* Multilingual Books Rail */}
-            {multilingualStories.length > 0 && (
-              <SectionRail
-                title="Multilingual Editions 🌐"
-                color="#8B5CF6"
-                stories={multilingualStories}
-                onStoryPress={onStoryPress}
-                onSeeAllPress={() => setActiveCategory("multilingual")}
-                isDark={isDark}
-                textColor={textColor}
-              />
-            )}
-            <SectionRail
-              title="Audiobooks"
-              color="#8B5CF6"
-              stories={data?.audiobooks || []}
-              onStoryPress={(slug) => onStoryPress(slug, true)}
-              onSeeAllPress={() => setActiveCategory("audiobooks")}
-              isDark={isDark}
-              textColor={textColor}
-            />
-            <SectionRail
-              title="Philosophy & Thought"
-              color="#F59E0B"
-              stories={data?.byGenre?.philosophy || allStories.filter((s) => s.tags?.some((t) => /philosophy|stoicism|ethics/i.test(t)))}
-              onStoryPress={onStoryPress}
-              onSeeAllPress={() => router.push("/ebook/explore?genre=philosophy")}
-              isDark={isDark}
-              textColor={textColor}
-            />
-            <SectionRail
-              title="Comedy & Satire"
-              color="#EF4444"
-              stories={data?.byGenre?.comedy || allStories.filter((s) => s.tags?.some((t) => /comedy|humor|satire/i.test(t)))}
-              onStoryPress={onStoryPress}
-              onSeeAllPress={() => router.push("/ebook/explore?genre=comedy")}
-              isDark={isDark}
-              textColor={textColor}
-            />
-            <SectionRail
-              title="Fantasy & Magic"
-              color="#8B5CF6"
-              stories={data?.byGenre?.fantasy || allStories.filter((s) => s.tags?.some((t) => /fantasy/i.test(t)))}
-              onStoryPress={onStoryPress}
-              onSeeAllPress={() => router.push("/ebook/explore?genre=fantasy")}
-              isDark={isDark}
-              textColor={textColor}
-            />
-            <SectionRail
-              title="Horror & Weird Fiction"
-              color="#A855F7"
-              stories={data?.byGenre?.horror || allStories.filter((s) => s.tags?.some((t) => /horror|weird/i.test(t)))}
-              onStoryPress={onStoryPress}
-              onSeeAllPress={() => router.push("/ebook/explore?genre=horror")}
-              isDark={isDark}
-              textColor={textColor}
-            />
-            <SectionRail
-              title="Spy Thrillers & Mystery"
-              color="#3B82F6"
-              stories={data?.byGenre?.thriller || allStories.filter((s) => s.tags?.some((t) => /thriller|spy|mystery|detective/i.test(t)))}
-              onStoryPress={onStoryPress}
-              onSeeAllPress={() => router.push("/ebook/explore?genre=thriller")}
-              isDark={isDark}
-              textColor={textColor}
-            />
-            <SectionRail
-              title="Gothic Classics"
-              color="#6366F1"
-              stories={data?.byGenre?.gothic || allStories.filter((s) => s.tags?.some((t) => /gothic/i.test(t)))}
-              onStoryPress={onStoryPress}
-              onSeeAllPress={() => router.push("/ebook/explore?genre=gothic")}
-              isDark={isDark}
-              textColor={textColor}
-            />
-            <SectionRail
-              title="Drama & Plays"
-              color="#10B981"
-              stories={data?.byGenre?.drama || allStories.filter((s) => s.tags?.some((t) => /drama|play/i.test(t)))}
-              onStoryPress={onStoryPress}
-              onSeeAllPress={() => router.push("/ebook/explore?genre=drama")}
-              isDark={isDark}
-              textColor={textColor}
-            />
-            <SectionRail
-              title="Biographies & History"
-              color="#EC4899"
-              stories={data?.byGenre?.biography || allStories.filter((s) => s.tags?.some((t) => /biography|memoir|history/i.test(t)))}
-              onStoryPress={onStoryPress}
-              onSeeAllPress={() => router.push("/ebook/explore?genre=biography")}
-              isDark={isDark}
-              textColor={textColor}
-            />
-            <SectionRail
-              title="Science & Nature"
-              color="#84CC16"
-              stories={data?.byGenre?.nature || allStories.filter((s) => s.tags?.some((t) => /nature|science/i.test(t)))}
-              onStoryPress={onStoryPress}
-              onSeeAllPress={() => router.push("/ebook/explore?genre=nature")}
-              isDark={isDark}
-              textColor={textColor}
-            />
-            <SectionRail
-              title="Victorian Masterpieces"
-              color="#EAB308"
-              stories={data?.byGenre?.victorian || allStories.filter((s) => s.tags?.some((t) => /victorian/i.test(t)))}
-              onStoryPress={onStoryPress}
-              onSeeAllPress={() => router.push("/ebook/explore?genre=victorian")}
-              isDark={isDark}
-              textColor={textColor}
-            />
-            <SectionRail
-              title="Russian Literature 🇷🇺"
-              color="#DC2626"
-              stories={data?.byGenre?.russian || allStories.filter((s) => s.tags?.some((t) => /russian/i.test(t)))}
-              onStoryPress={onStoryPress}
-              onSeeAllPress={() => router.push("/ebook/explore?genre=russian")}
-              isDark={isDark}
-              textColor={textColor}
-            />
-            <SectionRail
-              title="High Adventure & Sea"
-              color="#059669"
-              stories={data?.byGenre?.adventure || allStories.filter((s) => s.tags?.some((t) => /adventure|sea|pirates/i.test(t)))}
-              onStoryPress={onStoryPress}
-              onSeeAllPress={() => router.push("/ebook/explore?genre=adventure")}
-              isDark={isDark}
-              textColor={textColor}
-            />
-            <SectionRail
-              title="Romance"
-              color="#F43F5E"
-              stories={data?.byGenre?.romance || allStories.filter((s) => s.tags?.some((t) => /romance/i.test(t)))}
-              onStoryPress={onStoryPress}
-              onSeeAllPress={() => router.push("/ebook/explore?genre=romance")}
-              isDark={isDark}
-              textColor={textColor}
-            />
-            {loveStoriesStories.length > 0 && (
-              <SectionRail
-                title="💕 Love Stories"
-                color="#EC4899"
-                stories={loveStoriesStories}
-                onStoryPress={onStoryPress}
-                onSeeAllPress={() => setActiveCategory("lovestories")}
-                isDark={isDark}
-                textColor={textColor}
-              />
-            )}
-            {psychFictionStories.length > 0 && (
-              <SectionRail
-                title="🧠 Psychological Fiction"
-                color="#7C3AED"
-                stories={psychFictionStories}
-                onStoryPress={onStoryPress}
-                onSeeAllPress={() => setActiveCategory("psychfiction")}
-                isDark={isDark}
-                textColor={textColor}
-              />
-            )}
-            <SectionRail
-              title="Sci-Fi & Dystopian"
-              color="#0891B2"
-              stories={data?.byGenre?.scifi || allStories.filter((s) => s.tags?.some((t) => /sci-fi|scifi|dystopian/i.test(t)))}
-              onStoryPress={onStoryPress}
-              onSeeAllPress={() => router.push("/ebook/explore?genre=scifi")}
-              isDark={isDark}
-              textColor={textColor}
-            />
-            <SectionRail
-              title="World Classics"
-              color="#EAB308"
-              stories={data?.byGenre?.classic || allStories.filter((s) => s.tags?.some((t) => /classic/i.test(t)))}
-              onStoryPress={onStoryPress}
-              onSeeAllPress={() => router.push("/ebook/explore?genre=all")}
-              isDark={isDark}
-              textColor={textColor}
-            />
-          </Animated.View>
-        ) : (
-          /* Grid View */
-          <Animated.View entering={safeAnim(FadeInUp.delay(220).duration(450))} style={{ paddingHorizontal: 16 }}>
-            {/* Grid header */}
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginBottom: 18,
-                paddingBottom: 14,
-                borderBottomWidth: 1,
-                borderBottomColor: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)",
-              }}
-            >
-              <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-                <View
-                  style={{
-                    width: 3,
-                    height: 20,
-                    borderRadius: 1.5,
-                    backgroundColor: CATEGORIES.find((c) => c.key === activeCategory)?.color || accentColor,
-                  }}
-                />
-                <Text weight="Bold" style={{ fontSize: 18, letterSpacing: -0.3, color: textColor }}>
-                  {searchQuery.trim()
-                    ? `Results for "${searchQuery}"`
-                    : CATEGORIES.find((c) => c.key === activeCategory)?.label || "Catalog"}
-                </Text>
-              </View>
-              <Text weight="Medium" style={{ fontSize: 12, color: textSubColor }}>
-                {displayStories.length} {displayStories.length === 1 ? "book" : "books"}
-              </Text>
-            </View>
-
-            {displayStories.length > 0 ? (
-              <View style={{ flexDirection: "row", flexWrap: "wrap", marginHorizontal: -6 }}>
-                {displayStories.map((story) => {
-                  const cols = width >= 1024 ? 4 : width >= 768 ? 3 : 2;
-                  return (
-                    <View key={story._id} style={{ width: `${100 / cols}%`, paddingHorizontal: 6, paddingBottom: 14 }}>
-                      <StoryCard story={story} onPress={handleStoryPress} variant="standard" />
                     </View>
-                  );
-                })}
-              </View>
-            ) : (
-              <View style={{ paddingVertical: 64, alignItems: "center", gap: 10 }}>
-                <View
-                  style={{
-                    width: 64,
-                    height: 64,
-                    borderRadius: 32,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    marginBottom: 4,
-                    backgroundColor: isDark ? "rgba(255,255,255,0.04)" : "#F1F5F9",
-                  }}
-                >
-                  <BookOpen size={28} color={textSubColor} />
+
+                    <TouchableOpacity
+                      onPress={() => router.push("/series")}
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        gap: 4,
+                        paddingHorizontal: 12,
+                        paddingVertical: 6,
+                        borderRadius: 20,
+                        backgroundColor: "rgba(245, 158, 11, 0.15)",
+                        borderWidth: 1,
+                        borderColor: "rgba(245, 158, 11, 0.3)",
+                      }}
+                    >
+                      <Text style={{ color: "#F59E0B", fontSize: 12.5, fontWeight: "700" }}>
+                        View All Series
+                      </Text>
+                      <ArrowRight size={14} color="#F59E0B" />
+                    </TouchableOpacity>
+                  </View>
+
+                  <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 16 }}>
+                    {dashboardData.series.map((s: any) => (
+                      <Pressable
+                        key={s._id || s.slug}
+                        onPress={() => router.push(`/series/${s.slug}`)}
+                        style={({ hovered }: any) => ({
+                          width: isWeb ? 260 : 210,
+                          backgroundColor: hovered ? "rgba(30, 41, 59, 0.9)" : "rgba(15, 23, 42, 0.8)",
+                          borderWidth: 1,
+                          borderColor: hovered ? "rgba(245, 158, 11, 0.5)" : "rgba(255, 255, 255, 0.08)",
+                          borderRadius: 22,
+                          padding: 16,
+                          transform: hovered ? [{ translateY: -4 }] : [],
+                        })}
+                      >
+                        {s.coverImageUrl ? (
+                          <Image
+                            source={{ uri: s.coverImageUrl }}
+                            style={{
+                              width: "100%",
+                              height: 140,
+                              borderRadius: 12,
+                              backgroundColor: "#1E293B",
+                              marginBottom: 12,
+                            }}
+                            resizeMode="cover"
+                          />
+                        ) : null}
+
+                        <View
+                          style={{
+                            alignSelf: "flex-start",
+                            paddingHorizontal: 8,
+                            paddingVertical: 2,
+                            borderRadius: 10,
+                            backgroundColor: "rgba(245, 158, 11, 0.15)",
+                            borderWidth: 0.5,
+                            borderColor: "rgba(245, 158, 11, 0.3)",
+                            marginBottom: 6,
+                          }}
+                        >
+                          <Text style={{ color: "#F59E0B", fontSize: 10, fontWeight: "700" }}>
+                            {s.bookCount} VOLUMES SAGA
+                          </Text>
+                        </View>
+
+                        <Text
+                          numberOfLines={1}
+                          style={{
+                            color: "#FFFFFF",
+                            fontSize: 16,
+                            fontWeight: "700",
+                            fontFamily: Platform.OS === "web" ? "Playfair Display, Georgia, serif" : undefined,
+                            marginBottom: 3,
+                          }}
+                        >
+                          {s.title}
+                        </Text>
+
+                        {s.author ? (
+                          <Text numberOfLines={1} style={{ color: "#94A3B8", fontSize: 12, fontWeight: "500" }}>
+                            By {s.author}
+                          </Text>
+                        ) : null}
+                      </Pressable>
+                    ))}
+                  </ScrollView>
                 </View>
-                <Text weight="SemiBold" style={{ fontSize: 16, color: textColor }}>
-                  No books found
-                </Text>
-                <Text style={{ fontSize: 13, color: textSubColor, textAlign: "center", maxWidth: 240 }}>
-                  Try a different keyword or select another genre.
-                </Text>
-                <Pressable
-                  onPress={() => { setSearchQuery(""); setActiveCategory("all"); }}
-                  style={({ pressed }) => ({
-                    marginTop: 8,
-                    paddingVertical: 10,
-                    paddingHorizontal: 22,
-                    borderRadius: 100,
-                    backgroundColor: accentColor,
-                    opacity: pressed ? 0.85 : 1,
-                  })}
-                >
-                  <Text weight="SemiBold" style={{ color: "#FFFFFF", fontSize: 13 }}>Reset Filters</Text>
-                </Pressable>
-              </View>
-            )}
-          </Animated.View>
-        )}
-        </View>
-        )}
+              ) : null}
+
+              {/* ───────────────────────────────────────────────────────────── */}
+              {/* 7. POPULAR AUTHORS SPOTLIGHT */}
+              {/* ───────────────────────────────────────────────────────────── */}
+              {dashboardData.authors && dashboardData.authors.length > 0 ? (
+                <View style={{ marginBottom: 40 }}>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      marginBottom: 16,
+                    }}
+                  >
+                    <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+                      <View
+                        style={{
+                          width: 36,
+                          height: 36,
+                          borderRadius: 12,
+                          backgroundColor: "rgba(139, 92, 246, 0.15)",
+                          borderWidth: 1,
+                          borderColor: "rgba(139, 92, 246, 0.35)",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <User size={18} color="#C084FC" />
+                      </View>
+                      <View>
+                        <Text
+                          style={{
+                            color: "#FFFFFF",
+                            fontSize: 19,
+                            fontWeight: "800",
+                            fontFamily: Platform.OS === "web" ? "Playfair Display, Georgia, serif" : undefined,
+                          }}
+                        >
+                          Famous Authors & Mastermind Writers
+                        </Text>
+                        <Text style={{ color: "#64748B", fontSize: 12 }}>
+                          Legendary Literary Creators & Catalogs
+                        </Text>
+                      </View>
+                    </View>
+
+                    <TouchableOpacity
+                      onPress={() => router.push("/author")}
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        gap: 4,
+                        paddingHorizontal: 12,
+                        paddingVertical: 6,
+                        borderRadius: 20,
+                        backgroundColor: "rgba(139, 92, 246, 0.15)",
+                        borderWidth: 1,
+                        borderColor: "rgba(139, 92, 246, 0.3)",
+                      }}
+                    >
+                      <Text style={{ color: "#C084FC", fontSize: 12.5, fontWeight: "700" }}>
+                        View All Authors
+                      </Text>
+                      <ArrowRight size={14} color="#C084FC" />
+                    </TouchableOpacity>
+                  </View>
+
+                  <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 16 }}>
+                    {dashboardData.authors.map((author: any) => (
+                      <Pressable
+                        key={author._id || author.slug}
+                        onPress={() => router.push(`/author/${author.slug}`)}
+                        style={({ hovered }: any) => ({
+                          width: isWeb ? 220 : 180,
+                          backgroundColor: hovered ? "rgba(30, 41, 59, 0.9)" : "rgba(15, 23, 42, 0.8)",
+                          borderWidth: 1,
+                          borderColor: hovered ? "rgba(192, 132, 252, 0.5)" : "rgba(255, 255, 255, 0.08)",
+                          borderRadius: 22,
+                          padding: 16,
+                          alignItems: "center",
+                          transform: hovered ? [{ translateY: -4 }] : [],
+                        })}
+                      >
+                        <View
+                          style={{
+                            width: 60,
+                            height: 60,
+                            borderRadius: 30,
+                            backgroundColor: "rgba(139, 92, 246, 0.2)",
+                            borderWidth: 1,
+                            borderColor: "rgba(139, 92, 246, 0.4)",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            marginBottom: 10,
+                          }}
+                        >
+                          <User size={26} color="#C084FC" />
+                        </View>
+
+                        <Text
+                          numberOfLines={1}
+                          style={{
+                            color: "#FFFFFF",
+                            fontSize: 15,
+                            fontWeight: "700",
+                            fontFamily: Platform.OS === "web" ? "Playfair Display, Georgia, serif" : undefined,
+                            marginBottom: 4,
+                            textAlign: "center",
+                          }}
+                        >
+                          {author.name}
+                        </Text>
+
+                        <Text style={{ color: "#38BDF8", fontSize: 12, fontWeight: "600" }}>
+                          {author.bookCount} Masterworks
+                        </Text>
+                      </Pressable>
+                    ))}
+                  </ScrollView>
+                </View>
+              ) : null}
+            </>
+          )}
         </View>
       </ScrollView>
-
-      {/* Floating Sticky Bottom Mini Audio Player */}
-      <EbookMiniAudioPlayer
-        onPressExpand={() => router.push("/ebook/explore")}
-      />
-
-      {/* Notifications Drawer Modal */}
-      <EbookNotificationsModal
-        visible={isNotifModalOpen}
-        onClose={() => setIsNotifModalOpen(false)}
-      />
-
-      {/* Upgrade Subscription Modal */}
-      <EbookSubscriptionModal
-        visible={isSubModalOpen}
-        onClose={() => setIsSubModalOpen(false)}
-      />
-
-      {/* Reader Achievement Badges Modal */}
-      <AchievementBadgesModal
-        visible={isAchievementModalOpen}
-        onClose={() => setIsAchievementModalOpen(false)}
-        achievements={streakData?.achievements || []}
-        currentStreak={streakData?.currentStreak || 1}
-      />
     </View>
   );
-};
-
-export default EbookDashboardContent;
+}
